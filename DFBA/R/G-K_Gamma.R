@@ -1,18 +1,18 @@
 # Goodman-Kruskal Gamma
 #
-# This function takes the shape parameters (a and b)
-# for a Beta Distribution and returns:
-#   the mean
-#   the mode
-#   the median
-#   a equal-tail credible interval (default is 95%)
-#   a highest-density interval (default is 95%)
+# This function takes either:
+# two vectors of equal length OR
+# a cross-tabulation of values
+# and returns:
+#   the Goodman-Kruskal Gamma Statistic
+#   the observed concordance statistic p
+#   the concordance parameter Phi
+#   shape parameters a and b (alpha and beta) on the
+#     beta distribution that describes Phi
+#   Highest Density Interval (HDI) limits on Phi
 #
 
-# SAMPLE DATA:
-# x<-c(1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5)
-# y<-c(1, 1, 4, 4, 5, 1, 2, 3, 5, 1, 2, 3, 3, 3, 3, 5, 2, 4, 4, 4, 5, 5, 3, 4, 4, 5, 5)
-# Some useful keyboard shortcuts for package authoring:
+
 #
 #   Install Package:           'Ctrl + Shift + B'
 #   Check Package:             'Ctrl + Shift + E'
@@ -38,9 +38,14 @@ Table_to_vec<-function(table){
 
 ## Goodman-Kruskal Gamma Analysis Using Concordance Parameter Phi
 
-Gamma_Concordance<-function(x, y=NULL, a.prior=1, b.prior=1, hdi.width=0.95){
+Gamma_Concordance<-function(x, y=NULL, quantiles_x=NULL, quantiles_y=NULL, a.prior=1, b.prior=1, hdi.width=0.95){
   if(is.matrix(x)==TRUE){
     table<-x
+  } else {
+    if(length(x)!=length(y)){
+      stop("x and y must have equal length")
+    }
+    table<-Vec_to_table(x, y, quantiles_x, quantiles_y)
     x<-Table_to_vec(table)$x
     y<-Table_to_vec(table)$y
   }

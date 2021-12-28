@@ -1,25 +1,24 @@
-# Concordance Parameter Phi*
-#
-# This function takes two vectors,
-# shape parameters (a and b) for the prior
-# beta distribution (defaults are [1,1]),
-# and the number of fitting parameters used
-# to fit the model to the observed data.
-#
-# It returns the same values as Phi_Concordance:
-#   Tau-a
-#   Sample concordance p_c
-#   shape parameters (a and b) for posterior beta
-## NOTE: update below with beta_descriptive?
-#   posterior median
-#   lower and upper limits on posterior distribution
-# adjusted for the number of fitting parameters
-#
-# Some useful keyboard shortcuts for package authoring:
-#
-#   Install Package:           'Ctrl + Shift + B'
-#   Check Package:             'Ctrl + Shift + E'
-#   Test Package:              'Ctrl + Shift + T'
+#' Parameterization-adjusted Concordance Parameter Phi*
+#'
+#' This function takes two vectors,
+#' shape parameters (a and b) for the prior
+#' beta distribution (defaults are [1,1]),
+#' and the number of fitting parameters used
+#' to fit the model to the observed data.
+#' @param x Vector of values for the x variable
+#' @param y Vector of values for the y variable
+#' @param a.prior (Optional) Value for the shape parameter alpha (default is 1) for the prior beta distribution
+#' @param b.prior (Optional) Value for the shape parameter beta (default is 1) for the prior beta distribution
+#' @param hdi.width (Optional) Desired range of the highest density interval (HDI) on the posterior estimate of the phi parameter (default is 95\%)
+#' @param fitting.parameters Number of parameters used in the predictive model
+#'
+#' @return \item{Tau}{sample statistic tau-a}
+#' @return \item{Tau_star}{Tau-a value adjusted for the number of fitting parameters used in the predictive model}
+#'
+#' @references Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists. Cambridge: MIT Press.
+#' @references Chechile, R.A., & Barch, D.H. (2021). Distribution-free, Bayesian goodness-of-fit method for assessing similar scientific prediction equations. Journal of Mathematical Psychology
+#'
+
 
 Phi_star<-function(x, y, a.prior=1, b.prior=1, hdi.width=0.95, fitting.parameters){
   m<-fitting.parameters
@@ -50,7 +49,7 @@ Phi_star<-function(x, y, a.prior=1, b.prior=1, hdi.width=0.95, fitting.parameter
   post.hdi_star.lower<-qbeta((1-hdi.width)/2, a.post_star, b.post_star)
   post.hdi_star.upper<-qbeta(1-(1-hdi.width)/2, a.post_star, b.post_star)
 
-  list(tau=Tau,
+  list(Tau=Tau,
        Tau_star=Tau_star,
        sample.p=p_c_star,
        post.median=post.median_star,

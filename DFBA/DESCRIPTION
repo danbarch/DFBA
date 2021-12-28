@@ -6,7 +6,9 @@ Author: c(
           person("Barch", "Daniel", email="daniel.barch@tufts.edu", role=c("aut", "cre")),
           person("Chechile", "Richard", email="richard.chechile@tufts.edu", role="aut"))
 Maintainer: Dan Barch <daniel.barch@tufts.edu>
-Description: Provides tools for Bayesian distribution-free tests.    Includes Bayesian analyses of the Mann-Whitney U Test.
+Description: Provides tools for Bayesian distribution-free tests.    
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 7.1.2
+

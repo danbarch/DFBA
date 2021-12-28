@@ -213,7 +213,15 @@ Table_to_vec<-function(table){
 }
 ```
 
-### Haven't Done the Actual $\gamma$ Function Yet
+### Examples for documentation
+
+```{r output_for_gamma_documentation}
+x<-c(1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5)
+y<-c(1, 1, 4, 4, 5, 1, 2, 3, 5, 1, 2, 3, 3, 3, 3, 5, 2, 4, 4, 4, 5, 5, 3, 4, 4, 5, 5)
+
+Gamma_Concordance(x, y, quantiles_x=5, quantiles_y=5)
+```
+
 
 # *t*-test Analogues
 

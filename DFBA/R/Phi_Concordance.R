@@ -1,16 +1,13 @@
-# Concordance Parameter Phi
+#' Concordance Parameter Phi
 #
-# This function takes two vectors and
-# shape parameters (a and b) for the prior
-# beta distribution (defaults are [1,1])
+#'This function takes two vectors and shape parameters (a and b) for the prior
+#'beta distribution (defaults are [1,1])
 #
-# It returns
-#   Tau-a
-#   Sample concordance p_c
-#   shape parameters (a and b) for posterior beta
-## NOTE: update below with beta_descriptive?
-#   posterior median
-#   lower and upper limits on posterior distribution
+#' @param x vector of x variable values
+#' @param y vector of y variable values
+#' @return Tau Nonparametric Tau-a correlation
+#' @return sample_p Sample concordance proportion
+
 
 #
 # Some useful keyboard shortcuts for package authoring:
