@@ -57,3 +57,4 @@ Gamma_Concordance<-function(x, y=NULL, quantiles_x=NULL, quantiles_y=NULL, a.pri
        post.hdi.lower=Phi(x, y, a.prior, b.prior, hdi.width)$post.hdi.lower,
        post.hdi.upper=Phi(x, y, a.prior, b.prior, hdi.width)$post.hdi.upper)
 }
+
