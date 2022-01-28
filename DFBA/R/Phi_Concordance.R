@@ -1,23 +1,60 @@
 #' Concordance Parameter Phi
-#
-#'This function takes two vectors and shape parameters (a and b) for the prior
-#'beta distribution (defaults are [1,1])
-#
+#'
+#' This function takes two vectors and shape parameters (a and b) for the prior
+#' beta distribution (defaults are [1,1])
 #' @param x vector of x variable values
 #' @param y vector of y variable values
-#' @return Tau Nonparametric Tau-a correlation
-#' @return sample_p Sample concordance proportion
+#' @param a.prior shape parameter a of the prior beta distribution
+#' @param b.prior shape parameter b of the prior beta distribution
+#' @param hdi.width Desired width of the highest density interval (HDI) of the posterior distribution (default is 95\%)
+#'
+#' @return A list containing the following components:
+#' @return \item{Tau}{Nonparametric Tau-a correlation}
+#' @return \item{sample_p}{Sample concordance proportion}
+#' @return \item{nc}{Number of concordant (x, y) pairs}
+#' @return \item{nd}{Number of discordant (x, y) pairs}
+#' @return \item{post.median}{Median of posterior distribution on phi}
+#' @return \item{post.hdi.lower}{lower limit of the HDI with width specified by hdi.width}
+#' @return \item{post.hdi.upper}{upper limit of the HDI with width specified by hdi.width}
+#'
+#' @references Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists. Cambridge: MIT Press.
+#' @references Chechile, R.A., & Barch, D.H. (2021). Distribution-free, Bayesian goodness-of-fit method for assessing similar scientific prediction equations. Journal of Mathematical Psychology.
 
+setClass("dfba_phi_out", representation("list"))
 
-#
-# Some useful keyboard shortcuts for package authoring:
-#
-#   Install Package:           'Ctrl + Shift + B'
-#   Check Package:             'Ctrl + Shift + E'
-#   Test Package:              'Ctrl + Shift + T'
+setMethod("show", "dfba_phi_out", function(object) {
+  cat("Descriptive Statistics \n")
+  cat("========================\n")
+  cat(" ", "Concordant Pairs", "\t", "Discordant Pairs", "\n")
+  cat(" ", object$nc, "\t\t\t", object$nd, "\n")
+  cat(" ", "Proportion of Concordant Pairs", "\n")
+  cat(" ", object$sample.p, "\n")
+  cat("\nFrequentist Analyses\n")
+  cat("========================\n")
+  cat("  ", "Tau value", "\t\t", "p-value", "\n")
+  cat("  ", object$tau, "\t\t\t", "to be added", "\n")
+  cat(" ", object$hdi.width*100, "% Confidence Interval", "\n", sep="")
+  cat(" ", "CI to be added\n")
+  cat("\nBayesian Analyses\n")
+  cat("========================\n")
+  cat(" ", "Beta Shape Parameters\n")
+  cat(" ", "Alpha", "\t\t", "Beta\n")
+  cat(" ", object$alpha, "\t\t", object$beta, "\n")
+  cat(" ", "Posterior Median\n")
+  cat(" ", object$post.median, "\n")
+  cat(" ", object$hdi.width*100, "% Highest Density Interval\n", sep="")
+  cat(" ", "Lower Limit", "\t\t", "Upper Limit\n")
+  cat(" ", object$post.hdi.lower, "\t\t", object$post.hdi.upper)
+})
 
+setMethod("plot",
+          signature("dfba_phi_out"),
+          function(x){
+            x.vals=seq(0, 1, 1/1000)
+            plot(x.vals, dbeta(x.vals, x$alpha, x$beta), type="l")
+          })
 
-Phi<-function(x, y, a.prior=1, b.prior=1, hdi.width=0.95){
+dfba_phi<-function(x, y, a.prior=1, b.prior=1, hdi.width=0.95){
   xy<-data.frame(x,y)                               #append x and y vectors
   t_xi<-unname(table(x)[table(x)>1])                #Counting T_x sizes of ties
   t_yi<-unname(table(y)[table(y)>1])                #Counting T_y sizes of ties
@@ -44,12 +81,18 @@ Phi<-function(x, y, a.prior=1, b.prior=1, hdi.width=0.95){
   post.hdi.lower<-qbeta((1-hdi.width)/2, a.post, b.post)
   post.hdi.upper<-qbeta(1-(1-hdi.width)/2, a.post, b.post)
 
-  list(tau=Tau,
-       sample.p=p_c,
-       alpha=a.post,
-       beta=b.post,
-       post.median=post.median,
-       post.hdi.lower=post.hdi.lower,
-       post.hdi.upper=post.hdi.upper)
+  dfba_phi_list<-list(tau=Tau,
+                      nc=nc,
+                      nd=nd,
+                      sample.p=p_c,
+                      alpha=a.post,
+                      beta=b.post,
+                      post.median=post.median,
+                      hdi.width=hdi.width,
+                      post.hdi.lower=post.hdi.lower,
+                      post.hdi.upper=post.hdi.upper)
+
+  new("dfba_phi_out", dfba_phi_list)
 }
+
 

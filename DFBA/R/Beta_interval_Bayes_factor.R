@@ -1,6 +1,6 @@
 #' Beta Interval Bayes Factor
-#
-#
+#'
+#'
 #' @param n1 Number of values for variable 1
 #' @param n2 Number of values for variable 2
 #' @param lowerH0value (Optional) Lower limit of interval estimate for the null hypothesis (default is 0)

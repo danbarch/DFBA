@@ -1,16 +1,34 @@
-# Goodman-Kruskal Gamma
+#' Goodman-Kruskal Gamma
 #
-# This function takes either:
-# two vectors of equal length OR
-# a cross-tabulation of values
-# and returns:
-#   the Goodman-Kruskal Gamma Statistic
-#   the observed concordance statistic p
-#   the concordance parameter Phi
-#   shape parameters a and b (alpha and beta) on the
-#     beta distribution that describes Phi
-#   Highest Density Interval (HDI) limits on Phi
-#
+#' This function takes either:
+#' two vectors of equal length OR
+#' a cross-tabulation of values
+#' and returns:
+#'   the Goodman-Kruskal Gamma Statistic
+#'   the observed concordance statistic p
+#'   the concordance parameter Phi
+#'   shape parameters a and b (alpha and beta) on the
+#'     beta distribution that describes Phi
+#'   Highest Density Interval (HDI) limits on Phi
+#'
+#' @param x vector of x variable values
+#' @param y vector of y variable values
+#' @param a.prior shape parameter a of the prior beta distribution
+#' @param b.prior shape parameter b of the prior beta distribution
+#' @param hdi.width Desired width of the highest density interval (HDI) of the posterior distribution (default is 95\%)
+#'
+#' @return A list containing the following components:
+#' @return \item{Tau}{Nonparametric Tau-a correlation}
+#' @return \item{sample_p}{Sample concordance proportion}
+#' @return \item{nc}{Number of concordant (x, y) pairs}
+#' @return \item{nd}{Number of discordant (x, y) pairs}
+#' @return \item{post.median}{Median of posterior distribution on phi}
+#' @return \item{post.hdi.lower}{lower limit of the HDI with width specified by hdi.width}
+#' @return \item{post.hdi.upper}{upper limit of the HDI with width specified by hdi.width}
+#'
+#' @references Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists. Cambridge: MIT Press.
+#' @references Chechile, R.A., & Barch, D.H. (2021). Distribution-free, Bayesian goodness-of-fit method for assessing similar scientific prediction equations. Journal of Mathematical Psychology.
+
 
 
 #
@@ -26,6 +44,66 @@ Vec_to_table<-function(x, y, quantiles_x, quantiles_y){
   return(table(x_cut, y_cut))
 }
 
+setClass("dfba_gamma_out", representation("list"))
+
+setMethod("show", "dfba_gamma_out", function(object) {
+  cat("Descriptive Statistics \n")
+  cat("========================\n")
+  cat(" ", "Concordant Pairs", "\t", "Discordant Pairs", "\n")
+  cat(" ", object$nc, "\t\t\t", object$nd, "\n")
+  cat(" ", "Proportion of Concordant Pairs", "\n")
+  cat(" ", object$sample.p, "\n")
+  cat("\nFrequentist Analyses\n")
+  cat("========================\n")
+  cat("  ", "Gamma value", "\t\t", "p-value", "\n")
+  cat("  ", object$gamma, "\t\t\t", "to be added", "\n")
+  cat(" ", object$hdi.width*100, "% Confidence Interval", "\n", sep="")
+  cat(" ", "CI to be added\n")
+  cat("\nBayesian Analyses\n")
+  cat("========================\n")
+  cat(" ", "Beta Shape Parameters\n")
+  cat(" ", "Alpha", "\t", "Beta\n")
+  cat(" ", object$alpha, "\t\t", object$beta, "\n")
+  cat(" ", "Posterior Median\n")
+  cat(" ", object$post.median, "\n")
+  cat(" ", object$hdi.width*100, "% Highest Density Interval\n", sep="")
+  cat(" ", "Lower Limit", "\t\t", "Upper Limit\n")
+  cat(" ", object$post.hdi.lower, "\t\t", object$post.hdi.upper)
+})
+
+dfba_plot_beta<-function(a.post, b.post, a.prior=NULL, b.prior=NULL, plot.prior=FALSE){
+  x.phi<-seq(0, 1, 1/1000)
+  y.phi<-dbeta(x.phi, a.post, b.post)
+  if (plot.prior==FALSE){
+    plot(x.phi,
+         y.phi,
+         type="l",
+         xlab="Phi",
+         ylab="Posterior Probability")
+  } else {
+    par(mar=c(5.1, 4.1, 4.1, 8.1), xpd=TRUE)
+    plot(x.phi,
+         y.phi,
+         type="l",
+         xlab="Phi",
+         ylab="Probability")
+    lines(x.phi,
+          dbeta(x.phi, a.prior, b.prior),
+          lty=2)
+    legend("right",
+           inset = c(-0.3, 0),
+           legend=c("Posterior",
+                    "Prior"),
+           lty=c(1, 2))
+  }
+}
+
+setMethod("plot",
+          signature("dfba_gamma_out"),
+          function(x, plot.prior=FALSE){
+            dfba_plot_beta(x$alpha, x$beta, x$a.prior, x$b.prior, plot.prior)
+          })
+
 ## Function to format a gamma table to two (grouped) vectors (for use in the $\phi_c$ function)
 
 
@@ -38,7 +116,7 @@ Table_to_vec<-function(table){
 
 ## Goodman-Kruskal Gamma Analysis Using Concordance Parameter Phi
 
-Gamma_Concordance<-function(x, y=NULL, quantiles_x=NULL, quantiles_y=NULL, a.prior=1, b.prior=1, hdi.width=0.95){
+dfba_gamma<-function(x, y=NULL, quantiles_x=NULL, quantiles_y=NULL, a.prior=1, b.prior=1, hdi.width=0.95){
   if(is.matrix(x)==TRUE){
     table<-x
   } else {
@@ -49,12 +127,16 @@ Gamma_Concordance<-function(x, y=NULL, quantiles_x=NULL, quantiles_y=NULL, a.pri
     x<-Table_to_vec(table)$x
     y<-Table_to_vec(table)$y
   }
-  list(gamma=Phi(x, y, a.prior, b.prior, hdi.width)$tau,
-       sample.p=Phi(x, y, a.prior, b.prior, hdi.width)$sample.p,
-       alpha=Phi(x, y, a.prior, b.prior, hdi.width)$alpha,
-       beta=Phi(x, y, a.prior, b.prior, hdi.width)$beta,
-       post.median=Phi(x, y, a.prior, b.prior, hdi.width)$post.median,
-       post.hdi.lower=Phi(x, y, a.prior, b.prior, hdi.width)$post.hdi.lower,
-       post.hdi.upper=Phi(x, y, a.prior, b.prior, hdi.width)$post.hdi.upper)
+  dfba_gamma_list<-list(gamma=dfba_phi(x, y, a.prior, b.prior, hdi.width)$tau,
+                        a.prior=a.prior,
+                        b.prior=b.prior,
+                sample.p=dfba_phi(x, y, a.prior, b.prior, hdi.width)$sample.p,
+                alpha=dfba_phi(x, y, a.prior, b.prior, hdi.width)$alpha,
+                beta=dfba_phi(x, y, a.prior, b.prior, hdi.width)$beta,
+                hdi.width=hdi.width,
+                post.median=dfba_phi(x, y, a.prior, b.prior, hdi.width)$post.median,
+                post.hdi.lower=dfba_phi(x, y, a.prior, b.prior, hdi.width)$post.hdi.lower,
+                post.hdi.upper=dfba_phi(x, y, a.prior, b.prior, hdi.width)$post.hdi.upper)
+  new("dfba_gamma_out", dfba_gamma_list)
 }
 
