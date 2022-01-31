@@ -20,8 +20,10 @@
 #' @references Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists. Cambridge: MIT Press.
 #' @references Chechile, R.A., & Barch, D.H. (2021). Distribution-free, Bayesian goodness-of-fit method for assessing similar scientific prediction equations. Journal of Mathematical Psychology.
 
+#' @export
 setClass("dfba_phi_out", representation("list"))
 
+#' @export
 setMethod("show", "dfba_phi_out", function(object) {
   cat("Descriptive Statistics \n")
   cat("========================\n")
@@ -47,6 +49,7 @@ setMethod("show", "dfba_phi_out", function(object) {
   cat(" ", object$post.hdi.lower, "\t\t", object$post.hdi.upper)
 })
 
+#' @export
 setMethod("plot",
           signature("dfba_phi_out"),
           function(x){
@@ -54,6 +57,7 @@ setMethod("plot",
             plot(x.vals, dbeta(x.vals, x$alpha, x$beta), type="l")
           })
 
+#' @export
 dfba_phi<-function(x, y, a.prior=1, b.prior=1, hdi.width=0.95){
   xy<-data.frame(x,y)                               #append x and y vectors
   t_xi<-unname(table(x)[table(x)>1])                #Counting T_x sizes of ties
