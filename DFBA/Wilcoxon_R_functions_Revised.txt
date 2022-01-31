@@ -1,0 +1,213 @@
+--- Revised Wilcoxon discrete function with comments and use of stop, message and print
+commands 
+
+
+Bayes_wilcoxonsmall_n<-function(Y1,Y2,samples=20000,priorvector=rep(1/200,200)){
+  #The following few lines check that Y1 and Y2 data vector of equal length
+  l1=length(Y1)
+  l2=length(Y2)
+  errortot=0
+  if (l1!=l2) {stop("Y1 and Y2 must have same length. This function is for within-block data with no missing scores")}
+  else {errortot=errortot}
+  if (l1>24){message("This function is recommended for studies with 24 or less blocks. For n>24, consider using instead the function Bayes_wilcoxonlarge_n(), which runs faster.")} 
+  else {errortot=errortot}
+  interval=length(priorvector)
+  #The following code checks if the discrete prior vector of values is of length 200, and
+  #checks if the discrete prior is sufficiently close to summing to 1. If either of these
+  #conditions fail, then a discrete uniform distribution is used. 
+  if (interval!=200){priorvector=rep(1/200,200)
+  message("Uniform prior was used because user's prior did not have 200 elements")} else
+  {errortot=errortot}
+  totprior=sum(priorvector)
+  if ((totprior>1.01) | (totprior<.99)){priorvector=rep(1/200,200)
+  message("User's prior did not sum to 1, so a uniform prior was used.")} else
+  {priorvector=priorvector/totprior}
+  #The following code computes the within-block difference scores, and finds the
+  #number of blocks where the difference scores are nonzero (within a trivial rounding error).
+  if (errortot!=0){errortot=errortot} else {
+    d=Y1-Y2
+    sdd=sd(d)
+    IC=0
+    for (I in 1:l1){
+      if (abs(d[I])<=sdd/30000){IC=IC} else {IC=IC+1}}
+    n=IC
+  #The following code deals with the case where all differnces are trivially close to 0.  
+    if (n==0){stop("Y1 and Y2 differences are all trivial")} else {errortot=errortot}
+  #The following code check to see if the User's number of Monte Carlo samples is between
+  #1000 to 50000. If not, then the default value of 20000 is used.
+    if ((samples<1000)|(samples>50000)){samples=20000
+    message("Default number of samples are used because specified number outside of limits.")} else {samples=samples}
+  }
+  #The rest of the code does the discrete Bayesian analysis.
+    dt=(seq(1,n,1))*0
+    IC=0
+    for (I in 1:l1){
+      if (abs(d[I])<=sdd/30000){IC=IC} else {
+        IC=IC+1
+        dt[IC]=d[I]}}
+    dta=(seq(1,n,1))*0
+    for (I in 1:n){
+      dta[I]=abs(dt[I])}
+    #The vector dtar is for the ranks of the absolute-value d scores; whereas
+    #the dta vector is for the absolute-value of the d scores, and dtars is
+    #the vector of signed rank scores. 
+    dtar=rank(dta)
+    dtars=dtar*dt/dta
+    #The following computes the Tplus and Tminus statistics
+    tplus=0
+    for (I in 1:n){
+      if (dtars[I]>0){tplus=tplus+dtar[I]} else {tplus=tplus} }
+    tneg=(n*(n+1)*.5)-tplus
+    print("n,T_plus, and T_negative are:")
+    desstat<-c(n,tplus,tneg)
+    print(desstat)
+    print("Following results are based on Monte Carlo samples.")
+    print("The number of Monte Carlo samples are:")
+    print(samples)
+    fphi<-rep(0.0,200)
+    for (j in 1:200){
+      phi=1/(400)+(j-1)*(1/200)
+      for (k in 1:samples){
+        tz=sum((1:n)*rbinom(n, 1, phi))
+        
+        if(tz==tplus) {
+          fphi[j]=fphi[j]+1.0
+        } else{
+          fphi[j]=fphi[j]
+        }
+      }
+    }
+    #The tot value below is the denominator of the discrete Bayesian analysis,
+    #and phipost is the vector for the posterior distribution of discrete phi_w values.
+    tot=sum(priorvector*fphi)
+    phipost=(priorvector*fphi)/tot
+    phiv=rep(0.0,200)
+    for (j in 1:200){
+      phiv[j]=(1/400)+(j-1)*(1/200)}
+    postdis<-data.frame(phiv,phipost)
+    #Folowing finds the mean of the posterior phi_w distribution
+    #and provides a plot of the distribution.
+    phibar=sum(phiv*phipost)
+    print("mean for phi_w based on Monte Carlo sampling is:")
+    print(phibar)
+    plot(phiv,phipost,type="l",xlab="phi_w",ylab="posterior discrete probabilities",main="Based on Monte Carlo Samples")
+    #The following finds the poserior cumulative distribution and outputs these values.
+    cum_phi=cumsum(phipost)
+    phi_w=phiv
+    cumdis<-data.frame(phi_w,cum_phi)
+    #The prH1 is the probability that phi_w is greater than .5.
+    prH1=1-cum_phi[round(100)]
+    print("probability that phi_w exceeds .5 is:")
+    print(prH1)
+    #Following finds the Bayes factor for phi_w being greater than .5.
+    cum_prior=cumsum(priorvector)
+    priorprH1=1-cum_prior[round(100)]
+    if ((prH1==1)|(priorprH1==0)){
+        BF10=2*samples
+      print("BF10 for phi_w >.5 is estimated to be greater than:")
+      print(BF10)} else {
+        BF10=(prH1*(1-priorprH1))/(priorprH1*(1-prH1))
+        print("BF10 for phi_w>.5 is:")
+        print(BF10)}
+    #Following provides output of key statistics.
+list(posterior_phi_w=phipost,posterior_cum=cumdis,n=n,Tplus=tplus,BF=BF10)
+   }
+
+---Revised Bayes_wilcoxonlarge_n with commnents, stop, message, and print commands
+
+Bayes_wilcoxonlarge_n<-function(Y1,Y2,na0=0,nb0=0){
+#The next set of lines checks that the Y1 and Y2 data vectors have equal length.
+l1=length(Y1)
+l2=length(Y2)
+errortot=0
+if (l1!=l2) {stop("Error - Y1 and Y2 must have equal length. This function is for
+within-block data with no missing scores.")}
+else {errortot=errortot}
+if (l1<=24){message("This function is best used for studies with more than 24 blocks.
+For studies with fewer blocks should instead use the function Bayes_wilcoxonsmall_n().")} 
+else {errortot=errortot}
+#Next code computes within-block d scores and finds the number of 
+#blocks with nonzero d scores.
+d=Y1-Y2
+sdd=sd(d)
+IC=0
+for (I in 1:l1){
+if (abs(d[I])<=sdd/30000){IC=IC} else {IC=IC+1}}
+n=IC
+if (n==0){stop("Y1 and Y2 differences are all trivial")} else {errortot=errortot}
+#The next set of code is used to help find the signed ranks of the d scores
+dt=(seq(1,n,1))*0
+IC=0
+for (I in 1:l1){
+if (abs(d[I])<=sdd/3000){IC=IC} else {
+IC=IC+1
+dt[IC]=d[I]}}
+#The dta vector has the absolute-value of the d scores, whereas
+#the dtar vector has the ranks of the dta value, and dtars is a
+#vector of signed rank values. 
+dta=(seq(1,n,1))*0
+for (I in 1:n){
+dta[I]=abs(dt[I])}
+dtar=rank(dta)
+dtars=dtar*dt/dta
+#The following code computes the Tplus and Tminus statistics
+tplus=0
+for (I in 1:n){
+if (dtars[I]>0){tplus=tplus+dtar[I]} else {tplus=tplus} }
+tneg=(n*(n+1)*.5)-tplus
+print("n, tplus, and tneg are:")
+desstat<-c(n,tplus,tneg)
+print(desstat)
+#The following code finds the shape parameters of a beta 
+#distribution that approximates the posterior distribution
+#for the phi_w parameter
+term=(3*tplus)/((2*n)+2)
+na=term+.25
+nb=(((3*n)-1)/4)-term
+a=na+na0+1
+b=nb+nb0+1
+#The rest of code finds properties of the posterior distribution
+#for phi_w based on the approximating beta distribution. These
+#properties of the distribution are outputted.
+print("posterior distribution is approximated by a beta distribution")
+print("with a and b shape parameters that are respectively:")
+shapeparameters<-c(a,b)
+print(shapeparameters)
+phibar=a/(a+b)
+print("mean for phi_w is:")
+print(phibar)
+phimedian=qbeta(.5,a,b)
+print("median for phi_w is:")
+print(phimedian)
+qlequal=qbeta(.025,a,b)
+qhequal=qbeta(.975,a,b)
+print("Equal-tail 95-percent limit values are:")
+equalrange<-c(qlequal,qhequal)
+print(equalrange)
+alphaL=seq(0,.05,.05/1000)
+qL=qbeta(alphaL,a,b)
+qH=qbeta(.95+alphaL,a,b)
+diff=qH-qL
+I=1
+mindiff=min(diff)
+while (diff[I]>mindiff){
+I=I+1}
+qLmin=qL[I]
+qHmax=qH[I]
+hdilimits<-c(qLmin,qHmax)
+print("Highest density limit values are:")
+print(hdilimits)
+prH1=1-pbeta(.5,a,b)
+print("Posterior probabilty that phi_w > .5 is:")
+print(prH1)
+priorprH1=1-pbeta(.5,na0+1,nb0+1)
+print("Prior probabilty that phi_w > .5 is:")
+print(priorprH1)
+if ((prH1==1)|(priorprH1==0)){
+print("BF10 for phi_w >.5 is near infinity")} else {
+BF10=(prH1*(1-priorprH1))/(priorprH1*(1-prH1))
+print("BF10 for phi_w>.5 is:")
+print(BF10)}
+}
+
+
