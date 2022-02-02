@@ -20,43 +20,8 @@
 #' @references Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists. Cambridge: MIT Press.
 #' @references Chechile, R.A., & Barch, D.H. (2021). Distribution-free, Bayesian goodness-of-fit method for assessing similar scientific prediction equations. Journal of Mathematical Psychology.
 
-#' @export
-setClass("dfba_phi_out", representation("list"))
-
-#' @export
-setMethod("show", "dfba_phi_out", function(object) {
-  cat("Descriptive Statistics \n")
-  cat("========================\n")
-  cat(" ", "Concordant Pairs", "\t", "Discordant Pairs", "\n")
-  cat(" ", object$nc, "\t\t\t", object$nd, "\n")
-  cat(" ", "Proportion of Concordant Pairs", "\n")
-  cat(" ", object$sample.p, "\n")
-  cat("\nFrequentist Analyses\n")
-  cat("========================\n")
-  cat("  ", "Tau value", "\t\t", "p-value", "\n")
-  cat("  ", object$tau, "\t\t\t", "to be added", "\n")
-  cat(" ", object$hdi.width*100, "% Confidence Interval", "\n", sep="")
-  cat(" ", "CI to be added\n")
-  cat("\nBayesian Analyses\n")
-  cat("========================\n")
-  cat(" ", "Beta Shape Parameters\n")
-  cat(" ", "Alpha", "\t\t", "Beta\n")
-  cat(" ", object$alpha, "\t\t", object$beta, "\n")
-  cat(" ", "Posterior Median\n")
-  cat(" ", object$post.median, "\n")
-  cat(" ", object$hdi.width*100, "% Highest Density Interval\n", sep="")
-  cat(" ", "Lower Limit", "\t\t", "Upper Limit\n")
-  cat(" ", object$post.hdi.lower, "\t\t", object$post.hdi.upper)
-})
-
-#' @export
-setMethod("plot",
-          signature("dfba_phi_out"),
-          function(x){
-            x.vals=seq(0, 1, 1/1000)
-            plot(x.vals, dbeta(x.vals, x$alpha, x$beta), type="l")
-          })
-
+#' @importFrom stats qbeta
+#'
 #' @export
 dfba_phi<-function(x, y, a.prior=1, b.prior=1, hdi.width=0.95){
   xy<-data.frame(x,y)                               #append x and y vectors

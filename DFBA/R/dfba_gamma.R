@@ -13,6 +13,8 @@
 #'
 #' @param x vector of x variable values
 #' @param y vector of y variable values
+#' @param quantiles_x Desired number of quantiles for the x variable
+#' @param quantiles_y Desired number of quantiles for the y variable
 #' @param a.prior shape parameter a of the prior beta distribution
 #' @param b.prior shape parameter b of the prior beta distribution
 #' @param hdi.width Desired width of the highest density interval (HDI) of the posterior distribution (default is 95\%)
@@ -36,93 +38,17 @@
 #   Check Package:             'Ctrl + Shift + E'
 #   Test Package:              'Ctrl + Shift + T'
 
-## Function to format two (raw) vectors as a gamma table
-
-#' @export
-Vec_to_table<-function(x, y, quantiles_x, quantiles_y){
-  x_cut<-cut(x, quantiles_x)
-  y_cut<-cut(y, quantiles_y)
-  return(table(x_cut, y_cut))
-}
-
-#' @export
-setClass("dfba_gamma_out", representation("list"))
-
-#' @export
-setMethod("show", "dfba_gamma_out", function(object) {
-  cat("Descriptive Statistics \n")
-  cat("========================\n")
-  cat(" ", "Concordant Pairs", "\t", "Discordant Pairs", "\n")
-  cat(" ", object$nc, "\t\t\t", object$nd, "\n")
-  cat(" ", "Proportion of Concordant Pairs", "\n")
-  cat(" ", object$sample.p, "\n")
-  cat("\nFrequentist Analyses\n")
-  cat("========================\n")
-  cat("  ", "Gamma value", "\t\t", "p-value", "\n")
-  cat("  ", object$gamma, "\t\t\t", "to be added", "\n")
-  cat(" ", object$hdi.width*100, "% Confidence Interval", "\n", sep="")
-  cat(" ", "CI to be added\n")
-  cat("\nBayesian Analyses\n")
-  cat("========================\n")
-  cat(" ", "Beta Shape Parameters\n")
-  cat(" ", "Alpha", "\t", "Beta\n")
-  cat(" ", object$alpha, "\t\t", object$beta, "\n")
-  cat(" ", "Posterior Median\n")
-  cat(" ", object$post.median, "\n")
-  cat(" ", object$hdi.width*100, "% Highest Density Interval\n", sep="")
-  cat(" ", "Lower Limit", "\t\t", "Upper Limit\n")
-  cat(" ", object$post.hdi.lower, "\t\t", object$post.hdi.upper)
-})
-
-#' @export
-dfba_plot_beta<-function(a.post, b.post, a.prior=NULL, b.prior=NULL, plot.prior=FALSE){
-  x.phi<-seq(0, 1, 1/1000)
-  y.phi<-dbeta(x.phi, a.post, b.post)
-  if (plot.prior==FALSE){
-    plot(x.phi,
-         y.phi,
-         type="l",
-         xlab="Phi",
-         ylab="Probability Density")
-  } else {
-    par(mar=c(5.1, 4.1, 4.1, 8.1), xpd=TRUE)
-    plot(x.phi,
-         y.phi,
-         type="l",
-         xlab="Phi",
-         ylab="Probability Density")
-    lines(x.phi,
-          dbeta(x.phi, a.prior, b.prior),
-          lty=2)
-    legend("right",
-           inset = c(-0.3, 0),
-           legend=c("Posterior",
-                    "Prior"),
-           lty=c(1, 2))
-  }
-}
-
-#' @export
-setMethod("plot",
-          signature("dfba_gamma_out"),
-          function(x, plot.prior=FALSE){
-            dfba_plot_beta(x$alpha, x$beta, x$a.prior, x$b.prior, plot.prior)
-          })
-
-## Function to format a gamma table to two (grouped) vectors (for use in the $\phi_c$ function)
-
-#' @export
-Table_to_vec<-function(table){
-  x<-rep(1:nrow(table), unname(rowSums(table)))
-  y<-rep(as.vector(t(col(table))), as.vector(t(table)))
-  list(x=x,
-       y=y)
-}
 
 ## Goodman-Kruskal Gamma Analysis Using Concordance Parameter Phi
 
 #' @export
-dfba_gamma<-function(x, y=NULL, quantiles_x=NULL, quantiles_y=NULL, a.prior=1, b.prior=1, hdi.width=0.95){
+dfba_gamma<-function(x,
+                     y=NULL,
+                     quantiles_x=NULL,
+                     quantiles_y=NULL,
+                     a.prior=1,
+                     b.prior=1,
+                     hdi.width=0.95){
   if(is.matrix(x)==TRUE){
     table<-x
   } else {
