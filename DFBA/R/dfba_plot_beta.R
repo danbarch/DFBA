@@ -38,7 +38,8 @@ dfba_plot_beta<-function(a.post,
          xlab="Phi",
          ylab="Probability Density")
   } else {
-    par(mar=c(5.1, 4.1, 4.1, 8.1), xpd=TRUE)
+    opar<-par(no.readonly=TRUE)
+    par(mar=c(4.1, 4.1, 4.1, 4.1), xpd=TRUE)
     plot(x.phi,
          y.phi,
          type="l",
@@ -47,10 +48,13 @@ dfba_plot_beta<-function(a.post,
     lines(x.phi,
           dbeta(x.phi, a.prior, b.prior),
           lty=2)
-    legend("right",
-           inset = c(-0.3, 0),
+    legend("top",
+           inset = c(0, -0.25),
            legend=c("Posterior",
                     "Prior"),
-           lty=c(1, 2))
+           lty=c(1, 2),
+           xpd=TRUE,
+           horiz=TRUE)
+    on.exit(par(opar))
   }
 }

@@ -29,9 +29,9 @@ dfba_gamma(
 
 \item{y}{vector of y variable values}
 
-\item{quantiles_x}{Desired number of quantiles for the x variable}
+\item{quantiles_x}{(Optional) If x is numeric, desired number of quantiles for the x variable}
 
-\item{quantiles_y}{Desired number of quantiles for the y variable}
+\item{quantiles_y}{(Optional) If y is numeric  numeric, desired number of quantiles for the y variable}
 
 \item{a.prior}{shape parameter a of the prior beta distribution}
 

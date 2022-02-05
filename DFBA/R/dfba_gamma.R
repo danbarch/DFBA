@@ -13,8 +13,8 @@
 #'
 #' @param x vector of x variable values
 #' @param y vector of y variable values
-#' @param quantiles_x Desired number of quantiles for the x variable
-#' @param quantiles_y Desired number of quantiles for the y variable
+#' @param quantiles_x (Optional) If x is numeric, desired number of quantiles for the x variable
+#' @param quantiles_y (Optional) If y is numeric  numeric, desired number of quantiles for the y variable
 #' @param a.prior shape parameter a of the prior beta distribution
 #' @param b.prior shape parameter b of the prior beta distribution
 #' @param hdi.width Desired width of the highest density interval (HDI) of the posterior distribution (default is 95\%)
@@ -55,20 +55,41 @@ dfba_gamma<-function(x,
     if(length(x)!=length(y)){
       stop("x and y must have equal length")
     }
-    table<-Vec_to_table(x, y, quantiles_x, quantiles_y)
-    x<-Table_to_vec(table)$x
-    y<-Table_to_vec(table)$y
+    if((is.numeric(x)&is.null(quantiles_x))|
+       is.numeric(y)&is.null(quantiles_y)){
+      stop("quantiles must be specified for numeric data vectors")
+    }
+
+    #conditional for categorical/scale data
+
+    if(is.numeric(x)){
+      x_cut<-cut(x, quantiles_x)
+    } else {
+      x_cut<-x
+    }
+    if(is.numeric(y)){
+      y_cut<-cut(y, quantiles_y)
+    } else {
+      y_cut<-y
+    }
+
+    table<-(table(x_cut, y_cut))
+
+    x<-rep(1:nrow(table), unname(rowSums(table)))
+    y<-rep(as.vector(t(col(table))), as.vector(t(table)))
   }
   dfba_gamma_list<-list(gamma=dfba_phi(x, y, a.prior, b.prior, hdi.width)$tau,
                         a.prior=a.prior,
                         b.prior=b.prior,
                 sample.p=dfba_phi(x, y, a.prior, b.prior, hdi.width)$sample.p,
+                nc=dfba_phi(x, y, a.prior, b.prior, hdi.width)$nc,
+                nd=dfba_phi(x, y, a.prior, b.prior, hdi.width)$nd,
                 alpha=dfba_phi(x, y, a.prior, b.prior, hdi.width)$alpha,
                 beta=dfba_phi(x, y, a.prior, b.prior, hdi.width)$beta,
                 hdi.width=hdi.width,
                 post.median=dfba_phi(x, y, a.prior, b.prior, hdi.width)$post.median,
-                post.hdi.lower=dfba_phi(x, y, a.prior, b.prior, hdi.width)$post.hdi.lower,
-                post.hdi.upper=dfba_phi(x, y, a.prior, b.prior, hdi.width)$post.hdi.upper)
+                post.eti.lower=dfba_phi(x, y, a.prior, b.prior, hdi.width)$post.eti.lower,
+                post.eti.upper=dfba_phi(x, y, a.prior, b.prior, hdi.width)$post.eti.upper)
   new("dfba_gamma_out", dfba_gamma_list)
 }
 
