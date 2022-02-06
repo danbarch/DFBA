@@ -97,7 +97,7 @@ dfba_phi<-function(x,
                                     interval.width=interval.width,
                                     post.eti.lower_star=post.eti.lower_star,
                                     post.eti.upper_star=post.eti.upper_star))
-  } else {star_analysis=="FALSE"}
+  }
 
   if(is.null(fitting.parameters)==TRUE){
     new("dfba_phi_out", dfba_phi_list)
