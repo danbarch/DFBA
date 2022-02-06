@@ -15,8 +15,8 @@
 #' @return \item{nc}{Number of concordant (x, y) pairs}
 #' @return \item{nd}{Number of discordant (x, y) pairs}
 #' @return \item{post.median}{Median of posterior distribution on phi}
-#' @return \item{post.eti.lower}{lower limit of the equal-tail interval with width specified by hdi.width}
-#' @return \item{post.eti.upper}{upper limit of the equal-tail interval with width specified by hdi.width}
+#' @return \item{post.eti.lower}{lower limit of the equal-tail interval with width specified by interval.width}
+#' @return \item{post.eti.upper}{upper limit of the equal-tail interval with width specified by interval.width}
 #'
 #' @references Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists. Cambridge: MIT Press.
 #' @references Chechile, R.A., & Barch, D.H. (2021). Distribution-free, Bayesian goodness-of-fit method for assessing similar scientific prediction equations. Journal of Mathematical Psychology.

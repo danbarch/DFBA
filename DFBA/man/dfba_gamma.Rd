@@ -2,17 +2,7 @@
 % Please edit documentation in R/dfba_gamma.R
 \name{dfba_gamma}
 \alias{dfba_gamma}
-\title{Goodman-Kruskal Gamma
-This function takes either:
-two vectors of equal length OR
-a cross-tabulation of values
-and returns:
-  the Goodman-Kruskal Gamma Statistic
-  the observed concordance statistic p
-  the concordance parameter Phi
-  shape parameters a and b (alpha and beta) on the
-    beta distribution that describes Phi
-  Highest Density Interval (HDI) limits on Phi}
+\title{Goodman-Kruskal Gamma}
 \usage{
 dfba_gamma(
   x,
@@ -21,7 +11,7 @@ dfba_gamma(
   quantiles_y = NULL,
   a.prior = 1,
   b.prior = 1,
-  hdi.width = 0.95
+  interval.width = 0.95
 )
 }
 \arguments{
@@ -37,7 +27,7 @@ dfba_gamma(
 
 \item{b.prior}{shape parameter b of the prior beta distribution}
 
-\item{hdi.width}{Desired width of the highest density interval (HDI) of the posterior distribution (default is 95\%)}
+\item{interval.width}{Desired width of the highest density interval (HDI) of the posterior distribution (default is 95\%)}
 }
 \value{
 A list containing the following components:
@@ -52,12 +42,11 @@ A list containing the following components:
 
 \item{post.median}{Median of posterior distribution on phi}
 
-\item{post.hdi.lower}{lower limit of the HDI with width specified by hdi.width}
+\item{post.hdi.lower}{lower limit of the HDI with width specified by interval.width}
 
-\item{post.hdi.upper}{upper limit of the HDI with width specified by hdi.width}
+\item{post.hdi.upper}{upper limit of the HDI with width specified by interval.width}
 }
 \description{
-Goodman-Kruskal Gamma
 This function takes either:
 two vectors of equal length OR
 a cross-tabulation of values

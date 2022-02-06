@@ -39,9 +39,9 @@ A list containing the following components:
 
 \item{post.median}{Median of posterior distribution on phi}
 
-\item{post.eti.lower}{lower limit of the equal-tail interval with width specified by hdi.width}
+\item{post.eti.lower}{lower limit of the equal-tail interval with width specified by interval.width}
 
-\item{post.eti.upper}{upper limit of the equal-tail interval with width specified by hdi.width}
+\item{post.eti.upper}{upper limit of the equal-tail interval with width specified by interval.width}
 }
 \description{
 This function takes two vectors and shape parameters (a and b) for the prior
