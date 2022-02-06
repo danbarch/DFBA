@@ -86,7 +86,7 @@ dfba_gamma<-function(x,
                 nd=dfba_phi(x, y, a.prior, b.prior, interval.width)$nd,
                 alpha=dfba_phi(x, y, a.prior, b.prior, interval.width)$alpha,
                 beta=dfba_phi(x, y, a.prior, b.prior, interval.width)$beta,
-                interal.width=interval.width,
+                interval.width=interval.width,
                 post.median=dfba_phi(x, y, a.prior, b.prior, interval.width)$post.median,
                 post.eti.lower=dfba_phi(x, y, a.prior, b.prior, interval.width)$post.eti.lower,
                 post.eti.upper=dfba_phi(x, y, a.prior, b.prior, interval.width)$post.eti.upper)
