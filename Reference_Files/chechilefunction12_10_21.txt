@@ -1,0 +1,261 @@
+Beta_descriptive<-function(a,b,hdiprob=.95){
+if ((hdiprob>1) |(hdiprob<0)) {hdiprob=.95} else {}
+if ((a<=0)|(b<=0)){
+print("Error. Both a and b must be greater than 0; please redo")} else {
+phimean=a/(a+b)
+print("Mean is:")
+print(phimean)
+phimedian=qbeta(.5,a,b)
+print("Median is:")
+print(phimedian)
+if ((a>1)&(b>1)){
+phimode=(a-1)/(a+b-2)
+print("Mode is:")
+print(phimode)} else {}
+print("Probability within interval limits is:")
+print(hdiprob)
+qlequal=qbeta((1-hdiprob)/2,a,b)
+qhequal=qbeta(hdiprob+((1-hdiprob)/2),a,b)
+print("Equal-tail limit values are:")
+equalrange<-c(qlequal,qhequal)
+print(equalrange)
+alphaL=seq(0,1-hdiprob,(1-hdiprob)/1000)
+qL=qbeta(alphaL,a,b)
+qH=qbeta(hdiprob+alphaL,a,b)
+diff=qH-qL
+I=1
+mindiff=min(diff)
+while (diff[I]>mindiff){
+I=I+1}
+qLmin=qL[I]
+qHmax=qH[I]
+hdilimits<-c(qLmin,qHmax)
+print("Highest density limit values are:")
+print(hdilimits)
+}
+}
+--------
+Beta_intervalBayesfactor<-function(n1,n2,lowerH0value=0,upperH0value=.5,a0=1,b0=1){
+if ((lowerH0value<0)|(lowerH0value>1)|(lowerH0value>=upperH0value)|(upperH0value>1)) {lowerH0value=0 
+upperH0value=.5} else {}
+print("H0 range is:")
+rangeH0<-c(lowerH0value,upperH0value)
+print(rangeH0)
+if ((a0<=0)|(b0<=0)) {
+a0=1
+b0=1} else {}
+if ((n1<0)|(n2<0)){
+print("Error. Both n1 and n2 must be nonnegative; please redo")} else {
+a=n1+a0
+b=n2+b0
+pH0up=pbeta(upperH0value,a0,b0)
+pH0lo=pbeta(lowerH0value,a0,b0)
+pH0=pH0up-pH0lo
+pH1=1-pH0
+print("prior probability for H0 is:")
+print(pH0)
+print("prior probability for H1 is:")
+print(pH1)
+postH0up=pbeta(upperH0value,a,b)
+postH0lo=pbeta(lowerH0value,a,b)
+postH0=postH0up-postH0lo
+print("posterior probability for H0 is")
+print(postH0)
+postH1=1-postH0
+print("posterior probability for H1 is:")
+print(postH1)
+if (pH0>=postH0){ 
+print("Bayes factor is for alternative over null")
+  if(postH0==0) {print("BF10 is near infinity")} else
+  {BF10=((1/postH0)-1)/((1/pH0)-1)
+  print(BF10)}} else {
+print("Bayes factor is for null over alternative")
+  if (postH0==1){print("BF01 is near infinity")} else
+  {BF01=((1/pH0)-1)/((1/postH0)-1)
+  print(BF01)}}
+}
+}
+-----
+Beta_pointBayesfactor<-function(n1,n2,ptH0=.5,a0=1,b0=1){
+if ((a0<=0)|(b0<=0)){
+a0=1
+b0=1} else {}
+if ((ptH0>1)|(ptH0<0)){
+ptH0=.5} else {}
+print("H0 is the point:")
+print(ptH0)
+if ((n1<0)|(n2<0)){
+print("Error. Both n1 and n2 must be nonnegative; please redo")} else
+{
+a=n1+a0
+b=n2+b0
+dpriorH0=dbeta(ptH0,a0,b0)
+dpostH0=dbeta(ptH0,a,b)
+if (dpriorH0>=dpostH0){
+print("Bayes factor is for alternative over null")
+  if(dpostH0==0){print("BF10 is near infinity")} else
+  {BF10=dpriorH0/dpostH0
+  print(BF10)}} else {
+print("Bayes factor is for null over alternative")
+BF01=dpostH0/dpriorH0
+print(BF01)}
+}
+}
+  
+-----
+wts<-c(1/3,1/3,1/3,-.5,-.5)
+n1v<-c(8,7,10,3,6)
+n2v<-c(4,5,2,9,6)
+priora0<-c(1,1,1,1,1)
+priorb0<-c(1,1,1,1,1)
+
+The above are an example of inputs for the function
+
+
+Beta_betweengroups<-function(wts,n1v,n2v,priora0,priorb0,N=10000){
+if ((N!=round(N))|(N<0)){N=10000} else {N=N}
+testfailed=0
+l=length(wts)
+ln1=length(n1v)
+ln2=length(n2v)
+la0=length(priora0)
+lb0=length(priorb0)
+if ((ln1!=l)|(ln2!=l)|(la0!=l)|(lb0!=l)){testfailed=testfailed+1
+print("Error - the five vectors do not have the same length; must redo")}
+else {testfailed=testfailed}
+totalwt=sum(wts)
+if (abs(totalwt)>.001){totalwt=totalwt} else {totalwt=0}
+if (totalwt!=0) {testfailed=testfailed+1
+print("Error-the sum of the weight coeficients is not zero; must redo")}
+else {testfailed=testfailed}
+n1count=0
+for (I in 1:ln1){
+if (n1v[I]<0){n1count=n1count+1} else {n1count=n1count}}
+if (n1count>0){testfailed=testfailed+1
+print("Error. No component in n1v can be negative")} else {testfailed=testfailed}
+n2count=0
+for (I in 1:ln2){
+if (n2v[I]<0){n2count=n2count+1} else {n2count=n2count}}
+if (n2count>0){testfailed=testfailed+1
+print("Error. No component in n2v can be negative")} else {testfailed=testfailed}
+a0count=0
+for (I in 1:la0){
+if (priora0[I]<=0){a0count=a0count+1} else {a0count=a0count}}
+if (a0count>0){testfailed=testfailed+1
+print("Error. All components in priora0 must be positive values")} else {testfailed=testfailed}
+b0count=0
+for (I in 1:lb0){
+if (priorb0[I]<=0){b0count=b0count+1} else {b0count=b0count}}
+if (b0count>0){testfailed=testfailed+1
+print("Error. All components in priorb0 must be positve values")} else {testfailed=testfailed}
+if (testfailed!=0) {testfailed=testfailed} else {
+print("The contrast weights are:")
+print(wts)
+a=n1v+priora0
+b=n2v+priorb0
+phimeans=(seq(1,l,1))*0
+phivar=(seq(1,l,1))*0
+for (I in 1:l){
+phimeans[I]=a[I]/(a[I]+b[I])
+phivar[I]=(phimeans[I]*(1-phimeans[I]))/(a[I]+b[I]+1)}
+contrastmean=0
+contrastvar=0
+for (I in 1:l){
+contrastmean=contrastmean+(wts[I]*phimeans[I])
+contrastvar=contrastvar+(wts[I]*wts[I]*phivar[I])}
+print("contrast mean is:")
+print(contrastmean)
+print("contrast variance is:")
+print(contrastvar)
+delta=(seq(1,N,1))*0
+for (I in 1:N){
+delta[I]=0
+ for (J in 1:l){
+ delta[I]=delta[I]+wts[J]*rbeta(1,a[J],b[J])}} 
+xtest=mean(delta)
+ytest=var(delta)
+print("mean of the contrast from sampling:")
+print(xtest)
+print("variance of the contrast from sampling:")
+print(ytest)
+qhigh=quantile(delta,prob=.975)
+qlow=quantile(delta,prob=.025)
+intervallimit<-c(qlow,qhigh)
+print("approximate equal-tail 95% interval for the contrast is:")
+print(intervallimit)
+postpostive=(sum(delta>0))/N
+print("posterior probability for a positive contrast from sampling is:")
+print(postpostive)
+deltaprior=(seq(1,N,1))*0
+for (I in 1:N){
+deltaprior[I]=0
+ for (J in 1:l){
+ deltaprior[I]=deltaprior[I]+wts[J]*rbeta(1,priora0[J],priorb0[J])}}
+priorpos=(sum(deltaprior>0))/N
+print("prior probability for a positive contrast from sampling is:")
+print(priorpos)
+if (priorpos==0){priorpos=.5/N} else {priorpos=priorpos}
+if (postpostive==1){postpostive=N/(N+1)} else {postpostive=postpostive}
+BF10=(postpostive*(1-priorpos))/(priorpos*(1-postpostive))
+print("Bayes factor for a postive contrast from simuation is:")
+print(BF10)
+print("Bayes factor for a negative contrast from sampling is:")
+print(1/BF10) 
+}
+}
+
+------
+Bayes_mediantest<-function(Y1,Y2,a0=1,b0=1){
+Y<-c(Y1,Y2)
+med=median(Y)
+print("Overall median is:")
+print(med)
+l1=length(Y1)
+l2=length(Y2)
+A1above=0
+A1below=0
+for (I in 1:l1){
+if (Y1[I]>med){A1above=A1above+1} else {A1below=A1below+1}}
+A2above=0
+A2below=0
+for (I in 1:l2){
+if (Y2[I]>med){A2above=A2above+1} else {A2below=A2below+1}}
+print("Respective frequencies of Y1 and Y2 above the median are:")
+abovefreq<-c(A1above, A2above)
+print(abovefreq)
+print("Respective frequencies of Y1 and Y2 at or below median are:")
+belowfreq<-c(A1below,A2below)
+print(belowfreq)
+a=A1above+a0
+b=A2above+b0
+Y1baserate=l1/(l1+l2)
+probY1hi=1-pbeta(Y1baserate,a,b)
+Y2baserate=1-Y1baserate
+print("Respective base rates for Y1 and Y2 responses are:")
+Y2baserate=1-Y1baserate
+baserate<-c(Y1baserate,Y2baserate)
+print(baserate)
+print("Following is the analysis of the responses above the median:")
+probY2hi=1-pbeta(Y2baserate,b,a)
+if (probY1hi>=probY2hi) {
+ print("Posterior probability that Y1 exceeds base rate is:")
+ print(probY1hi)
+ postodds=probY1hi/(1-probY1hi)
+ priorY1hi=1-pbeta(Y1baserate,a0,b0)
+ priorodds=priorY1hi/(1-priorY1hi)
+ BF=postodds/priorodds
+ print("Prior probability that Y1 exceeds base rate is:")
+ print(priorY1hi)
+ print("Bayes factor is:")
+ print(BF)} else {
+ print("Posterior probability that Y2 exceeds base rate is:")
+ print(probY2hi)
+ postodds=probY2hi/(1-probY2hi)
+ priorY2hi=1-pbeta(Y2baserate,b0,a0)
+ priorodds=priorY2hi/(1-priorY2hi)
+ BF=postodds/priorodds
+ print("Prior probability that Y2 exceeds base rate is:")
+ print(priorY2hi)
+ print("Bayes factor is:")
+ print(BF)}
+}

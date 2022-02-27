@@ -2,6 +2,7 @@
 #'
 #' @param object list output from phi function
 #' @importFrom stats dbeta
+#'
 
 
 # Formatted output for dfba_phi
@@ -132,4 +133,80 @@ setMethod("plot",
                            plot.prior)
           })
 
+
+# Formats for small- and large-n Mann Whitney
+
+## Small n
+
+#' @export
+setMethod("show", "dfba_mann_whitney_small_out", function(object) {
+  cat("Descriptive Statistics \n")
+  cat("========================\n")
+  cat(" ", "E mean", "\t", "C mean", "\n")
+  cat(" ", object$n_E, "\t\t\t", object$n_C, "\n")
+  cat(" ", "U_E and U_C Mann-Whitney Statistics", "\n")
+  cat(" ", object$U_E, "\t\t\t", object$U_C, "\n")
+  cat("\n  Monte Carlo Sampling with Discrete Probability Values\n")
+  cat("========================\n")
+  cat(" ", "Number of MC Samples\n")
+  cat(" ", object$samples, "\n")
+  cat(" ", "\n  Mean of omega_E:\n")
+  cat(" ", object$omegabar, "\n")
+  cat("equal-tail area interval")
+  cat(" ", object$prob_interval*100, "% interval limits:", "\n", sep="")
+  cat(" ", object$qLv, "\t\t\t", object$qHv, "\n")
+  cat(" ", "probability that omega_E exceeds 0.5 is:\n")
+  cat(" ", "prior", "\t\t\t", "posterior\n")
+  cat(" ", object$priorprH1, "\t\t\t", object$prH1, "\n")
+  cat("  Bayes factor BF 10 for omega_E > 0.5 is:\n")
+  cat(" ", object$BF10, "\n")
+})
+
+#' @export
+setMethod("show", "dfba_mann_whitney_large_out", function(object) {
+  cat("Descriptive Statistics \n")
+  cat("========================\n")
+  cat(" ", "E mean", "\t", "C mean", "\n")
+  cat(" ", object$n_E, "\t\t\t", object$n_C, "\n")
+  cat(" ", "U_E and U_C Mann-Whitney Statistics", "\n")
+  cat(" ", object$U_E, "\t\t\t", object$U_C, "\n")
+  cat("\n  Beta Approximation Model for Omega_E\n")
+  cat(" for 2*NE*nC/(nE_nC) > 19\n")
+  cat("========================\n")
+  cat(" ", "The posterior beta shape parameters are:\n")
+  cat(" ", "posterior a", "\t\t\t", "posterior b\n")
+  cat(" ", object$apost, "\t\t\t", object$bpost, "\n")
+  cat(" ", "posterior mean", "\t\t\t", "posterior median\n")
+  cat(" ", object$postmean, "\t\t\t", object$postmedian, "\n")
+  cat(" ", "probability within interval is:\n")
+  cat(" ", round(object$prob_interval*100), " percent\n")
+  cat(" ", "equal-tail limit values are:\n")
+  cat(" ", object$qlequal, "\t\t\t", object$qhequal, "\n")
+  cat(" ", "highest-density limits are:\n")
+  cat(" ", object$qLmin, "\t\t\t", object$qHmax, "\n")
+  cat(" ", "probability that omega_E > 0.5:\n")
+  cat(" ", "prior", "\t\t\t", "posterior\n")
+  cat(" ", object$priorprH1, "\t\t\t", object$prH1, "\n")
+  cat(" ", "Bayes factor BF10 for omega_E > 0.5 is:\n")
+  cat(" ", object$BF10, "\n")
+})
+
+
+# Plots for Mann-Whitney
+
+#' @export
+setMethod("plot",
+          signature("dfba_mann_whitney_small_out"),
+          function(x, plot.prior=FALSE){
+            dfba_plot_mann_whitney(x,
+                                   plot.prior)
+          })
+
+#' @export
+setMethod("plot",
+          signature("dfba_mann_whitney_large_out"),
+          function(x, plot.prior=FALSE){
+            dfba_plot_mann_whitney(x,
+                                   plot.prior)
+          })
 

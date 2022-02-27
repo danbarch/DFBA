@@ -13,11 +13,12 @@
 #'
 #' @param x vector of x variable values
 #' @param y vector of y variable values
-#' @param quantiles_x (Optional) If x is numeric, desired number of quantiles for the x variable
-#' @param quantiles_y (Optional) If y is numeric  numeric, desired number of quantiles for the y variable
+#' @param breaks_x (Optional)
+#' @param breaks_y (Optional)
 #' @param a.prior shape parameter a of the prior beta distribution
 #' @param b.prior shape parameter b of the prior beta distribution
 #' @param interval.width Desired width of the highest density interval (HDI) of the posterior distribution (default is 95\%)
+#' @param ... Additional arguments passed to the cut() function (for example: `include.lowest`)
 #'
 #' @return A list containing the following components:
 #' @return \item{Tau}{Nonparametric Tau-a correlation}
@@ -43,42 +44,45 @@
 
 #' @export
 dfba_gamma<-function(x,
-                     y=NULL,
-                     quantiles_x=NULL,
-                     quantiles_y=NULL,
-                     a.prior=1,
-                     b.prior=1,
-                     interval.width=0.95){
+                     y = NULL,
+                     breaks_x = NULL,
+                     breaks_y = NULL,
+                     a.prior = 1,
+                     b.prior = 1,
+                     interval.width = 0.95,
+                     ...){
   if(is.matrix(x)==TRUE){
     table<-x
+    x_cut<-rep(1:nrow(table), unname(rowSums(table)))
+    y_cut<-rep(as.vector(t(col(table))), as.vector(t(table)))
   } else {
     if(length(x)!=length(y)){
       stop("x and y must have equal length")
     }
-    if((is.numeric(x)&is.null(quantiles_x))|
-       is.numeric(y)&is.null(quantiles_y)){
-      stop("quantiles must be specified for numeric data vectors")
-    }
-
-    #conditional for categorical/scale data
-
     if(is.numeric(x)){
-      x_cut<-cut(x, quantiles_x)
-    } else {
+      if(is.null(breaks_x)){
+        stop("When x is numeric, either a numeric vector of two or more unique cut points or a single number of intervals into which x variable is to be cut must be specified")
+      }
+      x_cut<-cut(x, breaks_x, ...)
+    } else{
       x_cut<-x
     }
     if(is.numeric(y)){
-      y_cut<-cut(y, quantiles_y)
-    } else {
+      if(is.null(breaks_y)){
+        stop("When y is numeric, either a numeric vector of two or more unique cut points or a single number of intervals into which y variable is to be cut must be specified")
+      }
+      y_cut<-cut(y, breaks_y, ...)
+    } else{
       y_cut<-y
-    }
-
+  }
     table<-(table(x_cut, y_cut))
 
-    x<-rep(1:nrow(table), unname(rowSums(table)))
-    y<-rep(as.vector(t(col(table))), as.vector(t(table)))
   }
-  dfba_gamma_list<-list(gamma=dfba_phi(x, y, a.prior, b.prior, interval.width)$tau,
+
+  x<-rep(1:nrow(table), unname(rowSums(table)))
+  y<-rep(as.vector(t(col(table))), as.vector(t(table)))
+
+    dfba_gamma_list<-list(gamma=dfba_phi(x, y, a.prior, b.prior, interval.width)$tau,
                         a.prior=a.prior,
                         b.prior=b.prior,
                 sample.p=dfba_phi(x, y, a.prior, b.prior, interval.width)$sample.p,
@@ -89,7 +93,9 @@ dfba_gamma<-function(x,
                 interval.width=interval.width,
                 post.median=dfba_phi(x, y, a.prior, b.prior, interval.width)$post.median,
                 post.eti.lower=dfba_phi(x, y, a.prior, b.prior, interval.width)$post.eti.lower,
-                post.eti.upper=dfba_phi(x, y, a.prior, b.prior, interval.width)$post.eti.upper)
+                post.eti.upper=dfba_phi(x, y, a.prior, b.prior, interval.width)$post.eti.upper,
+                table.row=x_cut,
+                table.column=y_cut)
   new("dfba_gamma_out", dfba_gamma_list)
 }
 

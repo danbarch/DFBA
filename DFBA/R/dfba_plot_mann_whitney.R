@@ -1,18 +1,14 @@
-#' dfba_plot_beta
+#' dfba_plot_mann_whitney
 #
-#' Plots data from dfba functions
+#' Plots data from dfba mann whitney
 #'
-#' @param a.post Shape parameter a for posterior distribution
-#' @param b.post Shape parameter b for posterior distribution
-#' @param a.prior Shape parameter a for prior distribution
-#' @param b.prior Shape parameter b for prior distribution
+#' @param x A dfba_mann_whitney object
 #' @param plot.prior (optional) If TRUE, plots the prior distribution
 #'
 #' @return Plot
 #'
 #' @references Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists. Cambridge: MIT Press.
 #' @references Chechile, R.A., & Barch, D.H. (2021). Distribution-free, Bayesian goodness-of-fit method for assessing similar scientific prediction equations. Journal of Mathematical Psychology.
-#' @importFrom stats dbeta
 #' @importFrom graphics legend
 #' @importFrom graphics lines
 #' @importFrom graphics par
@@ -21,32 +17,35 @@
 #   Check Package:             'Ctrl + Shift + E'
 #   Test Package:              'Ctrl + Shift + T'
 
-## Function to format two (raw) vectors as a gamma table
 
 #' @export
-dfba_plot_beta<-function(a.post,
-                         b.post,
-                         a.prior=NULL,
-                         b.prior=NULL,
-                         plot.prior=FALSE){
-  x.phi<-seq(0, 1, 1/1000)
-  y.phi<-dbeta(x.phi, a.post, b.post)
+dfba_plot_mann_whitney<-function(x,
+                                 plot.prior=FALSE){
+  if (x$method=="small"){
+    x.data<-x$phiv
+    y.predata<-x$priorvector
+    y.postdata<-y$omegapost
+  } else {
+    x.data<-seq(0, 1, 1/1000)
+    y.predata<-dbeta(x.data, x$a0, y$b0)
+    y.postdata<-dbeta(x.data, x$apost, y$bpost)
+  }
   if (plot.prior==FALSE){
-    plot(x.phi,
-         y.phi,
+    plot(x.data,
+         y.postdata,
          type="l",
-         xlab="Phi",
-         ylab="Probability Density")
+         xlab="omega_E",
+         ylab="Posterior Discrete Probabilities")
   } else {
     opar<-par(no.readonly=TRUE)
     par(mar=c(4.1, 4.1, 4.1, 4.1), xpd=TRUE)
-    plot(x.phi,
-         y.phi,
+    plot(x.data,
+         y.postdata,
          type="l",
-         xlab="Phi",
-         ylab="Probability Density")
-    lines(x.phi,
-          dbeta(x.phi, a.prior, b.prior),
+         xlab="omega_E",
+         ylab="Posterior Discrete Probabilities")
+    lines(x.data,
+          y.postdata,
           lty=2)
     legend("top",
            inset = c(0, -0.25),
@@ -58,4 +57,5 @@ dfba_plot_beta<-function(a.post,
     on.exit(par(opar))
   }
 }
+
 

@@ -7,11 +7,12 @@
 dfba_gamma(
   x,
   y = NULL,
-  quantiles_x = NULL,
-  quantiles_y = NULL,
+  breaks_x = NULL,
+  breaks_y = NULL,
   a.prior = 1,
   b.prior = 1,
-  interval.width = 0.95
+  interval.width = 0.95,
+  ...
 )
 }
 \arguments{
@@ -19,15 +20,17 @@ dfba_gamma(
 
 \item{y}{vector of y variable values}
 
-\item{quantiles_x}{(Optional) If x is numeric, desired number of quantiles for the x variable}
+\item{breaks_x}{(Optional)}
 
-\item{quantiles_y}{(Optional) If y is numeric  numeric, desired number of quantiles for the y variable}
+\item{breaks_y}{(Optional)}
 
 \item{a.prior}{shape parameter a of the prior beta distribution}
 
 \item{b.prior}{shape parameter b of the prior beta distribution}
 
 \item{interval.width}{Desired width of the highest density interval (HDI) of the posterior distribution (default is 95\%)}
+
+\item{...}{Additional arguments passed to the cut() function (for example: `include.lowest`)}
 }
 \value{
 A list containing the following components:
