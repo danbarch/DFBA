@@ -8,25 +8,44 @@
 #' probability interval estimates. Samples is the number of Monte Carlo samples
 #' used for the small n analysis.
 #'
+#' The method option is either "small" or "large". The "small" algorithm is
+#' based on a discrete Monte Carlo solution for cases where n is typically less
+#' than 20. The "large" algorithm is based on beta approximation model for the
+#' posterior distribution for the omega_E parameter. This approximation is
+#' reasonable when n > 19. Regardless of n, the user can stipulate which method
+#' that they desire. When the method option is omitted, the program selects the
+#' appropriate procedure.
+#'
 #' @param E Data for independent sample 1 ("Experimental")
 #' @param C Data for independent sample 2 ("Control")
 #' @param a0 shape parameter alpha of the prior beta distribution
 #' @param b0 shape parameter beta of the prior beta distribution
 #' @param prob_interval Desired width of the highest density interval (HDI) of the posterior distribution (default is 95\%)
-#' @param method (Optional) The method option is either "small" or "large". The "small" algorithm is based on a discrete Monte Carlo solution for cases where n is typically less than 20. The "large" algorithm is based on beta approximation model for the posterior distribution for the omega_E parameter. This approximation is reasonable when n > 19. Regardless of n the user can stipulate which method that they desire. When the method option is  omitted the program selects the appropriate procedure.
 #' @param samples The number of desired Markov-Chain samples (default is 30000)
+#' @param method (Optional) The method option is either "small" or "large". The "small" algorithm is based on a discrete Monte Carlo solution for cases where n is typically less than 20. The "large" algorithm is based on beta approximation model for the posterior distribution for the omega_E parameter. This approximation is reasonable when n > 19. Regardless of n the user can stipulate which method that they desire. When the method option is  omitted the program selects the appropriate procedure.
 #'
 #' @return A list containing the following components:
-#' @return \item{Tau}{Nonparametric Tau-a correlation}
-#' @return \item{sample_p}{Sample concordance proportion}
-#' @return \item{nc}{Number of concordant (x, y) pairs}
-#' @return \item{nd}{Number of discordant (x, y) pairs}
-#' @return \item{post.median}{Median of posterior distribution on phi}
-#' @return \item{post.eti.lower}{lower limit of the equal-tail interval with width specified by interval.width}
-#' @return \item{post.eti.upper}{upper limit of the equal-tail interval with width specified by interval.width}
+#' @return \item{Emean}{Mean of the independent sample 1 ("Experimental") data}
+#' @return \item{Cmean}{Mean of the independent sample 1 ("Control") data}
+#' @return \item{n_E}{Number of observations of the independent sample 1 ("Experimental") data}
+#' @return \item{n_C}{Mean of observations of the independent sample 2 ("Control") data}
+#' @return \item{U_E}{Total number of comparisons for which observations from independent sample 1 ("Experimental") data exceed observations from independent sample 2 ("Control") data)}
+#' @return \item{U_C}{Total number of comparisons for which observations from independent sample 2 ("Control") data exceed observations from independent sample 1 ("Experimental") data)}
+#' @return \item{prob_interval}{User-defined width of equal-tail and highest-density probability intervals for analytic output (default is 0.95)}
+#' @return \item{samples}{The number of desired Markov-Chain samples (default is 30000)}
+#' @return \item{method}{A character string indicating the calculation method used}
+#' @return \item{phiv}{A vector of data representing candidate values of phi (used as the x-variate in the `plot()` method.)}
+#' @return \item{omegapost}{A vector of data representing posterior probabilities of candidate values of phi (used as the y-variate in the `plot()` method.)}
+#' @return \item{priorvector}{A vector of data representing prior probabilities of candidate values of phi}
+#' @return \item{priorprH1}{Prior probability of the alternative model}
+#' @return \item{prH1}{Posterior probability of the alternative model}
+#' @return \item{BF10}{Bayes Factor describing the relative increase in the posterior odds for the alternative model over the null model}
+#' @return \item{omegabar}{Posterior mean estimate of the omega statistic}
+#' @return \item{qLv}{Lower limit of the probability interval indicated by `prob_interval`}
+#' @return \item{qHv}{Upper limit of the probability interval indicated by `prob_interval`}
 #'
 #' @references Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists. Cambridge: MIT Press.
-#' @references Chechile, R.A., & Barch, D.H. (2021). Distribution-free, Bayesian goodness-of-fit method for assessing similar scientific prediction equations. Journal of Mathematical Psychology.
+#' @references Chechile, R.A. (2020). A Bayesian analytis for the Mann-Whitney statistic. Communications in Statistics -- Theory and Methods 49(3): 670-696. DOI: 10.1080/03610926.2018.2549247.
 
 #' @importFrom stats qbeta
 #'
@@ -147,6 +166,7 @@ dfba_mann_whitney<-function(E,
     XE=seq(1, length(E), 1)
     XC=seq(1, length(C), 1)
     fomega<-rep(0.0,200)
+    Ntot = UE+UC
 
 
     for (j in 1:200){
@@ -154,17 +174,53 @@ dfba_mann_whitney<-function(E,
       omega=(1/400)+(j-1)*(1/200)
       komega=(1-omega)/omega
 
-      for (k in 1:samples){
-        Uz<-rep(NA, length(E))
-        XE<-rexp(length(E), rate=komega)
-        XC<-rexp(length(C), rate = 1)
+#      for (k in 1:samples){
+#        Uz<-rep(NA, length(E))
+#        XE<-rexp(length(E), rate=komega)
+#        XC<-rexp(length(C), rate = 1)
+#
+#        for (i in 1:length(E)){
+#          Uz[i]<-sum(XE[i]>XC)
+#        }
+#
+#        if(sum(Uz) == UE) {fomega[j] = fomega[j]+1} else {}
+#      }
+      # The following if statement controls the total number of comparisons
+      # Use new method if length(E)*length(C)>Ntot; old method otherwise
+      if(length(E)*length(C)>Ntot){
+        for (k in 1:samples) {
+          Uz=0
+          Jc=0
 
-        for (i in 1:length(E)){
-          Uz[i]<-sum(XE[i]>XC)
+          XE <- rexp(length(E), rate = komega)
+          XC <- rexp(length(C), rate = 1)
+
+          for (i in 1:length(E)) {
+            for(q in 1:length(C)){
+              Jc=Jc+1
+              if ((XE[i]>XC[q])&(Jc<=Ntot)){Uz=Uz+1}else{}
+            }
+          }
+          if (Uz==UE){
+            fomega[j] = fomega[j] + 1
+          }
+          else {
+          }
         }
+      }else{
+        for (k in 1:samples){
+          Uz<-rep(NA, length(E))
+          XE<-rexp(length(E), rate=komega)
+          XC<-rexp(length(C), rate = 1)
 
-        if(sum(Uz) == UE) {fomega[j] = fomega[j]+1} else {}
+          for (i in 1:length(E)){
+            Uz[i]<-sum(XE[i]>XC)
+          }
+
+          if(sum(Uz) == UE) {fomega[j] = fomega[j]+1} else {}
+        }
       }
+
     }
 
     tot=sum(priorvector*fomega)
@@ -231,15 +287,15 @@ dfba_mann_whitney<-function(E,
 
     #Following finds the Bayes factor for omega_E being greater than .5.
 
-    if ((prH1==1)|(priorprH1==0)){
-      BF10=samples
-      cat("Bayes factor BF10 for omega_E >.5 is estimated to be greater than:"," ","\n")
-      cat(BF10," ","\n")
-      } else {
+#    if ((prH1==1)|(priorprH1==0)){
+#      BF10=samples
+#      cat("Bayes factor BF10 for omega_E >.5 is estimated to be greater than:"," ","\n")
+#      cat(BF10," ","\n")
+#      } else {
         BF10=(prH1*(1-priorprH1))/(priorprH1*(1-prH1))
 #        cat("Bayes factor BF10 for omega_E>.5 is:"," ","\n")
 #        cat(BF10," ","\n")
-        }
+#        }
     #list(posterior_discrete_values=phipost,posterior_cum_distribution=cumdis)
 #    return(cat(" ","  ","\n"))
     dfba_mann_whitney_small_list<-list(Emean=mean(E),
@@ -256,7 +312,9 @@ dfba_mann_whitney<-function(E,
                                        priorvector = priorvector,
                                        priorprH1 = priorprH1,
                                        prH1 = prH1,
-                                       BF10 = BF10,
+                                       BF10 = ifelse((prH1==1)|(priorprH1==0),
+                                                     paste0("Bayes factor BF10 for omega_E >.5 is estimated to be greater than: ", samples),
+                                                     BF10),
                                        omegabar = omegabar,
                                        qLv = qLv,
                                        qHv = qHv)

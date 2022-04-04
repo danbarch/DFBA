@@ -32,19 +32,41 @@ dfba_mann_whitney(
 \value{
 A list containing the following components:
 
-\item{Tau}{Nonparametric Tau-a correlation}
+\item{Emean}{Mean of the independent sample 1 ("Experimental") data}
 
-\item{sample_p}{Sample concordance proportion}
+\item{Cmean}{Mean of the independent sample 1 ("Control") data}
 
-\item{nc}{Number of concordant (x, y) pairs}
+\item{n_E}{Number of observations of the independent sample 1 ("Experimental") data}
 
-\item{nd}{Number of discordant (x, y) pairs}
+\item{n_C}{Mean of observations of the independent sample 2 ("Control") data}
 
-\item{post.median}{Median of posterior distribution on phi}
+\item{U_E}{Total number of comparisons for which observations from independent sample 1 ("Experimental") data exceed observations from independent sample 2 ("Control") data)}
 
-\item{post.eti.lower}{lower limit of the equal-tail interval with width specified by interval.width}
+\item{U_C}{Total number of comparisons for which observations from independent sample 2 ("Control") data exceed observations from independent sample 1 ("Experimental") data)}
 
-\item{post.eti.upper}{upper limit of the equal-tail interval with width specified by interval.width}
+\item{prob_interval}{User-defined width of equal-tail and highest-density probability intervals for analytic output (default is 0.95)}
+
+\item{samples}{The number of desired Markov-Chain samples (default is 30000)}
+
+\item{method}{A character string indicating the calculation method used}
+
+\item{phiv}{A vector of data representing candidate values of phi (used as the x-variate in the `plot()` method.)}
+
+\item{omegapost}{A vector of data representing posterior probabilities of candidate values of phi (used as the y-variate in the `plot()` method.)}
+
+\item{priorvector}{A vector of data representing prior probabilities of candidate values of phi}
+
+\item{priorprH1}{Prior probability of the alternative model}
+
+\item{prH1}{Posterior probability of the alternative model}
+
+\item{BF10}{Bayes Factor describing the relative increase in the posterior odds for the alternative model over the null model}
+
+\item{omegabar}{Posterior mean estimate of the omega statistic}
+
+\item{qLv}{Lower limit of the probability interval indicated by `prob_interval`}
+
+\item{qHv}{Upper limit of the probability interval indicated by `prob_interval`}
 }
 \description{
 The Mann-Whitney U statistic is based on independent samples that are
@@ -55,8 +77,17 @@ desired prior distribution. The prob_interval is value for the
 probability interval estimates. Samples is the number of Monte Carlo samples
 used for the small n analysis.
 }
+\details{
+The method option is either "small" or "large". The "small" algorithm is
+based on a discrete Monte Carlo solution for cases where n is typically less
+than 20. The "large" algorithm is based on beta approximation model for the
+posterior distribution for the omega_E parameter. This approximation is
+reasonable when n > 19. Regardless of n, the user can stipulate which method
+that they desire. When the method option is omitted, the program selects the
+appropriate procedure.
+}
 \references{
 Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists. Cambridge: MIT Press.
 
-Chechile, R.A., & Barch, D.H. (2021). Distribution-free, Bayesian goodness-of-fit method for assessing similar scientific prediction equations. Journal of Mathematical Psychology.
+Chechile, R.A. (2020). A Bayesian analytis for the Mann-Whitney statistic. Communications in Statistics -- Theory and Methods 49(3): 670-696. DOI: 10.1080/03610926.2018.2549247.
 }
