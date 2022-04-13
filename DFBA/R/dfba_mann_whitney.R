@@ -287,15 +287,15 @@ dfba_mann_whitney<-function(E,
 
     #Following finds the Bayes factor for omega_E being greater than .5.
 
-#    if ((prH1==1)|(priorprH1==0)){
-#      BF10=samples
+    if ((prH1==1)|(priorprH1==0)){
+      BF10=samples
 #      cat("Bayes factor BF10 for omega_E >.5 is estimated to be greater than:"," ","\n")
 #      cat(BF10," ","\n")
-#      } else {
+      } else {
         BF10=(prH1*(1-priorprH1))/(priorprH1*(1-prH1))
 #        cat("Bayes factor BF10 for omega_E>.5 is:"," ","\n")
 #        cat(BF10," ","\n")
-#        }
+        }
     #list(posterior_discrete_values=phipost,posterior_cum_distribution=cumdis)
 #    return(cat(" ","  ","\n"))
     dfba_mann_whitney_small_list<-list(Emean=mean(E),
@@ -424,11 +424,14 @@ dfba_mann_whitney<-function(E,
 #    cat(mH1prior,"  ",mH1post,"\n")
 #    cat(priorprH1,"  ",prH1,"\n")
 #    cat(" ","  ","\n")
-#    if ((prH1==1)|(priorprH1==0)){
+    if ((prH1==1)|(priorprH1==0)){
 #      minf1="Bayes factor BF10 for omega_E >.5 is approaching"
 #      minf2="infinity"
-#      cat(minf1,minf2,"\n")} else {
+#      cat(minf1,minf2,"\n")}
+      BF10 == Inf
+      } else {
         BF10=(prH1*(1-priorprH1))/(priorprH1*(1-prH1))
+      }
 #        mBF1="Bayes factor BF10 for omega_E > .5"
 #        mBF2="is:"
 #        cat(mBF1,mBF2,"\n")
@@ -454,7 +457,7 @@ dfba_mann_whitney<-function(E,
                                            qHmax = qHmax,
                                            priorprH1 = priorprH1,
                                            prH1 = prH1,
-                                           BF10 = ifelse(prH1==1|priorprH1==0,
+                                           BF10 = ifelse(BF10 == Inf,
                                                          "approaching infinity",
                                                          BF10))
                }

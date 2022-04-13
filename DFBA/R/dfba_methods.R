@@ -210,3 +210,77 @@ setMethod("plot",
                                    plot.prior)
           })
 
+# Formats for Wilcoxon small and large
+
+## Small n
+
+#' @export
+setMethod("show", "dfba_wilcoxon_small_out", function(object) {
+  cat("Descriptive Statistics \n")
+  cat("========================\n")
+  cat(" ", "Wilcoxon Signed-Rank Statistics", "\n")
+  cat(" ", "n", "\t", "T_plus", "\t", "T_minus", "\n")
+  cat(" ", object$n, "\t\t\t", object$T_plus, "\t\t\t", object$T_negative,"\n")
+  cat("\n  Monte Carlo Sampling with Discrete Probability Values\n")
+  cat("========================\n")
+  cat(" ", "Number of MC Samples\n")
+  cat(" ", object$samples, "\n")
+  cat(" ", "\n  Mean of phi_w:\n")
+  cat(" ", object$phibar, "\n")
+  cat("equal-tail area interval")
+  cat(" ", object$prob_interval*100, "% interval limits:", "\n", sep="")
+  cat(" ", object$qLv, "\t\t\t", object$qHv, "\n")
+  cat(" ", "probability that phi_W exceeds 0.5 is:\n")
+  cat(" ", "prior", "\t\t\t", "posterior\n")
+  cat(" ", object$priorprH1, "\t\t\t", object$prH1, "\n")
+  cat("  Bayes factor BF 10 for phi_W > 0.5 is:\n")
+  cat(" ", object$BF10, "\n")
+})
+
+#' @export
+setMethod("show", "dfba_wilcoxon_large_out", function(object) {
+  cat("Descriptive Statistics \n")
+  cat("========================\n")
+  cat(" ", "Wilcoxon Signed-Rank Statistics", "\n")
+  cat(" ", "n", "\t", "T_plus", "\t", "T_minus", "\n")
+  cat(" ", object$n, "\t", object$T_plus, "\t", object$T_negative, "\n")
+  cat("\n  Beta Approximation Model for Phi_W\n")
+  cat(" for n > 24\n")
+  cat("========================\n")
+  cat(" ", "The posterior beta shape parameters are:\n")
+  cat(" ", "posterior a", "\t\t\t", "posterior b\n")
+  cat(" ", object$a, "\t\t\t", object$b, "\n")
+  cat(" ", "posterior mean", "\t\t\t", "posterior median\n")
+  cat(" ", object$postmean, "\t\t\t", object$postmedian, "\n")
+  cat(" ", "probability within interval is:\n")
+  cat(" ", round(object$prob_interval*100), " percent\n")
+  cat(" ", "equal-tail limit values are:\n")
+  cat(" ", object$qlequal, "\t\t\t", object$qhequal, "\n")
+  cat(" ", "highest-density limits are:\n")
+  cat(" ", object$qLmin, "\t\t\t", object$qHmax, "\n")
+  cat(" ", "probability that phi_W > 0.5:\n")
+  cat(" ", "prior", "\t\t\t", "posterior\n")
+  cat(" ", object$priorprH1, "\t\t\t", object$prH1, "\n")
+  cat(" ", "Bayes factor BF10 for phi_W > 0.5 is:\n")
+  cat(" ", object$BF10, "\n")
+})
+
+
+# Plots for Mann-Whitney
+
+#' @export
+setMethod("plot",
+          signature("dfba_mann_whitney_small_out"),
+          function(x, plot.prior=FALSE){
+            dfba_plot_mann_whitney(x,
+                                   plot.prior)
+          })
+
+#' @export
+setMethod("plot",
+          signature("dfba_mann_whitney_large_out"),
+          function(x, plot.prior=FALSE){
+            dfba_plot_mann_whitney(x,
+                                   plot.prior)
+          })
+

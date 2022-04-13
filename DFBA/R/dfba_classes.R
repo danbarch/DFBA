@@ -15,4 +15,10 @@ setClass("dfba_mann_whitney_small_out", representation("list"))
 #'
 #' @export
 setClass("dfba_mann_whitney_large_out", representation("list"))
+#'
+#' @export
+setClass("dfba_wilcoxon_small_out", representation("list"))
+#'
+#' @export
+setClass("dfba_wilcoxon_large_out", representation("list"))
 
