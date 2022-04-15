@@ -37,17 +37,23 @@ dfba_phi<-function(x,
   if (removed_rows>0){                              #warning message if rows are removed
     warning(paste0(removed_rows, " row(s) removed due to missing data"))
   }
-  t_xi<-unname(table(x)[table(x)>1])                #Counting T_x sizes of ties
-  t_yi<-unname(table(y)[table(y)>1])                #Counting T_y sizes of ties
+
+  #Replace x and y vectors with complete-case-restricted data
+
+  x1<-xy$x
+  y1<-xy$y
+
+  t_xi<-unname(table(x1)[table(x1)>1])                #Counting T_x sizes of ties
+  t_yi<-unname(table(y1)[table(y1)>1])                #Counting T_y sizes of ties
   Tx<-sum((t_xi*(t_xi-1))/2)                        #Calculating Tx
   Ty<-sum((t_yi*(t_yi-1))/2)                        #Calculating Ty
   t_xyi<-unname(table(xy)[table(xy)>1])             #Calculating txyi
   Txy<-sum(t_xyi*(t_xyi-1)/2)                       #Calculating Txy
-  n<-length(x)
+  n<-length(x1)
   n_max<-n*(n-1)/2-Tx-Ty+Txy
-  xy_ranks<-data.frame(xrank=rank(xy$x, ties.method="average"),
-                       yrank=rank(xy$y, ties.method="average"))
-  xy_c<-xy_ranks[order(x, -y),]       # for n_c, sort on ascending x then descending y
+  xy_ranks<-data.frame(xrank=rank(x1, ties.method="average"),
+                       yrank=rank(y1, ties.method="average"))
+  xy_c<-xy_ranks[order(x1, -y1),]       # for n_c, sort on ascending x then descending y
   xy$concordant<-rep(NA, nrow(xy))
   for (i in 1:nrow(xy-1)){
     xy$concordant[i]<-sum(xy_c$yrank[(i+1):length(xy_c$yrank)]>xy_c$yrank[i])
