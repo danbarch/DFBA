@@ -10,7 +10,7 @@ dfba_wilcoxon(
   prior_vec = c(1, 1),
   prob_interval = 0.95,
   samples = 30000,
-  method = ""
+  method = NULL
 )
 }
 \arguments{
@@ -28,6 +28,10 @@ dfba_wilcoxon(
 }
 \value{
 A list containing the following components:
+
+\item{T_plus}{Sum of the positive ranks in the pairwise comparisons}
+
+\item{T_negative}{Sum of the negative ranks in the pairwise comparisons}
 }
 \description{
 Wilcoxon signed rank statistic is based on paired continuous measures Y1 and

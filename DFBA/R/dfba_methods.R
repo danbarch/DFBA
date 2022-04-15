@@ -19,8 +19,6 @@ setMethod("show", "dfba_phi_out", function(object) {
   cat("========================\n")
   cat("  ", "Tau point estimate\n")
   cat("  ", object$tau, "\n")
-  cat(" ", object$interval.width*100, "% Confidence Interval", "\n", sep="")
-  cat(" ", "CI to be added\n")
   cat("\nBayesian Analyses\n")
   cat("========================\n")
   cat(" ", "Beta Shape Parameters\n")
