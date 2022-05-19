@@ -369,8 +369,8 @@ dfba_mann_whitney<-function(E,
 #    cat(apost,"   ",bpost,"\n")
 #    cat(" ","  ","\n")
 
-  #  a=apost
-  #  b=bpost
+    a=apost
+    b=bpost
   #  x=seq(0,1,.005)
   #  y=dbeta(x,a,b)
   #  y0=dbeta(x,a0,b0)
@@ -428,7 +428,7 @@ dfba_mann_whitney<-function(E,
 #      minf1="Bayes factor BF10 for omega_E >.5 is approaching"
 #      minf2="infinity"
 #      cat(minf1,minf2,"\n")}
-      BF10 == Inf
+      BF10 = Inf
       } else {
         BF10=(prH1*(1-priorprH1))/(priorprH1*(1-prH1))
       }
@@ -457,9 +457,7 @@ dfba_mann_whitney<-function(E,
                                            qHmax = qHmax,
                                            priorprH1 = priorprH1,
                                            prH1 = prH1,
-                                           BF10 = ifelse(BF10 == Inf,
-                                                         "approaching infinity",
-                                                         BF10))
+                                           BF10 = BF10)
                }
 
 

@@ -20,41 +20,46 @@
 
 #' @export
 dfba_plot_mann_whitney<-function(x,
-                                 plot.prior=FALSE){
+                                 plot.prior=TRUE){
   if (x$method=="small"){
     x.data<-x$phiv
     y.predata<-x$priorvector
-    y.postdata<-y$omegapost
+    y.postdata<-x$omegapost
+    xlab="omega_E"
+    ylab="Discrete Probability"
   } else {
     x.data<-seq(0, 1, 1/1000)
-    y.predata<-dbeta(x.data, x$a0, y$b0)
-    y.postdata<-dbeta(x.data, x$apost, y$bpost)
+    y.predata<-dbeta(x.data, x$a0, x$b0)
+    y.postdata<-dbeta(x.data, x$apost, x$bpost)
+    xlab="omega_E"
+    ylab="Probability Density"
   }
   if (plot.prior==FALSE){
     plot(x.data,
          y.postdata,
          type="l",
-         xlab="omega_E",
-         ylab="Posterior Discrete Probabilities")
+         xlab=xlab,
+         ylab=ylab)
   } else {
     opar<-par(no.readonly=TRUE)
-    par(mar=c(4.1, 4.1, 4.1, 4.1), xpd=TRUE)
+#    par(mar=c(4.1, 4.1, 4.1, 4.1), xpd=TRUE)
     plot(x.data,
          y.postdata,
          type="l",
-         xlab="omega_E",
-         ylab="Posterior Discrete Probabilities")
+         xlab=xlab,
+         ylab=ylab,
+         main=expression("--"~"Prior"~ - "Posterior"))
     lines(x.data,
-          y.postdata,
+          y.predata,
           lty=2)
-    legend("top",
-           inset = c(0, -0.25),
-           legend=c("Posterior",
-                    "Prior"),
-           lty=c(1, 2),
-           xpd=TRUE,
-           horiz=TRUE)
-    on.exit(par(opar))
+#    legend("top",
+#           inset = c(0, -0.1),
+#           legend=c("Posterior",
+#                    "Prior"),
+#           lty=c(1, 2),
+#           xpd=TRUE,
+#           horiz=TRUE)
+#    on.exit(par(opar))
   }
 }
 

@@ -5,7 +5,7 @@
 \title{dfba_plot_mann_whitney
 Plots data from dfba mann whitney}
 \usage{
-dfba_plot_mann_whitney(x, plot.prior = FALSE)
+dfba_plot_mann_whitney(x, plot.prior = TRUE)
 }
 \arguments{
 \item{x}{A dfba_mann_whitney object}

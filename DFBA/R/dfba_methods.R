@@ -186,7 +186,7 @@ setMethod("show", "dfba_mann_whitney_large_out", function(object) {
   cat(" ", "prior", "\t\t\t", "posterior\n")
   cat(" ", object$priorprH1, "\t\t\t", object$prH1, "\n")
   cat(" ", "Bayes factor BF10 for omega_E > 0.5 is:\n")
-  cat(" ", object$BF10, "\n")
+  cat(" ", ifelse(object$BF10 == Inf, "approaching infinity", object$BF10), "\n")
 })
 
 
@@ -195,7 +195,7 @@ setMethod("show", "dfba_mann_whitney_large_out", function(object) {
 #' @export
 setMethod("plot",
           signature("dfba_mann_whitney_small_out"),
-          function(x, plot.prior=FALSE){
+          function(x, plot.prior=TRUE){
             dfba_plot_mann_whitney(x,
                                    plot.prior)
           })
@@ -203,7 +203,7 @@ setMethod("plot",
 #' @export
 setMethod("plot",
           signature("dfba_mann_whitney_large_out"),
-          function(x, plot.prior=FALSE){
+          function(x, plot.prior=TRUE){
             dfba_plot_mann_whitney(x,
                                    plot.prior)
           })
