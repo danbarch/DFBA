@@ -140,6 +140,8 @@ setMethod("plot",
 setMethod("show", "dfba_mann_whitney_small_out", function(object) {
   cat("Descriptive Statistics \n")
   cat("========================\n")
+  cat(" ", "n_E", "\t", "n_C", "\n")
+  cat(" ", object$n_E, "\t\t\t", object$n_C, "\n")
   cat(" ", "E mean", "\t", "C mean", "\n")
   cat(" ", object$Emean, "\t\t\t", object$Cmean, "\n")
   cat(" ", "U_E and U_C Mann-Whitney Statistics", "\n")
@@ -164,8 +166,10 @@ setMethod("show", "dfba_mann_whitney_small_out", function(object) {
 setMethod("show", "dfba_mann_whitney_large_out", function(object) {
   cat("Descriptive Statistics \n")
   cat("========================\n")
-  cat(" ", "E mean", "\t", "C mean", "\n")
+  cat(" ", "n_E", "\t", "n_C", "\n")
   cat(" ", object$n_E, "\t\t\t", object$n_C, "\n")
+  cat(" ", "E mean", "\t", "C mean", "\n")
+  cat(" ", object$Emean, "\t\t\t", object$Cmean, "\n")
   cat(" ", "U_E and U_C Mann-Whitney Statistics", "\n")
   cat(" ", object$U_E, "\t\t\t", object$U_C, "\n")
   cat("\n  Beta Approximation Model for Omega_E\n")
