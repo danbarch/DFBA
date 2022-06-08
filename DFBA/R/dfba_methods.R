@@ -268,21 +268,21 @@ setMethod("show", "dfba_wilcoxon_large_out", function(object) {
 })
 
 
-# Plots for Mann-Whitney
+# Plots for Wilcoxon
 
 #' @export
 setMethod("plot",
-          signature("dfba_mann_whitney_small_out"),
-          function(x, plot.prior=FALSE){
-            dfba_plot_mann_whitney(x,
+          signature("dfba_wilcoxon_small_out"),
+          function(x, plot.prior=TRUE){
+            dfba_plot_wilcoxon(x,
                                    plot.prior)
           })
 
 #' @export
 setMethod("plot",
-          signature("dfba_mann_whitney_large_out"),
-          function(x, plot.prior=FALSE){
-            dfba_plot_mann_whitney(x,
+          signature("dfba_wilcoxon_large_out"),
+          function(x, plot.prior=TRUE){
+            dfba_plot_wilcoxon(x,
                                    plot.prior)
           })
 

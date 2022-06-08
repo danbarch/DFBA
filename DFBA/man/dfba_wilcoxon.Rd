@@ -7,7 +7,8 @@
 dfba_wilcoxon(
   Y1,
   Y2,
-  prior_vec = c(1, 1),
+  a0 = 1,
+  b0 = 1,
   prob_interval = 0.95,
   samples = 30000,
   method = NULL
@@ -18,7 +19,9 @@ dfba_wilcoxon(
 
 \item{Y2}{Numeric vector of data values representing a repeated measure additional to `Y1`}
 
-\item{prior_vec}{Numeric vector of data values representing shape parameters of the prior beta distribution (default is `c(1, 1)`)}
+\item{a0}{shape parameter alpha of the prior beta distribution}
+
+\item{b0}{shape parameter beta of the prior beta distribution}
 
 \item{prob_interval}{Desired width of the highest density interval (HDI) of the posterior distribution (default is 95\%)}
 

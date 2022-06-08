@@ -4,25 +4,10 @@
 \alias{dfba_gamma}
 \title{Goodman-Kruskal Gamma}
 \usage{
-dfba_gamma(
-  x,
-  y = NULL,
-  breaks_x = NULL,
-  breaks_y = NULL,
-  a.prior = 1,
-  b.prior = 1,
-  interval.width = 0.95,
-  ...
-)
+dfba_gamma(x, a.prior = 1, b.prior = 1, interval.width = 0.95, ...)
 }
 \arguments{
-\item{x}{vector of x variable values}
-
-\item{y}{vector of y variable values}
-
-\item{breaks_x}{(Optional)}
-
-\item{breaks_y}{(Optional)}
+\item{x}{cross-tabulated data in matrix (or table) format}
 
 \item{a.prior}{shape parameter a of the prior beta distribution}
 

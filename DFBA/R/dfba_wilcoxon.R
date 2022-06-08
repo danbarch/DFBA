@@ -16,7 +16,8 @@
 #'
 #' @param Y1 Numeric vector of data values representing one repeated measure
 #' @param Y2 Numeric vector of data values representing a repeated measure additional to `Y1`
-#' @param prior_vec Numeric vector of data values representing shape parameters of the prior beta distribution (default is `c(1, 1)`)
+#' @param a0 shape parameter alpha of the prior beta distribution
+#' @param b0 shape parameter beta of the prior beta distribution
 #' @param prob_interval Desired width of the highest density interval (HDI) of the posterior distribution (default is 95\%)
 #' @param samples The number of desired Markov-Chain samples (default is 30000)
 #' @param method (Optional) The method option is either "small" or "large". The "small" algorithm is based on a discrete Monte Carlo solution for cases where n is typically less than 20. The "large" algorithm is based on beta approximation model for the posterior distribution for the omega_E parameter. This approximation is reasonable when n > 19. Regardless of n the user can stipulate which method that they desire. When the method option is  omitted the program selects the appropriate procedure.
@@ -32,7 +33,9 @@
 #' @export
 dfba_wilcoxon<-function(Y1,
                         Y2,
-                        prior_vec=c(1,1),
+                        a0 = 1,
+                        b0 = 1,
+#                        prior_vec=c(1,1),
                         prob_interval=.95,
                         samples=30000,
                         method=NULL){
@@ -41,18 +44,19 @@ dfba_wilcoxon<-function(Y1,
   if (l1!=l2) {
     stop("Y1 and Y2 must have the same length. This function is for paired within-block data.")} else {}
 
-  if (length(prior_vec)!=2){
-    stop("an explicit stipulation of prior_vec must only have the two shape parameters for the prior beta distribution")} else {}
+#  if (length(prior_vec)!=2){
+#    stop("an explicit stipulation of prior_vec must only have the two shape parameters for the prior beta distribution")} else {}
 
-  a0<-prior_vec[1]
-  b0<-prior_vec[2]
+#  a0<-prior_vec[1]
+#  b0<-prior_vec[2]
 
   if ((a0<=0)|(b0<=0)){
-    stop("Both of the beta shape parameters for in the prior_vec must be >0.")} else {}
+    stop("Both of the beta shape parameters must be >0.")}
+#  else {}
 
   if ((prob_interval<0)|(prob_interval>1)){
     stop("The probability for the interval estimate of phi_w must be a proper proportion.")}
-  else {}
+#  else {}
 
   if (samples<10000){
     stop("stipulating Monte Carlo samples < 10000 is too small")} else {}
@@ -76,7 +80,8 @@ dfba_wilcoxon<-function(Y1,
   l1=jc
 
   if (l1<3){
-    stop("There are not enough values in the Y1 and Y2 vectors for meaningful results.")} else {}
+    stop("There are not enough values in the Y1 and Y2 vectors for meaningful results.")}
+  #else {}
 
   #The following code computes the within-block difference scores, and finds the
   #number of blocks where the difference scores are nonzero (within a trivial rounding error).
@@ -86,7 +91,8 @@ dfba_wilcoxon<-function(Y1,
     if (abs(d[I])<=sdd/30000){IC=IC} else {IC=IC+1}}
   n=IC
   #The following code deals with the case where all differences are trivially close to 0.
-  if (n==0){stop("Y1 and Y2 differences are all trivial")} else {}
+  if (n==0){stop("Y1 and Y2 differences are all trivial")}
+  #else {}
 
   #The following finds the Tplus and Tminus stats and the number of nonzero blocks
   dt=(seq(1,n,1))*0
@@ -115,7 +121,7 @@ dfba_wilcoxon<-function(Y1,
 #  cat("n","  ","T_plus","  ","T_negative","\n")
 #  cat(n,"  ",tplus,"      ",tneg,"\n")
 
-  if (method==""){
+  if (is.null(method)){
     if (n>24){method="large"} else {
       method="small"}
   }
@@ -237,9 +243,13 @@ dfba_wilcoxon<-function(Y1,
                                  samples = samples,
                                  method = method,
                       #           phi_w = phi_w,
+                                 a0 = a0,
+                                 b0 = b0,
                                  phipost = phipost,
-                                 priorvector = priorvector,
+                      #           priorvector = priorvector,
                                  priorprH1 = priorprH1,
+                                 phiv = phiv,
+                                 phipost = phipost,
                                  prH1 = prH1,
                                  BF10 = ifelse((prH1==1)|(priorprH1==0),
                                                paste0("Bayes factor BF10 for omega_E >.5 is estimated to be greater than: ", samples),
@@ -262,16 +272,16 @@ dfba_wilcoxon<-function(Y1,
     term=(3*tplus)/((2*n)+2)
     na=term-.25
     nb=(((3*n)-1)/4)-term
-    a=na+na0+1
-    b=nb+nb0+1
-    x=seq(0,1,.005)
-    y=dbeta(x,a,b)
-    y0=dbeta(x,a0,b0)
-    plot(x,y,type="l",xlab="phi_w",ylab="probability density",main="posterior solid; prior dashed")
-    lines(x,y0,type="l",lty=2)
+    apost=na+na0+1
+    bpost=nb+nb0+1
+#    x=seq(0,1,.005)
+#    y=dbeta(x,a,b)
+#    y0=dbeta(x,a0,b0)
+#    plot(x,y,type="l",xlab="phi_w",ylab="probability density",main="posterior solid; prior dashed")
+#    lines(x,y0,type="l",lty=2)
 
-    postmean=a/(a+b)
-    postmedian=qbeta(.5,a,b)
+    postmean=apost/(apost+bpost)
+    postmedian=qbeta(.5,apost,bpost)
 #    ms1="posterior beta model shape parameters are:"
 #    ms2=" "
 #    cat(ms1,ms2,"\n")
@@ -286,8 +296,8 @@ dfba_wilcoxon<-function(Y1,
 #    cat(postmean,"       ",postmedian,"\n")
 #    cat(" ","  ","\n")
 
-    qlequal=qbeta((1-prob_interval)*.5,a,b)
-    qhequal=qbeta(1-(1-prob_interval)*.5,a,b)
+    qlequal=qbeta((1-prob_interval)*.5,apost,bpost)
+    qhequal=qbeta(1-(1-prob_interval)*.5,apost,bpost)
 
 #    met1="equal-tail limit values are"
 #    met2=":"
@@ -296,8 +306,8 @@ dfba_wilcoxon<-function(Y1,
 #    cat(" ","  ","\n")
 
     alphaL=seq(0,(1-prob_interval),(1-prob_interval)/1000)
-    qL=qbeta(alphaL,a,b)
-    qH=qbeta(prob_interval+alphaL,a,b)
+    qL=qbeta(alphaL,apost,bpost)
+    qH=qbeta(prob_interval+alphaL,apost,bpost)
     diff=qH-qL
     I=1
     mindiff=min(diff)
@@ -311,7 +321,7 @@ dfba_wilcoxon<-function(Y1,
 #    cat(qLmin," ",qHmax,"\n")
 #    cat(" ","  ","\n")
 
-    prH1=1-pbeta(.5,a,b)
+    prH1=1-pbeta(.5,apost,bpost)
     priorprH1=1-pbeta(.5,na0+1,nb0+1)
 #    mH11="probability that phi_w > .5"
 #    mH12=" "
@@ -322,7 +332,7 @@ dfba_wilcoxon<-function(Y1,
 #    cat(priorprH1,"  ",prH1,"\n")
 #    cat(" ","  ","\n")
     if ((prH1==1)|(priorprH1==0)){
-      BF10 == Inf
+      BF10 = Inf
 
 #      minf1="Bayes factor BF10 for phi_w >.5 is approaching"
 #      minf2="infinity"
@@ -346,8 +356,10 @@ dfba_wilcoxon<-function(Y1,
                                  prob_interval = prob_interval,
                                  samples = samples,
                                  method = method,
-                                 a = a,
-                                 b = b,
+                                 a0 = a0,
+                                 b0 = b0,
+                                 apost = apost,
+                                 bpost = bpost,
                                  postmean = postmean,
                                  postmedian = postmedian,
          #                        phipost = phipost,
@@ -358,7 +370,7 @@ dfba_wilcoxon<-function(Y1,
                                  priorprH1=priorprH1,
                                  prH1 = prH1,
                                  BF10 = ifelse((prH1==1)|(priorprH1==0),
-                                               paste0("Bayes factor BF10 for omega_E >.5 is estimated to be greater than: ", samples),
+                                               paste0("estimated to be greater than ", samples),
                                                BF10),
             #                     phibar = phibar,
                                  qlequal = qlequal,
