@@ -38,24 +38,17 @@
 #'nonparametric procedure generally requires a smaller sample size than a
 #'parametric t-test.
 #'
-#' @param n number of values per group or paired sample
-#' @param a0 shape parameter a of the prior beta distribution
-#' @param b0 shape parameter b of the prior beta distribution
-#' @param model hypothesized probability density function of data distribution
+#' @param n_min smallest desired value of sample size for power calculations
+#' @param delta offset variable between variates
+#' @param model hypothesized probability density function of data distributions
 #' @param design one of "independent" or "paired" to indicate data structure
-#' @param delta hypothesized mean difference between groups
+#' @param effect_crit stipulated critical value for reliable/significant differences
 #' @param shape1 First shape parameter for the distribution indicated by `model` input (default is `1`)
 #' @param shape2 First shape parameter for the distribution indicated by `model` input (default is `1`)
-#' @param block.max unclear.
+#' @param samples desired number of Monte Carlo samples
 #'
 #' @return A list containing the following components:
-#' @return \item{Tau}{Nonparametric Tau-a correlation}
-#' @return \item{sample_p}{Sample concordance proportion}
-#' @return \item{nc}{Number of concordant (x, y) pairs}
-#' @return \item{nd}{Number of discordant (x, y) pairs}
-#' @return \item{post.median}{Median of posterior distribution on phi}
-#' @return \item{post.hdi.lower}{lower limit of the HDI with width specified by interval.width}
-#' @return \item{post.hdi.upper}{upper limit of the HDI with width specified by interval.width}
+#' @return \item{outputdf}{A dataframe of possible sample sizes and corresponding Bayesian and Frequentist power values}
 #'
 #' @references Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists. Cambridge: MIT Press.
 #' @references Chechile, R.A., & Barch, D.H. (2021). Distribution-free, Bayesian goodness-of-fit method for assessing similar scientific prediction equations. Journal of Mathematical Psychology.
@@ -84,9 +77,8 @@ dfba_bayes_vs_t_power<-function(n_min=20,
       stop("The function requires a nonnegative value for delta.")
     }
     #else {}
-
-    n=round(n_min)
-    if (n < 20){
+#    n=round(n_min)
+    if (n_min < 20 | n_min%%1 != 0){
       stop("The function requires n_min to be an integer that is 20 or larger")
     }
     #else {}
@@ -122,12 +114,13 @@ dfba_bayes_vs_t_power<-function(n_min=20,
 #    else {}
 
 #    shape_values<-c(shape_vec[1],shape_vec[2])
-    shape_values<-c(shape1, shape2)
+    shape_values<-c(shape1,
+                    shape2)
 
     nsims = round(samples)
 
-    mup = n + 50
-    m = seq(n, mup, 5)
+    mup = n_min + 50
+    m = seq(n_min, mup, 5)
 #    detect_bayes=seq(1, 11, 1)*0.0
     detect_bayes<-rep(NA, 11)
 #    detect_t=seq(1,11,1)*0.0
@@ -143,30 +136,37 @@ dfba_bayes_vs_t_power<-function(n_min=20,
     for (i in 1:11){
       n=m[i]
       for (j in 1:nsims){
-        outputsim<-dfba_sim_data(n,
-                                 model,
-                                 design,
-                                 delta=deltav,
-                                 shape_vec=shape_values)
-        bayesprH1[j]=outputsim[1]
-        tpvalue[j]=outputsim[2]}
+        outputsim<-dfba_sim_data(n = n,
+                                 model = model,
+                                 design = design,
+                                 delta = deltav,
+                                 shape1 = shape1,
+                                 shape2 = shape2)
+        bayesprH1[j]=outputsim$prH1
+        tpvalue[j]=outputsim$pvalue
+        }
       detect_bayes[i]=(sum(bayesprH1>effect_crit))/nsims
       detect_t[i]=(sum(tpvalue<1-effect_crit))/nsims
     }
-    cat("Power results for the proportion of samples detecting effects"," ","\n")
-    cat("where the variates are distributed as a",model,"random variable","\n")
-    cat("and where the design is",design,"\n")
-    cat("The number of Monte Carlo samples are:"," ","\n")
-    cat(nsims," ","\n")
-    cat("Criterion for detecting an effect is"," ","\n")
-    cat(effect_crit," ","\n")
-    cat("The delta offset parameter is:"," ","\n")
-    cat(deltav," ","\n")
-    cat(" ","  ","\n")
-    sample_size=m
-    Bayes_power=detect_bayes
-    t_power=detect_t
-    outputresults=data.frame(sample_size,Bayes_power,t_power)
-    print(outputresults)
+#    cat("Power results for the proportion of samples detecting effects"," ","\n")
+#    cat("where the variates are distributed as a",model,"random variable","\n")
+#    cat("and where the design is",design,"\n")
+#    cat("The number of Monte Carlo samples are:"," ","\n")
+#    cat(nsims," ","\n")
+#    cat("Criterion for detecting an effect is"," ","\n")
+#    cat(effect_crit," ","\n")
+#    cat("The delta offset parameter is:"," ","\n")
+#    cat(deltav," ","\n")
+#    cat(" ","  ","\n")
+    dfba_t_power_list<-list(nsims = nsims,
+                            model = model,
+                            design = design,
+                            effect_crit = effect_crit,
+                            deltav = deltav,
+                            outputdf=data.frame(sample_size = m,
+                                              Bayes_power = detect_bayes,
+                                              t_power = detect_t)
+    )
+    new("dfba_t_power_out", dfba_t_power_list)
 
   }

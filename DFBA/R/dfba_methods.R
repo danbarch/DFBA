@@ -267,6 +267,20 @@ setMethod("show", "dfba_wilcoxon_large_out", function(object) {
   cat(" ", object$BF10, "\n")
 })
 
+#' @export
+setMethod("show", "dfba_t_power_out", function(object) {
+  cat("Power results for the proportion of samples detecting effects"," ","\n")
+  cat(" ", "where the variates are distributed as a",object$model,"random variable","\n")
+  cat(" ", "and where the design is",object$design,"\n")
+  cat(" ", "The number of Monte Carlo samples are:"," ","\n")
+  cat(" ", object$nsims," ","\n")
+  cat(" ", "Criterion for detecting an effect is"," ","\n")
+  cat(" ", object$effect_crit," ","\n")
+  cat(" ", "The delta offset parameter is:"," ","\n")
+  cat(" ", object$deltav," ","\n")
+  cat("Output Results:", "\n")
+  print(object$outputdf)
+  })
 
 # Plots for Wilcoxon
 
