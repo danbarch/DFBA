@@ -24,5 +24,8 @@ setClass("dfba_wilcoxon_large_out", representation("list"))
 #'
 #' @export
 setClass("dfba_t_power_out", representation("list"))
+#'
+#' @export
+setClass("dfba_power_curve_out", representation("list"))
 
 

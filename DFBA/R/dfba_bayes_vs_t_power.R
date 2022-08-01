@@ -144,6 +144,7 @@ dfba_bayes_vs_t_power<-function(n_min=20,
                                  shape2 = shape2)
         bayesprH1[j]=outputsim$prH1
         tpvalue[j]=outputsim$pvalue
+        cat(round((j/nsims+(i-1))/11, 2)*100, '% complete', sep="", '\r')
         }
       detect_bayes[i]=(sum(bayesprH1>effect_crit))/nsims
       detect_t[i]=(sum(tpvalue<1-effect_crit))/nsims

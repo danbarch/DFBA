@@ -195,22 +195,78 @@ setMethod("show", "dfba_mann_whitney_large_out", function(object) {
 
 
 # Plots for Mann-Whitney
+## small method
 
 #' @export
 setMethod("plot",
           signature("dfba_mann_whitney_small_out"),
-          function(x, plot.prior=TRUE){
-            dfba_plot_mann_whitney(x,
-                                   plot.prior)
-          })
+          function(x,
+                   plot.prior=TRUE){
+              x.data<-x$phiv
+              y.predata<-x$priorvector
+              y.postdata<-x$omegapost
+              xlab="omega_E"
+              ylab="Discrete Probability"
+            if (plot.prior==FALSE){
+              plot(x.data,
+                   y.postdata,
+                   type="l",
+                   xlab=xlab,
+                   ylab=ylab)
+            } else {
+              plot(x.data,
+                   y.postdata,
+                   type="l",
+                   xlab=xlab,
+                   ylab=ylab,
+                   main=expression("--"~"Prior"~ - "Posterior"))
+              lines(x.data,
+                    y.predata,
+                    lty=2)
+            }
+          }
+)
 
+## large method
 #' @export
 setMethod("plot",
           signature("dfba_mann_whitney_large_out"),
-          function(x, plot.prior=TRUE){
-            dfba_plot_mann_whitney(x,
-                                   plot.prior)
-          })
+          function(x,
+                   plot.prior=TRUE){
+              x.data<-seq(0, 1, 1/1000)
+              y.predata<-dbeta(x.data, x$a0, x$b0)
+              y.postdata<-dbeta(x.data, x$apost, x$bpost)
+              xlab="omega_E"
+              ylab="Probability Density"
+            if (plot.prior==FALSE){
+              plot(x.data,
+                   y.postdata,
+                   type="l",
+                   xlab=xlab,
+                   ylab=ylab)
+            } else {
+              #    opar<-par(no.readonly=TRUE)
+              #    par(mar=c(4.1, 4.1, 4.1, 4.1), xpd=TRUE)
+              plot(x.data,
+                   y.postdata,
+                   type="l",
+                   xlab=xlab,
+                   ylab=ylab,
+                   main=expression("--"~"Prior"~ - "Posterior"))
+              lines(x.data,
+                    y.predata,
+                    lty=2)
+              #    legend("top",
+              #           inset = c(0, -0.1),
+              #           legend=c("Posterior",
+              #                    "Prior"),
+              #           lty=c(1, 2),
+              #           xpd=TRUE,
+              #           horiz=TRUE)
+              #    on.exit(par(opar))
+            }
+          }
+)
 
 # Formats for Wilcoxon small and large
 
@@ -282,21 +338,121 @@ setMethod("show", "dfba_t_power_out", function(object) {
   print(object$outputdf)
   })
 
+#' @export
+setMethod("show", "dfba_power_curve_out", function(object) {
+  cat("Power results for the proportion of samples detecting effects"," ","\n")
+  cat(" ", "where the variates are distributed as a",object$model,"random variable","\n")
+  cat(" ", "and where the design is",object$design,"\n")
+  if(object$design=="paired"){cat(" ", "with a blocking max of ",object$block.max,"\n")}
+  cat(" ", "The number of Monte Carlo samples are:"," ","\n")
+  cat(" ", object$nsims," ","\n")
+  cat(" ", "Criterion for detecting an effect is"," ","\n")
+  cat(" ", object$effect_crit," ","\n")
+  cat("The n value per condition is:"," ","\n")
+  cat(object$n,"  ","\n")
+  cat(" ", "The delta offset parameter is:"," ","\n")
+  cat(" ", object$deltav," ","\n")
+  cat("Output Results:", "\n")
+  print(object$outputdf)
+})
+
 # Plots for Wilcoxon
 
 #' @export
 setMethod("plot",
           signature("dfba_wilcoxon_small_out"),
-          function(x, plot.prior=TRUE){
-            dfba_plot_wilcoxon(x,
-                                   plot.prior)
+          function(x,
+                   plot.prior=TRUE){
+              x.data<-x$phiv
+              y.predata<-x$priorvector
+              y.postdata<-x$phipost
+              xlab="phi_W"
+              ylab="Discrete Probability"
+            if (plot.prior==FALSE){
+              plot(x.data,
+                   y.postdata,
+                   type="l",
+                   xlab=xlab,
+                   ylab=ylab)
+            } else {
+              plot(x.data,
+                   y.postdata,
+                   type="l",
+                   xlab=xlab,
+                   ylab=ylab,
+                   main=expression("--"~"Prior"~ - "Posterior"))
+              lines(x.data,
+                    y.predata,
+                    lty=2)
+            }
           })
 
 #' @export
 setMethod("plot",
           signature("dfba_wilcoxon_large_out"),
-          function(x, plot.prior=TRUE){
-            dfba_plot_wilcoxon(x,
-                                   plot.prior)
+          function(x,
+                   plot.prior=TRUE){
+              x.data<-seq(0, 1, 1/1000)
+              y.predata<-dbeta(x.data, x$a0, x$b0)
+              y.postdata<-dbeta(x.data, x$apost, x$bpost)
+              xlab="phi_W"
+              ylab="Probability Density"
+
+            if (plot.prior==FALSE){
+              plot(x.data,
+                   y.postdata,
+                   type="l",
+                   xlab=xlab,
+                   ylab=ylab)
+            } else {
+              plot(x.data,
+                   y.postdata,
+                   type="l",
+                   xlab=xlab,
+                   ylab=ylab,
+                   main=expression("--"~"Prior"~ - "Posterior"))
+              lines(x.data,
+                    y.predata,
+                    lty=2)
+            }
+          })
+# Plots for power functions
+
+## bayes_v_t
+
+#' @export
+setMethod("plot",
+          signature("dfba_t_power_out"),
+          function(x){
+            plot(x$outputdf$sample_size,
+                 x$outputdf$Bayes_power,
+                 type="b",
+                 ylim=c(0,1),
+                 main=expression("--"~"Frequentist"~ - "Bayesian"),
+                 xlab="Sample Size",
+                 ylab="Power Estimate")
+            lines(x$outputdf$sample_size,
+                  x$outputdf$t_power,
+                  type="b",
+                  lty=2)
+          })
+
+## power_curve
+
+#' @export
+setMethod("plot",
+          signature("dfba_power_curve_out"),
+          function(x){
+            plot(x$outputdf$delta_value,
+                 x$outputdf$Bayes_power,
+                 type="b",
+                 ylim=c(0,1),
+                 main=expression("--"~"Frequentist"~ - "Bayesian"),
+                 xlab="Delta",
+                 ylab="Power Estimate")
+            lines(x$outputdf$delta_value,
+                  x$outputdf$t_power,
+                  type="b",
+                  lty=2)
           })
 
