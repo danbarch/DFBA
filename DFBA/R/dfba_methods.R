@@ -173,7 +173,7 @@ setMethod("show", "dfba_mann_whitney_large_out", function(object) {
   cat(" ", "U_E and U_C Mann-Whitney Statistics", "\n")
   cat(" ", object$U_E, "\t\t\t", object$U_C, "\n")
   cat("\n  Beta Approximation Model for Omega_E\n")
-  cat(" for 2*NE*nC/(nE+nC) > 19\n")
+  cat(" for 2*nE*nC/(nE+nC) > 19\n")
   cat("========================\n")
   cat(" ", "The posterior beta shape parameters are:\n")
   cat(" ", "posterior a", "\t\t\t", "posterior b\n")
@@ -202,7 +202,7 @@ setMethod("plot",
           signature("dfba_mann_whitney_small_out"),
           function(x,
                    plot.prior=TRUE){
-              x.data<-x$phiv
+              x.data<-x$omega_E
               y.predata<-x$priorvector
               y.postdata<-x$omegapost
               xlab="omega_E"

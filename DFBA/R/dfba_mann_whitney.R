@@ -50,7 +50,7 @@
 #' \code{omega_E} is .5, the Bayesian analysis has a prior and posterior
 #' distribution for \code{omega_E} on the [0, 1] interval. The prior is a beta
 #' distribution with shape parameters \code{a0} and \code{b0}. The default is
-#' the flat prior (\eqn{a0 = b0 =} 0), but this prior can be altered by the
+#' the flat prior (\eqn{a0 = b0 =} 1), but this prior can be altered by the
 #' user.
 #'
 #' The prob_interval input is the value for probability interval estimates for
@@ -156,7 +156,7 @@ dfba_mann_whitney<-function(E,
                             b0 = 1,
                             prob_interval=.95,
                             samples=30000,
-                            method=""){
+                            method=NULL){
 #  if (length(prior_vec)!=2){
 #    stop("an explicit stipulation of prior_vec must only have the two shape parameters for the prior beta distribution")} else {}
 
@@ -407,7 +407,7 @@ dfba_mann_whitney<-function(E,
                                        prob_interval = prob_interval,
                                        samples = samples,
                                        method = method,
-                                       phiv = phiv,
+                                       omega_E = omega_e,
                                        omegapost = omegapost,
                                        priorvector = priorvector,
                                        priorprH1 = priorprH1,

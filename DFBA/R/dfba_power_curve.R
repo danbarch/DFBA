@@ -57,8 +57,8 @@
 #'
 #' @references Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists. Cambridge: MIT Press.
 #' @references Chechile, R.A., & Barch, D.H. (2021). Distribution-free, Bayesian goodness-of-fit method for assessing similar scientific prediction equations. Journal of Mathematical Psychology.
-
-
+#'
+#' @export
 dfba_power_curve<-function(n = 20,
                            a0 = 1,
                            b0 = 1,
