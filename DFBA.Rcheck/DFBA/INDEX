@@ -1,0 +1,18 @@
+Beta_betweengroups      Bayesian Contrasts Compute contrasts for
+                        binomial data from multiple conditions
+dfba_bayes_vs_t_power   Simulated Data Generator and Inferential
+                        Comparison
+dfba_gamma              Goodman-Kruskal Gamma
+dfba_gamma_out-class    Classes for DFBA
+dfba_mann_whitney       Independent Samples Test (Mann Whitney U)
+dfba_phi                Concordance Parameter Phi
+dfba_plot_beta          dfba_plot_beta Plots data from dfba functions
+dfba_power_curve        Power Curves
+dfba_sim_data           Simulated Data Generator and Inferential
+                        Comparison
+dfba_table_gamma        dfba_table_gamma Plots cross-tabulated gamma
+                        data
+dfba_wilcoxon           Repeated-Measures Test (Wilcoxon Signed-Ranks
+                        Test)
+show,dfba_phi_out-method
+                        Methods for DFBA

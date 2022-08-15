@@ -21,9 +21,9 @@ dfba_power_curve(
 \arguments{
 \item{n}{smallest value of sample size for power calculations}
 
-\item{a0}{shape parameter value 1 for prior distribution (default is \code{1})}
+\item{a0}{shape parameter value 1 for prior distribution (default is `1`)}
 
-\item{b0}{shape parameter value 2 for prior distribution (default is \code{1})}
+\item{b0}{shape parameter value 2 for prior distribution (default is `1`)}
 
 \item{delta.step}{desired step size of range of offset variable between variates}
 
@@ -33,11 +33,11 @@ dfba_power_curve(
 
 \item{effect_crit}{stipulated critical value for reliable/significant differences}
 
-\item{shape1}{First shape parameter for the distribution indicated by \code{model} input (default is \code{1})}
+\item{shape1}{First shape parameter for the distribution indicated by `model` input (default is `1`)}
 
-\item{shape2}{First shape parameter for the distribution indicated by \code{model} input (default is \code{1})}
+\item{shape2}{First shape parameter for the distribution indicated by `model` input (default is `1`)}
 
-\item{block.max}{Maximum value of blocking parameter (default is \code{1})}
+\item{block.max}{Maximum value of blocking parameter (default is `1`)}
 
 \item{samples}{desired number of Monte Carlo samples}
 }

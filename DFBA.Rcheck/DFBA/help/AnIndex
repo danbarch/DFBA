@@ -1,0 +1,14 @@
+DFBA-package	DFBA-package
+Beta_betweengroups	Beta_betweengroups
+DFBA	DFBA-package
+dfba_bayes_vs_t_power	dfba_bayes_vs_t_power
+dfba_gamma	dfba_gamma
+dfba_gamma_out-class	dfba_gamma_out-class
+dfba_mann_whitney	dfba_mann_whitney
+dfba_phi	dfba_phi
+dfba_plot_beta	dfba_plot_beta
+dfba_power_curve	dfba_power_curve
+dfba_sim_data	dfba_sim_data
+dfba_table_gamma	dfba_table_gamma
+dfba_wilcoxon	dfba_wilcoxon
+show,dfba_phi_out-method	show-dfba_phi_out-method

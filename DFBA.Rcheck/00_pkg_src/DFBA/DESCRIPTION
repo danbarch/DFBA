@@ -1,0 +1,12 @@
+Package: DFBA
+Type: Package
+Title: Distribution-free Bayesian Analysis
+Version: 0.1.0
+Author: Dan Barch
+Maintainer: Dan Barch <daniel.barch@tufts.edu>
+Description: Provides tools for Bayesian distribution-free tests.    
+License: GPL-2
+Encoding: UTF-8
+RoxygenNote: 7.1.2
+NeedsCompilation: no
+Packaged: 2022-08-14 16:58:21 UTC; danielbarch

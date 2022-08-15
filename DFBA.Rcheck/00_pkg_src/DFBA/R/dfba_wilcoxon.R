@@ -169,7 +169,7 @@ dfba_wilcoxon<-function(Y1,
 #  cat(n,"  ",tplus,"      ",tneg,"\n")
 
   if (is.null(method)){
-    if (n > 24){method="large"} else {
+    if (n>24){method="large"} else {
       method="small"}
   }
   #else {}
@@ -188,12 +188,12 @@ dfba_wilcoxon<-function(Y1,
     priorvector=rep(0,200)
     priorvector[1]=pbeta(x[1],a0,b0)
     for (i in 2:200){
-      priorvector[i]=pbeta(x[i],a0,b0)-pbeta(x[i-1],a0,b0)
-      }
+      priorvector[i]=pbeta(x[i],a0,b0)-pbeta(x[i-1],a0,b0)}
+
+
 
     fphi<-rep(0.0,200)
     for (j in 1:200){
-      cat(round(j/200, 2)*100, '% complete', '\r')
       phi=1/(400)+(j-1)*(1/200)
       for (k in 1:samples){
         tz=sum((1:n)*rbinom(n, 1, phi))
@@ -215,8 +215,8 @@ dfba_wilcoxon<-function(Y1,
       phiv[j]=(1/400)+(j-1)*(1/200)
       phibar=phibar+(phiv[j]*phipost[j])}
 
-#    plot(phiv,phipost,type="l",xlab="phi_w",ylab="posterior discrete probabilities",main="posterior-solid; prior-dashed")
-#    lines(phiv,priorvector,type="l",lty=2)
+    plot(phiv,phipost,type="l",xlab="phi_w",ylab="posterior discrete probabilities",main="posterior-solid; prior-dashed")
+    lines(phiv,priorvector,type="l",lty=2)
 
 #    cat("mean for phi_w is:"," ","\n")
 #    cat(phibar," ","\n")
@@ -292,8 +292,8 @@ dfba_wilcoxon<-function(Y1,
                       #           phi_w = phi_w,
                                  a0 = a0,
                                  b0 = b0,
-                      #           phipost = phipost,
-                                 priorvector = priorvector,
+                                 phipost = phipost,
+                      #           priorvector = priorvector,
                                  priorprH1 = priorprH1,
                                  phiv = phiv,
                                  phipost = phipost,
@@ -303,8 +303,7 @@ dfba_wilcoxon<-function(Y1,
                                                BF10),
                                  phibar = phibar,
                                  qLv = qLv,
-                                 qHv = qHv,
-                                 cum_phi = cum_phi)
+                                 qHv = qHv)
   } else {
     # method="large"
 #    m1L<-"Following is based on beta approximation for phi_w"

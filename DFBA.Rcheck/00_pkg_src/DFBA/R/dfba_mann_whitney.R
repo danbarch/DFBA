@@ -242,7 +242,7 @@ dfba_mann_whitney<-function(E,
 
   nH=(2*nE*nC)/(nE+nC)
 
-  if (is.null(method)){
+  if (method==""){
     if (nH>=20){method="large"} else {
       method="small"}
   } else {}
@@ -407,7 +407,7 @@ dfba_mann_whitney<-function(E,
                                        prob_interval = prob_interval,
                                        samples = samples,
                                        method = method,
-                                       omega_E = omega_E,
+                                       omega_E = omega_e,
                                        omegapost = omegapost,
                                        priorvector = priorvector,
                                        priorprH1 = priorprH1,
