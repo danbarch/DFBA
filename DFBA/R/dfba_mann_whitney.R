@@ -23,7 +23,7 @@
 #' @return \item{prob_interval}{User-defined width of omega_E interval estimate (default is 0.95)}
 #' @return \item{samples}{The number of desired Markov-Chain samples (default is 30000)}
 #' @return \item{method}{A character string indicating the calculation method used}
-#' @return \item{phiv}{A vector of data representing candidate values of phi (used as the x-variate in the `plot()` method.)}
+#' @return \item{omega_E}{A vector of data representing candidate values of phi (used as the x-variate in the `plot()` method.)}
 #' @return \item{omegapost}{A vector of data representing posterior probabilities of candidate values of phi (used as the y-variate in the `plot()` method.)}
 #' @return \item{priorvector}{A vector of data representing prior probabilities of candidate values of phi}
 #' @return \item{priorprH1}{Prior probability of the alternative model that omega_E exceeds 0.5}
@@ -98,57 +98,65 @@
 #'
 #' @examples
 #'
-#' Examples with large n per group
-#' The data for each condition are presorted only for the user convenience if checking the U stats by hand
+#' # Examples with large n per group
+#' # The data for each condition are presorted only for the user convenience if
+#' # checking the U stats by hand
 #'
-#' groupA <- c(43, 45, 47, 50, 54, 58, 60, 63, 69, 84, 85, 91, 99, 127, 130, 147, 165, 175, 193, 228, 252, 276)
-#' groupB<-c(0, 01, 02, 03, 05, 14, 15, 23, 23, 25, 27, 32, 57, 105, 115, 158, 161, 181, 203, 290)
+#' groupA <- c(43, 45, 47, 50, 54, 58, 60, 63, 69, 84, 85, 91, 99, 127, 130,
+#'             147, 165, 175, 193, 228, 252, 276)
+#' groupB <- c(0, 01, 02, 03, 05, 14, 15, 23, 23, 25, 27, 32, 57, 105, 115, 158,
+#'             161, 181, 203, 290)
 #'
-#' dfba_mann_whitney(E = groupA,C = groupB)
+#' dfba_mann_whitney(E = groupA,
+#'                   C = groupB)
 #'
-#'The following uses a Jeffreys prior instead of a default flat prior:
-#'dfba_mann_whitney(E = groupA,C = groupB, a0 = .5,b0 =.5)
+#' # The following uses a Jeffreys prior instead of a default flat prior:
+#' dfba_mann_whitney(E = groupA,
+#'                   C = groupB,
+#'                   a0 = .5,
+#'                   b0 =.5)
 #'
-#' The following also uses a Jeffreys prior but the analysis reverses the variates:
-#' dfba_mann_whitney(E=groupB,C=groupA,a0=.5,b0=.5)
-#' Notice that BF10 from the above analysis is 1/BF10 from the original order of the variates.
+#' # The following also uses a Jeffreys prior but the analysis reverses the
+#' # variates:
+#' dfba_mann_whitney(E =groupB,C=groupA,a0=.5,b0=.5)
 #'
-#' The next analysis constructs 99% interval estimates with the Jeffreys prior.
-#' dfba_mann_whitney(E=groupA,C=groupB,a0=.5,b0=.5,prob_interval=.99)
+#' # Notice that BF10 from the above analysis is 1/BF10 from the original order
+#' # of the variates.
 #'
-#' The following forces a discrete approach with a flat prior for a case with large n:
+#' # The next analysis constructs 99% interval estimates with the Jeffreys
+#' # prior.
+#'
+#' dfba_mann_whitney(E = groupA,
+#'                   C = groupB,
+#'                   a0 = .5,
+#'                   b0 = .5,
+#'                   prob_interval=.99)
+#'
+#' # The following forces a discrete approach with a flat prior for a case with
+#' # large n:
 #' dfba_mann_whitney(E=groupA,C=groupB,method="small")
 #'
-#' Examples with small n per group
+#' #Examples with small n per group
 #'
-#' groupC <- c(96.49, 96.78, 97.26, 98.85, 99.75, 100.14, 101.15, 101.39, 102.58, 107.22, 107.70, 113.26)
-#' groupD <- c(101.16, 102.09, 103.14, 104.70, 105.27, 108.22, 108.32, 108.51, 109.88, 110.32, 110.55, 113.42)
-#' S1ex<-dfba_mann_whitney(E=groupC,C=groupD)
-#' S2ex<-dfba_mann_whitney(E=groupC,C=groupD,samples=50000)
-#' S3ex<-dfba_mann_whitney(E=groupC,C=groupD)
+#' groupC <- c(96.49, 96.78, 97.26, 98.85, 99.75, 100.14, 101.15, 101.39,
+#'             102.58, 107.22, 107.70, 113.26)
+#' groupD <- c(101.16, 102.09, 103.14, 104.70, 105.27, 108.22, 108.32, 108.51,
+#'             109.88, 110.32, 110.55, 113.42)
 #'
-#' To see output from the above three runs enter the folowing:
-#' S1ex
-#' S2ex
-#' S3ex
-#' Note that S1ex and S3ex are replication analyses for the discrete approach. The variabilty is due to
-#' the different outcomes from the Monte Carlo sampling.
+#' S1ex<-dfba_mann_whitney(E = groupC, C = groupD)
+#' S2ex<-dfba_mann_whitney(E = groupC, C = groupD, samples = 50000)
+#' S3ex<-dfba_mann_whitney(E = groupC, C = groupD)
 #'
-#' Output from above examples are without a plot of the omega_E distribution. The dfba_plot_mann_whitney()
-#' function can plot the omega_E distribution for R objects. For example
-#' A <- dfba_mann_whitney(E = groupA, C = groupB)
-#' dfba_plot_mann_whitney(A)
-#' Note this solution for the large-n case is a probabibility density display rather than a distribution
-#' for the discrete probabilities for omega_E.
-#' To see displays for the above two discrete small-sample cases then do the following where S1ex and
-#' S2ex R objects are defined above.
+#' # Note that S1ex and S3ex are replication analyses for the discrete approach.
+#' # The variabilty is due to the different outcomes from the Monte Carlo
+#' # sampling.
 #'
-#' dfba_plot_mann_whitney(x=S1ex)
-#' dfba_plot_mann_whitney(x=S2ex)
+#' # Plot output
+#' plot(S1ex)
+#' plot(S2ex,
+#'      plot.prior = FALSE)
 #'
-#' To have the S2ex R object displayed for only the posterior then do the following:
-#' dfba_plot_mann_whitney(S2ex, plot.prior=FALSE)
-
+#'
 #' @export
 dfba_mann_whitney<-function(E,
                             C,
@@ -343,26 +351,26 @@ dfba_mann_whitney<-function(E,
 
     postdis<-data.frame(phiv,omegapost)
 
-    cum_omega=cumsum(omegapost)
+    cumulative_omega=cumsum(omegapost)
 
     I=1
-    while (cum_omega[I]<(1-prob_interval)/2){
+    while (cumulative_omega[I]<(1-prob_interval)/2){
       I=I+1}
     qLbelow=phiv[I]-.0025
 
     if (I!=1){
-      extrap=(1-prob_interval)/2-cum_omega[I-1]
-      probI=cum_omega[I]-cum_omega[I-1]} else {
+      extrap=(1-prob_interval)/2-cumulative_omega[I-1]
+      probI=cumulative_omega[I]-cumulative_omega[I-1]} else {
         extrap=(1-prob_interval)/2
-        probI=cum_omega[1]}
+        probI=cumulative_omega[1]}
     qLv=qLbelow+(.005)*(extrap/probI)
 
     I=1
-    while (cum_omega[I]<1-(1-prob_interval)/2){
+    while (cumulative_omega[I]<1-(1-prob_interval)/2){
       I=I+1}
     qHbelow=phiv[I]-.0025
-    extrapup=1-((1-prob_interval)/2)-cum_omega[I-1]
-    probIu=cum_omega[I]-cum_omega[I-1]
+    extrapup=1-((1-prob_interval)/2)-cumulative_omega[I-1]
+    probIu=cumulative_omega[I]-cumulative_omega[I-1]
     qHv=qHbelow+(.005)*(extrapup/probIu)
 #    cat(" ","  ","\n")
 #    cat("equal-tail area interval"," ","\n")
@@ -374,12 +382,12 @@ dfba_mann_whitney<-function(E,
 
     omega_E=phiv
 ## "cumdis" is commented out below - do we still need it?
-#    cumdis<-data.frame(omega_E,cum_omega)
+#    cumdis<-data.frame(omega_E,cumulative_omega)
     #The prH1 is the probability that omega_E is greater than .5.
 
-    prH1=1-cum_omega[round(100)]
-    cum_prior=cumsum(priorvector)
-    priorprH1=1-cum_prior[round(100)]
+    prH1=1-cumulative_omega[round(100)]
+    cumulative_prior=cumsum(priorvector)
+    priorprH1=1-cumulative_prior[round(100)]
 #    cat("probability that omega_E exceeds .5 is:"," ","\n")
 #    cat("prior","  ","posterior","\n")
 #    cat(priorprH1,"  ",prH1,"\n")
@@ -396,7 +404,7 @@ dfba_mann_whitney<-function(E,
 #        cat("Bayes factor BF10 for omega_E>.5 is:"," ","\n")
 #        cat(BF10," ","\n")
         }
-    #list(posterior_discrete_values=phipost,posterior_cum_distribution=cumdis)
+    #list(posterior_discrete_values=phipost,posterior_cumulative_distribution=cumdis)
 #    return(cat(" ","  ","\n"))
     dfba_mann_whitney_small_list<-list(Emean=mean(E),
                                        Cmean=mean(C),
@@ -409,6 +417,7 @@ dfba_mann_whitney<-function(E,
                                        method = method,
                                        omega_E = omega_E,
                                        omegapost = omegapost,
+                                       cumulative_omega = cumulative_omega,
                                        priorvector = priorvector,
                                        priorprH1 = priorprH1,
                                        prH1 = prH1,

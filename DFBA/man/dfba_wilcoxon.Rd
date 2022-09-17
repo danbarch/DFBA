@@ -98,6 +98,59 @@ where \emph{n} > 24, \code{method = "small"} and \code{method = "large"} will
 produce similar estimates but the former method requires increased
 processing time.
 }
+\examples{
+## Examples with a small number of pairs
+conditionA <- c(1.49, 0.64, 0.96, 2.34, 0.78, 1.29, 0.72, 1.52, 0.62, 1.67,
+                1.19, 0.86)
+conditionB <- c(0.53, 0.55, 0.58, 0.97, 0.60, 0.22, 0.05, 13.14, 0.63, 0.33,
+                0.91, 0.37)
+
+dfba_wilcoxon(Y1 = conditionA,
+             Y2 = conditionB)
+
+# Note the results for this method="small" analysis differs from
+# the previously run. These differences are the differences from
+# different Monte Carlo sampling
+
+# Using the Jeffreys prior for the same two conditions.
+
+dfba_wilcoxon(conditionA,
+              conditionB,
+              a0 = .5,
+              b0 = .5)
+
+# Using 99\% interval estimates and with 50000 Monte Carlo samples per
+# candidate phi_w
+
+dfba_wilcoxon(conditionA,
+              conditionB,
+              prob_interval=.99,
+              samples=50000)
+
+# Examples with large sample size
+
+E <- c(6.45, 5.65, 4.34, 5.92, 2.84, 13.06, 6.61, 5.47, 4.49, 6.39, 6.63,
+       3.55, 3.76, 5.61, 7.45, 6.41, 10.16, 6.26, 8.46, 2.29, 3.16, 5.68,
+       4.13, 2.94, 4.87, 4.44, 3.13, 8.87)
+
+C <- c(2.89, 4.19, 3.22, 6.50, 3.10, 4.19, 5.13, 3.77, 2.71, 2.58, 7.59,
+       2.68, 4.98, 2.35, 5.15, 8.46, 3.77, 8.83, 4.06, 2.50, 5.48, 2.80,
+       8.89, 3.19, 9.36, 4.58, 2.94, 4.75)
+
+       BW<-dfba_wilcoxon(Y1=E,Y2=C)
+       BW
+       plot(BW)
+
+# Forcing the method="small" despite a sufficiently large n value
+
+CW<-dfba_wilcoxon(Y1 = E,
+                 Y2 = C,
+                 method = "small")
+CW
+plot(CW)
+}
 \references{
 Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists. Cambridge: MIT Press.
+
+Chechile, R. A. (2018) A Bayesian analysis for the Wilcoxon signed-rank statistic. Communications in Statistics - Theory and Methods, https://doi:org/10.1080/03610926.1388402
 }

@@ -76,6 +76,58 @@
 #'
 #' @references Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists. Cambridge: MIT Press.
 #'
+#' Chechile, R. A. (2018) A Bayesian analysis for the Wilcoxon signed-rank statistic. Communications in Statistics - Theory and Methods, https://doi:org/10.1080/03610926.1388402
+#'
+#' @examples
+#' ## Examples with a small number of pairs
+#' conditionA <- c(1.49, 0.64, 0.96, 2.34, 0.78, 1.29, 0.72, 1.52, 0.62, 1.67,
+#'                 1.19, 0.86)
+#' conditionB <- c(0.53, 0.55, 0.58, 0.97, 0.60, 0.22, 0.05, 13.14, 0.63, 0.33,
+#'                 0.91, 0.37)
+#'
+#' dfba_wilcoxon(Y1 = conditionA,
+#'              Y2 = conditionB)
+#'
+#' # Note the results for this method="small" analysis differs from
+#' # the previously run. These differences are the differences from
+#' # different Monte Carlo sampling
+#'
+#' # Using the Jeffreys prior for the same two conditions.
+#'
+#' dfba_wilcoxon(conditionA,
+#'               conditionB,
+#'               a0 = .5,
+#'               b0 = .5)
+#'
+#' # Using 99% interval estimates and with 50000 Monte Carlo samples per
+#' # candidate phi_w
+#'
+#' dfba_wilcoxon(conditionA,
+#'               conditionB,
+#'               prob_interval=.99,
+#'               samples=50000)
+#'
+#' # Examples with large sample size
+#'
+#' E <- c(6.45, 5.65, 4.34, 5.92, 2.84, 13.06, 6.61, 5.47, 4.49, 6.39, 6.63,
+#'        3.55, 3.76, 5.61, 7.45, 6.41, 10.16, 6.26, 8.46, 2.29, 3.16, 5.68,
+#'        4.13, 2.94, 4.87, 4.44, 3.13, 8.87)
+#'
+#' C <- c(2.89, 4.19, 3.22, 6.50, 3.10, 4.19, 5.13, 3.77, 2.71, 2.58, 7.59,
+#'        2.68, 4.98, 2.35, 5.15, 8.46, 3.77, 8.83, 4.06, 2.50, 5.48, 2.80,
+#'        8.89, 3.19, 9.36, 4.58, 2.94, 4.75)
+#'
+#'        BW<-dfba_wilcoxon(Y1=E,Y2=C)
+#'        BW
+#'        plot(BW)
+#'
+#'# Forcing the method="small" despite a sufficiently large n value
+#'
+#'CW<-dfba_wilcoxon(Y1 = E,
+#'                  Y2 = C,
+#'                  method = "small")
+#'CW
+#'plot(CW)
 
 #' @export
 dfba_wilcoxon<-function(Y1,
@@ -225,26 +277,26 @@ dfba_wilcoxon<-function(Y1,
 
 
     #The following finds the posterior cumulative distribution and outputs these values.
-    cum_phi=cumsum(phipost)
+    cumulative_phi=cumsum(phipost)
 
     I=1
-    while (cum_phi[I]<(1-prob_interval)/2){
+    while (cumulative_phi[I]<(1-prob_interval)/2){
       I=I+1}
     qLbelow=phiv[I]-.0025
 
     if (I!=1){
-      extrap=(1-prob_interval)/2-cum_phi[I-1]
-      probI=cum_phi[I]-cum_phi[I-1]} else {
+      extrap=(1-prob_interval)/2-cumulative_phi[I-1]
+      probI=cumulative_phi[I]-cumulative_phi[I-1]} else {
         extrap=(1-prob_interval)/2
-        probI=cum_phi[1]}
+        probI=cumulative_phi[1]}
     qLv=qLbelow+(.005)*(extrap/probI)
 
     I=1
-    while (cum_phi[I]<1-(1-prob_interval)/2){
+    while (cumulative_phi[I]<1-(1-prob_interval)/2){
       I=I+1}
     qHbelow=phiv[I]-.0025
-    extrapup=1-((1-prob_interval)/2)-cum_phi[I-1]
-    probIu=cum_phi[I]-cum_phi[I-1]
+    extrapup=1-((1-prob_interval)/2)-cumulative_phi[I-1]
+    probIu=cumulative_phi[I]-cumulative_phi[I-1]
     qHv=qHbelow+(.005)*(extrapup/probIu)
 #    cat(" ","  ","\n")
 #    cat("equal-tail area interval"," ","\n")
@@ -255,11 +307,11 @@ dfba_wilcoxon<-function(Y1,
 #    cat(" ","  ","\n")
 
 #    phi_w=phiv
-#    cumdis<-data.frame(phi_w,cum_phi)
+#    cumdis<-data.frame(phi_w,cumulative_phi)
     #The prH1 is the probability that phi_w is greater than .5.
 
 
-    prH1=1-cum_phi[round(100)]
+    prH1=1-cumulative_phi[round(100)]
     cum_prior=cumsum(priorvector)
     priorprH1=1-cum_prior[round(100)]
 #    cat("probability that phi_w exceeds .5 is:"," ","\n")
@@ -304,7 +356,7 @@ dfba_wilcoxon<-function(Y1,
                                  phibar = phibar,
                                  qLv = qLv,
                                  qHv = qHv,
-                                 cum_phi = cum_phi)
+                                 cumulative_phi = cumulative_phi)
   } else {
     # method="large"
 #    m1L<-"Following is based on beta approximation for phi_w"

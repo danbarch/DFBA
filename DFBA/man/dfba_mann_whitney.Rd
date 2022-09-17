@@ -50,7 +50,7 @@ A list containing the following components:
 
 \item{method}{A character string indicating the calculation method used}
 
-\item{phiv}{A vector of data representing candidate values of phi (used as the x-variate in the `plot()` method.)}
+\item{omega_E}{A vector of data representing candidate values of phi (used as the x-variate in the `plot()` method.)}
 
 \item{omegapost}{A vector of data representing posterior probabilities of candidate values of phi (used as the y-variate in the `plot()` method.)}
 
@@ -130,56 +130,65 @@ Communications in Statistics paper cited below.
 }
 \examples{
 
-Examples with large n per group
-The data for each condition are presorted only for the user convenience if checking the U stats by hand
+# Examples with large n per group
+# The data for each condition are presorted only for the user convenience if
+# checking the U stats by hand
 
-groupA <- c(43, 45, 47, 50, 54, 58, 60, 63, 69, 84, 85, 91, 99, 127, 130, 147, 165, 175, 193, 228, 252, 276)
-groupB<-c(0, 01, 02, 03, 05, 14, 15, 23, 23, 25, 27, 32, 57, 105, 115, 158, 161, 181, 203, 290)
+groupA <- c(43, 45, 47, 50, 54, 58, 60, 63, 69, 84, 85, 91, 99, 127, 130,
+            147, 165, 175, 193, 228, 252, 276)
+groupB <- c(0, 01, 02, 03, 05, 14, 15, 23, 23, 25, 27, 32, 57, 105, 115, 158,
+            161, 181, 203, 290)
 
-dfba_mann_whitney(E = groupA,C = groupB)
+dfba_mann_whitney(E = groupA,
+                  C = groupB)
 
-The following uses a Jeffreys prior instead of a default flat prior:
-dfba_mann_whitney(E = groupA,C = groupB, a0 = .5,b0 =.5)
+# The following uses a Jeffreys prior instead of a default flat prior:
+dfba_mann_whitney(E = groupA,
+                  C = groupB,
+                  a0 = .5,
+                  b0 =.5)
 
-The following also uses a Jeffreys prior but the analysis reverses the variates:
-dfba_mann_whitney(E=groupB,C=groupA,a0=.5,b0=.5)
-Notice that BF10 from the above analysis is 1/BF10 from the original order of the variates.
+# The following also uses a Jeffreys prior but the analysis reverses the
+# variates:
+dfba_mann_whitney(E =groupB,C=groupA,a0=.5,b0=.5)
 
-The next analysis constructs 99\% interval estimates with the Jeffreys prior.
-dfba_mann_whitney(E=groupA,C=groupB,a0=.5,b0=.5,prob_interval=.99)
+# Notice that BF10 from the above analysis is 1/BF10 from the original order
+# of the variates.
 
-The following forces a discrete approach with a flat prior for a case with large n:
+# The next analysis constructs 99\% interval estimates with the Jeffreys
+# prior.
+
+dfba_mann_whitney(E = groupA,
+                  C = groupB,
+                  a0 = .5,
+                  b0 = .5,
+                  prob_interval=.99)
+
+# The following forces a discrete approach with a flat prior for a case with
+# large n:
 dfba_mann_whitney(E=groupA,C=groupB,method="small")
 
-Examples with small n per group
+#Examples with small n per group
 
-groupC <- c(96.49, 96.78, 97.26, 98.85, 99.75, 100.14, 101.15, 101.39, 102.58, 107.22, 107.70, 113.26)
-groupD <- c(101.16, 102.09, 103.14, 104.70, 105.27, 108.22, 108.32, 108.51, 109.88, 110.32, 110.55, 113.42)
-S1ex<-dfba_mann_whitney(E=groupC,C=groupD)
-S2ex<-dfba_mann_whitney(E=groupC,C=groupD,samples=50000)
-S3ex<-dfba_mann_whitney(E=groupC,C=groupD)
+groupC <- c(96.49, 96.78, 97.26, 98.85, 99.75, 100.14, 101.15, 101.39,
+            102.58, 107.22, 107.70, 113.26)
+groupD <- c(101.16, 102.09, 103.14, 104.70, 105.27, 108.22, 108.32, 108.51,
+            109.88, 110.32, 110.55, 113.42)
 
-To see output from the above three runs enter the folowing:
-S1ex
-S2ex
-S3ex
-Note that S1ex and S3ex are replication analyses for the discrete approach. The variabilty is due to
-the different outcomes from the Monte Carlo sampling.
+S1ex<-dfba_mann_whitney(E = groupC, C = groupD)
+S2ex<-dfba_mann_whitney(E = groupC, C = groupD, samples = 50000)
+S3ex<-dfba_mann_whitney(E = groupC, C = groupD)
 
-Output from above examples are without a plot of the omega_E distribution. The dfba_plot_mann_whitney()
-function can plot the omega_E distribution for R objects. For example
-A <- dfba_mann_whitney(E = groupA, C = groupB)
-dfba_plot_mann_whitney(A)
-Note this solution for the large-n case is a probabibility density display rather than a distribution
-for the discrete probabilities for omega_E.
-To see displays for the above two discrete small-sample cases then do the following where S1ex and
-S2ex R objects are defined above.
+# Note that S1ex and S3ex are replication analyses for the discrete approach.
+# The variabilty is due to the different outcomes from the Monte Carlo
+# sampling.
 
-dfba_plot_mann_whitney(x=S1ex)
-dfba_plot_mann_whitney(x=S2ex)
+# Plot output
+plot(S1ex)
+plot(S2ex,
+     plot.prior = FALSE)
 
-To have the S2ex R object displayed for only the posterior then do the following:
-dfba_plot_mann_whitney(S2ex, plot.prior=FALSE)
+
 }
 \references{
 Chechile, R.A. (2020). Bayesian Statistics for Experimental

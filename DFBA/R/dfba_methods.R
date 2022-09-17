@@ -158,7 +158,7 @@ setMethod("show", "dfba_mann_whitney_small_out", function(object) {
   cat(" ", "probability that omega_E exceeds 0.5 is:\n")
   cat(" ", "prior", "\t\t\t", "posterior\n")
   cat(" ", object$priorprH1, "\t\t\t", object$prH1, "\n")
-  cat("  Bayes factor BF 10 for omega_E > 0.5 is:\n")
+  cat("  Bayes factor BF10 for omega_E > 0.5 is:\n")
   cat(" ", object$BF10, "\n")
 })
 
