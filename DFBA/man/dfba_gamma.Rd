@@ -35,10 +35,8 @@ A list containing the following components:
 \item{post.hdi.upper}{upper limit of the HDI with width specified by interval.width}
 }
 \description{
-This function takes either:
-two vectors of equal length OR
-a cross-tabulation of values
-and returns:
+This function takes either: two vectors of equal length OR a
+cross-tabulation of values and returns:
   the Goodman-Kruskal Gamma Statistic
   the observed concordance statistic p
   the concordance parameter Phi

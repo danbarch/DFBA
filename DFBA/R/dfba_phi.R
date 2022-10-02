@@ -2,6 +2,8 @@
 #'
 #' This function takes two vectors and shape parameters (a and b) for the prior
 #' beta distribution (defaults are [1,1])
+#'
+#'
 #' @param x vector of x variable values
 #' @param y vector of y variable values
 #' @param a.prior shape parameter a of the prior beta distribution

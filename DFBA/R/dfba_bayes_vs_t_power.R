@@ -1,4 +1,5 @@
-#' Simulated Data Generator and Inferential Comparison
+#'Simulated Data Generator and Inferential Comparison
+#'
 #'
 #'Function runs a number of Monte Carlo data sets from one of the models
 #'provided by the function dfba_sim_data. For each sample, there is a

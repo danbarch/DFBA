@@ -45,22 +45,19 @@ dfba_power_curve(
 A list containing the following components:
 
 \item{outputdf}{A dataframe of possible sample sizes and corresponding Bayesian and Frequentist power values}
-}
-\description{
-Function runs a number of Monte Carlo data sets from one of the models
-provided by the function dfba_sim_data. For each sample, there is a
-frequentist t-test as well as a Bayesian test to compute the probability that
-the population parameter is greater than .5. The proportion of all the
-samples that detect an effect better than the the stipulated effect_crit
-value is the power. For the Bayesian analysis, this would be the proportion
-of samples where the posterior probability that the parameter is greater than
-.5 is larger than the stipulated effect_crit value.
-}
-\details{
+
+#'@details
+For each sample, there is a frequentist \emph{t}-test as well as a Bayesian
+test to compute the probability that the population parameter is greater than
+.5. The proportion of all thevsamples that detect an effect better than the
+stipulated effect_crit value is the power. For the Bayesian analysis, this
+would be the proportion of samples where the posterior probability that the
+parameter is greater than .5 is larger than the stipulated effect_crit value.
+
 A flat prior is used for all the Bayesian analyses. If the design is equal to
 "independent", then the Bayesian probability is based on the omega parameter
 for the Mann-Whitney U statistic. The corresponding t power is based on the
-two-sample or independent t-test p value. The t power is the proportion of
+two-sample or independent \emph{t}-test \emph{p}-value. The t power is the proportion of
 samples where the p -alue is less than 1-effect_crit. The default value for
 effect_crit is .95, but the user can vary that criterion. If design="paired",
 then the Bayesian analysis is based on the Bayesian posterior probability that
@@ -71,7 +68,7 @@ See documentation and remarks for the dfba_sim data function for the
 probability models that can be examined. In each case the delta parameter is
 an offset value between the E and C variates. If delta is zero, then the
 Bayesian power should be approximately the value for 1-effect_crit. However,
-for the t power case, the t-test is a misspecified procedure for the actual
+for the \emph{t} power case, the \emph{t}-test is a misspecified procedure for the actual
 data-generating model when model is not equal to "normal". Hence is some cases
 such as with the, cauchy and pareto distributions, the t power is less that
 1-effect_crit when delta equals zero. The function computes power for 11
@@ -84,9 +81,13 @@ sample size is suitable for a stipulated delta value. The nine models are:
 parameters for these distributions are in the remarks for the dfba_sim_data
 function. The function will generally show that the sample size for normally
 distributed data for the Bayesian distribution-free procedure is close to the
-sample size used for the conventional t test. However,for alternative
+sample size used for the conventional \emph{t}-test. However,for alternative
 distributions, the Bayesian nonparametric procedure generally requires a
-smaller sample size than a parametric t-test.
+smaller sample size than a parametric \emph{t}-test.
+}
+\description{
+Simulates a number of Monte Carlo data sets from one of the models
+provided by the function dfba_sim_data.
 }
 \references{
 Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists. Cambridge: MIT Press.

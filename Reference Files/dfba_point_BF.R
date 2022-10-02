@@ -11,14 +11,15 @@
 #' @return \item{Direction}{Statement describing the numerator and denominator of Bayes Factor estimate}
 #' @return \item{BF}{Bayes Factor estimate}
 
-Beta_pointBayesfactor<-function(n1,
-                                n2,
-                                ptH0=.5,
-                                a0=1,
-                                b0=1){
+dfba_point_BF<-function(n1,
+                        n2,
+                        ptH0=.5,
+                        a0=1,
+                        b0=1){
   if ((a0 <= 0)|(b0 <= 0)){
     a0 = 1
-    b0 = 1}
+    b0 = 1
+    }
   #else {}
   if ((ptH0 > 1)|(ptH0 < 0)){
     ptH0 = .5}
@@ -46,8 +47,10 @@ Beta_pointBayesfactor<-function(n1,
           Direction<-"Bayes factor is for null over alternative"
           BF<-dpostH0/dpriorH0
           }
-    }
-  list(H0_point=H0,
-       Direction=Direction,
-       BF=BF)
+  }
+
+  dfba_point_BF_list<-list(H0_point = H0,
+                           Direction = Direction,
+                           BF = BF)
+  new("dfba_point_BF_out", dfba_point_BF_list)
 }

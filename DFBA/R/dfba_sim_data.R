@@ -1,6 +1,6 @@
 #' Simulated Data Generator and Inferential Comparison
 #'
-#' Function computes the Bayesian probability that the population parameter is
+#' Computes the Bayesian probability that the population parameter is
 #' greater than .5 as well as the frequentist p value via a t test. The
 #' function is designed to be used for sampling from nine different continuous
 #' univariate probability models. The models are the distribution on mlist
@@ -16,6 +16,18 @@
 #' on the zero to value of the blocking input. This added blocking factor has a
 #' default of zero but positive values induces a correlation between the E and
 #' C variates.
+#'
+#' @importFrom stats rnorm
+#' @importFrom stats rweibull
+#' @importFrom stats rcauchy
+#' @importFrom stats rlnorm
+#' @importFrom stats rchisq
+#' @importFrom stats rlogis
+#' @importFrom stats rexp
+#' @importFrom stats runif
+#' @importFrom stats var
+#' @importFrom stats pt
+#' @importFrom stats sd
 #'
 #' @param n number of values per group or paired sample
 #' @param a0 shape parameter a of the prior beta distribution

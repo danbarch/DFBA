@@ -1,9 +1,7 @@
 #' Goodman-Kruskal Gamma
 #'
-#' This function takes either:
-#' two vectors of equal length OR
-#' a cross-tabulation of values
-#' and returns:
+#' This function takes either: two vectors of equal length OR a
+#' cross-tabulation of values and returns:
 #'   the Goodman-Kruskal Gamma Statistic
 #'   the observed concordance statistic p
 #'   the concordance parameter Phi
@@ -11,10 +9,7 @@
 #'     beta distribution that describes Phi
 #'   Highest Density Interval (HDI) limits on Phi
 #'
-# #' @param x vector of x variable values
-# #' @param y vector of y variable values
-# #' @param breaks_x (Optional)
-# #' @param breaks_y (Optional)
+#'
 #' @param x cross-tabulated data in matrix (or table) format
 #' @param a.prior shape parameter a of the prior beta distribution
 #' @param b.prior shape parameter b of the prior beta distribution

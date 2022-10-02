@@ -456,3 +456,88 @@ setMethod("plot",
                   lty=2)
           })
 
+# Formats for Bayes Factor Functions
+
+## Point Bayes Factor
+
+#' @export
+setMethod("show", "dfba_point_BF_out", function(object) {
+  cat("Bayes Factor for Point Estimates \n")
+  cat("========================\n")
+  cat(" ", "Point Null Hypothesis", "\n")
+  cat(" ", object$null_hypothesis, "\n")
+  cat(" ", "Shape Parameters for Prior Beta Distribution")
+  cat(" ", "a", "\t\t\t", "b", "\n")
+  cat(" ", object$a0, "\t\t\t", object$b0, "n")
+  cat(" ", "Shape Parameters for Posterior Beta Distribution")
+  cat(" ", "a", "\t\t\t", "b", "\n")
+  cat(" ", object$a, "\t\t\t", object$b, "n")
+  cat(" ", "Prior Probability for Null Hypothesis", "\n")
+  cat(" ", object$dpriorH0, "\n")
+  cat(" ", "Posterior Probability for Null Hypothesis", "\n")
+  cat(" ", object$dpostH0, "\n")
+  cat(" ", "Bayes Factor Estimate for the Alternative over the Null Hypothesis", "\n")
+  cat(" ", object$BF10, "\n")
+  cat(" ", "Bayes Factor Estimate for the Null over the Alternative Hypothesis", "\n")
+  cat(" ", object$BF01, "\n")
+})
+
+## Interval Bayes Factor
+
+#' @export
+setMethod("show", "dfba_interval_BF_out", function(object) {
+  cat("Bayes Factor for Interval Estimates \n")
+  cat("========================\n")
+  cat(" ", "Interval Null Hypothesis", "\n")
+  cat(" ", "Lower Limit", "\t\t\t", "Upper Limit", "\n")
+  cat(" ", object$H0lower,"\t\t\t", object$H0upper, "\n")
+  cat(" ", "Shape Parameters for Prior Beta Distribution")
+  cat(" ", "a", "\t\t\t", "b", "\n")
+  cat(" ", object$a0, "\t\t\t", object$b0, "n")
+  cat(" ", "Shape Parameters for Posterior Beta Distribution")
+  cat(" ", "a", "\t\t\t", "b", "\n")
+  cat(" ", object$a, "\t\t\t", object$b, "n")
+  cat(" ", "Prior Probability for Null Hypothesis", "\n")
+  cat(" ", object$pH0, "\n")
+  cat(" ", "Posterior Probability for Null Hypothesis", "\n")
+  cat(" ", object$postH0, "\n")
+  cat(" ", "Prior Probability for Alternative Hypothesis", "\n")
+  cat(" ", object$pH1, "\n")
+  cat(" ", "Posterior Probability for Alternative Hypothesis", "\n")
+  cat(" ", object$postH1, "\n")
+  cat(" ", "Bayes Factor Estimate for the Alternative over the Null Hypothesis", "\n")
+  cat(" ", object$BF10, "\n")
+  cat(" ", "Bayes Factor Estimate for the Null over the Alternative Hypothesis", "\n")
+  cat(" ", object$BF01, "\n")
+})
+
+## Bayesian Contrasts
+
+#' @export
+setMethod("show", "dfba_contrasts_out", function(object) {
+  cat("Bayesian Contrasts \n")
+  cat("========================\n")
+  cat(" ", "Contrast Weights", "\n")
+  cat(" ", object$contrast_Weights, "\n")
+  cat(" ", "Contrast Mean")
+  cat(" ", object$contrast_mean, "\n")
+  cat(" ", "Contrast Variance")
+  cat(" ", object$contrast_variance, "\n")
+  cat(" ", "Number of Monte Carlo Samples", "\n")
+  cat(" ", object$samples, "\n")
+  cat(" ", "Sampling Contrast Mean", "\n")
+  cat(" ", object$sampling_contrast_mean, "\n")
+  cat(" ", "Sampling Contrast Variance", "\n")
+  cat(" ", object$sampling_contrast_variance, "\n")
+  cat(" ", paste0("Equal-tail", round(object$prob_interval*100), "% Probability Interval"), "\n")
+  cat(" ", "Lower Limt", "\t\t\t", "Upper Limit", "\n")
+  cat(" ", object$equal_tail[1], "\t\t\t", object$equal_tail[2], "\n")
+  cat(" ", "Posterior Probability for Positive Contrast", "\n")
+  cat(" ", object$posterior_of_positive, "\n")
+  cat(" ", "Prior Probability for Positive Contrast", "\n")
+  cat(" ", object$prior_of_positive, "\n")
+  cat(" ", "Bayes Factor Estimate for Positive Contrast", "\n")
+  cat(" ", object$BF_positive_contrast, "\n")
+  cat(" ", "Bayes Factor Estimate for Negative Contrast", "\n")
+  cat(" ", object$BF_negative_contrast, "\n")
+})

@@ -5,6 +5,9 @@
 #' provides a Bayesian analysis for the population parameter \code{omega_E},
 #' which is the population ratio of \code{U_E/(U_E+U_C)}.
 #'
+#' @importFrom stats pbeta
+#' @importFrom stats rexp
+#'
 #' @param E Data for independent sample 1 ("Experimental")
 #' @param C Data for independent sample 2 ("Control")
 #' @param a0 shape parameter alpha of the prior beta distribution

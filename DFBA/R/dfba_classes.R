@@ -27,5 +27,14 @@ setClass("dfba_t_power_out", representation("list"))
 #'
 #' @export
 setClass("dfba_power_curve_out", representation("list"))
+#'
+#' @export
+setClass("dfba_point_BF_out", representation("list"))
+#'
+#'@export
+setClass("dfba_interval_BF_out", representation("list"))
+#'
+#'@export
+setClass("dfba_contrasts_out", representation("list"))
 
 

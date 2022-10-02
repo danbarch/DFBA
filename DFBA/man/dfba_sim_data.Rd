@@ -53,7 +53,7 @@ A list containing the following components:
 \item{post.hdi.upper}{upper limit of the HDI with width specified by interval.width}
 }
 \description{
-Function computes the Bayesian probability that the population parameter is
+Computes the Bayesian probability that the population parameter is
 greater than .5 as well as the frequentist p value via a t test. The
 function is designed to be used for sampling from nine different continuous
 univariate probability models. The models are the distribution on mlist

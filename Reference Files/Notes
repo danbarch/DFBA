@@ -1,0 +1,9 @@
+1. dfba_beta_bayes_factor
+
+a. has both BF10 and BF01, which is different from other tests.
+b. no n1 and n2? please confirm the a and b approach
+c. needed to rename "null" (NULL is a reserved word)
+
+2. Wilcoxon: t_plus and t_negative - should we change one to be consistent?
+
+3.

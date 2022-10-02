@@ -25,7 +25,7 @@ dfba_wilcoxon(
 
 \item{prob_interval}{Desired probability for interval estimates of the sign bias parameter phi (default is 0.95)}
 
-\item{samples}{When method="small", the number of desired Monte Carlo samples per candidate value for phi (default is 30000 per candidate phi)}
+\item{samples}{When \code{method = "small"}, the number of desired Monte Carlo samples per candidate value for phi (default is 30000 per candidate phi)}
 
 \item{method}{(Optional) The method option is either "small" or "large". The "small" algorithm is based on a discrete Monte Carlo solution for cases where n is typically less than 20. The "large" algorithm is based on beta approximation model for the posterior distribution for the omega_E parameter. This approximation is reasonable when n > 19. Regardless of n the user can stipulate which method that they desire. When the method option is omitted the program selects the appropriate procedure.}
 }
@@ -35,6 +35,50 @@ A list containing the following components:
 \item{T_plus}{Sum of the positive ranks in the pairwise comparisons}
 
 \item{T_negative}{Sum of the negative ranks in the pairwise comparisons}
+
+\item{n}{Number of nonzero differences for differences \code{d = Y1-Y2}}
+
+\item{prob_interval}{User-defined probability for interval estimates for phi_w}
+
+\item{samples}{The number of Monte Carlo samples per candidate phi_w for \code{method = "small"} (default is 30000)}
+
+\item{method}{A character string that is either \code{"small"} or \code{"large"} for the algorithm used (default is NULL)}
+
+\item{a0}{The first shape parameter for the beta prior distribution (default is 1)}
+
+\item{b0}{The second shape parameter for the beta distribution prior (default is 1)}
+
+\item{phiv}{The 200 candidate values for phi_w for \code{method = "small"}}
+
+\item{phipost}{The discrete posterior distribution for phi_w when \code{method = "small"}}
+
+\item{priorprH1}{The prior probability that phi_w > .5}
+
+\item{prH1}{The posterior probability for phi_w > .5}
+
+\item{BF10}{Bayes factor for the relative increase in the posterior odds for the alternative hypothesis that phi_w > .5 over the null model for phi_w <= .5}
+
+\item{postmean}{The posterior mean for phi_w}
+
+\item{cumulative_phi}{The posterior cumulative distribution for phi_w when \code{method = "small"}}
+
+\item{qLv}{The lower limit for the posterior interval estimate for phi_w when \code{method = "small"}}
+
+\item{qHv}{The upper limit for the posterior interval estimate for phi_w when \code{method = "small"}}
+
+\item{apost}{The first shape parameter for a beta distribution model for phi_w when \code{method = "large"}}
+
+\item{bpost}{The second shape parameter for a beta distribution model for phi_w when \code{method = "large"}}
+
+\item{postmedian}{The posterior median for phi_w when \code{method = "large"}}
+
+\item{qlequal}{The equal-tail lower limit for phi_w when \code{method = "large"}}
+
+\item{qhequal}{The equal-tail upper limit for phi_w when \code{method = "large"}}
+
+\item{qLmin}{The lower limit for the highest-density interval for phi_w when \code{method = "large"}}
+
+\item{qHmax}{The upper limit for the highest-density interval for phi_w when \code{method = "large"}}
 }
 \description{
 Given two continuous, paired variates \code{Y1} and \code{Y2},
