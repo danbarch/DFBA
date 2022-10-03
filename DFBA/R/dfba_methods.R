@@ -493,7 +493,11 @@ setMethod("show", "dfba_interval_BF_out", function(object) {
   cat(" ", object$H0lower,"\t\t\t", object$H0upper, "\n")
   cat(" ", "Shape Parameters for Prior Beta Distribution", "\n")
   cat(" ", "a", "\t\t\t", "b", "\n")
+<<<<<<< HEAD
   cat(" ", object$a0, "\t\t\t", object$b0, "\n")
+=======
+  cat(" ", object$a0, "\t\t\t", object$b0, "n")
+>>>>>>> refs/remotes/origin/main
   cat(" ", "Shape Parameters for Posterior Beta Distribution", "\n")
   cat(" ", "a", "\t\t\t", "b", "\n")
   cat(" ", object$a, "\t\t\t", object$b, "\n")
