@@ -36,5 +36,9 @@ setClass("dfba_interval_BF_out", representation("list"))
 #'
 #'@export
 setClass("dfba_contrasts_out", representation("list"))
+#'
+#'@export
+setClass("dfba_beta_contrast_out", representation("list"))
+
 
 
