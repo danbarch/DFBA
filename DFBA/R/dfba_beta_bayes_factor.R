@@ -15,7 +15,7 @@
 #'
 #' @return A list containing the following components:
 #' @return \item{method}{The string of either "interval" or "point" corresponding to the type of null hypothesis tested}
-#' @return \item{a}{The input value for the posterior beta second shape parameter}
+#' @return \item{a}{The input value for the posterior beta first shape parameter}
 #' @return \item{b}{The input value for the posterior beta second shape parameter}
 #' @return \item{a0}{The first shape parameter for the prior beta distribution}
 #' @return \item{b0}{The second shape parameter for the prior beta distribution}
@@ -144,7 +144,8 @@
 #'                        b0 = .5
 #'                        )
 #'
-## An example where the null is an interval that is .5 plus or minus .0025
+#'
+## An example where the null is a narrow interval (.5 plus or minus .0025)
 #' dfba_beta_bayes_factor(a = 273,
 #'                        b = 278,
 #'                        method = "interval",
@@ -163,9 +164,11 @@ dfba_beta_bayes_factor<-function(a,
   if(method != "point" & method != "interval"){
     stop("method must be either 'point' or 'interval'")
   }
-  if((a0 < 0)|(a0 > 1)|(b0 < 0)|(b0 > 1)){
-    stop("Both a0 and b0 must be greater than or equal to 0 and less than or equal to 1")
+
+  if(a0 < 0|b0 < 0|is.na(a0)|is.na(b0)){
+    stop("Both a0 and b0 must be greater than or equal to 0")
   }
+
 
   if(method == "point"){ #point method
 
@@ -186,13 +189,13 @@ dfba_beta_bayes_factor<-function(a,
     dpostH0 = dbeta(H0,
                     a,
                     b)
-    BF10 <- ifelse(dpriorH0 == 0,
-                   Inf,
-                   dpostH0/dpriorH0
-                   )
-    BF01 <- ifelse(dpostH0 == 0,
+    BF10 <- ifelse(dpostH0 == 0,
                    Inf,
                    dpriorH0/dpostH0
+                   )
+    BF01 <- ifelse(dpriorH0 == 0,
+                   Inf,
+                   dpostH0/dpriorH0
                    )
 
   dfba_point_BF_list<-list(method = method,

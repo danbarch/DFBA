@@ -1,66 +1,184 @@
-#'Simulated Data Generator and Inferential Comparison
+#'Simulated Distribution-Free Bayesian Power and \emph{t} Power
 #'
 #'
-#'Function runs a number of Monte Carlo data sets from one of the models
-#'provided by the function dfba_sim_data. For each sample, there is a
-#'frequentist t-test as well as a Bayesian test to compute the probability that
-#'the population parameter is greater than .5. The proportion of all the samples
-#'that detect an effect better than the the stipulated effect_crit value is the
-#'power. For the Bayesian analysis, this would be the proportion of samples
-#'where the posterior probability that the parameter is greater than .5 is
-#'larger than the stipulated effect_crit value. A flat prior is used for all the
-#'Bayesian analyses. If the design is equal to "independent", then the Bayesian
-#'probability is based on the omega parameter for the Mann-Whitney U statistic.
-#'The corresponding t power is based on the two-sample or independent t-test
-#'p-value. The t power is the proportion of samples where the p-value is less
-#'than 1-effect_crit. The default value for effect_crit is .95, but the user
-#'can vary that criterion. If design="paired", then the Bayesian analysis is
-#'based on the Bayesian posterior probability that the parameter phi_w for the
-#'Wilcoxon signed-rank statistic is greater than .5. The corresponding t power
-#'is based on the independent (two-group) t test. See documentation and remarks
-#'for the dfba_sim data function for the probability models that can be
-#'examined. In each case the delta parameter is an offset value between the E
-#'and C variates. If delta is zero, then the Bayesian power should be
-#'approximately the value for 1-effect_crit. However, for the t power case, the
-#'t-test is a misspecified procedure for the actual data generating model when
-#'model is not equal to "normal". Hence is some cases such as with the, Cauchy
-#'and Pareto distributions, the t power is less that 1-effect_crit when delta
-#'equals zero. The function computes power for 11 different n values that vary
-#'from n_min in steps of 5. The power values can be useful in planning an actual
-#'experiment. The user can explore any of the nine models for the probability
-#'distribution for the two variates to see what sample size is suitable for a
-#'stipulated delta value. The nine models are:"normal","weibull", "cauchy",
-#'"lognormal", "chisquare", "logistic", "exponential", "gumbel", "pareto".
-#'Details about the shape and offset parameters for these distributions are in
-#'the remarks for the dfba_sim_data function. The function will generally show
-#'that the sample size for normally distributed data for the Bayesian
-#'distribution-free procedure is close to the sample size used for the
-#'conventional t-test. However,for alternative distributions, the Bayesian
-#'nonparametric procedure generally requires a smaller sample size than a
-#'parametric t-test.
+#'The function is a design tool for comparing Bayesian distribution-free
+#'power versus frequentist \emph{t} power for a range of sample sizes. Allows
+#'for the stipulation of one of nine probability models for data generation.
 #'
-#' @param n_min smallest desired value of sample size for power calculations
-#' @param delta offset variable between variates
-#' @param model hypothesized probability density function of data distributions
-#' @param design one of "independent" or "paired" to indicate data structure
-#' @param effect_crit stipulated critical value for reliable/significant differences
-#' @param shape1 First shape parameter for the distribution indicated by `model` input (default is `1`)
-#' @param shape2 First shape parameter for the distribution indicated by `model` input (default is `1`)
-#' @param samples desired number of Monte Carlo samples
+#' @param n_min Smallest desired value of sample size for power calculations (minimun 20; default is also 20)
+#' @param delta Offset amount between the two variates
+#' @param model Theoretical probability model for the data. One of \code{"normal"}, \code{"weibull"}, \code{"cauchy"}, \code{"lognormal"}, \code{"chisquare"}, \code{"logistic"}, \code{"exponential"}, \code{"gumbel"}, or \code{"pareto"}.
+#' @param design Indicates the data structure. One of \code{"independent"} or \code{"paired"}.
+#' @param effect_crit Stipulated  value for a significant differences for a \emph{t}-test (1 - \emph{p}), and the critical probability for the Bayesian alternative hypothesis for a Bayesian distribution-free analysis
+#' @param shape1 The shape parameter for the condition 1 variate for the distribution indicated by the \code{model} input (default is 1)
+#' @param shape2 The shape parameter for the condition 2 variate for the distribution indicated by the \code{model} input (default is 1)
+#' @param samples Desired number of Monte Carlo data sets drawn to estimate the power (default is 1000)
+#' @param a0 The first shape parameter for the prior beta distribution (default is 1)
+#' @param b0 The second shape parameter for the prior beta distribution (default is 1)
+#' @param block.max The maximum size for a block effect (default is 0)
 #'
 #' @return A list containing the following components:
 #' @return \item{outputdf}{A dataframe of possible sample sizes and corresponding Bayesian and Frequentist power values}
 #'
-#' @references Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists. Cambridge: MIT Press.
-#' @references Chechile, R.A., & Barch, D.H. (2021). Distribution-free, Bayesian goodness-of-fit method for assessing similar scientific prediction equations. Journal of Mathematical Psychology.
-
-
-#
-#   Install Package:           'Ctrl + Shift + B'
-#   Check Package:             'Ctrl + Shift + E'
-#   Test Package:              'Ctrl + Shift + T'
-
-
+#' @details
+#'
+#' Researchers need to make experimental-design decisions such as the choice
+#' about the sample size per condition and the decision of whether to use a
+#' within-block design or an independent-groups design. These planning issues
+#' arise regardless if one uses either a frequentist or a Bayesian approach to
+#' statistical inference. In the DFBA package, there are a number of functions
+#' to help users with these decisions. The \code{dfba_bayes_vs_t_power()} function
+#' produces (a) the Bayesian power estimate from a distribution-free analysis
+#' and (b) the corresponding frequentist power from a parametric \emph{t}-test
+#' for a set of 11 sample sizes ranging from \code{n_min} to \code{n_min + 50}
+#' in steps of 5. These estimates are based on a number of different Monte-
+#' Carlo-sampled data sets generated by the \code{dfba_sim_data()} function.
+#'
+#' For each data set, statistical tests are performed. If \code{design = "paired"},
+#' the frequentist \emph{t}-test is a one-tailed test on the within-block
+#' difference scores to assess the null hypothesis that \code{delta <= 0}; if
+#' \code{design = "independent"}, the frequentist \emph{t}-test is the one-tailed
+#' test to assess if there is a significant difference between the two
+#' independent conditions (\emph{i.e.} if the mean for condition 2 is
+#' signficantly greater than the condition 1 mean). If \code{design = "paired"},
+#' the Bayesian analysis assesses if the posterior probability for \code{phi_w > .5}
+#' from the Bayesian Wilcoxon test is greater than \code{effect_crit}; if
+#' \code{design = "independent"}, the Bayesian analysis assesses if the posterior
+#' probability for \code{omega_E > .5} on a Bayesian Mann-Whitney test
+#' is greater than \code{effect_crit}. The frequentist power is estimated by
+#' the proportion of the data sets where a parametric \emph{t}-test detects a
+#' significant effect because the  upper-tail \emph{t} value has a \emph{p}-value
+#' less than \code{1-effect_crit}. The Bayesian power is the proportion of the
+#' data sets where a posterior probability for the alternative hypothesis is
+#' greater than \code{effect_crit}. The default value for the
+#' \code{effect_crit} argument is \code{effect_crit = .95}. The frequentist
+#' \emph{p}-value and the Bayesian posterior probability for the
+#' alternative hypothesis are calculated using the \code{dfba_sim_data()}
+#' function.
+#'
+#' The arguments for the \code{dfba_sim_data()} function are passed from the
+#' \code{dfba_bayes_vs_t_power()} function. Besides the sample size \code{n}, there
+#' are eight other arguments that are required by the \code{dfba_sim_data()}
+#' function, which are passed from the \code{dfba_bayes_vs_t_power()} function:
+#' \itemize{
+#'      \item \code{a0}
+#'      \item \code{b0}
+#'      \item \code{model}
+#'      \item \code{design}
+#'      \item \code{delta}
+#'      \item \code{shape1}
+#'      \item \code{shape2}
+#'      \item \code{block.max}.
+#'      }
+#'
+#' The \code{a0} and \code{b0} values are the respective first and second beta
+#' shape parameters for the prior distribution needed for the Bayesian
+#' distribution-free tests, which are ultimately done by calling either the
+#' \code{dfba_wilcoxon()} function or by the \code{dfba_mann_whitney()}.
+#'
+#' The \code{model} argument is one of the following strings:
+#'   \itemize{
+#'        \item \code{"normal"}
+#'        \item \code{"weibull"}
+#'        \item \code{"cauchy"}
+#'        \item \code{"lognormal"}
+#'        \item \code{"chisquare"}
+#'        \item \code{"logistic"}
+#'        \item \code{"exponential"}
+#'        \item \code{"gumbel"}
+#'        \item \code{"pareto"}
+#'        }
+#' The \code{design} argument is either \code{"independent"} or \code{"paired"},
+#' and stipulates whether the two sets of scores are either independent or from
+#' a common block such as for the case of two scores for the same person (\emph{i.e.},
+#' one in each condition).
+#'
+#' The \code{shape1} and \code{shape2} arguments are values for the shape parameter
+#' for the respective first and second condition, and their meaning
+#' depends on the probability model. For \code{model="normal"}, these
+#' parameters are the standard deviations of the two distributions. For
+#' \code{model = "weibull"}, the parameters are the Weibull shape parameters.
+#' For \code{model = "cauchy"}, the parameters are the scale factors for the
+#' Cauchy distributions. For \code{model = "lognormal"}, the shape
+#' parameters are the standard deviations for log(X). For \code{model = "chisquare"},
+#' the parameters are the degrees of freedom (\emph{df}) for the two
+#' distributions. For \code{model = "logistic"}, the parameters are the scale
+#' factors for the distributions. For \code{model = "exponential"}, the parameters
+#' are the rate parameters for the distributions.
+#'
+#' For the Gumbel distribution, the \code{E} variate is equal to
+#' \code{delta - shape2*log(log(1/U))} where \code{U} is a random value sampled
+#' from the uniform distribution on the interval \code{[.00001, .99999]}, and
+#' the \code{C} variate is equal to \code{-shape1*log(log(1/U))} where \code{U}
+#' is another score sampled from the uniform distribution. The \code{shape1} and
+#' \code{shape2} arguments for \code{model = "gumbel"} are the scale parameters
+#' for the distributions. The Pareto model is a distribution designed to account
+#' for income distributions as studied by economists (Pareto, 1897). For the
+#' Pareto distribution, the cumulative function is equal to \code{1-(x_m/x)^alpha}
+#' where \code{x} is greater than \code{x_m} (Arnold, 1983). In the \code{E}
+#' condition, \code{x_m = 1 + delta} and in the \code{C} condition \code{x_m = 1}.
+#' The alpha parameter is 1.16 times the shape parameters \code{shape1} and
+#' \code{shape2}. Since the default value for each shape parameter is 1, the
+#' resulting alpha value of 1.16 is the default value. When alpha = 1.16, the
+#' Pareto distribution approximates an income distribution that represents the
+#' 80-20 law where 20% of the population receives 80% of the income
+#' (Hardy, 2010).
+#'
+#' The \code{block.max} argument provides for incorporating block effects in the
+#' random sampling. The block effect for each score is a separate effect for the
+#' block. The block effect B for a score is a random number drawn from a uniform
+#' distribution on the interval \code{[0, block.max]}. When \code{design = "paired"},
+#' the same random block effect is added to the score in the first condition,
+#' which is the random \code{C} value, and it is also added to the corresponding
+#' paired value for the \code{E} variate. Thus, the pairing research design
+#' eliminates the effect of block variation for the assessment of condition
+#' differences. When \code{design = "independent"}, there are different block-effect
+#' contributions to the \code{E} and \code{C} variates, which reduces the
+#' discrimination of condition differences because it increases the variability
+#' of the difference in the two variates. The user can study the effect of the
+#' relative discriminability of detecting an effect of delta by adjusting the
+#' value of the \code{block.max} argument. The default for \code{block.max} is 0,
+#' but it can be altered to any non-negative real number.
+#'
+#'
+#' @seealso
+#' \code{\link[stats:Distributions]{Distributions}} for details on the
+#' parameters of the normal, Weibull, Cauchy, lognormal, chi-squared, logistic,
+#' and exponential distributions.
+#'
+#' \code{\link{dfba_wilcoxon}}
+#'
+#' \code{\link{dfba_mann_whitney}}
+#'
+#' \code{\link{dfba_sim_data}}  for further details about the data for two
+#' conditions that differ in terms of their theoretical mean by an amount delta.
+#'
+#' @references
+#'
+#' Arnold, B. C. (1983). Pareto Distribution. Fairland, MD:
+#' International Cooperative Publishing House.
+#'
+#' Chechile, R. A. (2017). A Bayesian analysis for the Wilcoxon signed-rank
+#' statistic. Communications in Statistics - Theory and Methods,
+#' https://doi.org/10.1080/03610926.2017.1388402
+#'
+#' Chechile, R. A. (2020). A Bayesian analysis for the Mann- Whitney statistic.
+#' Communications in Statistics - Theory and Methods,
+#' https://10.1080/03610926.2018.1549247
+#'
+#' Fishman, G. S. (1996) Monte Carlo: Concepts, Algorithms and Applications.
+#' New York: Springer.
+#'
+#' Hardy, M. (2010). Pareto's Law. Mathematical Intelligencer,
+#' 32, 38-43.
+#'
+#' Johnson, N. L., Kotz S., and Balakrishnan, N. (1995). Continuous Univariate
+#' Distributions, Vol. 1, New York: Wiley.
+#'
+#' Pareto, V. (1897). Cours d'Economie Politique. Vol. 2,
+#' Lausanne: F. Rouge.
+#'
+#'
 #' @export
 #'
 dfba_bayes_vs_t_power<-function(n_min=20,
@@ -71,7 +189,10 @@ dfba_bayes_vs_t_power<-function(n_min=20,
                                 #shape_vec=c(1,1),
                                 shape1 = 1,
                                 shape2 = 1,
-                                samples=1000){
+                                samples=1000,
+                                a0 = 1,
+                                b0 = 1,
+                                block.max = 0){
 
     deltav=delta
     if (delta<0){
@@ -142,7 +263,10 @@ dfba_bayes_vs_t_power<-function(n_min=20,
                                  design = design,
                                  delta = deltav,
                                  shape1 = shape1,
-                                 shape2 = shape2)
+                                 shape2 = shape2,
+                                 a0 = a0,
+                                 b0 = b0,
+                                 block.max = block.max)
         bayesprH1[j]=outputsim$prH1
         tpvalue[j]=outputsim$pvalue
         cat(round((j/nsims+(i-1))/11, 2)*100, '% complete', sep="", '\r')
@@ -165,6 +289,9 @@ dfba_bayes_vs_t_power<-function(n_min=20,
                             design = design,
                             effect_crit = effect_crit,
                             deltav = deltav,
+                            a0 = a0,
+                            b0 = b0,
+                            block.max = block.max,
                             outputdf=data.frame(sample_size = m,
                                               Bayes_power = detect_bayes,
                                               t_power = detect_t)

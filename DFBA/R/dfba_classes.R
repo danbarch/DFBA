@@ -39,6 +39,10 @@ setClass("dfba_contrasts_out", representation("list"))
 #'
 #'@export
 setClass("dfba_beta_contrast_out", representation("list"))
+#'
+#'@export
+setClass("dfba_sim_data_out", representation("list"))
+#'
 
 
 

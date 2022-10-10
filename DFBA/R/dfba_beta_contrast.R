@@ -51,8 +51,8 @@
 #' question about the population success rate from a Bayesian
 #' viewpoint because the probability of any single point hypothesis
 #' has a probability measure value of zero. Although it is possible
-#' that the frequentist null hypothesis can be retained for small
-#' n studies, the hypothesis itself is about the population in the
+#' that the frequentist null hypothesis can be retained for small-\emph{n}
+#' studies, the hypothesis itself is about the population in the
 #' case of unlimited sample size, and surely for this limiting case
 #' it is almost certain that the hypothesis is not exactly true.
 #' So from the Bayesian framework, the point-null hypothesis is not
@@ -66,22 +66,22 @@
 #' binomials in conditions 1 and 2, then a meaningful comparison
 #' might be to assess the probability distribution for
 #' delta=phi_2-phi_1. This example is a simple linear contrast with
-#' contrast coefficient weights of -1 and 1, which are tbe
+#' contrast coefficient weights of -1 and 1, which are the
 #' multipliers for the two population success rates. If the
 #' posterior interval estimate for the contrast contains 0, then the
-#' hypothesis of a delta=0 has some credibility in light of the
-#' current sample size. Thus by estimating the distribution of
-#' delta the user learns important information about condition
+#' hypothesis of a delta = 0 has some credibility in light of the
+#' current sample size. Thus, by estimating the distribution of
+#' delta, the user learns important information about condition
 #' differences. As another example of a contrast, suppose there are
 #' three conditions where the first condition is a standard control,
 #' and the other two conditions are different alternative conditions.
 #' In this case a user might want to compare the control versus the
-#' average of the two experimental conditions, i.e., the contrast of
+#' average of the two experimental conditions, \emph{i.e.}, the contrast of
 #' delta = -1*phi_1 +.5*phi_2 + .5*phi_3. In this second example the
 #' coefficients of the contrast are: -1,+.5,+.5. As a third example,
 #' the user might also be interested in a comparison where the two
 #' experimental conditions are compared, i.e., the contrast of
-#' delta = 0*phi_1 + 1*phi_2 -1*phi_3. For the dfba_beta_contrast()
+#' delta = 0*phi_1 + 1*phi_2 -1*phi_3. For the \code{dfba_beta_contrast()}
 #' function, the user is required to stipulate the coefficients of
 #' a contrast such that the sum of all the coefficients is 0, the
 #' sum of the positive coefficients is 1, and the sum of the negative
@@ -95,8 +95,8 @@
 #' the beta distribution is a natural Bayesian conjugate function
 #' for Bernoulli random processes. Thus a prior beta distribution
 #' with shape parameters a0 and b0 result (via Bayes's theorem) in a
-#' posterior beta with shape parameters \emph{a} and \emph{b} where a=a0+n1
-#' and b=b0+n2, where n1 and n2 are the respective successes and
+#' posterior beta with shape parameters \emph{a} and \emph{b} where a = a0 + n1
+#' and b = b0 + n2, where n1 and n2 are the respective successes and
 #' failures of the categorical variable. While the Bayesian analysis
 #' of each beta distribution for the separate conditions are known,
 #' a comparison among 2 or more separate beta distributions is not
@@ -114,7 +114,7 @@
 #' The input `samples' stipulates the number of random values that
 #' will be drawn from each of the K posterior conditions. The default
 #' value for `samples' is 10000, but the user can adjust this quantity
-#' upperward. The Monte Carlo sampling is quite rapid, so the program
+#' upward. The Monte Carlo sampling is quite rapid, so the program
 #' requires at least the default value of 10000, but the user might
 #' desire to increase the value for `samples' if increased precision is
 #' desired. Posterior interval estimation and the Bayes factor for
@@ -122,21 +122,21 @@
 #' sampling. If `samples' is equal to N and if phi_1, ..., phi_K
 #' are the parameters for the population success rates, then there
 #' are N random values drawn from each of phi_i parameters for
-#' i=1,...,K. Given the contrast coeficients stipulated in the input,
+#' i=1,...,K. Given the contrast coefficients stipulated in the input,
 #' there are N delta random posterior values where
-#' delta[i]=contrast_vec[1]*phi_1[i]+...+contrast_vec[K]*phi_K[i].
-#' The Monte Carlo sampling from each posterior beta with known
-#' shape parameters uses the base R rbeta command. Thus unlike
+#' \code{delta[j] = contrast_vec[1]*phi_1[j]+...+contrast_vec[K]*phi_K[j]} for
+#' \code{j = 1, ..., N}. The Monte Carlo sampling from each posterior beta with known
+#' shape parameters uses the \code{rbeta()} command. Thus, unlike
 #' Bayesian procedures that employ Markov chain Monte Carlo algorithm,
-#' the Monte Carlo sampling in the dfba_beta_contrast () program
+#' the Monte Carlo sampling in the \code{dfba_beta_contrast()} program
 #' does not depend on a burn-in process or a starting estimate because
 #' it is not a MCMC procedure. Thus all the N sampled values are valid
-#' random samples. Of course repeated use of the dfba_beta_contrast ()
+#' random samples. Of course, repeated use of the \code{dfba_beta_contrast()}
 #' function for the same input will show some random variation in the
 #' interval estimate and in the Bayes factor for a contrast greater
 #' than 0. However, the point estimate for the contrast does not depend
-#' on the Monte Carlo samplng, and it is constant given the vectors for
-#' n1_vec and n2_vec and given the same prior.
+#' on the Monte Carlo sampling, and it is constant given the vectors for
+#' \code{n1_vec} and \code{n2_vec} and given the same prior.
 #'
 #' @references
 #' Chechile, R. A. (2020). Bayesian Statistics for Experimental Scientists: A

@@ -2,13 +2,6 @@
 #
 #
 #
-#
-#
-#
-#
-#
-
-#
 # Some useful keyboard shortcuts for package authoring:
 #
 #   Install Package:           'Ctrl + Shift + B'

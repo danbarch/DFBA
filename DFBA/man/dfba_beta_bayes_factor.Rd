@@ -24,7 +24,7 @@ A list containing the following components:
 
 \item{method}{The string of either "interval" or "point" corresponding to the type of null hypothesis tested}
 
-\item{a}{The input value for the posterior beta second shape parameter}
+\item{a}{The input value for the posterior beta first shape parameter}
 
 \item{b}{The input value for the posterior beta second shape parameter}
 
@@ -161,6 +161,7 @@ dfba_beta_bayes_factor(a = 377,
                        a0 = .5,
                        b0 = .5
                        )
+
 
 dfba_beta_bayes_factor(a = 273,
                        b = 278,

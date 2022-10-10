@@ -350,8 +350,6 @@ setMethod("show", "dfba_power_curve_out", function(object) {
   cat(" ", object$effect_crit," ","\n")
   cat("The n value per condition is:"," ","\n")
   cat(object$n,"  ","\n")
-  cat(" ", "The delta offset parameter is:"," ","\n")
-  cat(" ", object$deltav," ","\n")
   cat("Output Results:", "\n")
   print(object$outputdf)
 })
@@ -467,7 +465,7 @@ setMethod("show", "dfba_point_BF_out", function(object) {
   cat(" ", "Point Null Hypothesis", "\n")
   cat(" ", object$null_hypothesis, "\n")
   cat(" ", "Shape Parameters for Prior Beta Distribution", "\n")
-  cat(" ", "a", "\t\t\t", "b", "\n")
+  cat(" ", "a0", "\t\t\t", "b0", "\n")
   cat(" ", object$a0, "\t\t\t", object$b0, "\n")
   cat(" ", "Shape Parameters for Posterior Beta Distribution", "\n")
   cat(" ", "a", "\t\t\t", "b", "\n")
@@ -485,16 +483,15 @@ setMethod("show", "dfba_point_BF_out", function(object) {
 ## Interval Bayes Factor
 
 #' @export
-setMethod("show", "dfba_interval_BF_out", function(object) {
+setMethod("show", "dfba_interval_BF_out", function(object){
   cat("Bayes Factor for Interval Estimates \n")
   cat("========================\n")
   cat(" ", "Interval Null Hypothesis", "\n")
   cat(" ", "Lower Limit", "\t\t\t", "Upper Limit", "\n")
   cat(" ", object$H0lower,"\t\t\t", object$H0upper, "\n")
   cat(" ", "Shape Parameters for Prior Beta Distribution", "\n")
-  cat(" ", "a", "\t\t\t", "b", "\n")
+  cat(" ", "a0", "\t\t\t", "b0", "\n")
   cat(" ", object$a0, "\t\t\t", object$b0, "\n")
-  cat(" ", object$a0, "\t\t\t", object$b0, "n")
   cat(" ", "Shape Parameters for Posterior Beta Distribution", "\n")
   cat(" ", "a", "\t\t\t", "b", "\n")
   cat(" ", object$a, "\t\t\t", object$b, "\n")
@@ -556,4 +553,43 @@ setMethod("plot",
                  xlab = xlab,
                  ylab = ylab,
                  main = "Based on Monte Carlo Sampling")
+          })
+
+## Simulated Data
+
+#' @export
+setMethod("show", "dfba_sim_data_out", function(object) {
+  cat("Frequentist p-value \n")
+  cat("", object$pvalue, "\n")
+  cat("Bayesian posterior probability \n")
+  cat("", object$prH1, "\n")
+})
+
+## Sim Data Plot
+
+#' @export
+setMethod("plot",
+          signature("dfba_sim_data_out"),
+          function(x){
+            if(x$design == "independent"){
+              sim_data <- c(x$E,
+                            x$C)
+              group_labs <- c(rep("E",
+                                  length(x$E)),
+                            rep("C",
+                                length(x$C)))
+              boxplot(sim_data~group_labs,
+                      main=expression("Distributions of Simulated Data"),
+                      xlab="Simulated Data Values",
+                      ylab="Group",
+                      horizontal = TRUE)
+            }else{
+              sim_data<-x$C - x$E
+              group_labs <- rep("diff", length(x$C))
+              boxplot(sim_data~group_labs,
+                      main=expression("Distribution of Differences"),
+                      xlab="Simulated Data Values",
+                      ylab="Difference (C - E)",
+                      horizontal = TRUE)
+            }
           })
