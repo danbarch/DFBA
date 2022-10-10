@@ -44,7 +44,23 @@ dfba_bayes_vs_t_power(
 \value{
 A list containing the following components:
 
-\item{outputdf}{A dataframe of possible sample sizes and corresponding Bayesian and Frequentist power values}
+\item{nsims}{The number of Monte Carlo data sets; equal to the value of the \code{samples} argument}
+
+\item{model}{Probability model for the data}
+
+\item{design}{The design for the data; one of \code{"independent"} or \code{"paired"}}
+
+\item{effect_crit}{The criterion probability for considering a posterior probability for the hypothesis that \code{delta > 0} to be a detection; it is also \code{1 - p_crit} for a frequentist \emph{t}-test}
+
+
+
+\item{a0}{The first shape parameter for the beta prior distribution}
+
+\item{b0}{The second shape parameter for the beta prior distribution}
+
+\item{block.max}{The maximum size of a block effect; equal to \code{block.max} argument}
+
+\item{outputdf}{A dataframe of possible sample sizes and the corresponding Bayesian and frequentist power values}
 }
 \description{
 The function is a design tool for comparing Bayesian distribution-free
@@ -169,6 +185,52 @@ of the difference in the two variates. The user can study the effect of the
 relative discriminability of detecting an effect of delta by adjusting the
 value of the \code{block.max} argument. The default for \code{block.max} is 0,
 but it can be altered to any non-negative real number.
+}
+\examples{
+
+# Examples for two data sets sampled from standard normal distributions with
+# no blocking effect
+
+dfba_bayes_vs_t_power(n_min = 40,
+                      delta = .45,
+                      model = "normal",
+                      design = "paired")
+
+dfba_bayes_vs_t_power(n_min = 40,
+                      delta = .45,
+                      model = "normal",
+                      design = "independent")
+
+# Examples with Weibull-distributed variates with no blocking effect
+
+dfba_bayes_vs_t_power(n_min = 50,
+                      delta = .45,
+                      model = "weibull",
+                      design ="paired")
+
+dfba_bayes_vs_t_power(n_min = 50,
+                      delta = .45,
+                      model = "weibull",
+                      design = "independent")
+
+# Examples with Weibull-distributed variates with a blocking effect
+
+dfba_bayes_vs_t_power(n_min = 50,
+                      delta = .45,
+                      model = "weibull",
+                      design = "independent",
+                      shape1 = .8,
+                      shape2 = .8,
+                      block.max = 2.3)
+
+dfba_bayes_vs_t_power(n_min = 50,
+                      delta = .45,
+                      model = "weibull",
+                      design = "paired",
+                      shape1 = .8,
+                      shape2 = .8,
+                      block.max = 2.3)
+
 }
 \references{
 Arnold, B. C. (1983). Pareto Distribution. Fairland, MD:

@@ -18,7 +18,15 @@
 #' @param block.max The maximum size for a block effect (default is 0)
 #'
 #' @return A list containing the following components:
-#' @return \item{outputdf}{A dataframe of possible sample sizes and corresponding Bayesian and Frequentist power values}
+#' @return \item{nsims}{The number of Monte Carlo data sets; equal to the value of the \code{samples} argument}
+#' @return \item{model}{Probability model for the data}
+#' @return \item{design}{The design for the data; one of \code{"independent"} or \code{"paired"}}
+#' @return \item{effect_crit}{The criterion probability for considering a posterior probability for the hypothesis that \code{delta > 0} to be a detection; it is also \code{1 - p_crit} for a frequentist \emph{t}-test}
+#' @return \item{deltav}{The offset between the variates; equal to the \code{delta argument}
+#' @return \item{a0}{The first shape parameter for the beta prior distribution}
+#' @return \item{b0}{The second shape parameter for the beta prior distribution}
+#' @return \item{block.max}{The maximum size of a block effect; equal to \code{block.max} argument}
+#' @return \item{outputdf}{A dataframe of possible sample sizes and the corresponding Bayesian and frequentist power values}
 #'
 #' @details
 #'
@@ -152,6 +160,51 @@
 #'
 #' \code{\link{dfba_sim_data}}  for further details about the data for two
 #' conditions that differ in terms of their theoretical mean by an amount delta.
+#'
+#' @examples
+#'
+#' # Examples for two data sets sampled from standard normal distributions with
+#' # no blocking effect
+#'
+#' dfba_bayes_vs_t_power(n_min = 40,
+#'                       delta = .45,
+#'                       model = "normal",
+#'                       design = "paired")
+#'
+#' dfba_bayes_vs_t_power(n_min = 40,
+#'                       delta = .45,
+#'                       model = "normal",
+#'                       design = "independent")
+#'
+#' # Examples with Weibull-distributed variates with no blocking effect
+#'
+#' dfba_bayes_vs_t_power(n_min = 50,
+#'                       delta = .45,
+#'                       model = "weibull",
+#'                       design ="paired")
+#'
+#' dfba_bayes_vs_t_power(n_min = 50,
+#'                       delta = .45,
+#'                       model = "weibull",
+#'                       design = "independent")
+#'
+#' # Examples with Weibull-distributed variates with a blocking effect
+#'
+#' dfba_bayes_vs_t_power(n_min = 50,
+#'                       delta = .45,
+#'                       model = "weibull",
+#'                       design = "independent",
+#'                       shape1 = .8,
+#'                       shape2 = .8,
+#'                       block.max = 2.3)
+#'
+#' dfba_bayes_vs_t_power(n_min = 50,
+#'                       delta = .45,
+#'                       model = "weibull",
+#'                       design = "paired",
+#'                       shape1 = .8,
+#'                       shape2 = .8,
+#'                       block.max = 2.3)
 #'
 #' @references
 #'
