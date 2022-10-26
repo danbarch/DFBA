@@ -160,10 +160,9 @@
 #' testA1vsA2<-dfba_beta_contrast(n1_vec,n2_vec,contrast_vec=contrast.A1vsA2)
 #' testABinteraction<-dfba_beta_contrast(n1_vec,n2_vec,contrast_vec=contrast.ABinter)
 #'
-#' # Suppose the user wants to plot the cumulative distribution for
-#' # AB interaction contrast from above then
+#' # Plot the cumulative distribution for AB interaction
 #' xv=seq(0,1,.01)
-#' plot(testABinteraction$delta_quantiles,xv,type="l",ylab="cum. prob.",xlab="contrast value")
+#' plot(testABinteraction)
 
 
 #' @export

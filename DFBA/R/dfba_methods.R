@@ -470,9 +470,9 @@ setMethod("show", "dfba_point_BF_out", function(object) {
   cat(" ", "Shape Parameters for Posterior Beta Distribution", "\n")
   cat(" ", "a", "\t\t\t", "b", "\n")
   cat(" ", object$a, "\t\t\t", object$b, "\n")
-  cat(" ", "Prior Probability for Null Hypothesis", "\n")
+  cat(" ", "Prior Probability Density for Null Hypothesis", "\n")
   cat(" ", object$dpriorH0, "\n")
-  cat(" ", "Posterior Probability for Null Hypothesis", "\n")
+  cat(" ", "Posterior Probability Density for Null Hypothesis", "\n")
   cat(" ", object$dpostH0, "\n")
   cat(" ", "Bayes Factor Estimate for the Alternative over the Null Hypothesis", "\n")
   cat(" ", object$BF10, "\n")
@@ -542,8 +542,8 @@ setMethod("show", "dfba_beta_contrast_out", function(object) {
 setMethod("plot",
           signature("dfba_beta_contrast_out"),
           function(x){
-            x.data<-seq(0, 1, 0.01)
-            y.data<-x$delta_quantiles
+            x.data<-x$delta_quantiles
+            y.data<-seq(0, 1, 0.01)
             xlab="contrast value"
             ylab="posterior cumulative probability"
 
@@ -584,12 +584,12 @@ setMethod("plot",
                       ylab="Group",
                       horizontal = TRUE)
             }else{
-              sim_data<-x$C - x$E
-              group_labs <- rep("diff", length(x$C))
+              sim_data<-x$E - x$C
+              group_labs <- rep("diff", length(x$E))
               boxplot(sim_data~group_labs,
                       main=expression("Distribution of Differences"),
                       xlab="Simulated Data Values",
-                      ylab="Difference (C - E)",
+                      ylab="Difference (E - C)",
                       horizontal = TRUE)
             }
           })

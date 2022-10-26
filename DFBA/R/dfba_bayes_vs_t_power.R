@@ -22,7 +22,7 @@
 #' @return \item{model}{Probability model for the data}
 #' @return \item{design}{The design for the data; one of \code{"independent"} or \code{"paired"}}
 #' @return \item{effect_crit}{The criterion probability for considering a posterior probability for the hypothesis that \code{delta > 0} to be a detection; it is also \code{1 - p_crit} for a frequentist \emph{t}-test}
-#' @return \item{deltav}{The offset between the variates; equal to the \code{delta argument}
+#' @return \item{deltav}{The offset between the variates; equal to the \code{delta} argument}
 #' @return \item{a0}{The first shape parameter for the beta prior distribution}
 #' @return \item{b0}{The second shape parameter for the beta prior distribution}
 #' @return \item{block.max}{The maximum size of a block effect; equal to \code{block.max} argument}
@@ -129,7 +129,7 @@
 #' \code{shape2}. Since the default value for each shape parameter is 1, the
 #' resulting alpha value of 1.16 is the default value. When alpha = 1.16, the
 #' Pareto distribution approximates an income distribution that represents the
-#' 80-20 law where 20% of the population receives 80% of the income
+#' 80-20 law where 20\% of the population receives 80\% of the income
 #' (Hardy, 2010).
 #'
 #' The \code{block.max} argument provides for incorporating block effects in the

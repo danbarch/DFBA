@@ -10,7 +10,7 @@
 #' @param n The sample size for both variates (default is 20)
 #' @param a0 The first shape parameter for the prior beta distribution (default is 1)
 #' @param b0 The second shape parameter for the prior beta distribution (default is 1)
-#' @param delta.step The increment between successive delta values, which range from 0 to \code{21*delta.step} (default value is .05)
+#' @param delta.step The increment between successive delta values, which range from 0 to \code{20*delta.step} (default value is .05)
 #' @param model Theoretical probability model for the data. One of \code{"normal"}, \code{"weibull"}, \code{"cauchy"}, \code{"lognormal"}, \code{"chisquare"}, \code{"logistic"}, \code{"exponential"}, \code{"gumbel"}, or \code{"pareto"}.
 #' @param design Indicates the data structure. One of \code{"independent"} or \code{"paired"}.
 #' @param effect_crit Stipulated  value for a significant differences for a \emph{t}-test (1 - \emph{p}), and the critical probability for the Bayesian alternative hypothesis for a Bayesian distribution-free analysis
@@ -70,9 +70,9 @@
 #' the alternative hypothesis are calculated using the \code{dfba_sim_data()}
 #' function.
 #'
-#' #' The arguments for the \code{dfba_sim_data()} function are passed from the
+#' The arguments for the \code{dfba_power_curve()} function are passed from the
 #' \code{dfba_bayes_vs_t_power()} function. Besides the sample size \code{n}, there
-#' are eight other arguments that are required by the \code{dfba_sim_data()}
+#' are eight other arguments that are required by the \code{dfba_power_curve()}
 #' function, which are passed from the \code{dfba_bayes_vs_t_power()} function:
 #' \itemize{
 #'      \item \code{a0}
@@ -135,7 +135,7 @@
 #' \code{shape2}. Since the default value for each shape parameter is 1, the
 #' resulting alpha value of 1.16 is the default value. When alpha = 1.16, the
 #' Pareto distribution approximates an income distribution that represents the
-#' 80-20 law where 20% of the population receives 80% of the income
+#' 80-20 law where 20\% of the population receives 80\% of the income
 #' (Hardy, 2010).
 #'
 #' The \code{block.max} argument provides for incorporating block effects in the

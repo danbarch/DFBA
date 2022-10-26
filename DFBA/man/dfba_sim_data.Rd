@@ -119,7 +119,7 @@ The alpha parameter is 1.16 times the shape parameters \code{shape1} and
 \code{shape2}. Since the default value for each shape parameter is 1, the
 resulting alpha value of 1.16 is the default value. When alpha = 1.16, the
 Pareto distribution approximates an income distribution that represents the
-80-20 law where 20% of the population receives 80% of the income
+80-20 law where 20\% of the population receives 80\% of the income
 (Hardy, 2010).
 
 The \code{block.max} argument provides for incorporating block effects in the
