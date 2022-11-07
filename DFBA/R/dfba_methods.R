@@ -17,13 +17,13 @@ setMethod("show", "dfba_phi_out", function(object) {
   cat(" ", object$sample.p, "\n")
   cat("\nFrequentist Analyses\n")
   cat("========================\n")
-  cat("  ", "Tau point estimate\n")
+  cat("  ", "Tau_A\n")
   cat("  ", object$tau, "\n")
   cat("\nBayesian Analyses\n")
   cat("========================\n")
-  cat(" ", "Beta Shape Parameters\n")
-  cat(" ", "Alpha", "\t\t", "Beta\n")
-  cat(" ", object$alpha, "\t\t", object$beta, "\n")
+  cat(" ", "Posterior Beta Shape Parameters for the Phi Concordance Measure\n")
+  cat(" ", "a.post", "\t\t", "b.post\n")
+  cat(" ", object$a.post, "\t\t", object$b.post, "\n")
   cat(" ", "Posterior Median\n")
   cat(" ", object$post.median, "\n")
   cat(" ", object$interval.width*100, "% Equal-tail Interval\n", sep="")
@@ -42,15 +42,13 @@ setMethod("show", "dfba_phi_star_out", function(object) {
   cat(" ", object$sample.p, "\n")
   cat("\nFrequentist Analyses\n")
   cat("========================\n")
-  cat("  ", "Tau point estimate\n")
+  cat("  ", "Tau_A point estimate\n")
   cat("  ", object$tau, "\n")
-  cat(" ", object$interval.width*100, "% Confidence Interval", "\n", sep="")
-  cat(" ", "CI to be added\n")
   cat("\nBayesian Analyses\n")
   cat("========================\n")
-  cat(" ", "Beta Shape Parameters\n")
-  cat(" ", "Alpha", "\t\t", "Beta\n")
-  cat(" ", object$alpha, "\t\t", object$beta, "\n")
+  cat(" ", "Posterior Beta Shape Parameters for the Phi Concordance Measure\n")
+  cat(" ", "a.post", "\t\t", "b.post\n")
+  cat(" ", object$a.post, "\t\t", object$b.post, "\n")
   cat(" ", "Posterior Median\n")
   cat(" ", object$post.median, "\n")
   cat(" ", object$interval.width*100, "% Equal-tail Interval\n", sep="")
@@ -59,8 +57,8 @@ setMethod("show", "dfba_phi_star_out", function(object) {
   cat("\nAdjusted for number of model-fitting parameters\n")
   cat("------------------------\n")
   cat(" ", "Beta Shape Parameters\n")
-  cat(" ", "Alpha", "\t\t", "Beta\n")
-  cat(" ", object$alpha_star, "\t\t", object$beta_star, "\n")
+  cat(" ", "a.post", "\t\t", "b.post\n")
+  cat(" ", object$a.post_star, "\t\t", object$b.post_star, "\n")
   cat(" ", "Posterior Median\n")
   cat(" ", object$post.median_star, "\n")
   cat(" ", object$interval.width*100, "% Equal-tail Interval\n", sep="")
@@ -68,18 +66,39 @@ setMethod("show", "dfba_phi_star_out", function(object) {
   cat(" ", object$post.eti.lower_star, "\t\t", object$post.eti.upper_star, "\n")
 })
 
+
 # Plot posterior and prior (optional) for dfba_phi
 # To call plots, use plot(dfba_phi())
 #' @export
 setMethod("plot",
           signature("dfba_phi_out"),
-          function(x, plot.prior=FALSE){
-            dfba_plot_beta(x$alpha,
-                           x$beta,
-                           x$a.prior,
-                           x$b.prior,
-                           plot.prior)
-          })
+          function(x, plot.prior=TRUE){
+            x.phi<-seq(0, 1, 1/1000)
+            y.phi<-dbeta(x.phi,
+                         x$a.post,
+                         x$b.post)
+            if (plot.prior==FALSE){
+              plot(x.phi,
+                   y.phi,
+                   type="l",
+                   xlab="Phi",
+                   ylab="Probability Density")
+            } else {
+              plot(x.phi,
+                   y.phi,
+                   type="l",
+                   xlab="Phi",
+                   ylab="Probability Density",
+                   main=expression("--"~"Prior"~ - "Posterior")
+                   )
+              lines(x.phi,
+                    dbeta(x.phi,
+                          x$a.prior,
+                          x$b.prior),
+                    lty=2)
+            }
+
+            })
 
 # Plot posterior and prior (optional) for dfba_phi when
 # fitting parameters are specified in options
@@ -87,13 +106,31 @@ setMethod("plot",
 #' @export
 setMethod("plot",
           signature("dfba_phi_star_out"),
-          function(x, plot.prior=FALSE){
-            dfba_plot_beta(x$alpha_star,
-                           x$beta_star,
-                           x$a.prior,
-                           x$b.prior,
-                           plot.prior)
-          })
+          function(x, plot.prior=TRUE){
+            x.phi<-seq(0, 1, 1/1000)
+            y.phi<-dbeta(x.phi,
+                         x$a.post_star,
+                         x$b.post_star)
+            if (plot.prior==FALSE){
+              plot(x.phi,
+                   y.phi,
+                   type="l",
+                   xlab="Phi",
+                   ylab="Probability Density")
+            } else {
+              plot(x.phi,
+                   y.phi,
+                   type="l",
+                   xlab="Phi",
+                   ylab="Probability Density",
+                   main=expression("--"~"Prior"~ - "Posterior")
+              )
+              lines(x.phi,
+                    dbeta(x.phi,
+                          x$a.prior,
+                          x$b.prior),
+                    lty=2)  }
+            })
 
 
 #' @export
@@ -277,8 +314,8 @@ setMethod("show", "dfba_wilcoxon_small_out", function(object) {
   cat("Descriptive Statistics \n")
   cat("========================\n")
   cat(" ", "Wilcoxon Signed-Rank Statistics", "\n")
-  cat(" ", "n", "\t", "T_plus", "\t", "T_minus", "\n")
-  cat(" ", object$n, "\t\t\t", object$T_plus, "\t\t\t", object$T_negative,"\n")
+  cat(" ", "n", "\t", "T_pos", "\t", "T_neg", "\n")
+  cat(" ", object$n, "\t\t\t", object$T_pos, "\t\t\t", object$T_neg,"\n")
   cat("\n  Monte Carlo Sampling with Discrete Probability Values\n")
   cat("========================\n")
   cat(" ", "Number of MC Samples\n")

@@ -19,15 +19,15 @@ dfba_mann_whitney(
 
 \item{C}{Data for independent sample 2 ("Control")}
 
-\item{a0}{shape parameter alpha of the prior beta distribution}
+\item{a0}{The first shape parameter for the prior beta distribution for \code{omega_E} (default is 1)}
 
-\item{b0}{shape parameter beta of the prior beta distribution}
+\item{b0}{The second shape parameter for the prior beta distribution for \code{omega_E} (default is 1)}
 
-\item{prob_interval}{Desired width of the highest density interval (HDI) of the posterior distribution (default is 95\%)}
+\item{prob_interval}{Desired probability value for the interval estimate for \code{omega_E} (default is 95\%)}
 
-\item{samples}{The number of desired Markov-Chain samples (default is 30000)}
+\item{samples}{The number of Monte Carlo samples for \code{omega_E} when \code{method = "small"} (default is 30000)}
 
-\item{method}{(Optional) The method option is either "small" or "large". The "small" algorithm is based on a discrete Monte Carlo solution for cases where n is typically less than 20. The "large" algorithm is based on beta approximation model for the posterior distribution for the omega_E parameter. This approximation is reasonable when n > 19. Regardless of n the user can stipulate which method that they desire. When the method option is  omitted the program selects the appropriate procedure.}
+\item{method}{(Optional) The method option is either "small" or "large". The "small" algorithm is based on a discrete Monte Carlo solution for cases where n is typically less than 20. The "large" algorithm is based on beta approximation model for the posterior distribution for the omega_E parameter. This approximation is reasonable when n > 19. Regardless of \eqn{n}, the user can stipulate \code{method}. When the \code{method} argument is omitted, the program selects the appropriate procedure}
 }
 \value{
 A list containing the following components:
@@ -44,35 +44,35 @@ A list containing the following components:
 
 \item{U_C}{Total number of comparisons for which observations from independent sample 2 ("Control") data exceed observations from independent sample 1 ("Experimental") data)}
 
-\item{prob_interval}{User-defined width of omega_E interval estimate (default is 0.95)}
+\item{prob_interval}{User-defined width of \code{omega_E} interval estimate (default is 0.95)}
 
 \item{samples}{The number of desired Markov-Chain samples (default is 30000)}
 
 \item{method}{A character string indicating the calculation method used}
 
-\item{omega_E}{A vector of data representing candidate values of phi (used as the x-variate in the `plot()` method.)}
+\item{omega_E}{A vector of values representing candidate values for \code{omega_E} when \code{method = "small"}}
 
-\item{omegapost}{A vector of data representing posterior probabilities of candidate values of phi (used as the y-variate in the `plot()` method.)}
+\item{omegapost}{A vector of values representing discrete probabilities for candidate values of \code{omega_E}}
 
-\item{priorvector}{A vector of data representing prior probabilities of candidate values of phi}
+\item{priorvector}{A vector of values representing prior discrete probabilities of candidate values of \code{omega_E} when \code{method = "small"}}
 
 \item{priorprH1}{Prior probability of the alternative model that omega_E exceeds 0.5}
 
 \item{prH1}{Posterior probability of the alternative model that omega_E exceeds 0.5}
 
-\item{BF10}{Bayes Factor describing the relative increase in the posterior odds for the alternative model that omega_E exceeds 0.5 over the null model of omega_E less than or equal to 0.5}
+\item{BF10}{Bayes Factor describing the relative increase in the posterior odds for the alternative model that \code{omega_E} exceeds 0.5 over the null model of \code{omega_E} less than or equal to 0.5}
 
-\item{omegabar}{Posterior mean estimate for omega_E}
+\item{omegabar}{Posterior mean estimate for \code{omega_E}}
 
-\item{qLv}{Lower limit of the probability interval indicated by `prob_interval`}
+\item{qLv}{Lower limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
 
-\item{qHv}{Upper limit of the probability interval indicated by `prob_interval`}
+\item{qHv}{Upper limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
 }
 \description{
 Given two independent vectors \code{E} and \code{C}, the function computes
-the sample Mann-Whitney \emph{U} statistics \code{U_E} and \code{U_C} and
+the sample Mann-Whitney \eqn{U} statistics \code{U_E} and \code{U_C} and
 provides a Bayesian analysis for the population parameter \code{omega_E},
-which is the population ratio of \code{U_E/(U_E+U_C)}.
+which is the population ratio of \eqn{U_E/(U_E+U_C)}.
 }
 \details{
 The Mann-Whitney \emph{U} test is the frequentist nonparametric counterpart
@@ -93,7 +93,7 @@ distribution with shape parameters \code{a0} and \code{b0}. The default is
 the flat prior (\eqn{a0 = b0 =} 1), but this prior can be altered by the
 user.
 
-The prob_interval input is the value for probability interval estimates for
+The \code{prob_interval} input is the value for probability interval estimates for
 omega_E. There are two cases depending on the sample size for the \emph{E}
 and \emph{C} variates. When the samples sizes are small, there is a discrete
 approximation method used. In this case, the Bayesian analysis considers 200
@@ -103,12 +103,12 @@ posterior probabilities are based on Monte Carlo sampling to approximate the
 likelihood of obtaining the observed \code{U_E} and \code{U_C} values for each candidate
 value for omega_E. For each candidate value for omega_E, the likelihood for
 the observed sample U statistics does not depend on the true distributions of
-the \emph{E} and \emph{C} variates in the population.
+the \emph{E} and \emph{C} variates in the population. For each candidate
+\code{omega_E}, the software constructs two exponential variates that have
+the same omega_E value. The argument \code{samples} specifies the number of
+Monte Carlo samples used for each candidate value of \code{omega_E}.
 
-For each candidate \code{omega_E}, the software constructs two exponential
-variates that have the same omega_E value. The argument \code{samples}
-specifies the number of Monte Carlo samples used for each candidate value of
-\code{omega_E}. For large sample sizes of the \emph{E} and \emph{C} variates,
+For large sample sizes of the \emph{E} and \emph{C} variates,
 the Bayesian posterior distribution is closely approximated by a beta
 distribution where the shape parameters are a function of the sample
 \code{U_E} and \code{U_C} statistics. The large-sample beta approximation was
@@ -192,9 +192,10 @@ plot(S2ex,
 }
 \references{
 Chechile, R.A. (2020). Bayesian Statistics for Experimental
-Scientists. Cambridge: MIT Press.
+Scientists: A General Introduction Using Distribution-Free Methods.
+Cambridge: MIT Press.
 
 Chechile, R.A. (2020). A Bayesian analysis for the Mann-Whitney
 statistic. Communications in Statistics -- Theory and Methods 49(3): 670-696.
-DOI: 10.1080/03610926.2018.2549247.
+DOI: 10.1080/03610926.2018.1549247.
 }

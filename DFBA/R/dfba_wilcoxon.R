@@ -1,7 +1,7 @@
 #' Repeated-Measures Test (Wilcoxon Signed-Ranks Test)
 #'
 #' Given two continuous, paired variates \code{Y1} and \code{Y2},
-#' computes the sample \code{T_plus} and \code{T_negative} statistics for the Wilcoxon
+#' computes the sample \code{T_pos} and \code{T_neg} statistics for the Wilcoxon
 #' signed-rank test and provides a Bayesian analysis for the population
 #' sign-bias parameter \code{phi_w}, which is the population proportion of
 #' positive differences.
@@ -12,15 +12,15 @@
 #'
 #' @param Y1 Numeric vector for one continuous variate
 #' @param Y2 Numeric vector for values paired with Y1 variate
-#' @param a0 shape parameter alpha of the prior beta distribution
-#' @param b0 shape parameter beta of the prior beta distribution
-#' @param prob_interval Desired probability for interval estimates of the sign bias parameter phi (default is 0.95)
-#' @param samples When \code{method = "small"}, the number of desired Monte Carlo samples per candidate value for phi (default is 30000 per candidate phi)
-#' @param method (Optional) The method option is either "small" or "large". The "small" algorithm is based on a discrete Monte Carlo solution for cases where n is typically less than 20. The "large" algorithm is based on beta approximation model for the posterior distribution for the omega_E parameter. This approximation is reasonable when n > 19. Regardless of n the user can stipulate which method that they desire. When the method option is omitted the program selects the appropriate procedure.
+#' @param a0 The first shape parameter for the prior beta distribution for \code{phi_w}
+#' @param b0 The second shape parameter for the prior beta distribution for \code{phi_w}
+#' @param prob_interval Desired probability for interval estimates of the sign bias parameter \code{phi_w} (default is 0.95)
+#' @param samples When \code{method = "small"}, the number of desired Monte Carlo samples per candidate value for \code{phi_w} (default is 30000 per candidate phi)
+#' @param method (Optional) The method option is either \code{"small"} or \code{"large"}. The "small" algorithm is based on a discrete Monte Carlo solution for cases where \emph{n} is typically less than 20. The \code{"large"} algorithm is based on beta approximation model for the posterior distribution for the \code{phi_w} parameter. This approximation is reasonable when \emph{n} > 19. Regardless of \emph{n} the user can stipulate either method. When the \code{method} argument is omitted, the program selects the appropriate procedure.
 #'
 #' @return A list containing the following components:
-#' @return \item{T_plus}{Sum of the positive ranks in the pairwise comparisons}
-#' @return \item{T_negative}{Sum of the negative ranks in the pairwise comparisons}
+#' @return \item{T_pos}{Sum of the positive ranks in the pairwise comparisons}
+#' @return \item{T_neg}{Sum of the negative ranks in the pairwise comparisons}
 #' @return \item{n}{Number of nonzero differences for differences \code{d = Y1-Y2}}
 #' @return \item{prob_interval}{User-defined probability for interval estimates for phi_w}
 #' @return \item{samples}{The number of Monte Carlo samples per candidate phi_w for \code{method = "small"} (default is 30000)}
@@ -56,10 +56,10 @@
 #' \code{Y2} measures. The procedure does not depend on the assumption of a
 #' normal distribution for the two continuous variates.
 #'
-#' The sample \code{T_plus} statistic is the sum of the ranks that have a positive
-#' sign, whereas \code{T_negative} is the positive sum of the ranks that have a
-#' negative value. Given \emph{n} nonzero \emph{d} scores, \code{T_plus} +
-#' \code{T_negative} = \emph{n}(\emph{n} + 1)/2. Tied ranks are possible, especially
+#' The sample \code{T_pos} statistic is the sum of the ranks that have a positive
+#' sign, whereas \code{T_neg} is the positive sum of the ranks that have a
+#' negative value. Given \emph{n} nonzero \emph{d} scores, \code{T_pos} +
+#' \code{T_neg} = \emph{n}(\emph{n} + 1)/2. Tied ranks are possible, especially
 #' when there are \code{Y1} and \code{Y2} values that have low precision. In
 #' such cases, the Wilcoxon statistics are rounded to the nearest integer.
 #'
@@ -76,7 +76,7 @@
 #' sample algorithm uses a discrete approximation where there are 200 candidate
 #' values for phi_w, which are .0025 to .9975 in steps of .005. For each
 #' candidate value for \code{phi_w}, there is a prior and posterior probability.
-#' The posterior probability is based on Monte Carlo sampling toapproximate the
+#' The posterior probability is based on Monte Carlo sampling to approximate the
 #' likelihood for obtaining the observed  Wilcoxon statistics. That is, for each
 #' candidate value for \code{phi_w}, thousands of Monte Carlo samples are
 #' generated for the signs on the numbers (1,2, ..., n) where each number is
@@ -100,9 +100,14 @@
 #' produce similar estimates but the former method requires increased
 #' processing time.
 #'
-#' @references Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists. Cambridge: MIT Press.
+#' @references Chechile, R.A. (2020). Bayesian Statistics for Experimental
+#' Scientists: A General Introduction to Distribution-Free Methods.
+#' Cambridge: MIT Press.
 #'
-#' Chechile, R. A. (2018) A Bayesian analysis for the Wilcoxon signed-rank statistic. Communications in Statistics - Theory and Methods, https://doi:org/10.1080/03610926.1388402
+#' Chechile, R. A. (2018) A Bayesian analysis for the Wilcoxon signed-rank
+#' statistic. Communications in Statistics - Theory and Methods,
+#' https://doi.org/10.1080/03610926.2017.1388402
+#'
 #'
 #' @examples
 #' ## Examples with a small number of pairs
@@ -154,6 +159,7 @@
 #'                  method = "small")
 #'CW
 #'plot(CW)
+#'plot(CW, plot.prior = FALSE)
 
 #' @export
 dfba_wilcoxon<-function(Y1,
@@ -219,7 +225,7 @@ dfba_wilcoxon<-function(Y1,
   if (n==0){stop("Y1 and Y2 differences are all trivial")}
   #else {}
 
-  #The following finds the Tplus and Tminus stats and the number of nonzero blocks
+  #The following finds the Tpos and Tneg stats and the number of nonzero blocks
   dt=(seq(1,n,1))*0
   IC=0
   for (I in 1:l1){
@@ -234,17 +240,17 @@ dfba_wilcoxon<-function(Y1,
   #the vector of signed rank scores.
   dtar=rank(dta)
   dtars=dtar*dt/dta
-  #The following computes the Tplus and Tminus statistics
-  tplus=0
+  #The following computes the Tpos and Tneg statistics
+  tpos=0
   for (I in 1:n){
-    if (dtars[I]>0){tplus=tplus+dtar[I]
-    } else {tplus=tplus}
+    if (dtars[I]>0){tpos=tpos+dtar[I]
+    } else {tpos=tpos}
   }
-  tplus=round(tplus)
-  tneg=(n*(n+1)*.5)-tplus
+  tpos=round(tpos)
+  tneg=(n*(n+1)*.5)-tpos
 #  cat("The Wilcoxon signed-rank statistics are:"," ","\n")
-#  cat("n","  ","T_plus","  ","T_negative","\n")
-#  cat(n,"  ",tplus,"      ",tneg,"\n")
+#  cat("n","  ","T_pos","  ","T_neg","\n")
+#  cat(n,"  ",tpos,"      ",tneg,"\n")
 
   if (is.null(method)){
     if (n > 24){method="large"} else {
@@ -276,7 +282,7 @@ dfba_wilcoxon<-function(Y1,
       for (k in 1:samples){
         tz=sum((1:n)*rbinom(n, 1, phi))
 
-        if(tz==tplus) {
+        if(tz==tpos) {
           fphi[j]=fphi[j]+1.0
         } else{
           fphi[j]=fphi[j]
@@ -361,8 +367,8 @@ dfba_wilcoxon<-function(Y1,
 #    return(cat(" ","  ","\n"))
 
 
-  dfba_wilcoxon_small_list<-list(T_plus=tplus,
-                                 T_negative=tneg,
+  dfba_wilcoxon_small_list<-list(T_pos=tpos,
+                                 T_neg=tneg,
                                  n = n,
                                  prob_interval = prob_interval,
                                  samples = samples,
@@ -395,7 +401,7 @@ dfba_wilcoxon<-function(Y1,
     #for the phi_w parameter
     na0=a0-1
     nb0=b0-1
-    term=(3*tplus)/((2*n)+2)
+    term=(3*tpos)/((2*n)+2)
     na=term-.25
     nb=(((3*n)-1)/4)-term
     apost=na+na0+1
@@ -476,8 +482,8 @@ dfba_wilcoxon<-function(Y1,
 #    m1X=" "
 #    m2X=" "
 #    return(cat(m1X,m2X,"\n"))
-  dfba_wilcoxon_large_list<-list(T_plus=tplus,
-                                 T_negative=tneg,
+  dfba_wilcoxon_large_list<-list(T_pos=tpos,
+                                 T_neg=tneg,
                                  n = n,
                                  prob_interval = prob_interval,
                                  samples = samples,

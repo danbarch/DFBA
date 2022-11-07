@@ -19,22 +19,22 @@ dfba_wilcoxon(
 
 \item{Y2}{Numeric vector for values paired with Y1 variate}
 
-\item{a0}{shape parameter alpha of the prior beta distribution}
+\item{a0}{The first shape parameter for the prior beta distribution for \code{phi_w}}
 
-\item{b0}{shape parameter beta of the prior beta distribution}
+\item{b0}{The second shape parameter for the prior beta distribution for \code{phi_w}}
 
-\item{prob_interval}{Desired probability for interval estimates of the sign bias parameter phi (default is 0.95)}
+\item{prob_interval}{Desired probability for interval estimates of the sign bias parameter \code{phi_w} (default is 0.95)}
 
-\item{samples}{When \code{method = "small"}, the number of desired Monte Carlo samples per candidate value for phi (default is 30000 per candidate phi)}
+\item{samples}{When \code{method = "small"}, the number of desired Monte Carlo samples per candidate value for \code{phi_w} (default is 30000 per candidate phi)}
 
-\item{method}{(Optional) The method option is either "small" or "large". The "small" algorithm is based on a discrete Monte Carlo solution for cases where n is typically less than 20. The "large" algorithm is based on beta approximation model for the posterior distribution for the omega_E parameter. This approximation is reasonable when n > 19. Regardless of n the user can stipulate which method that they desire. When the method option is omitted the program selects the appropriate procedure.}
+\item{method}{(Optional) The method option is either \code{"small"} or \code{"large"}. The "small" algorithm is based on a discrete Monte Carlo solution for cases where \emph{n} is typically less than 20. The \code{"large"} algorithm is based on beta approximation model for the posterior distribution for the \code{phi_w} parameter. This approximation is reasonable when \emph{n} > 19. Regardless of \emph{n} the user can stipulate either method. When the \code{method} argument is omitted, the program selects the appropriate procedure.}
 }
 \value{
 A list containing the following components:
 
-\item{T_plus}{Sum of the positive ranks in the pairwise comparisons}
+\item{T_pos}{Sum of the positive ranks in the pairwise comparisons}
 
-\item{T_negative}{Sum of the negative ranks in the pairwise comparisons}
+\item{T_neg}{Sum of the negative ranks in the pairwise comparisons}
 
 \item{n}{Number of nonzero differences for differences \code{d = Y1-Y2}}
 
@@ -82,7 +82,7 @@ A list containing the following components:
 }
 \description{
 Given two continuous, paired variates \code{Y1} and \code{Y2},
-computes the sample \code{T_plus} and \code{T_negative} statistics for the Wilcoxon
+computes the sample \code{T_pos} and \code{T_neg} statistics for the Wilcoxon
 signed-rank test and provides a Bayesian analysis for the population
 sign-bias parameter \code{phi_w}, which is the population proportion of
 positive differences.
@@ -98,10 +98,10 @@ differences, it is robust with respect to outliers in either the \code{Y1} or
 \code{Y2} measures. The procedure does not depend on the assumption of a
 normal distribution for the two continuous variates.
 
-The sample \code{T_plus} statistic is the sum of the ranks that have a positive
-sign, whereas \code{T_negative} is the positive sum of the ranks that have a
-negative value. Given \emph{n} nonzero \emph{d} scores, \code{T_plus} +
-\code{T_negative} = \emph{n}(\emph{n} + 1)/2. Tied ranks are possible, especially
+The sample \code{T_pos} statistic is the sum of the ranks that have a positive
+sign, whereas \code{T_neg} is the positive sum of the ranks that have a
+negative value. Given \emph{n} nonzero \emph{d} scores, \code{T_pos} +
+\code{T_neg} = \emph{n}(\emph{n} + 1)/2. Tied ranks are possible, especially
 when there are \code{Y1} and \code{Y2} values that have low precision. In
 such cases, the Wilcoxon statistics are rounded to the nearest integer.
 
@@ -118,7 +118,7 @@ pairs and another for when there is a large number of pairs. The \code{method = 
 sample algorithm uses a discrete approximation where there are 200 candidate
 values for phi_w, which are .0025 to .9975 in steps of .005. For each
 candidate value for \code{phi_w}, there is a prior and posterior probability.
-The posterior probability is based on Monte Carlo sampling toapproximate the
+The posterior probability is based on Monte Carlo sampling to approximate the
 likelihood for obtaining the observed  Wilcoxon statistics. That is, for each
 candidate value for \code{phi_w}, thousands of Monte Carlo samples are
 generated for the signs on the numbers (1,2, ..., n) where each number is
@@ -192,9 +192,14 @@ CW<-dfba_wilcoxon(Y1 = E,
                  method = "small")
 CW
 plot(CW)
+plot(CW, plot.prior = FALSE)
 }
 \references{
-Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists. Cambridge: MIT Press.
+Chechile, R.A. (2020). Bayesian Statistics for Experimental
+Scientists: A General Introduction to Distribution-Free Methods.
+Cambridge: MIT Press.
 
-Chechile, R. A. (2018) A Bayesian analysis for the Wilcoxon signed-rank statistic. Communications in Statistics - Theory and Methods, https://doi:org/10.1080/03610926.1388402
+Chechile, R. A. (2018) A Bayesian analysis for the Wilcoxon signed-rank
+statistic. Communications in Statistics - Theory and Methods,
+https://doi.org/10.1080/03610926.2017.1388402
 }

@@ -1,0 +1,158 @@
+
+dfba_gamma {DFBA}				R Documentation
+
+Goodman-Kruskal Gamma
+
+Description
+
+Given bivariate data in the form of either a rank-ordered table 
+or a matrix, this function computes the number of concordant 
+changes nc between the variates and the number of discordant 
+changes nd. The program also computes the Goodman-Kruskal 
+gamma statistic, which is defined as (nc-nd)/(nc+nd). The function
+further provides a Bayesian analysis of the population concordance 
+proportion parameter phi, which is the limit of the ratio nc/(nc+nd). 
+This parameter is same value as the phi parameter found for
+bivariate vectors with the dfba_phi() program.
+
+
+Usage
+
+dfba_gamma(
+  x,
+  a.prior = 1,
+  b.prior = 1,
+  interval.width = 0.95
+ )
+  
+Arguments
+
+x			A matrix or table where the I-J element is 
+			the frequency of scores where measure 1 
+			has as a rank of I and the corresponding 
+			measure 2 has a rank of J
+
+a.prior			First shape parameter for the prior beta 
+			distribution (default is 1)
+
+b.prior			Second shape parameter for the prior beta 
+			distribution (default is 1)
+
+interval.width		Desired width for interval estimates 
+			(default is 95%)
+
+
+Details
+
+If there is a bivariate study where the two measures are 
+restricted on an ordinal scale, such as when the two variates
+are ranked data over a limited set of intergers, then an ordered 
+contingency table is often a convenient data representation. 
+For such a case the element in the I-J cell of the matrix is 
+the frequency of occasions where one variate has a rank value 
+of I while the corresponding rank for the other variate is 
+J. This situation is a special case of the more general case 
+where there are two continuous bivariate measures. For the special 
+case of a rank-order matrix with frequencies, there is a 
+distribution-free concordance correlation that is in common usage - 
+the Goodman-Kruskal gamma (see Siegel & Castellan, 1988). 
+
+Chechile (2020) showed that the Goodman-Kruskal gamma is 
+equivalent to the more general Kendall tau_A coefficient. 
+Historically gamma was considered a different metric from 
+the Kendall tau because typically the Kendall coefficient
+in standard use was tau_B, which is a flawed metric
+because it does not properly correct for ties. See the 
+documentation for the dfba_phi() function for a more 
+extensive discussion about the Kendall tau_A and the 
+flawed tau_B correlation. Note users should be warned 
+that the base R instruction cor(x,y,method="kendall") 
+reports the tau_B correlation which is incorrect when 
+there are ties! The correct tau_A is computed by the
+dfba_phi() function.
+
+The gamma statistic is equal to (nc-nd)/(nc+nd) where
+nc is the number of occasions when the variates change 
+in a concordant way and nd is the number of occasions 
+when the variates change in a discordant fashion. The value
+of nc for an order matrix is the sum of terms for each IJ 
+that are equal to n_ij*N^{+}_ij where n_ij is the frequency 
+for cell IJ and N^{+}_ij is the sum of a frequencies in the 
+matrix where the row value is greater than I and where the 
+column value is greater than J. The value nd is the sum of 
+terms for each IJ that are n_ij*N^{-}_ij where N^{-}-ij is 
+the sum of the frequencies in the matrix where row value is 
+greater than I and the column value is less than J. The nc 
+and nd values computed in this fashion are respectively 
+equal to nc and nd value found when the bivariates measures 
+are entered as paired vectors into the dfba_phi() function. 
+
+As with the dfba_phi() program, the Bayesian analysis is 
+focused on the population concordance proportion phi. Also
+gamma=(2*phi -1). The likelihood function, as with the
+analysis discussed for the dfba_phi() function, is proportional 
+to [(phi^nc)*(1-phi)^nd]. The prior is a beta function, and the 
+posterior is the conjugate beta where a.post=a.prior+nc and 
+b.post=b.prior+nd.      
+
+Value
+
+A list containing the following components:
+
+gamma			Sample Goodman-Kruskal gamma statistic and 
+			it is also the sample Kendall tau_A 
+
+a.prior			First shape parameter for prior beta 
+
+b.prior			Second shape parameter for prior beta
+
+
+sample.p			Sample estimate for proportion concordance
+			nc/(nc+nd) 	
+
+nc			Number of concordant comparisons between 
+			the bivariate measures
+
+nd			Number of discordant comparison between
+			the bivariate measures
+
+a.post			First shape parameter for the posterior
+			beta distribution for the phi parameter
+
+b.post			Second shape parameter for the posterior
+			beta distribution for the phi parameter
+
+post.median		Median of the posterior distribution for
+			the phi concordance parameter
+
+interval.width		The probability of the interval estimate
+			for the phi parameter
+	
+post.eti.lower		Lower limit of the posterior equal-tail 
+			interval for the phi parameter where the 
+			width of the interval is specified by 
+			the interval.width input
+
+post.eti.upper		Upper limit of the posterior equal-tail 
+			interval for the phi parameter	
+
+
+
+
+References
+
+Chechile, R.A. (2020). Bayesian Statistics for Experimental 
+Scientists: A General Introduction Using Distribution-Free
+Methods. Cambridge: MIT Press.
+
+Siegel, S., & Castellan, N. J. (1988) Nonparametric Statistics
+for the Behavioral Sciences. New York: McGraw Hill.
+
+Examples
+
+# Example with matrix input
+N<-matrix(c(38,4,5,0,6,40,1,2,4,8,20,30),ncol=4,byrow=TRUE)colnames(N)<-c('C1','C2','C3','C4')rownames(N)<-c('R1','R2','R3')
+dfba_gamma(x=N)
+
+# Sample problem with table inputT<-as.table(N)dfba_gamma(T)
+
