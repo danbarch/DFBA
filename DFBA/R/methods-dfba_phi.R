@@ -1,0 +1,134 @@
+#' Formatted output for dfba_phi
+#' @export
+#' @rdname dfba_phi_methods
+#' @param object An object of class \code{\linkS4class{dfba_phi_out}}
+setMethod("show", signature("dfba_phi_out"), function(object) {
+  cat("Descriptive Statistics \n")
+  cat("========================\n")
+  cat(" ", "Concordant Pairs", "\t", "Discordant Pairs", "\n")
+  cat(" ", object$nc, "\t\t\t", object$nd, "\n")
+  cat(" ", "Proportion of Concordant Pairs", "\n")
+  cat(" ", object$sample.p, "\n")
+  cat("\nFrequentist Analyses\n")
+  cat("========================\n")
+  cat("  ", "Tau_A\n")
+  cat("  ", object$tau, "\n")
+  cat("\nBayesian Analyses\n")
+  cat("========================\n")
+  cat(" ", "Posterior Beta Shape Parameters for the Phi Concordance Measure\n")
+  cat(" ", "a.post", "\t\t", "b.post\n")
+  cat(" ", object$a.post, "\t\t", object$b.post, "\n")
+  cat(" ", "Posterior Median\n")
+  cat(" ", object$post.median, "\n")
+  cat(" ", object$interval.width*100, "% Equal-tail Interval\n", sep="")
+  cat(" ", "Lower Limit", "\t\t", "Upper Limit\n")
+  cat(" ", object$post.eti.lower, "\t\t", object$post.eti.upper, "\n")
+})
+
+# Formatted output for dfba_phi when fitting parameters are specified in options
+#' @export
+#' @rdname dfba_phi_methods
+#' @param object An object of class \code{\linkS4class{dfba_phi_star_out}}
+setMethod("show", "dfba_phi_star_out", function(object) {
+  cat("Descriptive Statistics \n")
+  cat("========================\n")
+  cat(" ", "Concordant Pairs", "\t", "Discordant Pairs", "\n")
+  cat(" ", object$nc, "\t\t\t", object$nd, "\n")
+  cat(" ", "Proportion of Concordant Pairs", "\n")
+  cat(" ", object$sample.p, "\n")
+  cat("\nFrequentist Analyses\n")
+  cat("========================\n")
+  cat("  ", "Tau_A point estimate\n")
+  cat("  ", object$tau, "\n")
+  cat("\nBayesian Analyses\n")
+  cat("========================\n")
+  cat(" ", "Posterior Beta Shape Parameters for the Phi Concordance Measure\n")
+  cat(" ", "a.post", "\t\t", "b.post\n")
+  cat(" ", object$a.post, "\t\t", object$b.post, "\n")
+  cat(" ", "Posterior Median\n")
+  cat(" ", object$post.median, "\n")
+  cat(" ", object$interval.width*100, "% Equal-tail Interval\n", sep="")
+  cat(" ", "Lower Limit", "\t\t", "Upper Limit\n")
+  cat(" ", object$post.eti.lower, "\t\t", object$post.eti.upper, "\n")
+  cat("\nAdjusted for number of model-fitting parameters\n")
+  cat("------------------------\n")
+  cat(" ", "Beta Shape Parameters\n")
+  cat(" ", "a.post", "\t\t", "b.post\n")
+  cat(" ", object$a.post_star, "\t\t", object$b.post_star, "\n")
+  cat(" ", "Posterior Median\n")
+  cat(" ", object$post.median_star, "\n")
+  cat(" ", object$interval.width*100, "% Equal-tail Interval\n", sep="")
+  cat(" ", "Lower Limit", "\t\t", "Upper Limit\n")
+  cat(" ", object$post.eti.lower_star, "\t\t", object$post.eti.upper_star, "\n")
+})
+
+
+# Plot posterior and prior (optional) for dfba_phi
+# To call plots, use plot(dfba_phi())
+#' @export
+#' @rdname dfba_phi_methods
+#' @param x An object of class \code{\linkS4class{dfba_phi_out}}
+#' @param plot.prior Show prior distribution (default = TRUE)
+setMethod("plot",
+          signature("dfba_phi_out"),
+          function(x, plot.prior=TRUE){
+            x.phi<-seq(0, 1, 1/1000)
+            y.phi<-dbeta(x.phi,
+                         x$a.post,
+                         x$b.post)
+            if (plot.prior==FALSE){
+              plot(x.phi,
+                   y.phi,
+                   type="l",
+                   xlab="Phi",
+                   ylab="Probability Density")
+            } else {
+              plot(x.phi,
+                   y.phi,
+                   type="l",
+                   xlab="Phi",
+                   ylab="Probability Density",
+                   main=expression("--"~"Prior"~ - "Posterior")
+              )
+              lines(x.phi,
+                    dbeta(x.phi,
+                          x$a.prior,
+                          x$b.prior),
+                    lty=2)
+            }
+
+          })
+
+# Plot posterior and prior (optional) for dfba_phi when fitting parameters are specified in options
+# To call plots, use plot(dfba_phi())
+#' @export
+#' @rdname dfba_phi_methods
+#' @param x An object of class \code{\linkS4class{dfba_phi_star_out}}
+#' @param plot.prior Show prior distribution (default = TRUE)
+setMethod("plot",
+          signature("dfba_phi_star_out"),
+          function(x, plot.prior=TRUE){
+            x.phi<-seq(0, 1, 1/1000)
+            y.phi<-dbeta(x.phi,
+                         x$a.post_star,
+                         x$b.post_star)
+            if (plot.prior==FALSE){
+              plot(x.phi,
+                   y.phi,
+                   type="l",
+                   xlab="Phi",
+                   ylab="Probability Density")
+            } else {
+              plot(x.phi,
+                   y.phi,
+                   type="l",
+                   xlab="Phi",
+                   ylab="Probability Density",
+                   main=expression("--"~"Prior"~ - "Posterior")
+              )
+              lines(x.phi,
+                    dbeta(x.phi,
+                          x$a.prior,
+                          x$b.prior),
+                    lty=2)  }
+          })

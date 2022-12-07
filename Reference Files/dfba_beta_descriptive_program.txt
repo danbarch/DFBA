@@ -1,0 +1,61 @@
+
+
+
+dfba_beta_descriptive<-function(a,b,prob_interval=.95){
+  if ((prob_interval>1)|(prob_interval<0)){
+    stop("prob_interval must be proper proportion")}
+  
+  if ((a<=0)|(b<=0)|(is.na(a))|(is.na(b))) {
+    stop("Both the a and b shape parameters for a beta must be nonnegative.")}
+  
+  phimean=a/(a+b)
+  phimedian=qbeta(.5,a,b)
+  
+  
+  if (((a==1)&(b==1))|(a<1)|(b<1)){phimode=NA} else {
+        phimode=(a-1)/(a+b-2)}
+  
+  m1="Centrality Statistics"
+  cat(m1,"are :","\n")
+  cat("Mean","    ","Median","    ","Mode","\n")
+  cat(phimean," ",phimedian," ",phimode,"\n")
+  cat(" ","  ","\n")
+  
+  hdiper=100*prob_interval
+  m2=as.character(hdiper)
+  cat(m2,"percent interval limits are :","\n")
+  cat("Interval with equal tails",":","\n")
+  qlequal=qbeta((1-prob_interval)/2,a,b)
+  qhequal=qbeta(prob_interval+((1-prob_interval)/2),a,b)
+  cat(qlequal," ",qhequal,"\n")
+  
+  cat("Highest Density Interval",":","\n")
+
+    if (((a==1)&(b==1))|(a<1)|(b<1)){
+    qLmin=NA
+    qHmax=NA} else {
+    alphaL=seq(0,1-prob_interval,(1-prob_interval)/1000)
+        qL=qbeta(alphaL,a,b)
+        qH=qbeta(prob_interval+alphaL,a,b)
+        diff=qH-qL
+        I=1
+        mindiff=min(diff)
+        while (diff[I]>mindiff){
+         I=I+1}
+         qLmin=qL[I]
+         qHmax=qH[I]
+      }
+
+    cat(qLmin," ",qHmax,"\n") 
+  
+  x=seq(0,1,.005)
+  y=dbeta(x,a,b)
+  ycum=pbeta(x,a,b)
+  outputdf<-data.frame(x=x,density=y,cum_prob=ycum)
+  out_descriptive<-list(a=a,b=b,prob_interval=prob_interval,
+                        x_mean=phimean,x_median=phimedian,x_mode=phimode,
+                        eti_lower=qlequal,eti_upper=qhequal,hdi_lower=qLmin,
+                        hdi_upper=qHmax,outputdf=outputdf)
+}
+
+

@@ -1,0 +1,113 @@
+dfba_beta_descriptive {DFBA}			R Documentation
+
+Descriptive Statistics for a Beta Distribution 
+
+Description
+
+Given the two shape parameters for a beta distribution, the function
+provides central tendency statistics, interval limits, and density 
+and cumulative probabilities.
+
+Usage
+
+dfba_descriptive(
+  a,
+  b,
+  prob_interval=.95
+ )
+
+Arguments
+
+a		The first shape parameter for the beta distribution
+
+b		The second shape parameter for the beta distribution
+
+prob_interval	Desired probability within interval limits (default
+		is .95)
+
+Details
+
+The density function for a beta variate is f(x)= Kx^(a-1)(1-x)^(b-1) 
+for x in the [0,1] interval and f(x)=0 for all other x, and  K is
+Gamma(a+b)/Gamma(a)Gamma(b) with Gamma being the gamma function 
+(Johnson, Kotz, & Balakrishnan, 1995). The two shape parameters
+a and b must be positive values. While base R has functions
+for the beta distribution, the dfba_beta_descriptive () function 
+provides some additional features not included in base R. The 
+function provides the mean, median, and mode for a beta variate in 
+terms of its two shape parameters. 
+
+While the mean and median are straightforward, there are several
+conditions that result in an undefined mode. When either (1) a=b=1,
+(2) a<1, or (3) b<1, the mode is undefined. For example when a=b=1,
+the function is the uniform distribution, which does not have a 
+modal value. The other cases above result in the density function 
+diverging at either x=0 or x=1. The program returns the value of 
+NA for the mode for all the cases where a unique mode does not 
+exist.
+
+
+For interval estimation, the function finds an equal-tail interval 
+limits in all cases, and it also provides the highest-density limits
+when there is well defined mode. When the mode does not exist, the
+function returns NA for the limits for the highest-density interval (HDI).
+For interval estimation, the probability between the lower and
+upper limit is the probability specified in the `prob_interval' input.
+If the dfba_beta_descriptive function is wrapped into a R object, then
+the user also can obtain a dataframe that has density and cumulative
+probability information that can be used for plotting.
+
+Value
+
+A list containing the following components:
+
+a		The first beta shape parameter
+
+b		The second beta shape parameter
+
+prob_interval	The probability for interval estimates 
+		
+x_mean		The mean of the distribution
+
+x_median	T	The median of the distribution
+
+x_mode		The mode for the distribution
+
+eti_lower	The equal-tail lower interval limit
+
+eti_upper	The equal-tail upper interval limit
+
+hdi_lower	The lower limit for the highest-density interval
+
+hdi_upper	The upper limit for the highest-density interval
+
+outputdf		A dataframe of x, density, and cumulative probability
+		for x = 0 to 1 in steps of .005
+
+
+Reference
+
+Johnson, N. L., Kotz S., and Balakrishnan, N. (1995). Continuous 
+Univariate Distributions, Vol. 1, New York: Wiley.
+
+See Also
+
+Distributions for details about base R commands for the beta
+distribution. 
+
+Examples
+
+dfba_beta_descriptive(a=38,b=55)
+
+dfba_beta_descriptive(38,55,prob_interval=.99)
+
+A<-dfba_beta_descriptive(a=7,b=2)
+# A is thus an R object that has the output in Value above
+x<-as.vector(A$outputdf[[1]])
+prob_density<-as.vector(A$outputdf[[2]])
+cum_prob<-as.vector(A$outputdf[[3]])
+   
+
+
+
+		  

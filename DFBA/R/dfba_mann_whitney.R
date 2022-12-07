@@ -335,7 +335,7 @@ dfba_mann_whitney<-function(E,
       }
 
     }
-    cat('\n')
+
 
     tot=sum(priorvector*fomega)
     omegapost=(priorvector*fomega)/tot
@@ -582,7 +582,9 @@ dfba_mann_whitney<-function(E,
 #    return(cat(m1X,m2X,"\n"))} else {}
 
   if ((method!="large")&(method!="small")) {
-    stop("An explicit method stipulation must be either the word large or small.")} else {}
+    stop("An explicit method stipulation must be either the word large or small.")
+  }
+  #else {}
 
 
 if(method == "small"){

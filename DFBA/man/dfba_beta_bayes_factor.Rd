@@ -11,7 +11,7 @@ dfba_beta_bayes_factor(a, b, method, H0, a0 = 1, b0 = 1)
 
 \item{b}{The second shape parameter for the posterior beta distribution}
 
-\item{method}{Input is either "interval" if the null hypothesis is a range on the [0,1] interval or it is "point" if the null hypothesis is a single number in the [0,1] interval}
+\item{method}{One of \code{"interval"} if the null hypothesis is a range on the \code{[0,1]} interval or \code{"point"} if the null hypothesis is a single number in the \code{[0,1]} interval}
 
 \item{H0}{If method="interval", then the H0 input is vector of two values, which are lower and upper limits for the null hypothesis; if method="point", then the H0 input is single number, which is the null hypothesis value}
 
@@ -22,7 +22,7 @@ dfba_beta_bayes_factor(a, b, method, H0, a0 = 1, b0 = 1)
 \value{
 A list containing the following components:
 
-\item{method}{The string of either "interval" or "point" corresponding to the type of null hypothesis tested}
+\item{method}{The string of either \code{"interval"} or \code{"point"} corresponding to the type of null hypothesis tested}
 
 \item{a}{The input value for the posterior beta first shape parameter}
 
@@ -36,23 +36,23 @@ A list containing the following components:
 
 \item{BF01}{The Bayes factor for the null over the alternative hypothesis}
 
-\item{null_hypothesis}{The value for the null hypothesis when method = "point"}
+\item{null_hypothesis}{The value for the null hypothesis when \code{method = "point"}}
 
-\item{H0lower}{The lower limit of the null hypothesis when method = "interval"}
+\item{H0lower}{The lower limit of the null hypothesis when \code{method = "interval"}}
 
-\item{H0upper}{The upper limit of the null hypothesis when method = "interval"}
+\item{H0upper}{The upper limit of the null hypothesis when \code{method = "interval"}}
 
-\item{dpriorH0}{The prior probability density for the null point when method = "point"}
+\item{dpriorH0}{The prior probability density for the null point when \code{method = "point"}}
 
-\item{dpostH0}{The posterior probability density for the null point when method = "point"}
+\item{dpostH0}{The posterior probability density for the null point when \code{method = "point"}}
 
-\item{pH0}{The prior probability for the null hypothesis when method = "interval"}
+\item{pH0}{The prior probability for the null hypothesis when \code{method = "interval"}}
 
-\item{pH1}{The prior probability for the alternative hypothesis when method = "interval"}
+\item{pH1}{The prior probability for the alternative hypothesis when \code{method = "interval"}}
 
-\item{postH0}{The posterior probability for the null hypothesis when method = "interval"}
+\item{postH0}{The posterior probability for the null hypothesis when \code{method = "interval"}}
 
-\item{postH1}{The posterior probability for the alternative hypothesis when method = "interval"}
+\item{postH1}{The posterior probability for the alternative hypothesis when \code{method = "interval"}}
 }
 \description{
 Given a beta posterior distribution and given a prior for the variate,
@@ -63,83 +63,79 @@ or interval null hypotheses.
 For a binomial variate with \code{n1} successes and \code{n2} failures, the
 Bayesian analysis for the population success rate parameter phi is
 distributed as a beta density function with shape parameters \code{a}
-and \code{b} for \code{a = n1 + a0} and \code{b = n2 + b0} where \code{a0} and \code{b0} are the shape
-parameters for the prior beta distribution. It is common for users
-to be interested in testing hypotheses about the population phi
-parameter. The Bayes factor is useful to assess if either the null
+and \code{b} for \code{a = n1 + a0} and \code{b = n2 + b0} where \code{a0}
+and \code{b0} are the shape parameters for the prior beta distribution. It is
+common for users to be interested in testing hypotheses about the population
+\eqn{\phi} parameter. The Bayes factor is useful to assess if either the null
 or the alternative hypothesis are credible.
 
 There are two types of null hypotheses -- an interval null hypothesis
 and a point null hypothesis. For example, an interval null hypothesis
-might be phi <= .5 with the alternative hypothesis being phi > .5,
-whereas a point null hypothesis might be phi=.5 with the alternative
-being phi != .5. It is conventional to call the null hypothesis H_0
-and to call the alternative hypothesis H_1. For frequentist null
-hypothesis testing, H_0 is assumed to be true, to see if this
+might be \eqn{\phi \le .5} with the alternative hypothesis being \eqn{\phi > .5},
+whereas a point null hypothesis might be \eqn{\phi = .5} with the alternative
+being \eqn{\phi \ne .5}. It is conventional to call the null hypothesis \eqn{H_0}
+and to call the alternative hypothesis \eqn{H_1}. For frequentist null
+hypothesis testing, \eqn{H_0} is assumed to be true, to see if this
 assumption is likely or not. With the frequentist approach the null
 hypothesis cannot be proved since it was assumed in the first place.
-With frequentist statistics, H_0 is thus either retained
+With frequentist statistics, \eqn{H_0} is thus either retained
 as assumed or it is rejected. Unlike the frequentist approach,
-Bayesian hypothesis testing does not assume either H_0 or H_1; it
+Bayesian hypothesis testing does not assume either \eqn{H_0} or \eqn{H_1}; it
 instead assumes a prior distribution for the population parameter
 phi, and based on this assumption arrives at a posterior
-distribution for the parameter given the data of n1 and n2 for the
+distribution for the parameter given the data of \code{n1} and \code{n2} for the
 binomial outcomes.
 
-There are two related Bayes factors - BF10 and BF01 where BF01=1/BF10.
-When BF10>1 there is more support of the alternative hypothesis,
-whereas when BF01>1 there is more support for the null hypothesis.
-Thus in Bayesian hypothesis testing it is possible to build support
-for either H_0 or H_1. In essence the Bayes factor is a measure of the
-relative strength of evidence. There is no standard guideline
-for recommending a decision about the prevailing hypothesis, but
-several statisticians have made some suggested criteria. Jeffreys
-(1961) suggested that a Bayes factor > 10 was "strong" and BF>100
-was "decisive"; however, Kass and Raffrey (1995) suggested that
-BF>20 was "strong" and BF>150 was "decisive". Chechile (2020) argued
-from a decision-theory framework for a third option for the user to
-decide "not to decide" if the prevailing Bayes factor is not
-sufficiently large. From this decision-making perspective, Chechile
-(2020) suggested that BF>19 was a "good bet-too good to disregard",
-whereas BF>99 was "a strong bet-irresponsible to avoid" and
-BF>20,001 was "virtually certain". Yet Chechile pointed out that
-despite the Bayes factor value there is often some probability,
-however small, for either hypothesis. Ultimately each academic
-discipline has to set the standard for their field for the
-strength of evidence. Yet even when the Bayes factor is below
-the user's threshold for making claims about the hypotheses, the
-value of the Bayes factor from one study can be nonetheless
-valuable to other researchers and might be combined via a product
-rule in a meta-analysis. So, the value of the Bayes factor has
-a descriptive utility.
+There are two related Bayes factors - \code{BF10} and \code{BF01} where
+\code{BF01 = 1/BF10}. When \code{BF10 > 1}, there is more support for the
+alternative hypothesis, whereas when \code{BF01 > 1}, there is more support
+for the null hypothesis. Thus, in Bayesian hypothesis testing it is possible
+to build support for either \code{H_0} or \code{H_1}. In essence, the Bayes
+factor is a measure of the relative strength of evidence. There is no
+standard guideline for recommending a decision about the prevailing
+hypothesis, but several statisticians have suggested criteria. Jeffreys
+(1961) suggested that \code{BF > 10} was \emph{strong} and \code{BF > 100}
+was \emph{decisive}; Kass and Raffrey (1995) suggested that \code{BF > 20} was
+\emph{strong} and \code{BF > 150} was \emph{decisive}. Chechile (2020) argued
+from a decision-theory framework for a third option for the user to decide
+\emph{not to decide} if the prevailing Bayes factor is not sufficiently large.
+From this decision-making perspective, Chechile (2020) suggested that \code{BF > 19}
+was a \emph{good bet - too good to disregard}, \code{BF > 99} was \emph{a strong}
+\emph{bet - irresponsible to avoid}, and \code{BF > 20,001} was \emph{virtually certain}.
+Chechile also pointed out that despite the Bayes factor value there is often
+some probability, however small, for either hypothesis. Ultimately, each
+academic discipline has to set the standard for their field for the strength
+of evidence. Yet even when the Bayes factor is below the user's threshold for
+making claims about the hypotheses, the value of the Bayes factor from one
+study can be nonetheless valuable to other researchers and might be combined
+\emph{via} a product rule in a meta-analysis. Thus, the value of the Bayes
+factor has a descriptive utility.
 
-The Bayes factor BF10 for an interval null is the ratio of the
-posterior odds of H_1 to H_0 divided by the prior odds of H_1 to H_0.
-Also the converse Bayes factor BF01 is the ratio of posterior odds of
-H_0 to H_1 divided by the prior odds of H_0 to H_1; hence BF01=1/BF10.
-If there is no change in the odds ratio as a function of new data
-being collected, then BF10=BF01=1. But if evidence is more likely for
-one of the hypotheses, then either BF10 or BF01 will be greater than
-1.
+The Bayes factor \code{BF10} for an interval null is the ratio of the posterior
+odds of \eqn{H_1} to \eqn{H_0} divided by the prior odds of \eqn{H_1} to \eqn{H_0}.
+Also, the converse Bayes factor \code{BF01} is the ratio of posterior odds of
+\eqn{H_0} to \eqn{H_1} divided by the prior odds of \eqn{H_0} to \eqn{H_1};
+hence \code{BF01 = 1/BF10}. If there is no change in the odds ratio as a
+function of new data being collected, then \code{BF10 = BF01 = 1}. But, if
+evidence is more likely for one of the hypotheses, then either \code{BF10} or
+\code{BF01} will be greater than 1.
 
-The population parameter phi is distributed on the continuous interval
-[0,1]. The prior and posterior beta distribution are probability
-density displays. Importantly this means that no point has a nonzero
-probability. Alternatively it means that the probability for any
-mathematical point is zero. For this reason all point null hypotheses
-have a probability measure of zero, but they can have a probability
-density that can be different for prior and posterior distributions.
-Interestingly there still is a meaningful Bayes factor for a point
+The population parameter \eqn{\phi} is distributed on the continuous interval
+\eqn{[0,1]}. The prior and posterior beta distribution are probability density
+displays. Importantly, this means that no point has a nonzero probability
+density, even as the probability mass for any mathematical point is zero.
+For this reason, all point null hypotheses have a probability measure of
+zero, but can have a probability density that can be different for prior and
+posterior distributions. There still is a meaningful Bayes factor for a point
 hypothesis. As described in Chechile (2020),
-\emph{BF10 = [P(H1|D)/P(H1)][P(H0)/P(H0|D)]} where D denotes the data. The
-first term in this equation is 1/1=1. But the second term is of the
-form of 0/0, which appears to undefined. However, by using
-L'Hospital's rule, it can be proved the term \emph{P(H0)/P(H0|D)} is the
-ratio of prior probability density at the null point divided by the
-posterior probability density. This method for finding the Bayes
-factor for a point is called the Savage-Dickey method because of the
-separate contributions from both of those statisticians (Dickey &
-Lientz, 1970).
+\deqn{BF10 = [p(H_1|D)/p(H_1)][p(H_0)/p(H_0|D)]} where \eqn{D} denotes the data.
+The first term in this equation is \eqn{1/1 = 1}. But the second term is of
+the form \eqn{0/0}, which appears to undefined. However, by using L'Hospital's
+rule, it can be proved the term \eqn{p(H_0)/p(H_0|D)} is the ratio of prior
+probability density at the null point divided by the posterior probability
+density. This method for finding the Bayes factor for a point is called the
+Savage-Dickey method because of the separate contributions from both of those
+statisticians (Dickey & Lientz, 1970).
 }
 \examples{
 ## Examples with the default uniform prior
@@ -172,11 +168,16 @@ dfba_beta_bayes_factor(a = 273,
 
 }
 \references{
-Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists. Cambridge: MIT Press.
+Chechile, R. A. (2020). Bayesian Statistics for Experimental Scientists:
+A General Introduction Using Distribution-Free Methods. MIT Press.
 
-Dickey, J. M., & Lientz, B. P. (1970). The weighted likelihood ratio, sharp hypotheses about chance, the order of a Markov chain. The Annals of Mathematical Statistics, 41, 214-226.
+Dickey, J. M., & Lientz, B. P. (1970). The weighted likelihood ratio, sharp
+hypotheses about chance, the order of a Markov chain. The Annals of
+Mathematical Statistics, 41, 214-226.
 
-Jeffreys, H. (1961). Theory of Probability (3rd ed.). Oxford: Oxford University Press.
+Jeffreys, H. (1961). Theory of Probability (3rd ed.). Oxford: Oxford
+University Press.
 
-Kass, R. E., & Rafftery, A. E. (1995). Bayes factors. Journal of the American Statistical Association, 90, 773-795.
+Kass, R. E., & Rafftery, A. E. (1995). Bayes factors. Journal of the American
+Statistical Association, 90, 773-795.
 }

@@ -1,0 +1,181 @@
+dfba_mcnemar {DFBA}			R Documentation
+
+Bayesian Repeated-Measurement McNemar Test for Change 
+
+Description
+
+Given a randomized-block or repeated-measurement design 
+where the response is coded as either 0 or 1, the 
+function examines the subset of cases where there is a 
+change in the response between the two tests. The function
+provides a Bayesian analysis of the population change rate
+phi_rb between the two measurements. 
+
+Usage
+
+dfba_mcnemar(
+  n_10,
+  n_10,
+  a0,
+  b0,
+  prob_interval
+)
+
+Arguments
+
+n_01		The number of cases where the first response
+		is 0 and the second response is 1.
+
+n_10		The number of cases where the first response
+		is 1 and the second response is 0.
+
+a0		The first shape parameter for the prior beta
+		distribution for the phi_rb parameter
+
+b0		The second shape parameter for the prior beta
+		distribution for the phi_rb parameter
+
+prob_interval	Desired probability for interval estimates 
+ 		for phi_rb (default is .95)
+
+
+Details
+
+Sometimes researchers are interested in the detection of a 
+change in the response rate pre- and post-treatment. The 
+frequentist McNemar test is a nonparametric test that 
+examines the subset of binary categorical responses where
+the response changes between the two tests (Siegel & 
+Castellan, 1988). The frequentist test assumes the null 
+hypothesis that the change rate is .5. Chechile (2020) 
+pointed out that the subset of change cases are binomial
+data, so a Bayesian analysis can be done for the population
+response-switching rate phi_rb. Both the prior and 
+posterior distribution for phi_rb are beta distributions.
+
+The user should be aware that the McNemar test is a change-
+detection assessment of a binary response. To illustrate
+this fact, consider the hypothetical case of a sample of
+50 people who are evaluating two political candidates 
+before and after a debate. Suppose 26 people like Candidate
+A on both tests, 14 people like Candidate B on both tests,
+but 9 people initially like Candidate A but switched to
+liking Candidate B after the debate, whereas only 1 person
+initially liked Candidate B and switched to liking 
+Candidate A after the debate. Despite the fact that the 
+study had 50 participants, it is only the 10 people who 
+switched their preference that are being studied with the
+McNemar test. Among this subset, there is evidence that 
+Candidate B did better on the debate. Nonetheless, after 
+the debate the overall rate for Candidate A still is 
+larger since 27 people prefer A (54%), but this level of
+support is down from the initial level of 35 people (70%).
+
+
+The dfba_mcnemar () function requires two inputs, n_01 and 
+n_10, which are respectively the number of (0-to-1) changes
+and the number of (1-to-0) switches in the binary response
+between the two tests. Since the cases where there is a 
+switch is itself a binomial process, the prior and 
+posterior distributions for phi_rb are beta distributions. 
+The prior distribution shape parameters are a0 and b0. The
+default is a uniform distribution (i.e., a0=b0=1); 
+however, users can employ a different prior by adjusting 
+the a0 and b0 values. The `prob_interval' input 
+stipulates the probability within the equal-tail interval
+limits for phi_rb. This input has a default of .95, but
+that value can be adjusted by the user. 
+
+
+
+Besides computing the posterior mean, posterior median,
+equal-tail interval limits, and the posterior probability 
+that phi_rb > .5, the function also computes two Bayes 
+factor values. One is the point Bayes factor BF10 against 
+the null hypothesis that phi_rb=.5. The second Bayes 
+factor BF10 is the interval Bayes factor against the null 
+hypothesis that phi_rb is equal or less than .5. If the 
+interval Bayes factor BF10 is very low, then there is 
+support to some degree for the null hypothesis that phi_rb
+is less than .5. In this case the Bayes factor BF01 in 
+support of the interval null hypothesis can found by the
+user with the calculate of BF01=1/BF10.
+
+See Also
+
+dfba_beta_bayes_factor() for furter documentation about
+the Bayes factor and its interpretation.
+
+Value
+
+n_01		The number of cases where the first response
+		is 0 and the second response is 1
+
+n_10		The number of cases where the first response
+		is 1 and the second response is 0
+
+prob_interval	Desired posterior probability within the 
+		equal-tail interval limits for phi_rb 
+		
+
+a0		The first shape parameter for the prior
+		beta distribution for the phi_rb parameter
+
+b0		The second shape parameter for the prior
+		beta distribution for the phi_rb parameter
+
+post.a		First shape parameter for the posterior
+		beta distribution for the phi_rb parameter
+
+post.b		Second shape parameter for the posterior
+		beta distribution for the phi_rb parameter
+
+post.mean	Posterior mean for phi_rb
+
+post.median	Posterior median for phi-rb
+
+post_eti_lower	Lower limit for the posterior equal-tail 
+		interval estimate for phi_rb that contains
+		the probability defined in 'prob_interval' 
+
+post_eti_upper	Upper limit for the posterior equal-tail
+		interval estimate for phi_rb that contains
+		the probability defined in `prob_interval'
+
+BF10point	The Bayes factor against the point null 
+		hypothesis that phi_rb=.5
+
+BF10interval	The Bayes factor against the interval 
+		null hypothesis that phi_rb less than or
+		equal to .5	
+
+postH1		The posterior probability that phi_rb>.5
+
+
+References
+
+Chechile, R. A. (2020). Bayesian Statistics for Experimental
+Scientists: A General Introduction Using Distribution-Free
+Methods. Cambridge: MIT Press.
+
+Siegel, S. & Castellan, N. J. (1988). Nonparametric Statistics
+for the Behavioral Sciences. New York: McGraw-Hill.
+
+
+Examples
+
+## Examples with default value for a0, b0 and prob_interval
+dfba_mcnemar(n_01=17,n_10=2)
+dfba_mcnemar(17,2)
+
+## Using the Jeffreys prior and .99 within interval limits
+dfba_mcnemar(n_01=17,n_10=2,a0=.5,b0=.5,prob_interval=.99)
+
+
+
+
+
+
+
+
+

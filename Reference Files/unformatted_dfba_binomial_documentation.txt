@@ -1,0 +1,259 @@
+dfba_binomial {DFBA}			       R Documentation
+
+Bayesian Binomial Rate Parameter Inference 
+
+Description
+
+Given binomial frequency data, the program provides a Bayesian
+analysis for the population binomial rate parameter.
+
+Usage
+
+dfba_binomial(
+  n1,
+  n2,
+  a0=1,
+  b0=1,
+  prob_interval=.95
+ )
+
+Arguments
+
+n1		Integer number of binomial observations for 
+		a category 1 response (e.g., the number of
+		successes)
+
+n2		Integer number of binomial observations for
+		a category 2 response (e.g., the number of 
+		failures)
+
+a0		The first shape parameter for the prior beta 
+		distribution that corresponds to the population 
+		binomial parameter (default is 1)
+
+b0		The second shape parameter for the prior beta
+		distribution for the population binomial rate
+		parameter (default is 1)
+
+prob_interval	Probability within interval estimates for the
+		population binomial rate parameter (default is
+		.95)
+
+Details
+
+The binomial distribution with size = n and probability = phi has 
+discrete probabilities p(x) = choose(n, x) phi^x (1-phi)^(n-x),
+where the choose() function is n!/x!(n-x)! and where x is an integer
+from 0 to n in steps of 1. The binomial model assumes a Bernoulli 
+process of independent trials where there are binary outcomes that 
+have the same probability (say phi) for a response in one of the two
+categories and a probability of (1-phi) for the other category. Before
+any data are collected there are n+1 possible values for x number of 
+outcomes in category 1 and n-x number of outcomes in category 2. 
+The binomial distribution is a likelihood distribution. A likelihood 
+is the probability of an outcome given a specific value for the 
+population rate parameter. Yet for real applications, the population
+parameter is not known. All that is known are the outcomes observed 
+from a set of binomial trials. The binomial inference problem is 
+estimating the population phi parameter based on the sample data. 
+
+The frequentist approach to statistics is based on the relative 
+frequency method of assigning probability values (Ellis, 1842). From 
+this framework, there are no probabilities for anything that does not
+have a relative frequency (von Mises, 1957). In frequency theory the
+phi parameter does not have a relative frequency, so it cannot have a
+probability distribution. From a frequentist framework, a value for 
+the binomial rate parameter is assumed, and there is a discrete 
+distribution for the n+1 outcomes for x from 0 to n. The discrete 
+likelihood distribution has relative frequency over repeated 
+experiments. Thus, for the frequentist approach, x is a random 
+variable, and phi is an unknown fixed constant. Frequency theory 
+thus delibrately eschews the idea of the binomial rate parameter 
+having a probability distribution. Laplace (1774) had previously 
+employed a Bayesian approach of treating the phi parameter as a
+random variable. Yet Ellis and other researchers within 
+the frequentist tradition delibrately rejected the Laplace/Bayes 
+approach. For tests of a null hypothesis of an assumed phi value,
+the frequentist approach either continues to assume the null
+hypothesis or it rejects the null hypothesis depending on the 
+likelihood of the observed data plus the likelihood of more 
+extreme outcomes. The confidence interval is the range of phi 
+values where the null hypothesis of specific phi values would be
+retained given the observed data (Clopper & Pearson, 1934). Yet
+the frequentist confidence interval is not a probability 
+interval since population parameters cannot have a probability
+distribution with frequentist methods. Frequentist statisticians
+were well aware that if the phi parameter had a distribution, then
+the Laplace/Bayes approach would be correct.  
+
+
+Bayesian statistics rejects the frequentist theoretical decisions 
+as to what are the fixed constants and what is the random variable 
+that can take on a range of values. From a Bayesian framework,
+probability is anything that satisfies the Kolmogorov (1933) axioms,
+so probabilities need not be limited to processes that have a 
+relative frequency. Importantly probability can be a measure of 
+information or knowledge provided that the probability 
+representation meets the Kolmogorov axioms. Given binomial data, 
+the population binomial rate parameter phi is unknown, so it is 
+represented with a probability distribution for its possible values. 
+This assumed distribution is the prior distribution. Furthermore, 
+the quantity x for the likelihood distribution above is not
+a random variable once the experiment has been conducted. 
+If there are n1 outcomes for category 1 and n2=n-n1 outcomes in
+category 2, then these are fixed values. While frequentist statistics
+computes both the likelihood of the observed outcome as well as the 
+likelihood for unobserved outcomes that are more extreme, in 
+Bayesian inference it is only the likelihood of the observed outcome
+is computed. From the Bayesian perspective the inclusion of 
+unobserved outcomes in the analysis violates the likelihood 
+principle (Berger & Wolpert, 1988). A number of investigators 
+have found paradoxes with frequentist procedures when the 
+likelihood principle is not used (e.g., Lindley & Phillips,
+1976; Chechile, 2020). Also the use of strictly computing only 
+the likelihood of the observed data results in Bayesian statistics
+with the likelihood for the binomial being proportional to
+phi^n1 (1-phi)^n2. In Bayesian statistics the proportionality 
+constant is not needed because it appears in both the numerator
+and the denominator of Bayes theorem, so it cancels. See 
+Chechile (2020) for more extensive comparisons between 
+frequentist and Bayesian approaches with a particular focus on
+the binomial model.
+
+ 
+Given a beta distribution prior for the binomial phi parameter, 
+it has been shown that the resulting posterior distribution
+from Bayes theorem is another member of the beta family of
+distribtions (Lindley & Phillips, 1976). This property of the
+prior and posterior being in the same distributional family is 
+colled conjugacy. The beta distribution is a natural Bayesian 
+conjugate function for all Bernoulli processes where the 
+likelihood is proportional to phi^n1 (1-phi)^n2 (Chechile, 2020).
+
+The density function for a beta variate is
+ f(phi)= C phi^(a-1)(1-phi)^(b-1) 
+for phi in the [0,1] interval and f(phi)=0 for all other phi, and 
+the constant C is Gamma(a+b)/Gamma(a)Gamma(b) with Gamma being the
+gamma function (Johnson, Kotz, & Balakrishnan, 1995). The two shape
+parameters a and b must be positive values. If the beta prior shape
+parameters are a0 and b0, then the posterior beta shape parameter 
+are post.a=a0+n1 and post.b=b0+n2. The default prior for the 
+dfba_binomial() function is a0=b0=1, which corresponds to the 
+uniform prior. The user can adjust the a0 and b0 for other 
+possible prior distributions.
+
+Thus the Bayesian inference for the unknown binomial rate parameter
+phi is the posterior beta distribution with shape parameters of 
+post.a and post.b. The dfba_binomial () function, uses the 
+dfba_beta_descriptive () function to find the centrality point 
+estimates (i.e., the mean, median, and mode) and to find two interval 
+estimates that contain the probability specified in the 
+`prob_interval' input. One interval has equal-tail 
+probabilities and the other interval is the highest-density 
+interval. Users can use the dfba_beta_bayes_factor () function 
+to test hypotheses about the phi parameter.
+
+
+Value
+
+A list containing the following components:
+
+n1		Observed number of category 1 responses
+
+n2		Observed number of category 2 responses
+
+a0		First shape parameter for the prior beta
+		distribution of the binomial rate parameter
+
+b0		Second shape parameter for the prior beta 
+		distribution of the binomial rate parameter
+
+prob_interval	Probability within interval estimates for 
+		the population binomial rate parameter
+
+post.a		First shape parameter for the posterior 
+		beta distribution for the binomial rate 
+		parameter
+
+post.b		Second shape parameter for the posterior 
+		beta distribution for the binomial rate 
+		parameter
+
+phimean		Mean of the posterior beta distribution
+		for the binomial rate parameter
+
+phimedian	Median of the posterior beta distribution
+		for the binomial rate parameter
+
+phimode		Mode of the posterior beta distribution
+		for the binomial rate parameter
+
+eti_lower	Lower limit for the posterior equal-tail
+		interval that has the probability stipulated
+		in the prob_interval input
+		
+eti_upper	Upper limit for the posterior equal-tail 
+		interval that has the probability stipulated 
+		in the prob_interval input
+
+hdi_lower	Lower limit for the posterior highest-density 
+		interval that has the probability stipulated 
+		in the prob_interval input
+
+hdi_upper	Upper limit for the posterior highest-density
+		interval that has the probability stipulated 
+		in the prob_interval input
+
+
+Reference
+
+Berger, J. O., & Wolpert, R. L. (1988). The Likelihood
+Principle (2nd ed.) Hayward, CA: Institute of Mathematical
+Statistics.
+
+Chechile, R. A. (2020). Bayesian Statistics fo Experimental 
+Scientists: A General Introduction Using Distribution-Free 
+Statistics. Cambridge: MIT Press.
+
+Clopper, C. J., & Pearson, E. S. (1934). The use of confidence
+or fiducial limits illustrated in the case of the binomial.
+Biometrika, 26, 404-413.
+
+Ellis, R. L. (1842). On the foundations of the theory of 
+probability. Transactions of the Cambridge Philosophical
+Society, 8, 1-6.
+
+Johnson, N. L., Kotz S., and Balakrishnan, N. (1995). Continuous 
+Univariate Distributions, Vol. 1, New York: Wiley.
+
+Kolmogorov, A. N. (1933/1959). Grundbegriffe der 
+Wahrcheinlichkeitsrechnung. Berlin: Springer. English 
+translation in 1959 as Foundations of the Theory of
+Probability. New York: Chelsea.
+
+Laplace, P. S. (1774). Memoire sr la probabilite des causes par
+les evenements. Oeuvres complete, 8,5-24.
+
+Lindley, D. V., & Phillips, L. D. (1976). Inference for a 
+Bernoulli process (a Bayesian view). The American Statistician,
+30, 112-119.
+
+von Mises, R. (1957). Probability, Statistics, and Truth. New
+York: Dover.
+
+See Also
+
+Distributions for details about the base R commands for the binomial
+and beta distributions
+
+Documentation for the dfba_beta_descriptive () function and the
+dfba_beta_bayes_factor() function.
+
+Examples
+
+# Example using defaults of a uniform prior and 95% interval estimates
+dfba_binomial(n1=16,n2=2)
+
+# Example with the Jeffreys prior and 99% interval estimates
+dfba_binomial(n1=16,n2=2,a0=.5,b0=.5,prob_interval=.99)
+

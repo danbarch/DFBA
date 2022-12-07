@@ -1,0 +1,62 @@
+dfba_mcnemar<-function(n_01,n_10,a0=1,b0=1,prob_interval=.95) {
+
+if ((a0<=0)|(b0<=0)|(is.na(a0))|(is.na(b0))) {stop("Both a0 and b0 must be positive")}
+if ((prob_interval>=1)|(prob_interval<=0)){stop("prob_interval must between 0 and 1")}
+
+if ((n_01<0)|(n_10<0)|(is.na(n_01))|(is.na(n_10))){
+stop("Neither n_01 nor n_10 can be negative")}
+
+n10t=round(n_10)
+n01t=round(n_01)
+if ((n_01!=n01t)|(n_10!=n10t)){
+stop("n_01 and n_10 must be integers")}
+
+cat("Frequencies of a change in 0/1 response between the two tests","\n")
+cat("0 to 1 shift"," ","1 to 0 shift","\n")
+cat(n_01,"            ",n_10,"\n")
+cat(" ","  ","\n")
+
+post.a=a0+n_01
+post.b=b0+n_10
+mean_phi_rb=post.a/(post.a+post.b)
+median_phi_rb=qbeta(.5,post.a,post.b)
+
+cat("Posterior Beta Shape Parameters for Phi_rb"," ","\n")
+cat("post.a ","post.b","\n")
+cat(post.a,"    ",post.b,"\n")
+cat(" ","  ","\n")
+
+cat("Posterior Point Estimates for Phi_rb"," ","\n")
+cat("phi_rb mean","  phi_rb median","\n")
+cat(mean_phi_rb,"   ",median_phi_rb,"\n")
+cat(" ","  ","\n")
+
+eti_lower=qbeta((1-prob_interval)/2,post.a,post.b)
+eti_upper=qbeta(1-((1-prob_interval)/2),post.a,post.b)
+
+prob_percent=prob_interval*100
+m2=as.character(prob_percent)
+cat(m2,"percent equal-tail limits are:","\n")
+cat(eti_lower," ",eti_upper,"\n")
+cat(" ","  ","\n")
+cat("Point Bayes factor against null of phi_rb =.5 is:"," ","\n")
+outBFpoint<-dfba_beta_bayes_factor(a=post.a,b=post.b,method="point",H0=.5,a0=a0,b0=b0)
+BF10point=outBFpoint$BF10
+cat(BF10point," ","\n")
+outBFinterval<-dfba_beta_bayes_factor(a=post.a,b=post.b,method="interval",H0=c(0,.5),a0=a0,b0=b0)
+BF10interval=outBFinterval$BF10
+cat("Interval Bayes factor against the null that phi_rb less than or equal to .5"," ","\n")
+cat(BF10interval," ","\n")
+cat(" "," ","\n")
+
+cat("Posterior Probability that Phi_rb>.5 is"," ","\n")
+postH1=outBFinterval$postH1
+cat(postH1," ","\n")
+
+mcnemar_list<-list(n_10=n_10,n_01=n_01,prob_interval=prob_interval,a0=a0,b0=b0,
+post.a=post.a,post.b=post.b,post_mean=mean_phi_rb,post_median=median_phi_rb,post_eti_lower=eti_lower,
+post_eti_upper=eti_upper,BF10point=BF10point,BF10interval=BF10interval,postH1=postH1)
+}
+
+
+ 

@@ -1,0 +1,192 @@
+dfba_sign_test {DFBA}			       R Documentation
+
+Bayesian Sign Test 
+
+Description
+
+Given two paired continuous variates Y1 and Y2, the program 
+provides a Bayesian sign test to assess the positivity rate
+for the difference Y1-Y2.
+
+Usage
+
+dfba_sign_test(
+  Y1,
+  Y2,
+  a0=1,
+  b0=1,
+  prob_interval=.95
+ )
+
+Arguments
+
+Y1		Vector of the continuous measurements for 
+		the first condition
+		
+Y2		Vector of the continuous values paired 
+		with the Y1 vector for the values in a 
+		second condition
+
+a0		The first shape parameter for the prior
+		beta distribution for the positive-sign
+		rate parameter (default is 1)
+
+b0		The second shape parameter for the prior
+		beta distribution for the positive-sign
+		rate parameter (default is 1)
+
+prob_interval	Desired probability within interval limits
+		for interval estimates of the positivity
+		rate parameter (default is .95)
+
+Details
+ 
+Given two paired continuous variates (denoted as Y1 and Y2) 
+for two within-block conditions, statistical tests for 
+condition differences examine the difference measure d=Y1-Y2.
+The t-test is a conventional frequentist parametric 
+procedure to assess the d values. There are also two common 
+frequentist nonparametric tests for assessing condition 
+differences (i.e., the sign test and the Wilcoxon signed-
+rank test). The sign test is less powerful than the Wilcoxon 
+signed-rank test (Siegel & Castellan, 1988). The appeal of  
+the sign test for some researchers is that it is simple, and 
+in some cases, it is sufficient for demonstrating a strong 
+condition difference. 
+
+The dfba_sign_test() function provides a Bayesian 
+version for the sign test, whereas the function 
+dfba_wilcoxon() provides the Bayesian signed-rank test.
+While the Wilcoxon procedure uses both rank and sign
+information, the sign test only uses sign information. 
+The dfba_sign_test() program finds the number of positive 
+and negative d values, which are n_pos and n_neg 
+respectively. Note that it is standard both in the 
+frequentist sign test and in the frequentist Wilcoxon 
+signed-rank procedure to remove the d values that are zero. 
+Consequently, the signs for the nonzero d values are 
+binary, so the posterior is a beta distribution with shape
+parameters post.a, and post.b where post.a=a0+n_pos and 
+post.b=b0+n_neg and where a0 and b0 are the respective
+first and second beta shape parameters for the prior.
+The default prior is a uniform distribution, but the user
+can adjust the inputs values for a0 and b0 to employ a
+different prior.
+
+The function estimates the population rate for positive 
+signs by calling the dfba_beta_descriptive () function 
+using the computed post.a and post.b values. Since
+interest in the sign test is focused on the null 
+hypothesis that the positivity rate is less than or 
+equal to .5, the dfba_sign_test () calls the 
+dfba_beta_bayes_factor () program to obtain the prior
+and posterior probabilities for the alternative
+hypothesis that the positivity rate is greater than
+.5. Also the Bayes factors BF10 and BF01 are found, 
+where BF01=1/BF10. If the BF01 Bayes factor is large, 
+then that is support for the null hypothesis; whereas
+if BF10 is large, then that is support for the 
+alternative hypothesis.
+
+See Also
+
+The documentation for the following DFBA functions: 
+dfba_beta_descriptive, dfba_beta_bayes_factor, and
+dfba_wilcoxon
+
+
+Value
+
+A list containing the following components:
+
+Y1 		Vector of continuous scores for the
+		first within-block condition
+
+Y2		Vector of continuous values for the
+		second within-block condition
+
+a0		First shape parameter for the prior
+		beta distribution for the population
+		parameter for the positivity rate
+
+b0		Second shape parameter for the prior
+		beta distribution for the population
+		positivity rate
+
+prob_interval	The probability within the interval
+		limits for the interval estimate of
+		population positivity rate
+
+n_pos		Sample number of positive differences
+
+n_neg		Sample number of negative differences
+
+post.a		First shape parameter for the posterior
+		beta distribution for the population 
+		positivity rate
+
+post.b		Second shape parameter for the posterior
+		beta distribution for the population
+		positivity rate for differences
+
+phimean		Mean of the posterior distribution for the
+		positivity rate parameter
+
+phimedian	Median of the posterior distribution for the
+		positivity rate parameter
+
+phimode		Mode of the posterior distribution for the
+		positivity rate parameter
+
+eti_lower	Lower limit of the equal-tail interval 
+		estimate of the positivity rate parameter
+
+eti_upper	Upper limt of the equal-tail interval
+		estimate of the positivity rate parameter
+
+hdi_lower	Lower limit for the highest-density interval
+		estimate of the positivity rate parameter
+
+hdi_upper	Upper limit for the highest-density interval
+		estimate of the positivity rate parameter
+
+post_H1		Posterior probability that the positivity rate
+		is greater than .5
+
+prior_H1		Prior probability that the positivity rate is
+		greater than .5
+
+BF10		The Bayes factor in favor of the alternative
+		hypothesis that the positivity raate is greater
+		than .5b
+
+BF01		The Bayes factor in favor of the null hypothesis
+		that the positivity rate is equal to or less than
+		.5
+
+
+Reference
+
+Chechile, R. A. (2020). Bayesian Statistics for Experimental
+Scientists: A General Introduction Using Distribution_Free
+Methods. Cambridge, MIT Press.
+
+Siegel, S., & Castellan, N. J. (1988). Nonparametric Statistics
+for the Behavioral Sciences. New York: McGraw Hill.
+
+Examples
+
+condit1<-c(1.49,0.64,0.96,2.34,0.78,1.29,0.72,1.52,0.62,1.67,
+1.19,0.860)
+condit2<-c(0.53,0.55,0.58,0.97,0.60,0.22,0.05,13.14,0.63,
+0.33,0.91,0.37)
+
+## Example with defaults for prior and for interval width
+dfba_sign_test(Y1=condit1,Y2=condit2)
+
+## Example with Jeffreys prior and 99% interval estimates
+dfba_sign_test(condit1,condit2,a0=.5,b0=.5,prob_interval=.99)
+
+
+
+		

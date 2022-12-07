@@ -1,0 +1,104 @@
+dfba_sign_test<-function(Y1,Y2,a0=1,b0=1,prob_interval=.95) {
+    l1 = length(Y1)
+    l2 = length(Y2)
+    if (l1 != l2) {
+        stop("Y1 and Y2 must have the same length. This function is for paired within-block data.")
+    }
+    
+    if ((a0 <= 0) | (b0 <= 0)) {
+        stop("Both of the beta shape parameters must be >0.")
+    }
+    if ((prob_interval < 0) | (prob_interval > 1)) {
+        stop("The probability for the interval estimation must be a proper proportion.")
+    }
+    
+    
+    Etemp = Y1
+    Ctemp = Y2
+    d = Y1 - Y2
+    dtemp = d
+    jc = 0
+    for (j in 1:length(Y1)) {
+        if (is.na(dtemp[j])) {
+        }
+        else {
+            jc = jc + 1
+            Y1[jc] = Etemp[j]
+            Y2[jc] = Ctemp[j]
+            d[jc] = dtemp[j]
+        }
+    }
+    Y1 = Y1[1:jc]
+    Y2 = Y2[1:jc]
+    d = d[1:jc]
+    l1 = jc
+    if (l1 < 3) {
+        stop("There are not enough values in the Y1 and Y2 vectors for meaningful results.")
+    }
+    sdd = sd(d)
+    IC = 0
+    for (I in 1:l1) {
+        if (abs(d[I]) <= sdd/30000) {
+            IC = IC
+        }
+        else {
+            IC = IC + 1
+        }
+    }
+    n = IC
+    if (n == 0) {
+        stop("Y1 and Y2 differences are all trivial")
+    }
+    dt = (seq(1, n, 1)) * 0
+    IC = 0
+    for (I in 1:l1) {
+        if (abs(d[I]) <= sdd/30000) {
+            IC = IC
+        }
+        else {
+            IC = IC + 1
+            dt[IC] = d[I]
+        }
+    }
+   
+    n_pos=sum(dt>0)
+    n_neg=n-n_pos
+    post.a=n_pos+a0
+    post.b=n_neg+b0
+
+
+   cat("Analysis of the Signs of the Differences Y1-Y2 Pairs"," ","\n")
+   cat("Number Positive ","Number Negative","\n")
+   cat(n_pos,"              ",n_neg,"\n")
+   cat(" "," ","\n")
+   cat("Following is an Analysis of the Positive Sign Rate:"," ","\n")
+  
+
+   des_out<-dfba_beta_descriptive(post.a,post.b,prob_interval=prob_interval)
+   phimean=des_out$x_mean
+   phimedian=des_out$x_median
+   phimode=des_out$x_mode
+   eti_lower=des_out$eti_lower
+   eti_upper=des_out$eti_upper
+   hdi_lower=des_out$hdi_lower
+   hdi_upper=des_out$hdi_upper  
+   prior_H1=1-pbeta(.5,a0,b0)
+   post_H1=1-pbeta(.5,post.a,post.b)
+   cat("Prior and Posterior Prob. for Positive Rate :"," ","\n")
+   cat(prior_H1," ",post_H1,"\n")
+   cat(" "," ","\n")
+   
+   cat("Bayes Factors (BF10) for Pos. Rate > .5 and BF01"," ","\n")
+   out_BF<-dfba_beta_bayes_factor(a=post.a,b=post.b,method="interval",H0=c(0,.5))
+   BF10=out_BF$BF10
+   BF01=out_BF$BF01
+   cat(BF10," ",BF01,"\n")
+ sign_list<-list(Y1=Y1,Y2=Y2,a0=a0,b0=b0,prob_interval=prob_interval,n_pos=n_pos,
+n_neg=n_neg,post.a=post.a,post.b=post.b,phimean=phimean,phimedian=phimedian,
+phimode=phimode,eti_lower=eti_lower,eti_upper=eti_upper,hdi_lower=hdi_lower,
+hdi_upper=hdi_upper,post_H1=post_H1,prior_H1=prior_H1,BF10=BF10,BF01=BF01)
+
+  }
+
+   
+   

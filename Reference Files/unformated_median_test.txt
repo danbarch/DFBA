@@ -1,0 +1,220 @@
+dfba_median_test {DFBA}			R Documentation
+
+Bayesian Median Test
+
+Description
+
+Given two independent groups where the variate for each
+group is continuous, the function does a Bayesian
+analysis to see if it is more likely than would be
+expected for an above-median value to be from one of the
+groups.
+
+
+Usage
+
+dfba_median_test(
+  E,
+  C,
+  a0=1,
+  b0=1
+)
+
+Arguments
+
+E		Numeric vector of values for the
+		continuous measurements for group 1,
+		which generically is denote as E for
+		the experimental group
+
+C		Numeric vector of values for the
+ 		continuous measurements for group 2,
+		which is generically denoted as C
+		for the ontrol group
+
+a0		The first shape parameter for the prior
+		beta distribution for the binomial
+		parameter phi (default is 1)
+
+b0		The second shape parameter for the
+		prior beta distribution for the
+		binomial parameter phi (default is 1)
+
+
+
+Details
+
+Given continuous measurements E and C from two separate
+and independent groups, a combined sample median value can
+be computed. For the frequentist median test, a 2x2 table
+is created. Row 1 consists of the frequencies of the above-
+median responses in terms of the two groups (i.e., nEabove
+and nCabove). Row 2 has the respective frequencies for the
+scores that are at or below the combined median (i.e.,
+nEbelow and nCbelow). See Siegel & Castellan (1988) for
+the details concerning the frequentist median test.
+
+
+Chechile (2020) provided an alternative Bayesian
+analysis for the median-test procedure of examining
+continuous data in terms of the categorization of the scores
+as being either above the combined median or not. The
+frequencies in row 1 (above median response) are just
+binomial frequencies in terms of the group origin (i.e.,
+E versus C). From a Bayesian perspective, a population phi
+parameter can be defined for the population proportion of E
+scores that are above the combined sample median. Similarly
+the frequencies for the scores at or below the combined
+sample median can also be examined, but the corresponding
+population proportion in the E condition must be (1-phi).
+Thus, it is sufficient to only examine the above-median
+frequencies to make an inference about the phi parameter.
+Since this is a binomial problem, the prior and posterior
+distributions for the population phi parameter belong to
+the beta family of distributions. The default prior for
+this function is the uniform distribution (i.e, a0=b0=1),
+but the user can adjust that prior. The posterior shape
+parameters for phi are post.a=a0+nEabove and
+post.b=b0+nCabove.
+
+Because the number of scores in groups E and C might
+be very different, it is important to examine the
+phi parameter relative to an expected baserate value
+from the sample. For example, suppose that there are
+90 scores from the E group and 10 scores from the C
+group, then the 50 scores that are above the combined
+median should be examined to see if phi is greater
+than .9. If there were no difference between the E
+and C conditions whatsoever in this hypothetical
+example, then about 90 percent of the above-median
+values should be from the E group. If the posterior
+phi parameter is substantially above the group E
+baserate, then it would support the hypothesis that
+group E has larger values than group C in the
+population.
+
+The dfba_median_test() provides the descriptive sample
+information of the combined median as well as the
+entries for a table for the frequencies for the E and
+C scores that are above the median as well as the
+frequencies for the E and C scores at or below the
+median. The function also provides the prior and
+posterior probabilities that the E and C groups
+exceeding their respective baserates for a score being
+above the median. The function also evaluates the
+hypotheses that the E and C response rates for the
+above-median responses exceeding their baserate.
+Bayes factors are provided for these hypothesis.
+
+
+Because the Bayesian median test ignores the rank-
+order information that is available, this procedure
+has less power than the Bayesian Mann-Whitney
+analysis that can be computed for the same data.
+Nonetheless sometimes researchers are interested if
+condition differences are so strong that even a
+lower power median test can detect the difference.
+
+
+See Also
+
+dfba_beta_bayes_factor() for further documentation about
+the Bayes factor and its interpretation.
+
+dfba_mann_whitney() for a more powerful alternative
+Bayesian analysis of the E and C values that use the
+rank order information.
+
+
+Value
+
+A list containing the following components:
+
+median		The sample combined median for the E and
+		C values
+
+nE		The number of scores from group E
+
+nC		The number of scores from group C
+
+Ebaserate	The proportion nE/(nE+nC)
+
+Cbaserate	The proportion nC/(nE+nC)
+
+nEabove		Number of E responses above the median
+
+nCabove		Number of C responses above the median
+
+nEbelow		Number of E responses at or below median
+
+nCbelow		Number of C response at or below median
+
+a0		The first shape parameter for the prior
+		beta distribution for the population
+		binomial parameter
+
+b0		The second shape parameter for the prior
+		beta distribution for the population
+		binomial parameter
+
+post.a		Posterior first shape parameter for the
+		beta distribution for the probability
+		that an above-median response is from
+		the E group
+
+post.b		Posterior second shape parameter for
+		the beta distribution for the
+		probability that an above-median
+		response is from the E group
+
+
+postEhi		Posterior probability that an above-
+		median response exceeds the E group
+		baserate
+
+postChi		Posterior probabilty that an above-
+		median response exceeds the C group
+		baserate
+
+priorEhi		The probability that a beta prior
+		distribution would exceed the E group
+		baserate
+
+priorChi		The probability that a beta prior
+		distribution would exceed the E group
+		baserate
+
+BF10E		The Bayes factor in favor of the
+		hypothesis that an above-median
+		response from the E group is more
+		probable than the E expected baserate
+
+BF10C		The Bayes factor in favor of the
+		hypothesis that an above-median
+		response from the C group is more
+		probable than the C group baserate
+
+
+References
+
+Chechile, R. A. (2020). Bayesian Statistics for Experimental
+Scientists: A General Introduction Using Distribution-Free
+Methods. Cambridge: MIT Press.
+
+Siegel, S. & Castellan, N. J. (1988). Nonparametric Statistics
+for the Behavioral Sciences. New York: McGraw-Hill.
+
+
+Examples
+
+## Example with the default uniform prior
+group1<-c(12.90,10.84,22.67,10.64,10.67,10.79,13.55,10.95,
+12.19,12.76,10.89,11.02,14.27,13.98,11.52,13.49,11.22,15.07,
+15.74,19.00)
+group2<-c(4.63,58.64,5.07,4.66,4.13,3.92,3.39,3.57,3.56,3.39)
+dfba_median_test(E=group1,C=group2)
+
+# Example with the Jeffreys prior
+dfba_median_test(group1,group2,a0=.5,b0=.5)
+
+
