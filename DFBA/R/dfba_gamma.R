@@ -7,23 +7,23 @@
 #'
 #'
 #' @param x Cross-tabulated matrix or table where cell [I, J] represents the frequency of observations where the rank of measure 1 is I and the rank of measure 2 is J.
-#' @param a.prior First shape parameter for the prior beta distribution (default is 1)
-#' @param b.prior Second shape parameter for the prior beta distribution (default is 1)
-#' @param interval.width Desired width for interval estimates (default is 0.95)
+#' @param a0 First shape parameter for the prior beta distribution (default is 1)
+#' @param b0 Second shape parameter for the prior beta distribution (default is 1)
+#' @param prob_interval Desired width for interval estimates (default is 0.95)
 #'
 #' @return A list containing the following components:
 #' @return \item{gamma}{Sample Goodman-Kruskal gamma statistic; equivalent to the sample rank correlation coefficient tau_A}
-#' @return \item{a.prior}{First shape parameter for prior beta}
-#' @return \item{b.prior}{Second shape parameter for prior beta}
+#' @return \item{a0}{First shape parameter for prior beta}
+#' @return \item{b0}{Second shape parameter for prior beta}
 #' @return \item{sample.p}{Sample estimate for proportion concordance \code{nc/(nc+nd)}}
 #' @return \item{nc}{Number of concordant comparisons between the paired measures}
 #' @return \item{nd}{Number of discordant comparisons between the paired measures}
 #' @return \item{a.post}{First shape parameter for the posterior beta distribution for the phi parameter}
 #' @return \item{b.post}{Second shape parameter for the posterior beta distribution for the phi parameter}
 #' @return \item{post.median}{Median of the posterior distribution for the phi concordance parameter}
-#' @return \item{interval.width}{The probability of the interval estimate for the phi parameter}
-#' @return \item{post.eti.lower}{Lower limit of the posterior equal-tail interval for the phi parameter where the width of the interval is specified by the \code{interval.width} input}
-#' @return \item{post.eti.upper}{Upper limit of the posterior equal-tail interval for the phi parameter where the width of the interval is specified by the \code{interval.width} input}
+#' @return \item{prob_interval}{The probability of the interval estimate for the phi parameter}
+#' @return \item{post.eti.lower}{Lower limit of the posterior equal-tail interval for the phi parameter where the width of the interval is specified by the \code{prob_interval} input}
+#' @return \item{post.eti.upper}{Upper limit of the posterior equal-tail interval for the phi parameter where the width of the interval is specified by the \code{prob_interval} input}
 #'
 #' @details
 #' For bivariate data where two measures are restricted on an ordinal scale,
@@ -44,7 +44,7 @@
 #' is a flawed metric because it does not properly correct for ties. Note:
 #' \code{cor(... ,method = "kendall")} returns the \eqn{\tau_B} correlation, which
 #' is incorrect when there are ties. The correct \eqn{\tau_A} is computed by the
-#' \code{dfba_phi()} function.
+#' \code{dfba_bivariate_concordance()} function.
 #'
 #' The gamma statistic is equal to \eqn{(n_c-n_d)/(n_c+n_d)}, where \eqn{n_c} is
 #' the number of occasions when the variates change in a concordant way and \eqn{n_d}
@@ -58,14 +58,14 @@
 #' in the matrix where row value is greater than \eqn{I} and the column value is
 #' less than \eqn{J}. The \eqn{n_c} and \eqn{n_d} values computed in this fashion
 #' are, respectively, equal to \eqn{n_c} and \eqn{n_d} values found when the bivariate
-#' measures are entered as paired vectors into the \code{dfba_phi()} function.
+#' measures are entered as paired vectors into the \code{dfba_bivariate_concordance()} function.
 #'
-#' As with the \code{dfba_phi()} function, the Bayesian analysis focuses on the
+#' As with the \code{dfba_bivariate_concordance()} function, the Bayesian analysis focuses on the
 #' population concordance proportion phi \eqn{(\phi)}; and \eqn{G=2\phi-1}. The
 #' likelihood function is proportional to \eqn{\phi^{n_c}(1-\phi)^{n_d}}. The
 #' prior distribution is a beta function, and the posterior distribution is the
-#' conjugate beta where \code{a.post = a.prior + nc} and
-#' \code{b.post = b.prior + nd}.
+#' conjugate beta where \code{a = a0 + nc} and
+#' \code{b = b0 + nd}.
 
 #' @references
 #' Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists: A
@@ -75,7 +75,7 @@
 #' Behavioral Sciences. New York: McGraw Hill.
 #'
 #' @seealso
-#' \code{\link{dfba_phi}} for a more extensive discussion about the \eqn{\tau_A}
+#' \code{\link{dfba_bivariate_concordance}} for a more extensive discussion about the \eqn{\tau_A}
 #' statistic and the flawed \eqn{\tau_B} correlation
 #'
 #' @examples
@@ -97,13 +97,22 @@ dfba_gamma<-function(x,
 #                     y = NULL,
 #                     breaks_x = NULL,
 #                     breaks_y = NULL,
-                     a.prior = 1,
-                     b.prior = 1,
-                     interval.width = 0.95
+                     a0 = 1,
+                     b0 = 1,
+                     prob_interval = 0.95
                      ){
 #  if(is.matrix(x)==TRUE){
   if(is.matrix(x)==FALSE){
     stop("input must be in matrix or table format")
+  }
+
+  if(a0 <= 0|
+     a0 == Inf|
+     is.na(a0)|
+     b0 <= 0|
+     b0 == Inf|
+     is.na(b0)){
+    stop("Both the a0 and b0 shape parameters must be positive and finite.")
   }
     table<-x
     x_vec<-rep(1:nrow(table), unname(rowSums(table)))
@@ -135,18 +144,18 @@ dfba_gamma<-function(x,
   x<-rep(1:nrow(table), unname(rowSums(table)))
   y<-rep(as.vector(t(col(table))), as.vector(t(table)))
 
-    dfba_gamma_list<-list(gamma=dfba_phi(x, y, a.prior, b.prior, interval.width)$tau,
-                        a.prior=a.prior,
-                        b.prior=b.prior,
-                sample.p=dfba_phi(x, y, a.prior, b.prior, interval.width)$sample.p,
-                nc=dfba_phi(x, y, a.prior, b.prior, interval.width)$nc,
-                nd=dfba_phi(x, y, a.prior, b.prior, interval.width)$nd,
-                a.post=dfba_phi(x, y, a.prior, b.prior, interval.width)$a.post,
-                b.post=dfba_phi(x, y, a.prior, b.prior, interval.width)$b.post,
-                interval.width=interval.width,
-                post.median=dfba_phi(x, y, a.prior, b.prior, interval.width)$post.median,
-                post.eti.lower=dfba_phi(x, y, a.prior, b.prior, interval.width)$post.eti.lower,
-                post.eti.upper=dfba_phi(x, y, a.prior, b.prior, interval.width)$post.eti.upper
+    dfba_gamma_list<-list(gamma=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$tau,
+                        a0=a0,
+                        b0=b0,
+                sample.p=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$sample.p,
+                nc=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$nc,
+                nd=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$nd,
+                a.post=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$a.post,
+                b.post=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$b.post,
+                prob_interval=prob_interval,
+                post.median=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$post.median,
+                post.eti.lower=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$post.eti.lower,
+                post.eti.upper=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$post.eti.upper
 #                table.row=x_vec,
 #                table.column=y_vec
                 )

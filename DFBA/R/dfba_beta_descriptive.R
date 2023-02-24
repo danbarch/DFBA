@@ -4,8 +4,8 @@
 #' central tendency statistics, interval limits, and density and cumulative
 #' probabilities.
 #'
-#' @param a The first shape parameter for the beta distribution
-#' @param b The second shape parameter for the beta distribution
+#' @param a The first shape parameter for the beta distribution. Must be positive and finite.
+#' @param b The second shape parameter for the beta distribution. Must be positive and finite.
 #' @param prob_interval	Desired probability within interval limits (default is .95)
 #'
 #' @return A list containing the following components:
@@ -78,14 +78,16 @@ dfba_beta_descriptive <- function(a,
 
   if (prob_interval > 1|
       prob_interval < 0){
-    stop("prob_interval must be proper proportion")
+    stop("prob_interval must be a proper proportion")
     }
 
   if (a <= 0|
+      a == Inf|
       b <= 0|
+      b == Inf|
       is.na(a)|
       is.na(b)){
-    stop("Both the a and b shape parameters for a beta must be nonnegative.")
+    stop("Both the a and b shape parameters for a beta must be positive and finite")
     }
 
   phimean = a/(a+b)

@@ -3,13 +3,13 @@
 #' Description
 #'
 #' Given two independent groups of continuous variables, performs a Bayesian
-#' analysis of the likelihood of observing an above-median value to from one of
+#' analysis of the likelihood of observing an above-median value from one of
 #' the groups relative to expectation.
 #'
 #' @param E Numeric vector of values for the continuous measurements for group 1 (generically denoted \code{E} for \emph{Experimental} group).
 #' @param C	Numeric vector of values for the continuous measurements for group 2 (generically denoted \code{C} for \emph{Control} group).
-#' @param a0 The first shape parameter for the prior beta distribution for the binomial parameter \code{phi} (default is 1)
-#' @param b0 The second shape parameter for the prior beta distribution for the binomial parameter \code{phi} (default is 1)
+#' @param a0 The first shape parameter for the prior beta distribution for the binomial parameter \code{phi} (default is 1). Must be positive and finite.
+#' @param b0 The second shape parameter for the prior beta distribution for the binomial parameter \code{phi} (default is 1). Must be positive and finite.
 #'
 #' @return A list containing the following components:
 #' @return \item{median}{The sample combined median for the \code{E} and \code{C} values}
@@ -40,7 +40,7 @@
 #' frequencies of the above-median responses in terms of the two groups (\emph{i.e.},
 #' \code{nEabove} and \code{nCabove}). Row 2 has the respective frequencies for the
 #' values that are at or below the combined median (\emph{i.e.}, \code{nEbelow} and
-#' \code{nCbelow}). See Siegel & Castellan (1988) forcthe details concerning the
+#' \code{nCbelow}). See Siegel & Castellan (1988) for the details concerning the
 #' frequentist median test.
 #'
 #' Chechile (2020) provided an alternative Bayesian analysis for the median-test
@@ -132,10 +132,12 @@ dfba_median_test <- function(E,
                              b0 = 1){
 # Check if a0 and b0 are positive
   if (a0 <= 0|
+      a0 == Inf|
       b0 <= 0|
+      b0 == Inf|
       is.na(a0)|
       is.na(b0)){
-    stop("Both a0 and b0 must be positive.")
+    stop("Both a0 and b0 must be positive and finite.")
     }
 
   # Remove NA values from E and C

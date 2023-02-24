@@ -19,9 +19,9 @@ dfba_sim_data(
 \arguments{
 \item{n}{Number of values per condition}
 
-\item{a0}{The first shape parameter for the prior beta distribution (default is 1)}
+\item{a0}{The first shape parameter for the prior beta distribution (default is 1). Must be positive and finite.}
 
-\item{b0}{The second shape parameter for the prior beta distribution (default is 1)}
+\item{b0}{The second shape parameter for the prior beta distribution (default is 1). Must be positive and finite.}
 
 \item{model}{Theoretical probability model for the data. One of \code{"normal"}, \code{"weibull"}, \code{"cauchy"}, \code{"lognormal"}, \code{"chisquare"}, \code{"logistic"}, \code{"exponential"}, \code{"gumbel"}, or \code{"pareto"}}
 

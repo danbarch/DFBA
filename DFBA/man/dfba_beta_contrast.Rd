@@ -19,7 +19,7 @@ dfba_beta_contrast(
 
 \item{n2_vec}{A vector of length K that consists of the observed number of failures for the  categorical variable in each of the K separate conditions}
 
-\item{contrast_vec}{A vector of coefficients of a linear comparison among the conditions where the sum of all the coefficient must be 0 and the sum of the positive coefficients must be 1 and the sum of the negative coefficients must be -1}
+\item{contrast_vec}{A vector of coefficients of a linear comparison among the conditions where the sum of all the coefficients must be 0 and the sum of the positive coefficients must be 1 and the sum of the negative coefficients must be -1}
 
 \item{a0_vec}{A vector of length K that consists of the prior \code{a0} shape parameters for the separate betas (the default values are 1)}
 

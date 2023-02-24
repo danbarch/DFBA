@@ -8,8 +8,8 @@
 #'
 #'
 #' @param n The sample size for both variates (default is 20)
-#' @param a0 The first shape parameter for the prior beta distribution (default is 1)
-#' @param b0 The second shape parameter for the prior beta distribution (default is 1)
+#' @param a0 The first shape parameter for the prior beta distribution (default is 1). Must be positive and finite.
+#' @param b0 The second shape parameter for the prior beta distribution (default is 1). Must be positive and finite.
 #' @param delta.step The increment between successive delta values, which range from 0 to \code{20*delta.step} (default value is .05)
 #' @param model Theoretical probability model for the data. One of \code{"normal"}, \code{"weibull"}, \code{"cauchy"}, \code{"lognormal"}, \code{"chisquare"}, \code{"logistic"}, \code{"exponential"}, \code{"gumbel"}, or \code{"pareto"}.
 #' @param design Indicates the data structure. One of \code{"independent"} or \code{"paired"}.
@@ -293,10 +293,12 @@ dfba_power_curve<-function(n = 20,
     block.max=block.max
 
     if (a0<=0|
+        a0 == Inf|
         b0<=0|
+        b0 == Inf|
         is.na(a0)|
         is.na(b0)){
-      stop("Both a0 and b0 must be positive")
+      stop("Both a0 and b0 must be positive and finite.")
       }
     if (block.max<0|
         is.na(block.max)){

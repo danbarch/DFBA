@@ -1,0 +1,55 @@
+test_binomial<-function(dfba_bin=rep(0,9)){
+  ## The function does nine tests of dfba_binomial
+  # Tests 1 and 2 check on posterior post.a and post.b
+  # Tests 3,4, and 5 check on the posterior mean,
+  # median, and mode of the posterior distribution
+  # Tests 6 and 7 check on the 95 percent equal-tail
+  # lower and upper interval limits values.
+  # Test 8 and 9 check on the lower and upper 95
+  # percent highest density limits.
+  ## The output of the function is a vector of nine
+  # values which are either a 0 or 1. These values
+  # correspond to the nine tests. If a test passes, it
+  # is a 0, and if a test fails, it is a 1.
+  ## The output vector is dfba_bin.
+
+  dfba_bin=rep(0,9)
+  Abin<-dfba_binomial(n1 = 16,n2 =2)
+  test_post.a=Abin$post.a+.1
+  if (floor(test_post.a)!=17){dfba_bin[1]=1}
+
+  test_post.b=Abin$post.b+.1
+  if (floor(test_post.b)!=3){dfba_bin[2]=1}
+
+  test_phimean=abs(Abin$phimean-.85)
+  if (test_phimean>3e-05){dfba_bin[3]=1}
+
+  test_phimedian=abs(Abin$phimedian-.8617288)
+  if (test_phimedian>3e-05){dfba_bin[4]=1}
+
+  test_phimode=abs(Abin$phimode-.8888889)
+  if (test_phimode>3e-05){dfba_bin[5]=1}
+
+  test_eti_lower=abs(Abin$eti_lower-.6686233)
+  if (test_eti_lower>3e-05){dfba_bin[6]=1}
+
+  test_eti_upper=abs(Abin$eti_upper-.9661738)
+  if (test_eti_upper>3e-05){dfba_bin[7]=1}
+
+  test_hdi_lower=abs(Abin$hdi_lower-.6973879)
+  if (test_hdi_lower>3e-05){dfba_bin[8]=1}
+
+  test_hdi_upper=abs(Abin$hdi_upper-.9801174)
+  if (test_hdi_upper>3e-05){dfba_bin[9]=1}
+
+
+  failtot=sum(dfba_bin)
+  if (failtot==0){
+    cat("dfba_binomial passes", " ","\n") } else {
+      cat("dfba_binomial fails. There are","\n")
+      cat(failtot," failed subtests of the function.","\n")
+    }
+  test_binomial_list=list(dfba_bin=dfba_bin)
+
+}
+

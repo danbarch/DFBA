@@ -1,0 +1,35 @@
+test_power1<-function(dfba_pow1=rep(0,2)){
+   ## The function tests the Bayes and t power
+  # as found with the dfba_bayes_vs_t_power function.
+  # There are two tests to see if the Bayes and
+  # t power are near the mean power for the specific
+  # case when n=70 with paired samples and when
+  # the data are sampled from Weibull distributions
+  # with shapes parameters of .8 for the two conditions,
+  # and separation between the two distributions is .8.
+  ## The output of the function is the vector dfba_pow1,
+   # which has each a 0 or 1 for the two tests where
+  # the 0 is if the test passes and 1 if it fails.
+  # Tests 1 and 2 check the respective Bayes and t power.
+ 
+    dfba_pow1=rep(0,2)
+    Apow1<-dfba_bayes_vs_t_power(n=20,model="weibull",delta=.8,shape1=.8,shape2=.8,design="paired",samples=300)
+  bayespower=Apow1$outputdf[[2]]
+  tpower=Apow1$outputdf[[3]]
+  bayes70c=bayespower[11]
+  t70c=tpower[11]
+  bayestest=abs(bayes70c-.99422)
+  if (bayestest>.0483){dfba_pow1[1]=1}
+  ttest=abs(t70c-.94205)
+  if (ttest>.1170){dfba_pow1[2]=1}
+
+failtot=sum(dfba_pow1)
+    if (failtot==0){
+      cat("dfba_bayes_vs_t_power passes", " ","\n") } else {
+        cat("dfba_bayes_vs_t_power fails. There are","\n")
+        cat(failtot," failed subtests of the function.","\n")
+         }
+
+  dfba_bayes_vs_t_power_list=list(dfba_pow1=dfba_pow1)
+  }
+  

@@ -6,14 +6,28 @@
 #' @rdname dfba_binomial_method
 #' @param object An object of class \code{\linkS4class{dfba_binomial_out}}
 setMethod("show", "dfba_binomial_out", function(object) {
-  cat("Estimate of the Binomial Population Rate Parameter", "\n")
+  cat("Prior and Posterior Beta Shape Parameters:","\n")
   cat("========================\n")
-  cat(" ", "Prior Beta Shape Parameters:","\n")
+  cat(" ", "Prior Beta Shape Parameters","\n")
   cat(" ", "a0", "\t\t\t", "b0", "\n")
   cat(" ", object$a0,"\t\t\t", object$b0,"\n")
-  cat("Posterior Beta Shape Parameters are :"," ","\n")
-  cat("post.a","\t\t\t","post.b","\n")
-  cat(object$post.a,"\t\t\t", object$post.b,"\n")
+  cat(" ", "Posterior Beta Shape Parameters:"," ","\n")
+  cat(" ", "post.a","\t\t\t","post.b","\n")
+  cat(" ", object$post.a,"\t\t\t", object$post.b,"\n")
+  cat("Estimates of the Binomial Population Rate Parameter", "\n")
+  cat("========================\n")
+  cat(" ", "Posterior Mean", "\n")
+  cat(" ", object$phimean, "\n")
+  cat(" ", "Posterior Median", "\n")
+  cat(" ", object$phimedian, "\n")
+  cat(" ", "Posterior Mode", "\n")
+  cat(" ", object$phimode, "\n")
+  cat("Probability within", round(object$prob_interval*100), "percent interval\n")
+  cat("========================\n")
+  cat(" ", "equal-tail limit values:\n")
+  cat(" ", object$eti_lower, "\t\t\t", object$eti_upper, "\n")
+  cat(" ", "highest-density limits:\n")
+  cat(" ", object$hdi_lower, "\t\t\t", object$hdi_upper, "\n")
 })
 
 # Plot

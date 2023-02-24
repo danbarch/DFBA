@@ -3,8 +3,8 @@
 \docType{class}
 \name{dfba_gamma_out-class}
 \alias{dfba_gamma_out-class}
-\alias{dfba_phi_out-class}
-\alias{dfba_phi_star_out-class}
+\alias{dfba_bivariate_concordance_out-class}
+\alias{dfba_bivariate_concordance_star_out-class}
 \alias{dfba_mann_whitney_small_out-class}
 \alias{dfba_mann_whitney_large_out-class}
 \alias{dfba_wilcoxon_small_out-class}

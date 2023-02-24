@@ -4,25 +4,25 @@
 \alias{dfba_gamma}
 \title{Goodman-Kruskal Gamma}
 \usage{
-dfba_gamma(x, a.prior = 1, b.prior = 1, interval.width = 0.95)
+dfba_gamma(x, a0 = 1, b0 = 1, prob_interval = 0.95)
 }
 \arguments{
 \item{x}{Cross-tabulated matrix or table where cell [I, J] represents the frequency of observations where the rank of measure 1 is I and the rank of measure 2 is J.}
 
-\item{a.prior}{First shape parameter for the prior beta distribution (default is 1)}
+\item{a0}{First shape parameter for the prior beta distribution (default is 1)}
 
-\item{b.prior}{Second shape parameter for the prior beta distribution (default is 1)}
+\item{b0}{Second shape parameter for the prior beta distribution (default is 1)}
 
-\item{interval.width}{Desired width for interval estimates (default is 0.95)}
+\item{prob_interval}{Desired width for interval estimates (default is 0.95)}
 }
 \value{
 A list containing the following components:
 
 \item{gamma}{Sample Goodman-Kruskal gamma statistic; equivalent to the sample rank correlation coefficient tau_A}
 
-\item{a.prior}{First shape parameter for prior beta}
+\item{a0}{First shape parameter for prior beta}
 
-\item{b.prior}{Second shape parameter for prior beta}
+\item{b0}{Second shape parameter for prior beta}
 
 \item{sample.p}{Sample estimate for proportion concordance \code{nc/(nc+nd)}}
 
@@ -36,11 +36,11 @@ A list containing the following components:
 
 \item{post.median}{Median of the posterior distribution for the phi concordance parameter}
 
-\item{interval.width}{The probability of the interval estimate for the phi parameter}
+\item{prob_interval}{The probability of the interval estimate for the phi parameter}
 
-\item{post.eti.lower}{Lower limit of the posterior equal-tail interval for the phi parameter where the width of the interval is specified by the \code{interval.width} input}
+\item{post.eti.lower}{Lower limit of the posterior equal-tail interval for the phi parameter where the width of the interval is specified by the \code{prob_interval} input}
 
-\item{post.eti.upper}{Upper limit of the posterior equal-tail interval for the phi parameter where the width of the interval is specified by the \code{interval.width} input}
+\item{post.eti.upper}{Upper limit of the posterior equal-tail interval for the phi parameter where the width of the interval is specified by the \code{prob_interval} input}
 }
 \description{
 Given bivariate data in the form of either a rank-ordered table or a matrix,
@@ -67,7 +67,7 @@ typically the version of \eqn{\tau} in standard use was \eqn{\tau_B}, which
 is a flawed metric because it does not properly correct for ties. Note:
 \code{cor(... ,method = "kendall")} returns the \eqn{\tau_B} correlation, which
 is incorrect when there are ties. The correct \eqn{\tau_A} is computed by the
-\code{dfba_phi()} function.
+\code{dfba_bivariate_concordance()} function.
 
 The gamma statistic is equal to \eqn{(n_c-n_d)/(n_c+n_d)}, where \eqn{n_c} is
 the number of occasions when the variates change in a concordant way and \eqn{n_d}
@@ -81,14 +81,14 @@ are \eqn{n_{ij}N^{-}_{ij}}, where \eqn{N^{-}_{ij}} is the sum of the frequencies
 in the matrix where row value is greater than \eqn{I} and the column value is
 less than \eqn{J}. The \eqn{n_c} and \eqn{n_d} values computed in this fashion
 are, respectively, equal to \eqn{n_c} and \eqn{n_d} values found when the bivariate
-measures are entered as paired vectors into the \code{dfba_phi()} function.
+measures are entered as paired vectors into the \code{dfba_bivariate_concordance()} function.
 
-As with the \code{dfba_phi()} function, the Bayesian analysis focuses on the
+As with the \code{dfba_bivariate_concordance()} function, the Bayesian analysis focuses on the
 population concordance proportion phi \eqn{(\phi)}; and \eqn{G=2\phi-1}. The
 likelihood function is proportional to \eqn{\phi^{n_c}(1-\phi)^{n_d}}. The
 prior distribution is a beta function, and the posterior distribution is the
-conjugate beta where \code{a.post = a.prior + nc} and
-\code{b.post = b.prior + nd}.
+conjugate beta where \code{a = a0 + nc} and
+\code{b = b0 + nd}.
 }
 \examples{
 # Example with matrix input
@@ -111,6 +111,6 @@ Siegel, S., & Castellan, N. J. (1988) Nonparametric Statistics for the
 Behavioral Sciences. New York: McGraw Hill.
 }
 \seealso{
-\code{\link{dfba_phi}} for a more extensive discussion about the \eqn{\tau_A}
+\code{\link{dfba_bivariate_concordance}} for a more extensive discussion about the \eqn{\tau_A}
 statistic and the flawed \eqn{\tau_B} correlation
 }

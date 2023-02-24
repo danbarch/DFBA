@@ -11,9 +11,9 @@ dfba_mcnemar(n_01, n_10, a0 = 1, b0 = 1, prob_interval = 0.95)
 
 \item{n_10}{The number of cases where the first response is 1 and the second response is 0.}
 
-\item{a0}{The first shape parameter for the prior beta distribution for the \code{phi_rb} parameter.}
+\item{a0}{The first shape parameter for the prior beta distribution for the \code{phi_rb} parameter. Must be positive and finite.}
 
-\item{b0}{The second shape parameter for the prior beta distribution for the \code{phi_rb} parameter.}
+\item{b0}{The second shape parameter for the prior beta distribution for the \code{phi_rb} parameter. Must be positive and finite.}
 
 \item{prob_interval}{Desired probability for interval estimates for \code{phi_rb} (default is .95).}
 }
@@ -60,7 +60,7 @@ Sometimes, researchers are interested in the detection of a change in the
 response rate pre- and post-treatment. The frequentist McNemar test is a
 nonparametric test that examines the subset of binary categorical responses
 where the response changes between the two tests (Siegel & Castellan, 1988).
-The frequentist test assumes the null hypothesis that the change rate is 0
+The frequentist test assumes the null hypothesis that the change rate is
 0.5. Chechile (2020) pointed out that the subset of change cases are binomial
 data, so a Bayesian analysis can be done for the population
 response-switching rate \eqn{\phi_{rb}} (styled \code{phi_rb} elsewhere in
@@ -88,7 +88,7 @@ and the number of \eqn{1 \to 0} switches in the binary responses between the
 two tests. Since the cases where there is a switch are binomial trials,
 the prior and posterior distributions for \eqn{\phi_{rb}} are beta distributions.
 The prior distribution shape parameters are \code{a0} and \code{b0}. The
-default prior is a uniform distribution (\emph{i.e.}, \code{a0 = b0 = 1}.
+default prior is a uniform distribution (\emph{i.e.}, \code{a0 = b0 = 1}).
 The \code{prob_interval} argument stipulates the probability within the
 equal-tail interval limits for \eqn{\phi_{rb}}. The default value for that
 argument is \code{prob_interval =.95}.

@@ -1,0 +1,53 @@
+test_gamma<-function(dfba_gam=rep(0,9)){
+dfba_gam=rep(0,9)
+## This function tests dfba_gamma function.
+# Test 1 checks sample Goodman-Kruskal gamma statistic
+# Test 2 checks the sample value sample.p which is
+# nc/(nc+nd). Tests 3 and 4 checks nc and nd values
+# Tests 5 and 6 checks a.post and b.post values
+# Test 7 checks the posterior median for the phi
+# concordance proportion. Tests 8 and 9 are tests
+# for the posterior lower and upper 95 percent
+# equal-tail limits.
+# The matrix upon which these tests are done is
+N<-matrix(c(38,4,5,0,6,40,1,2,4,8,20,30),ncol=4,byrow=TRUE)
+colnames(N)<-c('C1','C2','C3','C4')
+rownames(N)<-c('R1','R2','R3')
+Agam<-dfba_gamma(N)
+
+gamma_test=abs(Agam$gamma-.8417668)
+if (gamma_test>3e-05){dfba_gam[1]=1}
+
+sample.p_test=abs(Agam$sample.p -.9208834)
+if (sample.p_test>3e-05){dfba_gam[2]=1}
+
+nc_test=Agam$nc+.1
+if (floor(nc_test)!=6588){dfba_gam[3]=1}
+
+nd_test=Agam$nd +.1
+if (floor(nd_test)!=566){dfba_gam[4]=1}
+
+a.post_test=Agam$a.post +.1
+if (floor(a.post_test)!=6589){dfba_gam[5]=1}
+
+b.post_test=Agam$b.post +.1
+if (floor(b.post_test)!=567){dfba_gam[6]=1}
+
+post.median_test=abs(Agam$post.median-.920805)
+if (post.median_test>3e-05){dfba_gam[7]=1}
+
+post.eti.lower_test=abs(Agam$post.eti.lower-.9143977)
+if (post.eti.lower_test>3e-05) {dfba_gam[8]=1}
+
+post.eti.upper_test=abs(Agam$post.eti.upper-.926912)
+if (post.eti.upper_test>3e-05) {dfba_gam[9]=1}
+
+failtot=sum(dfba_gam)
+    if (failtot==0){
+      cat("dfba_gamma passes", " ","\n") } else {
+        cat("dfba_gamma fails. There are","\n")
+        cat(failtot," failed subtests of the function.","\n")
+         }
+    gamma_list=list(dfba_gam=dfba_gam)
+
+}

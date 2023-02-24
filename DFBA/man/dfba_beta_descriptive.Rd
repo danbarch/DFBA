@@ -7,9 +7,9 @@
 dfba_beta_descriptive(a, b, prob_interval = 0.95)
 }
 \arguments{
-\item{a}{The first shape parameter for the beta distribution}
+\item{a}{The first shape parameter for the beta distribution. Must be positive and finite.}
 
-\item{b}{The second shape parameter for the beta distribution}
+\item{b}{The second shape parameter for the beta distribution. Must be positive and finite.}
 
 \item{prob_interval}{Desired probability within interval limits (default is .95)}
 }

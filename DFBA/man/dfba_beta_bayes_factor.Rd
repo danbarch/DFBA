@@ -7,17 +7,17 @@
 dfba_beta_bayes_factor(a, b, method, H0, a0 = 1, b0 = 1)
 }
 \arguments{
-\item{a}{The first shape parameter for the posterior beta distribution}
+\item{a}{The first shape parameter for the posterior beta distribution. Must be positive and finite.}
 
-\item{b}{The second shape parameter for the posterior beta distribution}
+\item{b}{The second shape parameter for the posterior beta distribution. Must be positive and finite.}
 
 \item{method}{One of \code{"interval"} if the null hypothesis is a range on the \code{[0,1]} interval or \code{"point"} if the null hypothesis is a single number in the \code{[0,1]} interval}
 
 \item{H0}{If method="interval", then the H0 input is vector of two values, which are lower and upper limits for the null hypothesis; if method="point", then the H0 input is single number, which is the null hypothesis value}
 
-\item{a0}{The first shape parameter for the prior beta distribution (default is 1)}
+\item{a0}{The first shape parameter for the prior beta distribution (default is 1). Must be positive and finite.}
 
-\item{b0}{The second shape parameter for the prior beta distribution(default is 1)}
+\item{b0}{The second shape parameter for the prior beta distribution(default is 1). Must be positive and finite.}
 }
 \value{
 A list containing the following components:
@@ -61,7 +61,7 @@ or interval null hypotheses.
 }
 \details{
 For a binomial variate with \code{n1} successes and \code{n2} failures, the
-Bayesian analysis for the population success rate parameter phi is
+Bayesian analysis for the population success rate parameter \eqn{\phi} is
 distributed as a beta density function with shape parameters \code{a}
 and \code{b} for \code{a = n1 + a0} and \code{b = n2 + b0} where \code{a0}
 and \code{b0} are the shape parameters for the prior beta distribution. It is
@@ -82,7 +82,7 @@ With frequentist statistics, \eqn{H_0} is thus either retained
 as assumed or it is rejected. Unlike the frequentist approach,
 Bayesian hypothesis testing does not assume either \eqn{H_0} or \eqn{H_1}; it
 instead assumes a prior distribution for the population parameter
-phi, and based on this assumption arrives at a posterior
+\eqn{\phi}, and based on this assumption arrives at a posterior
 distribution for the parameter given the data of \code{n1} and \code{n2} for the
 binomial outcomes.
 

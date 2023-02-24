@@ -12,7 +12,7 @@
 #'
 #' @param n1_vec A vector of length K that consists of the observed number of successes for the categorical variable in each of the K separate conditions
 #' @param n2_vec A vector of length K that consists of the observed number of failures for the  categorical variable in each of the K separate conditions
-#' @param contrast_vec A vector of coefficients of a linear comparison among the conditions where the sum of all the coefficient must be 0 and the sum of the positive coefficients must be 1 and the sum of the negative coefficients must be -1
+#' @param contrast_vec A vector of coefficients of a linear comparison among the conditions where the sum of all the coefficients must be 0 and the sum of the positive coefficients must be 1 and the sum of the negative coefficients must be -1
 #' @param a0_vec A vector of length K that consists of the prior \code{a0} shape parameters for the separate betas (the default values are 1)
 #' @param b0_vec A vector of length K that consists of the prior \code{b0} shape parameters for the separate betas (the default values are 1)
 #' @param prob_interval Desired probability for equal-tail interval estimate on the contrast (default is 0.95)
@@ -211,8 +211,13 @@ dfba_beta_contrast<-function(n1_vec,
 #      stop("Both the n1_vec and n2_vec frequencies must be non-negative integer values.")}
 #  }
 
-  if(any(a0_vec <= 0)|any(is.na(a0_vec))|any(b0_vec <= 0)|any(is.na(b0_vec))){
-    stop("Both the a0_vec and b0_vec shape parameters for the prior beta must be >0.")
+  if(any(a0_vec <= 0)|
+     any(is.na(a0_vec))|
+     any(a0_vec == Inf)|
+     any(b0_vec <= 0)|
+     any(is.na(b0_vec))|
+     any(b0_vec == Inf)){
+    stop("Both the a0_vec and b0_vec shape parameters for the prior beta must be positive and finite.")
   }
 
 #  for (i in 1:l1){

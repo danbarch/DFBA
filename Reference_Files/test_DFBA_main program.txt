@@ -1,0 +1,115 @@
+  
+
+ test_DFBA_main<-function(dfba_test_main=rep(0,14)){
+## Main program to run a test of the 14 functions in the
+# DFBA package. For this function to work DFBA package
+# must be installed in the R workspace as well as the
+# the following separate functions which are test_beta_descriptive,
+# test_wilcoxon, test_mann, test_sim,test_power1, test_power2,test_gamma,
+# test_beta_contrast,test_beta_bayes_factor,test_binomial,test_dfba_sign,
+# test_mcnemar,test_dfba_median,test_concordance
+# The output of the 14 functions tested is a vector that has elements
+# that are either 0 or 1. The 1 is for function tests that do not pass.
+# If all 14 output vectors of test_DFBA_main are 0's then the whole
+# package of 14 functions passed the designed set of tests. The interpretation
+# of a 1 for any of the output vectors is contained in the documentation
+# of the appropriate specific function test. For example a 1 in the first of
+# 17 elements in the output vector for testing the dfba_median_test denotes
+# that the combined median of the two groups is incorrect.
+ 
+
+    flist<-c("dfba_beta_descriptive","dfba_wilcoxon","dfba_mann_whitney","dfba_sim_data","dfba_bayes_vs_t_power","dfba_power_curve",
+"dfba_phi","dfba_gamma","dfba_binomial","dfba_beta_bayes_factor","dfba_beta_contrast","dfba_sign_test","dfba_mcnemar","dfba_median_test")
+    
+    
+    dfba_test_main=rep(0,14)
+    
+    M1<-test_beta_descriptive(dfba_des)
+    dfba_des<-M1$dfba_des
+    T1=sum(dfba_des)
+    dfba_test_main[1]=T1
+    
+    
+    M2<-test_wilcoxon(dfba_wil)
+    dfba_wil=M2$dfba_wil
+    T2=sum(M2$dfba_wil)
+    dfba_test_main[2]=T2
+    
+    M3<-test_mann(dfba_mann)
+    dfba_mann=M3$dfba_mann
+    T3=sum(M3$dfba_mann)
+    dfba_test_main[3]=T3
+    
+    
+    M4<-test_sim(dfba_sim)
+    dfba_sim=M4$dfba_sim
+    T4=sum(M4$dfba_sim)
+    dfba_test_main[4]=T4
+
+    M5<-test_power1(dfba_pow1)
+    dfba_pow1=M5$dfba_pow1
+    T5=sum(M5$dfba_pow1)
+    dfba_test_main[5]=T5
+    
+    M6<-test_power2(dfba_pow2)
+    dfba_pow2=M6$dfba_pow2
+    T6=sum(M6$dfba_pow2)
+    dfba_test_main[6]=T6
+
+    M8<-test_gamma(dfba_gam)
+    dfba_gam=M8$dfba_gam
+    T8=sum(M8$dfba_gam)
+    dfba_test_main[8]=T8
+
+    M9<-test_beta_contrast(dfba_contrast)
+    dfba_contrast=M9$dfba_contrast
+    T9=sum(M9$dfba_contrast)
+    dfba_test_main[9]=T9
+
+    M10<-test_beta_bayes_factor(dfba_BF)
+    dfba_BF=M10$dfba_BF
+    T10=sum(M10$dfba_BF)
+    dfba_test_main[10]=T10
+
+    M11<-test_binomial(dfba_bin)
+    dfba_bin=M11$dfba_bin
+    T11=sum(M11$dfba_bin)
+    dfba_test_main[11]=T11
+
+    M12<-test_dfba_sign(dfba_sgn)
+    dfba_sgn=M12$dfba_sgn
+    T12=sum(M12$dfba_sgn)
+    dfba_test_main[12]=T12
+
+    M13<-test_mcnemar(dfba_mcn)
+    dfba_mcn=M13$dfba_mcn
+    T13=sum(M13$dfba_mcn)
+    dfba_test_main[13]=T13
+
+    M14<-test_dfba_median(dfba_med)
+    dfba_med=M14$dfba_med
+    T14=sum(M14$dfba_med)
+    dfba_test_main[14]=T14
+
+
+    M7<-test_concordance(dfba_con)
+    dfba_con=M7$dfba_con
+    T7=sum(M7$dfba_con)
+    dfba_test_main[7]=T7
+
+   
+    
+    codelist<-c(dfba_des,dfba_wil,dfba_mann,dfba_sim,dfba_pow1,dfba_pow2,dfba_con,dfba_gam,dfba_contrast,dfba_BF,dfba_bin,dfba_sgn,dfba_mcn,dfba_med)
+    
+    Tall=sum(dfba_test_main)
+    if (Tall==0){
+      cat("All DFBA functions are working correctly"," ","\n")}
+    else { 
+      cat("Total number of failed subtests are "," ","\n")
+      cat(Tall," ","\n")}
+  
+  dfba_test_main_list=list(dfba_test_main=dfba_test_main,dfba_des=dfba_des,dfba_wil=dfba_wil, dfba_mann=dfba_mann,dfba_sim=dfba_sim,dfba_pow1=dfba_pow1,dfba_pow2=dfba_pow2,dfba_con=dfba_con,dfba_gam=dfba_gam,dfba_contrast=dfba_contrast,dfba_BF=dfba_BF,dfba_bin=dfba_bin,dfba_sgn=dfba_sgn,dfba_mcn=dfba_mcn,dfba_med=dfba_med)
+  
+  }
+   
+

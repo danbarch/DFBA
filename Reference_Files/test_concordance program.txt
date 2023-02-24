@@ -1,0 +1,122 @@
+
+
+test_concordance<-function(dfba_con=rep(0,18)){
+
+## This function tests the dfba_bivariate_concordance function.
+# The first nine tests are for an enclosed bivariate data set.
+# Test 1 checks the sample Kendall tau_A correlation,
+# Tests 2 and 3 checks the nc and nd values,
+# Test 4 checks the sample concordance (i.e., nc/(nc+nd),
+# Tests 5 and 6 check the a.post and b.post values given the
+# default uniform beta prior. The a.post and b.post are the
+# posterior beta shape parameters.Test 7 checks the posterior
+# median value for the population concordance proportion 
+# between the two paired variates. 
+# Tests 8 and 9 checks the lower and upper limits of the
+# 95 percent posterior distribution for the population
+# concordance proportion.
+## Tests 10 to 18 check the function for a goodness-of-fit
+# application where there is a model-based prediction for
+# a univariate outcome over a number of conditions.
+## Test 10 checks the adjusted sample value for the Kendall
+# tau_A correlation which is called tau_star. 
+# Tests 11 and 12 check the values for nc_star and nd_star
+# The nc_star is adjusted to take into account the number of
+# free fitting parameters in the scientific model for 
+# predicting the yobs values whereas nd_star still is equal to
+# n_d. Test 13 checks the value for sample proportion of
+# concordance as defined by nc_star/(nc_star+nd_star).
+# Tests 14 and 15 are the posterior beta shape parameters 
+# for population concordance proportion taking into account the adjustment
+# due to the number of free fitting parameters; these are the
+# a.post_star and b.post_star shape parameters.Test 16 is the
+# adjusted estimate for the median of the concordance 
+# proportion. Test 17 and 18 are the adjusted 95 percent
+# equal-tail interval limits for adjusted population 
+# concordance proportion.
+## The output of this function is the vector dfba_con which
+# contains either 0 or 1 for each of the above 18 tests.
+# If all elements are 0, then the function passes all tests.
+
+dfba_con=rep(0,18)
+mt1<-c(45,40,48,42,45,44,40,37,27,45,51,44,44,29,27,48,33,39,47,54,32)
+mt2<-c(37,41,50,46,31,39,37,42,27,48,49,52,27,36,29,44,44,43,34,48,33)
+Abicon<-dfba_phi(x=mt1,y=mt2)
+
+tautest=abs(Abicon$tau-.3807107)
+if (tautest>3e-05){dfba_con[1]=1}
+
+sample_nc_test=Abicon$nc+.1
+if (floor(sample_nc_test)!=136){dfba_con[2]=1}
+
+sample_nd_test=Abicon$nd+.1
+if (floor(sample_nd_test)!=61){dfba_con[3]=1}
+
+sample.p_test=abs(Abicon$sample.p-.6903553)
+if (sample.p_test>3e-05){dfba_con[4]=1}
+
+a.post_test=abs(Abicon$a.post-137)
+if (a.post_test>3e-05){dfba_con[5]=1}
+
+b.post_test=abs(Abicon$b.post-62)
+if (b.post_test>3e-05){dfba_con[6]=1}
+
+post.median_test=abs(Abicon$post.median-.6890746)
+if (post.median_test>3e-05){dfba_con[7]=1}
+
+post.eti.lower_test=abs(Abicon$post.eti.lower-.6225501)
+if (post.eti.lower_test>3e-05){dfba_con[8]=1}
+
+post.eti.upper_test=abs(Abicon$post.eti.upper-.7507466)
+if (post.eti.upper_test>3e-05){dfba_con[9]=1}
+
+
+## A goodness-of-fit example for a hypothetical case of 
+# fitting data in a yobs vector with prediction model where 
+p=seq(.05,.95,.05)
+ypred=17.332-(50.261*p)+(48.308*p*p)
+# Note the coefficients in the ypred equation were found first
+# via a polynomial regression
+yobs<-c(19.805,10.105,9.396,8.219,6.110,4.543,5.864,4.861,
+ 6.136,5.789,5.443,5.548,4.746,6.484,6.185,6.202,9.804,9.332,
+ 14.408)
+Afit<-dfba_phi(x=yobs,y=ypred,fitting.parameters=3)
+
+tau_star_test=abs(Afit$tau_star-.516667)
+if (tau_star_test>3e-05){dfba_con[10]=1}
+
+nc_star_test=Afit$nc_star+.1
+if (floor(nc_star_test)!=91){dfba_con[11]=1}
+
+nd_star_test=Afit$nd_star+.1
+if (floor(nd_star_test)!=29){dfba_con[12]=1}
+
+sample.p_star_test=abs(Afit$sample.p_star-.7583333)
+if (sample.p_star_test>3e-05){dfba_con[13]=1}
+
+a.post_star_test=abs(Afit$a.post_star-92)
+if (a.post_star_test>3e-05){dfba_con[14]=1}
+
+b.post_star_test=abs(Afit$b.post_star-30)
+if (b.post_star_test>3e-05){dfba_con[15]=1}
+
+post.median_star_test=abs(Afit$post.median_star-.7554904)
+if (post.median_star_test>3e-05){dfba_con[16]=1}
+
+post.eti.lower_star_test=abs(Afit$post.eti.lower_star-.6742621)
+if (post.eti.lower_star_test>3e-05){dfba_con[17]=1}
+
+post.eti.upper_star_test=abs(Afit$post.eti.upper_star-.8260471)
+if (post.eti.upper_star_test>3e-05){dfba_con[18]=1}
+
+failtot=sum(dfba_con)
+    if (failtot==0){
+      cat("dfba_bivariate_concordance passes", " ","\n") } else {
+        cat("dfba_bivariate_concordance fails. There are","\n")
+        cat(failtot," failed subtests of the function.","\n")
+         }
+    bivariate_concordance_list=list(dfba_con=dfba_con)
+    
+  }
+
+

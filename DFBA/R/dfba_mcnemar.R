@@ -12,8 +12,8 @@
 #'
 #' @param n_01 The number of cases where the first response is 0 and the second response is 1.
 #' @param n_10 The number of cases where the first response is 1 and the second response is 0.
-#' @param a0 The first shape parameter for the prior beta distribution for the \code{phi_rb} parameter.
-#' @param b0 The second shape parameter for the prior beta distribution for the \code{phi_rb} parameter.
+#' @param a0 The first shape parameter for the prior beta distribution for the \code{phi_rb} parameter. Must be positive and finite.
+#' @param b0 The second shape parameter for the prior beta distribution for the \code{phi_rb} parameter. Must be positive and finite.
 #' @param prob_interval	Desired probability for interval estimates for \code{phi_rb} (default is .95).
 #'
 #' @return A list containing the following components:
@@ -38,7 +38,7 @@
 #' response rate pre- and post-treatment. The frequentist McNemar test is a
 #' nonparametric test that examines the subset of binary categorical responses
 #' where the response changes between the two tests (Siegel & Castellan, 1988).
-#' The frequentist test assumes the null hypothesis that the change rate is 0
+#' The frequentist test assumes the null hypothesis that the change rate is
 #' 0.5. Chechile (2020) pointed out that the subset of change cases are binomial
 #' data, so a Bayesian analysis can be done for the population
 #' response-switching rate \eqn{\phi_{rb}} (styled \code{phi_rb} elsewhere in
@@ -66,7 +66,7 @@
 #' two tests. Since the cases where there is a switch are binomial trials,
 #' the prior and posterior distributions for \eqn{\phi_{rb}} are beta distributions.
 #' The prior distribution shape parameters are \code{a0} and \code{b0}. The
-#' default prior is a uniform distribution (\emph{i.e.}, \code{a0 = b0 = 1}.
+#' default prior is a uniform distribution (\emph{i.e.}, \code{a0 = b0 = 1}).
 #' The \code{prob_interval} argument stipulates the probability within the
 #' equal-tail interval limits for \eqn{\phi_{rb}}. The default value for that
 #' argument is \code{prob_interval =.95}.
@@ -114,10 +114,12 @@ dfba_mcnemar <- function(n_01,
                          prob_interval = .95) {
 
   if (a0<=0|
+      a0 == Inf|
       b0<=0|
+      b0 == Inf|
       is.na(a0)|
       is.na(b0)){
-    stop("Both a0 and b0 must be positive")
+    stop("Both a0 and b0 must be positive and finite.")
   }
 
   if (prob_interval >= 1|
@@ -217,8 +219,8 @@ dfba_mcnemar <- function(n_01,
                      b.post = b.post,
                      post_mean = mean_phi_rb,
                      post_median = median_phi_rb,
-                     post_eti_lower = eti_lower,
-                     post_eti_upper = eti_upper,
+                     eti_lower = eti_lower,
+                     eti_upper = eti_upper,
                      BF10point = outBFpoint$BF10,
                      BF10interval = outBFinterval$BF10,
                      postH1 = outBFinterval$postH1)

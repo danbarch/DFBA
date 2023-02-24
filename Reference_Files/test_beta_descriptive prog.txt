@@ -1,0 +1,59 @@
+
+
+test_beta_descriptive<-function(dfba_des=rep(0,9)){
+    ## The function does nine tests of function dfba_beta_descriptive
+    # Tests 1, 2, and 3 respectively evaluate the mean, median, and mode.
+    # Tests 4 and 5 respectively evaluate the lower and upper 90 percent 
+    # equal-tails limits, whereas tests 6 and 7 evaluate the corresponding
+    # highest density limits. Tests 8 and 9 evaluates respectively
+    # the density and cumulative probability.
+    ## Output is the vector dfba_des which has either a 0 or 1 depending
+    #  on a test respectively passing or failing. This vector is used
+    # by the main testing program for the whole DFBA package of functions
+    
+    dfba_des=rep(0,9)
+    Ades<-dfba_beta_descriptive(a=38,b=55,prob_interval=.90)
+    meantest=abs(Ades$x_mean-.4086022)
+    if (meantest>3e-05){dfba_des[1]=1}
+    
+    medtest=abs(Ades$x_median-.4079442)
+    if (medtest>3e-05){dfba_des[2]=1}
+    
+    modtest=abs(Ades$x_mode-.4065934)
+    if (modtest>3e-05){dfba_des[3]=1}
+    
+    etltest=abs(Ades$eti_lower-.3262818)
+    if (etltest>3e-05){dfba_des[4]=1}
+    
+    etutest=abs(Ades$eti_upper-.4931701)
+    if (etutest>3e-05){dfba_des[5]=1}
+    
+    hdiltest=abs(Ades$hdi_lower-.3250019)
+    if (hdiltest>3e-05){dfba_des[6]=1}
+    
+    hdiutest=abs(Ades$hdi_upper-.4918332)
+    if (hdiutest>3e-05){dfba_des[7]=1}
+    
+    density_vec=Ades$outputdf[[2]]
+    cum_vec=Ades$outputdf[[3]]
+    densitytest=abs(density_vec[83]-7.793301)
+    if (densitytest>3e-05){dfba_des[8]=1}
+    
+    cumtest=abs(cum_vec[83]-.5160382)
+    if (cumtest>3e-05){dfba_des[9]=1}
+  
+    failtot=sum(dfba_des)
+    if (failtot==0){
+      cat("dfba_beta_descriptive passes", " ","\n") } else {
+        cat("dfba_beta_descriptive fails. There are","\n")
+        cat(failtot," failed subtests of the function.","\n")
+         }
+    beta_descriptive_list=list(dfba_des=dfba_des)
+    
+  }
+  
+
+
+
+
+

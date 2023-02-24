@@ -5,8 +5,8 @@
 #' population binomial rate parameter.
 #' @param n1 Integer number of binomial observations for a category 1 response (\emph{e.g.}, the number of successes)
 #' @param n2 Integer number of binomial observations for a category 2 response (\emph{e.g.}, the number of failures)
-#' @param a0 The first shape parameter for the prior beta distribution that corresponds to the population binomial parameter (default is 1)
-#' @param b0 The second shape parameter for the prior beta distribution for the population binomial rate parameter (default is 1)
+#' @param a0 The first shape parameter for the prior beta distribution that corresponds to the population binomial parameter (default is 1). Must be positive and finite.
+#' @param b0 The second shape parameter for the prior beta distribution for the population binomial rate parameter (default is 1). Must be positive and finite.
 #' @param prob_interval Probability within interval estimates for the population binomial rate parameter (default is .95)
 #'
 #' @return A list containing the following components:
@@ -57,7 +57,7 @@
 #' rate parameter having a probability distribution. Laplace (1774) had
 #' previously employed a Bayesian approach of treating the \eqn{\phi} parameter
 #' as a random variable. Yet Ellis and other researchers within the frequentist
-#' tradition delibrately rejected the Laplace/Bayes approach. For tests of a
+#' tradition delibrately rejected the Bayes/Laplace approach. For tests of a
 #' null hypothesis of an assumed \eqn{\phi} value, the frequentist approach either
 #' continues to assume the null hypothesis or it rejects the null hypothesis
 #' depending on the likelihood of the observed data plus the likelihood of more
@@ -67,7 +67,7 @@
 #' frequentist confidence interval is not a probability interval since
 #' population parameters cannot have a probability distribution with frequentist
 #' methods. Frequentist statisticians were well aware (\emph{e.g.}, Pearson, 1920)
-#' that if the \eqn{\phi} parameter had a distribution, then the Laplace/Bayes
+#' that if the \eqn{\phi} parameter had a distribution, then the Bayes/Laplace
 #' approach would be correct.
 #'
 #' Bayesian statistics rejects the frequentist theoretical decisions as to what
@@ -193,12 +193,14 @@ dfba_binomial <- function(n1,
                           b0=1,
                           prob_interval=.95){
 
-    # a0 and b0 have to be positive
+    # a0 and b0 have to be positive and finite
   if(a0 <= 0|
+     a0 == Inf|
      b0 <= 0|
+     b0 == Inf|
      is.na(a0)|
      is.na(b0)){
-     stop("Both a0 and b0 must be positive")
+     stop("Both a0 and b0 must be positive and finite")
     }
 
   # interval width has to be between 0 and 1

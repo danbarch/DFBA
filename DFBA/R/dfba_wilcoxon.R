@@ -12,8 +12,8 @@
 #'
 #' @param Y1 Numeric vector for one continuous variate
 #' @param Y2 Numeric vector for values paired with Y1 variate
-#' @param a0 The first shape parameter for the prior beta distribution for \code{phi_w}
-#' @param b0 The second shape parameter for the prior beta distribution for \code{phi_w}
+#' @param a0 The first shape parameter for the prior beta distribution for \code{phi_w}. Must be positive and finite.
+#' @param b0 The second shape parameter for the prior beta distribution for \code{phi_w}. Must be positive and finite.
 #' @param prob_interval Desired probability for interval estimates of the sign bias parameter \code{phi_w} (default is 0.95)
 #' @param samples When \code{method = "small"}, the number of desired Monte Carlo samples per candidate value for \code{phi_w} (default is 30000 per candidate phi)
 #' @param method (Optional) The method option is either \code{"small"} or \code{"large"}. The "small" algorithm is based on a discrete Monte Carlo solution for cases where \emph{n} is typically less than 20. The \code{"large"} algorithm is based on beta approximation model for the posterior distribution for the \code{phi_w} parameter. This approximation is reasonable when \emph{n} > 19. Regardless of \emph{n} the user can stipulate either method. When the \code{method} argument is omitted, the program selects the appropriate procedure.
@@ -181,8 +181,13 @@ dfba_wilcoxon<-function(Y1,
 #  a0<-prior_vec[1]
 #  b0<-prior_vec[2]
 
-  if ((a0<=0)|(b0<=0)){
-    stop("Both of the beta shape parameters must be >0.")}
+  if (a0<=0|
+      a0 == Inf|
+      is.na(a0)|
+      b0<=0|
+      b0 == Inf|
+      is.na(b0)){
+    stop("Both of the beta shape parameters must be positive and finite.")}
 #  else {}
 
   if ((prob_interval<0)|(prob_interval>1)){

@@ -13,8 +13,8 @@
 #' @param shape1 The shape parameter for the condition 1 variate for the distribution indicated by the \code{model} input (default is 1)
 #' @param shape2 The shape parameter for the condition 2 variate for the distribution indicated by the \code{model} input (default is 1)
 #' @param samples Desired number of Monte Carlo data sets drawn to estimate the power (default is 1000)
-#' @param a0 The first shape parameter for the prior beta distribution (default is 1)
-#' @param b0 The second shape parameter for the prior beta distribution (default is 1)
+#' @param a0 The first shape parameter for the prior beta distribution (default is 1). Must be positive and finite.
+#' @param b0 The second shape parameter for the prior beta distribution (default is 1). Must be positive and finite.
 #' @param block.max The maximum size for a block effect (default is 0)
 #'
 #' @return A list containing the following components:
@@ -68,6 +68,7 @@
 #' \code{dfba_bayes_vs_t_power()} function. Besides the sample size \code{n}, there
 #' are eight other arguments that are required by the \code{dfba_sim_data()}
 #' function, which are passed from the \code{dfba_bayes_vs_t_power()} function:
+#'
 #' \itemize{
 #'      \item \code{a0}
 #'      \item \code{b0}
@@ -82,7 +83,7 @@
 #' The \code{a0} and \code{b0} values are the respective first and second beta
 #' shape parameters for the prior distribution needed for the Bayesian
 #' distribution-free tests, which are ultimately done by calling either the
-#' \code{dfba_wilcoxon()} function or by the \code{dfba_mann_whitney()}.
+#' \code{dfba_wilcoxon()} function or by the \code{dfba_mann_whitney()} function.
 #'
 #' The \code{model} argument is one of the following strings:
 #'   \itemize{
@@ -258,6 +259,14 @@ dfba_bayes_vs_t_power<-function(n_min=20,
     }
     #else {}
 
+    if (a0 <= 0|
+        a0 == Inf|
+        b0 <= 0|
+        b0 == Inf|
+        is.na(a0)|
+        is.na(b0)){
+      stop("Both a0 and b0 must be positive and finite.")
+    }
 
     mlist<-c("normal",
              "weibull",

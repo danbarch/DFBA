@@ -19,9 +19,9 @@ dfba_wilcoxon(
 
 \item{Y2}{Numeric vector for values paired with Y1 variate}
 
-\item{a0}{The first shape parameter for the prior beta distribution for \code{phi_w}}
+\item{a0}{The first shape parameter for the prior beta distribution for \code{phi_w}. Must be positive and finite.}
 
-\item{b0}{The second shape parameter for the prior beta distribution for \code{phi_w}}
+\item{b0}{The second shape parameter for the prior beta distribution for \code{phi_w}. Must be positive and finite.}
 
 \item{prob_interval}{Desired probability for interval estimates of the sign bias parameter \code{phi_w} (default is 0.95)}
 

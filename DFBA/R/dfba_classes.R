@@ -5,15 +5,15 @@
 #' @export
 setClass("dfba_gamma_out", representation("list"))
 #'
-#' @name dfba_phi_out-class
+#' @name dfba_bivariate_concordance_out-class
 #' @rdname dfba_classes
 #' @export
-setClass("dfba_phi_out", representation("list"))
+setClass("dfba_bivariate_concordance_out", representation("list"))
 #'
-#' @name dfba_phi_star_out-class
+#' @name dfba_bivariate_concordance_star_out-class
 #' @rdname dfba_classes
 #' @export
-setClass("dfba_phi_star_out", representation("list"))
+setClass("dfba_bivariate_concordance_star_out", representation("list"))
 #'
 #' @name dfba_mann_whitney_small_out-class
 #' @rdname dfba_classes
@@ -89,3 +89,4 @@ setClass("dfba_sign_test_out", representation("list"))
 #' @rdname dfba_classes
 #'@export
 setClass("dfba_binomial_out", representation("list"))
+

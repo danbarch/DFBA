@@ -10,8 +10,8 @@
 #'
 #' @param E Data for independent sample 1 ("Experimental")
 #' @param C Data for independent sample 2 ("Control")
-#' @param a0 The first shape parameter for the prior beta distribution for \code{omega_E} (default is 1)
-#' @param b0 The second shape parameter for the prior beta distribution for \code{omega_E} (default is 1)
+#' @param a0 The first shape parameter for the prior beta distribution for \code{omega_E} (default is 1). Must be positive and finite.
+#' @param b0 The second shape parameter for the prior beta distribution for \code{omega_E} (default is 1). Must be positive and finite.
 #' @param prob_interval Desired probability value for the interval estimate for \code{omega_E} (default is 95\%)
 #' @param samples The number of Monte Carlo samples for \code{omega_E} when \code{method = "small"} (default is 30000)
 #' @param method (Optional) The method option is either "small" or "large". The "small" algorithm is based on a discrete Monte Carlo solution for cases where n is typically less than 20. The "large" algorithm is based on beta approximation model for the posterior distribution for the omega_E parameter. This approximation is reasonable when n > 19. Regardless of \eqn{n}, the user can stipulate \code{method}. When the \code{method} argument is omitted, the program selects the appropriate procedure
@@ -24,7 +24,7 @@
 #' @return \item{U_E}{Total number of comparisons for which observations from independent sample 1 ("Experimental") data exceed observations from independent sample 2 ("Control") data)}
 #' @return \item{U_C}{Total number of comparisons for which observations from independent sample 2 ("Control") data exceed observations from independent sample 1 ("Experimental") data)}
 #' @return \item{prob_interval}{User-defined width of \code{omega_E} interval estimate (default is 0.95)}
-#' @return \item{samples}{The number of desired Markov-Chain samples (default is 30000)}
+#' @return \item{samples}{The number of desired Monte Carlo samples (default is 30000)}
 #' @return \item{method}{A character string indicating the calculation method used}
 #' @return \item{omega_E}{A vector of values representing candidate values for \code{omega_E} when \code{method = "small"}}
 #' @return \item{omegapost}{A vector of values representing discrete probabilities for candidate values of \code{omega_E}}
@@ -176,8 +176,11 @@ dfba_mann_whitney<-function(E,
 #  a0<-prior_vec[1]
 #  b0<-prior_vec[2]
 
-  if ((a0 <= 0)|(b0 <= 0)){
-    stop("Both of the beta shape parameters for in the prior_vec must be >0.")}
+  if (a0 <= 0|
+      a0 == Inf|
+      b0 <= 0|
+      b0 == Inf){
+    stop("Both a0 and b0 must be positive and finite.")}
   #else {}
 
   if ((prob_interval < 0)|(prob_interval > 1)){

@@ -22,8 +22,8 @@
 #' @importFrom stats sd
 #'
 #' @param n Number of values per condition
-#' @param a0 The first shape parameter for the prior beta distribution (default is 1)
-#' @param b0 The second shape parameter for the prior beta distribution (default is 1)
+#' @param a0 The first shape parameter for the prior beta distribution (default is 1). Must be positive and finite.
+#' @param b0 The second shape parameter for the prior beta distribution (default is 1). Must be positive and finite.
 #' @param model Theoretical probability model for the data. One of \code{"normal"}, \code{"weibull"}, \code{"cauchy"}, \code{"lognormal"}, \code{"chisquare"}, \code{"logistic"}, \code{"exponential"}, \code{"gumbel"}, or \code{"pareto"}
 #' @param design Indicates the data structure. One of \code{"independent"} or \code{"paired"}.
 #' @param delta Theoretical mean difference between conditions; the second condition minus the first condition
@@ -281,8 +281,13 @@ dfba_sim_data<-function(n = 20,
   }
   #else {}
 
-   if ((a0<=0)|(b0<=0)|(is.na(a0))|(is.na(b0))){
-     stop("Both a0 and b0 must be positive")
+   if (a0 <= 0|
+       a0 == Inf|
+       b0 <= 0|
+       b0 == Inf|
+       is.na(a0)|
+       is.na(b0)){
+     stop("Both a0 and b0 must be positive and finite.")
    }
   #else {}
 

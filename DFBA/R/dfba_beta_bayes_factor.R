@@ -6,12 +6,12 @@
 #'
 #' @importFrom stats pbeta
 #'
-#' @param a The first shape parameter for the posterior beta distribution
-#' @param b The second shape parameter for the posterior beta distribution
+#' @param a The first shape parameter for the posterior beta distribution. Must be positive and finite.
+#' @param b The second shape parameter for the posterior beta distribution. Must be positive and finite.
 #' @param method One of \code{"interval"} if the null hypothesis is a range on the \code{[0,1]} interval or \code{"point"} if the null hypothesis is a single number in the \code{[0,1]} interval
 #' @param H0 If method="interval", then the H0 input is vector of two values, which are lower and upper limits for the null hypothesis; if method="point", then the H0 input is single number, which is the null hypothesis value
-#' @param a0 The first shape parameter for the prior beta distribution (default is 1)
-#' @param b0 The second shape parameter for the prior beta distribution(default is 1)
+#' @param a0 The first shape parameter for the prior beta distribution (default is 1). Must be positive and finite.
+#' @param b0 The second shape parameter for the prior beta distribution(default is 1). Must be positive and finite.
 #'
 #' @return A list containing the following components:
 #' @return \item{method}{The string of either \code{"interval"} or \code{"point"} corresponding to the type of null hypothesis tested}
@@ -34,7 +34,7 @@
 #' @details
 #'
 #' For a binomial variate with \code{n1} successes and \code{n2} failures, the
-#' Bayesian analysis for the population success rate parameter phi is
+#' Bayesian analysis for the population success rate parameter \eqn{\phi} is
 #' distributed as a beta density function with shape parameters \code{a}
 #' and \code{b} for \code{a = n1 + a0} and \code{b = n2 + b0} where \code{a0}
 #' and \code{b0} are the shape parameters for the prior beta distribution. It is
@@ -55,7 +55,7 @@
 #' as assumed or it is rejected. Unlike the frequentist approach,
 #' Bayesian hypothesis testing does not assume either \eqn{H_0} or \eqn{H_1}; it
 #' instead assumes a prior distribution for the population parameter
-#' phi, and based on this assumption arrives at a posterior
+#' \eqn{\phi}, and based on this assumption arrives at a posterior
 #' distribution for the parameter given the data of \code{n1} and \code{n2} for the
 #' binomial outcomes.
 #'
@@ -167,8 +167,13 @@ dfba_beta_bayes_factor<-function(a,
     stop("method must be either 'point' or 'interval'")
   }
 
-  if(a0 < 0|b0 < 0|is.na(a0)|is.na(b0)){
-    stop("Both a0 and b0 must be greater than or equal to 0")
+  if(a0 <= 0|
+     a0 == Inf|
+     b0 <= 0|
+     b0 == Inf|
+     is.na(a0)|
+     is.na(b0)){
+    stop("Both a0 and b0 must be positive and finite.")
   }
 
   if (a < a0 | b < b0 | is.na(a) | is.na(b)) {

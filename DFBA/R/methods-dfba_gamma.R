@@ -14,11 +14,11 @@ setMethod("show", "dfba_gamma_out", function(object) {
   cat("\nBayesian Analyses\n")
   cat("========================\n")
   cat(" ", "Posterior Beta Shape Parameters for the Concordance Phi\n")
-  cat(" ", "a.post", "\t", "b.post\n")
-  cat(" ", object$alpha, "\t\t", object$beta, "\n")
+  cat(" ", "a", "\t\t", "b\n")
+  cat(" ", object$a.post, "\t\t", object$b.post, "\n")
   cat(" ", "Posterior Median\n")
   cat(" ", object$post.median, "\n")
-  cat(" ", object$interval.width*100, "% Equal-tail Interval\n", sep="")
+  cat(" ", object$prob_interval*100, "% Equal-tail Interval\n", sep="")
   cat(" ", "Lower Limit", "\t\t", "Upper Limit\n")
   cat(" ", object$post.eti.lower, "\t\t", object$post.eti.upper)
 })
@@ -52,7 +52,7 @@ setMethod("plot",
               )
               lines(x.phi,
                     dbeta(x.phi,
-                          x$a.prior,
-                          x$b.prior),
+                          x$a0,
+                          x$b0),
                     lty=2)  }
           })

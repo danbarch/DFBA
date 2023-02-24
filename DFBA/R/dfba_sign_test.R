@@ -6,8 +6,8 @@
 #'
 #' @param Y1 Vector of the continuous measurements for one group
 #' @param Y2 Vector of the continuous values paired with the \code{Y1} vector for the values in a second group
-#' @param a0 The first shape parameter for the prior beta distribution for the positive-sign rate parameter (default is 1)
-#' @param b0 The second shape parameter for the prior beta distribution for the positive-sign rate parameter (default is 1)
+#' @param a0 The first shape parameter for the prior beta distribution for the positive-sign rate parameter (default is 1). Must be positive and finite.
+#' @param b0 The second shape parameter for the prior beta distribution for the positive-sign rate parameter (default is 1). Must be positive and finite.
 #' @param prob_interval	Desired probability within interval limits for interval estimates of the positivity rate parameter (default is .95)
 #'
 #' @return A list containing the following components:
@@ -123,8 +123,12 @@ dfba_sign_test<-function(Y1,
 
   # Check if beta shape parameters are > 0
   if (a0 <= 0 |
-      b0 <= 0) {
-    stop("Both of the beta shape parameters must be > 0.")
+      a0 == Inf|
+      is.na(a0)|
+      b0 <= 0|
+      b0 == Inf|
+      is.na(b0)) {
+    stop("Both a0 and b0 must be positive and finite.")
   }
 
   # Check if interval is between 0 and 1

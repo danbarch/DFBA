@@ -1,0 +1,90 @@
+test_dfba_median<-function(dfba_med=rep(0,17)){
+   ## This function tests the dfba_median_test function.
+   # Test 1 checks the value of the combined median
+   # of two continuous measures for the E and C independent
+   # groups. Tests 2 and 3 check the numbers of scores
+   # in the E and C groups. Tests 4 and 5 check the baserates
+   # for the E and C groups. Tests 6 and 7 check the
+   # numbers above in the median in the E and C groups.
+   # Test 8 and 9 checks the number at or below the
+   # median for the E and C groups. Tests 10 and 11 check
+   # values for a.post and b.post. Tests 12 and 13 check
+   # the posterior probability that an above median score
+   # from the respective E and C conditions. Test 14 and 15
+   # check the prior probability for an above median score
+   # is from the E and C conditions. Tests 16 and 17 are
+   # the repective Bayes factor that the posterior baserate
+   # of the above-median responses are larger for the 
+   # E and C conditions.
+   ## The output of the function is a vector of 17
+   # values, which are either a 0 or 1. These values
+   # correspond to the 17 tests. If a test passes, it 
+   # is a 0, and if a test fails, it is a 1.
+   # The output vector is dfba_mcn.
+    
+    dfba_med=rep(0,17)
+ group1 <- c(12.90, 10.84, 22.67, 10.64, 10.67, 10.79, 13.55, 10.95, 12.19,12.76, 10.89, 11.02, 14.27, 13.98, 11.52, 13.49, 11.22, 15.07,15.74, 19.00)
+ group2 <- c(4.63, 58.64, 5.07, 4.66, 4.13, 3.92, 3.39, 3.57, 3.56, 3.39)
+ Amed<-dfba_median_test(E = group1,C = group2)
+
+ test_median=abs(Amed$median-10.985)
+ if (test_median>3e-05){dfba_med[1]=1}
+
+ test_nE=Amed$nE+.1
+ if (floor(test_nE)!=20){dfba_med[2]=1} 
+
+ test_nC=Amed$nC+.1
+ if (floor(test_nC)!=10){dfba_med[3]=1} 
+
+ test_Ebaserate=abs(Amed$Ebaserate-.6666667)
+ if (test_Ebaserate>3e-05){dfba_med[4]=1}
+
+ test_Cbaserate=abs(Amed$Cbaserate-.3333333)
+ if (test_Cbaserate>3e-05){dfba_med[5]=1}
+
+ test_nEabove=Amed$nEabove+.1
+ if (floor(test_nEabove)!=14){dfba_med[6]=1}
+
+ test_nCabove=Amed$nCabove+.1
+ if (floor(test_nCabove)!=1){dfba_med[7]=1}
+ 
+ test_nEbelow=Amed$nEbelow+.1
+ if (floor(test_nEbelow)!=6){dfba_med[8]=1}
+
+ test_nCbelow=Amed$nCbelow+.1
+ if (floor(test_nCbelow)!=9){dfba_med[9]=1}
+
+ test_a.post=abs(Amed$a.post-15)
+ if (test_a.post>3e-05){dfba_med[10]=1}
+
+ test_b.post=abs(Amed$b.post-2)
+ if (test_b.post>3e-05){dfba_med[11]=1}
+
+ test_postEhi=abs(Amed$postEhi-.9862981)
+ if (test_postEhi>3e-05){dfba_med[12]=1}
+
+ test_postChi=abs(Amed$postChi-.01370195)
+ if (test_postChi>3e-05){dfba_med[13]=1}
+
+ test_priorEhi=abs(Amed$priorEhi-.3333333)
+ if (test_priorEhi>3e-05){dfba_med[14]=1}
+
+ test_priorChi=abs(Amed$priorChi-.6666667)
+ if (test_priorChi>3e-05){dfba_med[15]=1}
+
+ test_BF10E=abs(Amed$BF10E-143.9646)
+ if (test_BF10E>0.03){dfba_med[16]=1}
+
+ test_BF10C=abs(Amed$BF10C-0.006946151)
+ if (test_BF10C>3e-05){dfba_med[17]=1}
+
+    failtot=sum(dfba_med)
+    if (failtot==0){
+      cat("dfba_median_test passes", " ","\n") } else {
+        cat("dfba_median test fails. There are","\n")
+        cat(failtot," failed subtests of the function.","\n")
+         }
+    test_median_list=list(dfba_med=dfba_med)
+    
+  }
+  

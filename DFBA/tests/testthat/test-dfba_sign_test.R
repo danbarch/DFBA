@@ -1,0 +1,76 @@
+test_dfba_sign<-function(dfba_sqn=rep(0,14)){
+  ## This function tests dfba_sign_test.
+  # Tests 1 and 2 check the values for  positive and
+  # negative differences between the two paired variates
+  # Tests 3 and 4 check values for a.post and b.post
+  # Test 5, 6, and 7 check values for the posterior
+  # mean, median, and mode for the positivity rate
+  # Tests 8 and 9 check the 95 percent equal-tail
+  # interval limits. Tests 10 and 11 check the 95
+  # percent highest-density limits. Test 12 checks the
+  # value for the posterior probability for a
+  # positive difference. Tests 13 and 14 check the
+  # values for BF10 and BF01 Bayes factors.
+  ## The output of the function is a vector of 14
+  # values, which are either a 0 or 1. These values
+  # correspond to the 14 tests. If a test passes, it
+  # is a 0, and if a test fails, it is a 1.
+  ## The output vector is dfba_sgn.
+
+  dfba_sgn=rep(0,14)
+  measure_1 <- c(1.49,0.64,0.96,2.34,0.78,1.29,0.72,1.52,0.62,1.67,1.19,0.860)
+  measure_2 <- c(0.53,0.55,0.58,0.97,0.60,0.22,0.05,13.14,0.63,0.33,0.91,0.37)
+  Asgn<-dfba_sign_test(Y1 = measure_1,Y2=measure_2)
+
+  test_n_pos=Asgn$n_pos+.1
+  if (floor(test_n_pos)!=10){dfba_sgn[1]=1}
+
+  test_n_neg=Asgn$n_neg+.1
+  if (floor(test_n_neg)!=2){dfba_sgn[2]=1}
+
+  test_a.post=Asgn$a.post+.1
+  if (floor(test_a.post)!=11){dfba_sgn[3]=1}
+
+  test_b.post=Asgn$b.post+.1
+  if (floor(test_b.post)!=3){dfba_sgn[4]=1}
+
+  test_phimean=abs(Asgn$phimean-.7857143)
+  if (test_phimean>3e-05){dfba_sgn[5]=1}
+
+  test_phimedian=abs(Asgn$phimedian-.7995514)
+  if (test_phimedian>3e-05){dfba_sgn[6]=1}
+
+  test_phimode=abs(Asgn$phimode-.8333333)
+  if (test_phimode>3e-05){dfba_sgn[7]=1}
+
+  test_eti_lower=abs(Asgn$eti_lower-.5455289)
+  if (test_eti_lower>3e-05){dfba_sgn[8]=1}
+
+  test_eti_upper=abs(Asgn$eti_upper-.9496189)
+  if (test_eti_upper>3e-05){dfba_sgn[9]=1}
+
+  test_hdi_lower=abs(Asgn$hdi_lower-.5789457)
+  if (test_hdi_lower>3e-05){dfba_sgn[10]=1}
+
+  test_hdi_upper=abs(Asgn$hdi_upper-.9677091)
+  if (test_hdi_upper>3e-05){dfba_sgn[11]=1}
+
+  test_post_H1=abs(Asgn$post_H1-.9887695)
+  if (test_post_H1>3e-05){dfba_sgn[12]=1}
+
+  test_BF10=abs(Asgn$BF10-88.04348)
+  if (test_BF10>0.4){dfba_sgn[13]=1}
+
+  test_BF01=abs(Asgn$BF01-0.01135802)
+  if (test_BF01>6e-05){dfba_sgn[14]=1}
+
+  failtot=sum(dfba_sgn)
+  if (failtot==0){
+    cat("dfba_sign_test passes", " ","\n") } else {
+      cat("dfba_sign_test fails. There are","\n")
+      cat(failtot," failed subtests of the function.","\n")
+    }
+  test_sign_list=list(dfba_sgn=dfba_sgn)
+
+}
+

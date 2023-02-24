@@ -1,0 +1,55 @@
+test_beta_bayes_factor<-function(dfba_BF=rep(0,8)){
+  ## The function does eight tests of dfba_beta_bayes_factor
+  # The first four tests check the values for an interval
+  # type null hypothesis for canned values for a beta.
+  # Tests 1 and 2 check the values for pH1 and postH1
+  # Tests 3 and 4 check the values for BF10 and BF01
+  ## The last four tests check the values for a point
+  # null hypothesis. Tests 5 and 6 check the values
+  # for the prior and posterior probability density
+  # at the null point. Tests 7 and 8 check on BF10 and BF01
+  ## The output of the function is a vector of eight
+  # values which are either a zero or one. These values
+  # correspond to the eight tests. If a test passes, it
+  # is a 0, and if a test fails, it is 1.
+  ## The output vector is dfba_BF.
+
+  dfba_BF=rep(0,8)
+  ABF<-dfba_beta_bayes_factor(a = 17,b = 5,method = "interval",H0 = c(0, .5))
+
+  pH1_test=abs(ABF$pH1-.5)
+  if (pH1_test>3e-05){dfba_BF[1]=1}
+
+  postH1_test=abs(ABF$postH1-.9964013)
+  if (postH1_test>3e-05){dfba_BF[2]=1}
+
+  BF10_test=abs(ABF$BF10-276.8789)
+  if (BF10_test>2.4){dfba_BF[3]=1}
+
+  BF01_test=abs(ABF$BF01-0.003611687)
+  if (BF01_test>4e-05){dfba_BF[4]=1}
+
+  BBF<-dfba_beta_bayes_factor(a = 377,b = 123,method = "point",H0 = .75)
+
+  dpriorH0_test=abs(BBF$dpriorH0-1)
+  if (dpriorH0_test>3e-05){dfba_BF[5]=1}
+
+  dpostH0_test=abs(BBF$dpostH0-20.04153)
+  if (dpostH0_test>3e-05){dfba_BF[6]=1}
+
+  BF10_test2=abs(BBF$BF10-0.04989638)
+  if (BF10_test2>3e-05){dfba_BF[7]=1}
+
+  BF01_test2=abs(BBF$BF01-20.04153)
+  if (BF01_test2>5e-04){dfba_BF[8]=1}
+
+  failtot=sum(dfba_BF)
+  if (failtot==0){
+    cat("dfba_beta_bayes_factor passes", " ","\n") } else {
+      cat("dfba_beta_bayes_factor fails. There are","\n")
+      cat(failtot," failed subtests of the function.","\n")
+    }
+  beta_BF_list=list(dfba_BF=dfba_BF)
+
+}
+

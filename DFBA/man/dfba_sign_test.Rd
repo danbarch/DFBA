@@ -11,9 +11,9 @@ dfba_sign_test(Y1, Y2, a0 = 1, b0 = 1, prob_interval = 0.95)
 
 \item{Y2}{Vector of the continuous values paired with the \code{Y1} vector for the values in a second group}
 
-\item{a0}{The first shape parameter for the prior beta distribution for the positive-sign rate parameter (default is 1)}
+\item{a0}{The first shape parameter for the prior beta distribution for the positive-sign rate parameter (default is 1). Must be positive and finite.}
 
-\item{b0}{The second shape parameter for the prior beta distribution for the positive-sign rate parameter (default is 1)}
+\item{b0}{The second shape parameter for the prior beta distribution for the positive-sign rate parameter (default is 1). Must be positive and finite.}
 
 \item{prob_interval}{Desired probability within interval limits for interval estimates of the positivity rate parameter (default is .95)}
 }

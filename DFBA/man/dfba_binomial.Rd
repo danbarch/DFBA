@@ -11,9 +11,9 @@ dfba_binomial(n1, n2, a0 = 1, b0 = 1, prob_interval = 0.95)
 
 \item{n2}{Integer number of binomial observations for a category 2 response (\emph{e.g.}, the number of failures)}
 
-\item{a0}{The first shape parameter for the prior beta distribution that corresponds to the population binomial parameter (default is 1)}
+\item{a0}{The first shape parameter for the prior beta distribution that corresponds to the population binomial parameter (default is 1). Must be positive and finite.}
 
-\item{b0}{The second shape parameter for the prior beta distribution for the population binomial rate parameter (default is 1)}
+\item{b0}{The second shape parameter for the prior beta distribution for the population binomial rate parameter (default is 1). Must be positive and finite.}
 
 \item{prob_interval}{Probability within interval estimates for the population binomial rate parameter (default is .95)}
 }
@@ -83,7 +83,7 @@ constant. Frequency theory thus delibrately eschews the idea of the binomial
 rate parameter having a probability distribution. Laplace (1774) had
 previously employed a Bayesian approach of treating the \eqn{\phi} parameter
 as a random variable. Yet Ellis and other researchers within the frequentist
-tradition delibrately rejected the Laplace/Bayes approach. For tests of a
+tradition delibrately rejected the Bayes/Laplace approach. For tests of a
 null hypothesis of an assumed \eqn{\phi} value, the frequentist approach either
 continues to assume the null hypothesis or it rejects the null hypothesis
 depending on the likelihood of the observed data plus the likelihood of more
@@ -93,7 +93,7 @@ retained given the observed data (Clopper & Pearson, 1934). However, the
 frequentist confidence interval is not a probability interval since
 population parameters cannot have a probability distribution with frequentist
 methods. Frequentist statisticians were well aware (\emph{e.g.}, Pearson, 1920)
-that if the \eqn{\phi} parameter had a distribution, then the Laplace/Bayes
+that if the \eqn{\phi} parameter had a distribution, then the Bayes/Laplace
 approach would be correct.
 
 Bayesian statistics rejects the frequentist theoretical decisions as to what

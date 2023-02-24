@@ -1,0 +1,99 @@
+
+
+test_wilcoxon<-function(dfba_wil=rep(0,22)){
+  dfba_wil=rep(0,22)
+  ## Overall there are 22 tests of the dfba_wilcoxon
+  # function. The first nine are for the small-
+  # sample case. Tests 10 to 22 are for the large-
+  # sample case.
+  ## Test of small sample and general stats are:
+  #  Tests 1 and 2 are for T_pos and T_neg values,
+  # Tests 3 and 4 are for phibar and prH1, Tests 5 and 6
+  # are for the lower and upper 95 percent equal-tail
+  # intervals limits, Test 7 is for the
+  #  Bayes factor BF10 for the null of phi< or =.5,
+  # Test 8 checks that the sum of the discrete posterior
+  #  probabilities values is 1. Test 9 checks that the
+  # last value for the cumulative distribution vector
+  # is 1.
+  # Following the data for the small-sample tests.
+  Y1<-c(2.286,0.621,0.967,3.782,18.960,5.473,4.274,0.605)
+  Y2<-c(1.114,0.002,0.382,1.251,0.003,8.413,7.947,0.050)
+  Awil<-dfba_wilcoxon(Y1,Y2,samples=10000)
+  T_postest=Awil$T_pos +.1
+  if (floor(T_postest)!=23){dfba_wil[1]=1}
+  T_negtest=Awil$T_neg+.1
+  if (floor(T_negtest)!=13){dfba_wil[2]=1}
+  phibartest=abs(Awil$phibar - .612888)
+  if (phibartest>.00568){dfba_wil[3]=1}
+  prH1testsmtest=abs(Awil$prH1 -.75174)
+  if (prH1testsmtest>.020536){dfba_wil[4]=1}
+  qlvsmtest=abs(Awil$qLv-.282248)
+  if (qlvsmtest>.01515){dfba_wil[5]=1}
+  qhvsmtest=abs(Awil$qHv-.893838)
+  if (qhvsmtest>.00708){dfba_wil[6]=1}
+  BF10smtest=abs(Awil$BF10 - 3.028392)
+  if (BF10smtest>.5){dfba_wil[7]=1}
+  probtotsm=sum(Awil$phipost)+.0001
+  if (floor(probtotsm)!=1) {dfba_wil[8]=1}
+  cumprobtotsm=Awil$cumulative_phi[200]
+  if (floor(.001+cumprobtotsm)!=1){dfba_wil[9]=1}
+
+  ## Tests for the large sample case are
+  # Tests 10 and 11 check T_pos and T_neg values,
+  # Test 12 checks the value for n,
+  # Tests 13 and 14 check apost and bpost values,
+  # Tests 15 and 16 check the post mean and median,
+  # Test 17 checks the posterior prH1 value,
+  # Test 18 checks the BF10 value
+  # Tests 19 and 20 check the equal-tail 95% limits,
+  # Tests 21 and 22 check the 95 percent HDI limits.
+  ## Output vector for the tests has elements of
+  # 0 is the test passes or 1 if the test fails
+  # The output vector is called dfba_wil.
+
+  ## Following are the data vectors for the large
+  # sample cases.
+  Y1L<-c(Y1,Y1,Y1,Y1)
+  Y2L<-c(Y2,Y2,Y2,Y2)
+  Bwil<-dfba_wilcoxon(Y1=Y1L,Y2L)
+  T_poslarge=Bwil$T_pos +.1
+  if (floor(T_poslarge)!=332){dfba_wil[10]=1}
+  T_neglarge=Bwil$T_neg +.1
+  if (floor(T_neglarge)!=196){dfba_wil[11]=1}
+  nlarge=Bwil$n +.1
+  if (floor(nlarge)!=32){dfba_wil[12]=1}
+  apost_test=abs(Bwil$apost -15.84091)
+  if (apost_test>.0001){dfba_wil[13]=1}
+  bpost_test=abs(Bwil$bpost - 9.659091)
+  if (bpost_test>.0001){dfba_wil[14]=1}
+  postmeanlargetest=abs(Bwil$postmean -.6212121)
+  if (postmeanlargetest>.0001){dfba_wil[15]=1}
+  postmediantest=abs(Bwil$postmedian - .6244281)
+  if (postmediantest>.0001){dfba_wil[16]=1}
+  prH1_largetest=abs(Bwil$prH1 - .8945555)
+  if (prH1_largetest>.0001){dfba_wil[17]=1}
+  BF10largetest=abs(Bwil$BF10 - 8.483664)
+  if (BF10largetest>.02){dfba_wil[18]=1}
+  qlequaltest=abs(Bwil$qlequal - .4293161)
+  if (qlequaltest>.0001){dfba_wil[19]=1}
+  qhequaltest=abs(Bwil$qhequal - .7950966)
+  if (qhequaltest>.0001){dfba_wil[20]=1}
+  qLmintest=abs(Bwil$qLmin - .4361713)
+  if (qLmintest>.0001){dfba_wil[21]=1}
+  qHmaxtest=abs(Bwil$qHmax - .8010602)
+  if (qHmaxtest>.0001){dfba_wil[22]=1}
+
+  failtot2=sum(dfba_wil)
+  if (failtot2==0){
+    cat("dfba_wilcoxon passes", " ","\n") } else {
+      cat("dfba_wilcoxon fails. There are","\n")
+      cat(failtot2," failed subtests of the function.","\n")
+    }
+
+  dfba_wilcoxon_list=list(dfba_wil=dfba_wil)
+}
+
+
+
+

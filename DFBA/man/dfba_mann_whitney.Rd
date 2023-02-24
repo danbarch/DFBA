@@ -19,9 +19,9 @@ dfba_mann_whitney(
 
 \item{C}{Data for independent sample 2 ("Control")}
 
-\item{a0}{The first shape parameter for the prior beta distribution for \code{omega_E} (default is 1)}
+\item{a0}{The first shape parameter for the prior beta distribution for \code{omega_E} (default is 1). Must be positive and finite.}
 
-\item{b0}{The second shape parameter for the prior beta distribution for \code{omega_E} (default is 1)}
+\item{b0}{The second shape parameter for the prior beta distribution for \code{omega_E} (default is 1). Must be positive and finite.}
 
 \item{prob_interval}{Desired probability value for the interval estimate for \code{omega_E} (default is 95\%)}
 
@@ -46,7 +46,7 @@ A list containing the following components:
 
 \item{prob_interval}{User-defined width of \code{omega_E} interval estimate (default is 0.95)}
 
-\item{samples}{The number of desired Markov-Chain samples (default is 30000)}
+\item{samples}{The number of desired Monte Carlo samples (default is 30000)}
 
 \item{method}{A character string indicating the calculation method used}
 

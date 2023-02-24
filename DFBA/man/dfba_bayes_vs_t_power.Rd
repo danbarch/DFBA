@@ -35,9 +35,9 @@ dfba_bayes_vs_t_power(
 
 \item{samples}{Desired number of Monte Carlo data sets drawn to estimate the power (default is 1000)}
 
-\item{a0}{The first shape parameter for the prior beta distribution (default is 1)}
+\item{a0}{The first shape parameter for the prior beta distribution (default is 1). Must be positive and finite.}
 
-\item{b0}{The second shape parameter for the prior beta distribution (default is 1)}
+\item{b0}{The second shape parameter for the prior beta distribution (default is 1). Must be positive and finite.}
 
 \item{block.max}{The maximum size for a block effect (default is 0)}
 }
@@ -106,6 +106,7 @@ The arguments for the \code{dfba_sim_data()} function are passed from the
 \code{dfba_bayes_vs_t_power()} function. Besides the sample size \code{n}, there
 are eight other arguments that are required by the \code{dfba_sim_data()}
 function, which are passed from the \code{dfba_bayes_vs_t_power()} function:
+
 \itemize{
      \item \code{a0}
      \item \code{b0}
@@ -120,7 +121,7 @@ function, which are passed from the \code{dfba_bayes_vs_t_power()} function:
 The \code{a0} and \code{b0} values are the respective first and second beta
 shape parameters for the prior distribution needed for the Bayesian
 distribution-free tests, which are ultimately done by calling either the
-\code{dfba_wilcoxon()} function or by the \code{dfba_mann_whitney()}.
+\code{dfba_wilcoxon()} function or by the \code{dfba_mann_whitney()} function.
 
 The \code{model} argument is one of the following strings:
   \itemize{

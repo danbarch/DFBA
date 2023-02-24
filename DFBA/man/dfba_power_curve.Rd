@@ -21,9 +21,9 @@ dfba_power_curve(
 \arguments{
 \item{n}{The sample size for both variates (default is 20)}
 
-\item{a0}{The first shape parameter for the prior beta distribution (default is 1)}
+\item{a0}{The first shape parameter for the prior beta distribution (default is 1). Must be positive and finite.}
 
-\item{b0}{The second shape parameter for the prior beta distribution (default is 1)}
+\item{b0}{The second shape parameter for the prior beta distribution (default is 1). Must be positive and finite.}
 
 \item{delta.step}{The increment between successive delta values, which range from 0 to \code{20*delta.step} (default value is .05)}
 
