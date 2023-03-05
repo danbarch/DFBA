@@ -19,15 +19,15 @@ dfba_mann_whitney(
 
 \item{C}{Data for independent sample 2 ("Control")}
 
-\item{a0}{shape parameter alpha of the prior beta distribution}
+\item{a0}{The first shape parameter for the prior beta distribution for \code{omega_E} (default is 1). Must be positive and finite.}
 
-\item{b0}{shape parameter beta of the prior beta distribution}
+\item{b0}{The second shape parameter for the prior beta distribution for \code{omega_E} (default is 1). Must be positive and finite.}
 
-\item{prob_interval}{Desired width of the highest density interval (HDI) of the posterior distribution (default is 95\%)}
+\item{prob_interval}{Desired probability value for the interval estimate for \code{omega_E} (default is 95\%)}
 
-\item{samples}{The number of desired Markov-Chain samples (default is 30000)}
+\item{samples}{The number of Monte Carlo samples for \code{omega_E} when \code{method = "small"} (default is 30000)}
 
-\item{method}{(Optional) The method option is either "small" or "large". The "small" algorithm is based on a discrete Monte Carlo solution for cases where n is typically less than 20. The "large" algorithm is based on beta approximation model for the posterior distribution for the omega_E parameter. This approximation is reasonable when n > 19. Regardless of n the user can stipulate which method that they desire. When the method option is  omitted the program selects the appropriate procedure.}
+\item{method}{(Optional) The method option is either "small" or "large". The "small" algorithm is based on a discrete Monte Carlo solution for cases where n is typically less than 20. The "large" algorithm is based on beta approximation model for the posterior distribution for the omega_E parameter. This approximation is reasonable when n > 19. Regardless of \eqn{n}, the user can stipulate \code{method}. When the \code{method} argument is omitted, the program selects the appropriate procedure}
 }
 \value{
 A list containing the following components:
@@ -44,35 +44,35 @@ A list containing the following components:
 
 \item{U_C}{Total number of comparisons for which observations from independent sample 2 ("Control") data exceed observations from independent sample 1 ("Experimental") data)}
 
-\item{prob_interval}{User-defined width of omega_E interval estimate (default is 0.95)}
+\item{prob_interval}{User-defined width of \code{omega_E} interval estimate (default is 0.95)}
 
-\item{samples}{The number of desired Markov-Chain samples (default is 30000)}
+\item{samples}{The number of desired Monte Carlo samples (default is 30000)}
 
 \item{method}{A character string indicating the calculation method used}
 
-\item{phiv}{A vector of data representing candidate values of phi (used as the x-variate in the `plot()` method.)}
+\item{omega_E}{A vector of values representing candidate values for \code{omega_E} when \code{method = "small"}}
 
-\item{omegapost}{A vector of data representing posterior probabilities of candidate values of phi (used as the y-variate in the `plot()` method.)}
+\item{omegapost}{A vector of values representing discrete probabilities for candidate values of \code{omega_E}}
 
-\item{priorvector}{A vector of data representing prior probabilities of candidate values of phi}
+\item{priorvector}{A vector of values representing prior discrete probabilities of candidate values of \code{omega_E} when \code{method = "small"}}
 
 \item{priorprH1}{Prior probability of the alternative model that omega_E exceeds 0.5}
 
 \item{prH1}{Posterior probability of the alternative model that omega_E exceeds 0.5}
 
-\item{BF10}{Bayes Factor describing the relative increase in the posterior odds for the alternative model that omega_E exceeds 0.5 over the null model of omega_E less than or equal to 0.5}
+\item{BF10}{Bayes Factor describing the relative increase in the posterior odds for the alternative model that \code{omega_E} exceeds 0.5 over the null model of \code{omega_E} less than or equal to 0.5}
 
-\item{omegabar}{Posterior mean estimate for omega_E}
+\item{omegabar}{Posterior mean estimate for \code{omega_E}}
 
-\item{qLv}{Lower limit of the probability interval indicated by `prob_interval`}
+\item{qLv}{Lower limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
 
-\item{qHv}{Upper limit of the probability interval indicated by `prob_interval`}
+\item{qHv}{Upper limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
 }
 \description{
 Given two independent vectors \code{E} and \code{C}, the function computes
-the sample Mann-Whitney \emph{U} statistics \code{U_E} and \code{U_C} and
+the sample Mann-Whitney \eqn{U} statistics \code{U_E} and \code{U_C} and
 provides a Bayesian analysis for the population parameter \code{omega_E},
-which is the population ratio of \code{U_E/(U_E+U_C)}.
+which is the population ratio of \eqn{U_E/(U_E+U_C)}.
 }
 \details{
 The Mann-Whitney \emph{U} test is the frequentist nonparametric counterpart
@@ -93,7 +93,7 @@ distribution with shape parameters \code{a0} and \code{b0}. The default is
 the flat prior (\eqn{a0 = b0 =} 1), but this prior can be altered by the
 user.
 
-The prob_interval input is the value for probability interval estimates for
+The \code{prob_interval} input is the value for probability interval estimates for
 omega_E. There are two cases depending on the sample size for the \emph{E}
 and \emph{C} variates. When the samples sizes are small, there is a discrete
 approximation method used. In this case, the Bayesian analysis considers 200
@@ -103,12 +103,12 @@ posterior probabilities are based on Monte Carlo sampling to approximate the
 likelihood of obtaining the observed \code{U_E} and \code{U_C} values for each candidate
 value for omega_E. For each candidate value for omega_E, the likelihood for
 the observed sample U statistics does not depend on the true distributions of
-the \emph{E} and \emph{C} variates in the population.
+the \emph{E} and \emph{C} variates in the population. For each candidate
+\code{omega_E}, the software constructs two exponential variates that have
+the same omega_E value. The argument \code{samples} specifies the number of
+Monte Carlo samples used for each candidate value of \code{omega_E}.
 
-For each candidate \code{omega_E}, the software constructs two exponential
-variates that have the same omega_E value. The argument \code{samples}
-specifies the number of Monte Carlo samples used for each candidate value of
-\code{omega_E}. For large sample sizes of the \emph{E} and \emph{C} variates,
+For large sample sizes of the \emph{E} and \emph{C} variates,
 the Bayesian posterior distribution is closely approximated by a beta
 distribution where the shape parameters are a function of the sample
 \code{U_E} and \code{U_C} statistics. The large-sample beta approximation was
@@ -130,62 +130,72 @@ Communications in Statistics paper cited below.
 }
 \examples{
 
-Examples with large n per group
-The data for each condition are presorted only for the user convenience if checking the U stats by hand
+# Examples with large n per group
+# The data for each condition are presorted only for the user convenience if
+# checking the U stats by hand
 
-groupA <- c(43, 45, 47, 50, 54, 58, 60, 63, 69, 84, 85, 91, 99, 127, 130, 147, 165, 175, 193, 228, 252, 276)
-groupB<-c(0, 01, 02, 03, 05, 14, 15, 23, 23, 25, 27, 32, 57, 105, 115, 158, 161, 181, 203, 290)
+groupA <- c(43, 45, 47, 50, 54, 58, 60, 63, 69, 84, 85, 91, 99, 127, 130,
+            147, 165, 175, 193, 228, 252, 276)
+groupB <- c(0, 01, 02, 03, 05, 14, 15, 23, 23, 25, 27, 32, 57, 105, 115, 158,
+            161, 181, 203, 290)
 
-dfba_mann_whitney(E = groupA,C = groupB)
+dfba_mann_whitney(E = groupA,
+                  C = groupB)
 
-The following uses a Jeffreys prior instead of a default flat prior:
-dfba_mann_whitney(E = groupA,C = groupB, a0 = .5,b0 =.5)
+# The following uses a Jeffreys prior instead of a default flat prior:
+dfba_mann_whitney(E = groupA,
+                  C = groupB,
+                  a0 = .5,
+                  b0 =.5)
 
-The following also uses a Jeffreys prior but the analysis reverses the variates:
-dfba_mann_whitney(E=groupB,C=groupA,a0=.5,b0=.5)
-Notice that BF10 from the above analysis is 1/BF10 from the original order of the variates.
+# The following also uses a Jeffreys prior but the analysis reverses the
+# variates:
+dfba_mann_whitney(E =groupB,C=groupA,a0=.5,b0=.5)
 
-The next analysis constructs 99\% interval estimates with the Jeffreys prior.
-dfba_mann_whitney(E=groupA,C=groupB,a0=.5,b0=.5,prob_interval=.99)
+# Notice that BF10 from the above analysis is 1/BF10 from the original order
+# of the variates.
 
-The following forces a discrete approach with a flat prior for a case with large n:
+# The next analysis constructs 99\% interval estimates with the Jeffreys
+# prior.
+
+dfba_mann_whitney(E = groupA,
+                  C = groupB,
+                  a0 = .5,
+                  b0 = .5,
+                  prob_interval=.99)
+
+# The following forces a discrete approach with a flat prior for a case with
+# large n:
 dfba_mann_whitney(E=groupA,C=groupB,method="small")
 
-Examples with small n per group
+#Examples with small n per group
 
-groupC <- c(96.49, 96.78, 97.26, 98.85, 99.75, 100.14, 101.15, 101.39, 102.58, 107.22, 107.70, 113.26)
-groupD <- c(101.16, 102.09, 103.14, 104.70, 105.27, 108.22, 108.32, 108.51, 109.88, 110.32, 110.55, 113.42)
-S1ex<-dfba_mann_whitney(E=groupC,C=groupD)
-S2ex<-dfba_mann_whitney(E=groupC,C=groupD,samples=50000)
-S3ex<-dfba_mann_whitney(E=groupC,C=groupD)
+groupC <- c(96.49, 96.78, 97.26, 98.85, 99.75, 100.14, 101.15, 101.39,
+            102.58, 107.22, 107.70, 113.26)
+groupD <- c(101.16, 102.09, 103.14, 104.70, 105.27, 108.22, 108.32, 108.51,
+            109.88, 110.32, 110.55, 113.42)
 
-To see output from the above three runs enter the folowing:
-S1ex
-S2ex
-S3ex
-Note that S1ex and S3ex are replication analyses for the discrete approach. The variabilty is due to
-the different outcomes from the Monte Carlo sampling.
+S1ex<-dfba_mann_whitney(E = groupC, C = groupD)
+S2ex<-dfba_mann_whitney(E = groupC, C = groupD, samples = 50000)
+S3ex<-dfba_mann_whitney(E = groupC, C = groupD)
 
-Output from above examples are without a plot of the omega_E distribution. The dfba_plot_mann_whitney()
-function can plot the omega_E distribution for R objects. For example
-A <- dfba_mann_whitney(E = groupA, C = groupB)
-dfba_plot_mann_whitney(A)
-Note this solution for the large-n case is a probabibility density display rather than a distribution
-for the discrete probabilities for omega_E.
-To see displays for the above two discrete small-sample cases then do the following where S1ex and
-S2ex R objects are defined above.
+# Note that S1ex and S3ex are replication analyses for the discrete approach.
+# The variabilty is due to the different outcomes from the Monte Carlo
+# sampling.
 
-dfba_plot_mann_whitney(x=S1ex)
-dfba_plot_mann_whitney(x=S2ex)
+# Plot output
+plot(S1ex)
+plot(S2ex,
+     plot.prior = FALSE)
 
-To have the S2ex R object displayed for only the posterior then do the following:
-dfba_plot_mann_whitney(S2ex, plot.prior=FALSE)
+
 }
 \references{
 Chechile, R.A. (2020). Bayesian Statistics for Experimental
-Scientists. Cambridge: MIT Press.
+Scientists: A General Introduction Using Distribution-Free Methods.
+Cambridge: MIT Press.
 
 Chechile, R.A. (2020). A Bayesian analysis for the Mann-Whitney
 statistic. Communications in Statistics -- Theory and Methods 49(3): 670-696.
-DOI: 10.1080/03610926.2018.2549247.
+DOI: 10.1080/03610926.2018.1549247.
 }

@@ -1,22 +1,48 @@
 #' Repeated-Measures Test (Wilcoxon Signed-Ranks Test)
 #'
 #' Given two continuous, paired variates \code{Y1} and \code{Y2},
-#' computes the sample \code{T_plus} and \code{T_negative} statistics for the Wilcoxon
+#' computes the sample \code{T_pos} and \code{T_neg} statistics for the Wilcoxon
 #' signed-rank test and provides a Bayesian analysis for the population
 #' sign-bias parameter \code{phi_w}, which is the population proportion of
 #' positive differences.
 #'
+#' @importFrom stats sd
+#' @importFrom stats pbeta
+#' @importFrom stats rbinom
+#'
 #' @param Y1 Numeric vector for one continuous variate
 #' @param Y2 Numeric vector for values paired with Y1 variate
-#' @param a0 shape parameter alpha of the prior beta distribution
-#' @param b0 shape parameter beta of the prior beta distribution
-#' @param prob_interval Desired probability for interval estimates of the sign bias parameter phi (default is 0.95)
-#' @param samples When method="small", the number of desired Monte Carlo samples per candidate value for phi (default is 30000 per candidate phi)
-#' @param method (Optional) The method option is either "small" or "large". The "small" algorithm is based on a discrete Monte Carlo solution for cases where n is typically less than 20. The "large" algorithm is based on beta approximation model for the posterior distribution for the omega_E parameter. This approximation is reasonable when n > 19. Regardless of n the user can stipulate which method that they desire. When the method option is omitted the program selects the appropriate procedure.
+#' @param a0 The first shape parameter for the prior beta distribution for \code{phi_w}. Must be positive and finite.
+#' @param b0 The second shape parameter for the prior beta distribution for \code{phi_w}. Must be positive and finite.
+#' @param prob_interval Desired probability for interval estimates of the sign bias parameter \code{phi_w} (default is 0.95)
+#' @param samples When \code{method = "small"}, the number of desired Monte Carlo samples per candidate value for \code{phi_w} (default is 30000 per candidate phi)
+#' @param method (Optional) The method option is either \code{"small"} or \code{"large"}. The "small" algorithm is based on a discrete Monte Carlo solution for cases where \emph{n} is typically less than 20. The \code{"large"} algorithm is based on beta approximation model for the posterior distribution for the \code{phi_w} parameter. This approximation is reasonable when \emph{n} > 19. Regardless of \emph{n} the user can stipulate either method. When the \code{method} argument is omitted, the program selects the appropriate procedure.
 #'
 #' @return A list containing the following components:
-#' @return \item{T_plus}{Sum of the positive ranks in the pairwise comparisons}
-#' @return \item{T_negative}{Sum of the negative ranks in the pairwise comparisons}
+#' @return \item{T_pos}{Sum of the positive ranks in the pairwise comparisons}
+#' @return \item{T_neg}{Sum of the negative ranks in the pairwise comparisons}
+#' @return \item{n}{Number of nonzero differences for differences \code{d = Y1-Y2}}
+#' @return \item{prob_interval}{User-defined probability for interval estimates for phi_w}
+#' @return \item{samples}{The number of Monte Carlo samples per candidate phi_w for \code{method = "small"} (default is 30000)}
+#' @return \item{method}{A character string that is either \code{"small"} or \code{"large"} for the algorithm used (default is NULL)}
+#' @return \item{a0}{The first shape parameter for the beta prior distribution (default is 1)}
+#' @return \item{b0}{The second shape parameter for the beta distribution prior (default is 1)}
+#' @return \item{phiv}{The 200 candidate values for phi_w for \code{method = "small"}}
+#' @return \item{phipost}{The discrete posterior distribution for phi_w when \code{method = "small"}}
+#' @return \item{priorprH1}{The prior probability that phi_w > .5}
+#' @return \item{prH1}{The posterior probability for phi_w > .5}
+#' @return \item{BF10}{Bayes factor for the relative increase in the posterior odds for the alternative hypothesis that phi_w > .5 over the null model for phi_w <= .5}
+#' @return \item{postmean}{The posterior mean for phi_w}
+#' @return \item{cumulative_phi}{The posterior cumulative distribution for phi_w when \code{method = "small"}}
+#' @return \item{qLv}{The lower limit for the posterior interval estimate for phi_w when \code{method = "small"}}
+#' @return \item{qHv}{The upper limit for the posterior interval estimate for phi_w when \code{method = "small"}}
+#' @return \item{apost}{The first shape parameter for a beta distribution model for phi_w when \code{method = "large"}}
+#' @return \item{bpost}{The second shape parameter for a beta distribution model for phi_w when \code{method = "large"}}
+#' @return \item{postmedian}{The posterior median for phi_w when \code{method = "large"}}
+#' @return \item{qlequal}{The equal-tail lower limit for phi_w when \code{method = "large"}}
+#' @return \item{qhequal}{The equal-tail upper limit for phi_w when \code{method = "large"}}
+#' @return \item{qLmin}{The lower limit for the highest-density interval for phi_w when \code{method = "large"}}
+#' @return \item{qHmax}{The upper limit for the highest-density interval for phi_w when \code{method = "large"}}
 #'
 #' @details
 #'
@@ -30,10 +56,10 @@
 #' \code{Y2} measures. The procedure does not depend on the assumption of a
 #' normal distribution for the two continuous variates.
 #'
-#' The sample \code{T_plus} statistic is the sum of the ranks that have a positive
-#' sign, whereas \code{T_negative} is the positive sum of the ranks that have a
-#' negative value. Given \emph{n} nonzero \emph{d} scores, \code{T_plus} +
-#' \code{T_negative} = \emph{n}(\emph{n} + 1)/2. Tied ranks are possible, especially
+#' The sample \code{T_pos} statistic is the sum of the ranks that have a positive
+#' sign, whereas \code{T_neg} is the positive sum of the ranks that have a
+#' negative value. Given \emph{n} nonzero \emph{d} scores, \code{T_pos} +
+#' \code{T_neg} = \emph{n}(\emph{n} + 1)/2. Tied ranks are possible, especially
 #' when there are \code{Y1} and \code{Y2} values that have low precision. In
 #' such cases, the Wilcoxon statistics are rounded to the nearest integer.
 #'
@@ -50,7 +76,7 @@
 #' sample algorithm uses a discrete approximation where there are 200 candidate
 #' values for phi_w, which are .0025 to .9975 in steps of .005. For each
 #' candidate value for \code{phi_w}, there is a prior and posterior probability.
-#' The posterior probability is based on Monte Carlo sampling toapproximate the
+#' The posterior probability is based on Monte Carlo sampling to approximate the
 #' likelihood for obtaining the observed  Wilcoxon statistics. That is, for each
 #' candidate value for \code{phi_w}, thousands of Monte Carlo samples are
 #' generated for the signs on the numbers (1,2, ..., n) where each number is
@@ -74,8 +100,66 @@
 #' produce similar estimates but the former method requires increased
 #' processing time.
 #'
-#' @references Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists. Cambridge: MIT Press.
+#' @references Chechile, R.A. (2020). Bayesian Statistics for Experimental
+#' Scientists: A General Introduction to Distribution-Free Methods.
+#' Cambridge: MIT Press.
 #'
+#' Chechile, R. A. (2018) A Bayesian analysis for the Wilcoxon signed-rank
+#' statistic. Communications in Statistics - Theory and Methods,
+#' https://doi.org/10.1080/03610926.2017.1388402
+#'
+#'
+#' @examples
+#' ## Examples with a small number of pairs
+#' conditionA <- c(1.49, 0.64, 0.96, 2.34, 0.78, 1.29, 0.72, 1.52, 0.62, 1.67,
+#'                 1.19, 0.86)
+#' conditionB <- c(0.53, 0.55, 0.58, 0.97, 0.60, 0.22, 0.05, 13.14, 0.63, 0.33,
+#'                 0.91, 0.37)
+#'
+#' dfba_wilcoxon(Y1 = conditionA,
+#'              Y2 = conditionB)
+#'
+#' # Note the results for this method="small" analysis differs from
+#' # the previously run. These differences are the differences from
+#' # different Monte Carlo sampling
+#'
+#' # Using the Jeffreys prior for the same two conditions.
+#'
+#' dfba_wilcoxon(conditionA,
+#'               conditionB,
+#'               a0 = .5,
+#'               b0 = .5)
+#'
+#' # Using 99% interval estimates and with 50000 Monte Carlo samples per
+#' # candidate phi_w
+#'
+#' dfba_wilcoxon(conditionA,
+#'               conditionB,
+#'               prob_interval=.99,
+#'               samples=50000)
+#'
+#' # Examples with large sample size
+#'
+#' E <- c(6.45, 5.65, 4.34, 5.92, 2.84, 13.06, 6.61, 5.47, 4.49, 6.39, 6.63,
+#'        3.55, 3.76, 5.61, 7.45, 6.41, 10.16, 6.26, 8.46, 2.29, 3.16, 5.68,
+#'        4.13, 2.94, 4.87, 4.44, 3.13, 8.87)
+#'
+#' C <- c(2.89, 4.19, 3.22, 6.50, 3.10, 4.19, 5.13, 3.77, 2.71, 2.58, 7.59,
+#'        2.68, 4.98, 2.35, 5.15, 8.46, 3.77, 8.83, 4.06, 2.50, 5.48, 2.80,
+#'        8.89, 3.19, 9.36, 4.58, 2.94, 4.75)
+#'
+#'        BW<-dfba_wilcoxon(Y1=E,Y2=C)
+#'        BW
+#'        plot(BW)
+#'
+#'# Forcing the method="small" despite a sufficiently large n value
+#'
+#'CW<-dfba_wilcoxon(Y1 = E,
+#'                  Y2 = C,
+#'                  method = "small")
+#'CW
+#'plot(CW)
+#'plot(CW, plot.prior = FALSE)
 
 #' @export
 dfba_wilcoxon<-function(Y1,
@@ -97,8 +181,13 @@ dfba_wilcoxon<-function(Y1,
 #  a0<-prior_vec[1]
 #  b0<-prior_vec[2]
 
-  if ((a0<=0)|(b0<=0)){
-    stop("Both of the beta shape parameters must be >0.")}
+  if (a0<=0|
+      a0 == Inf|
+      is.na(a0)|
+      b0<=0|
+      b0 == Inf|
+      is.na(b0)){
+    stop("Both of the beta shape parameters must be positive and finite.")}
 #  else {}
 
   if ((prob_interval<0)|(prob_interval>1)){
@@ -141,7 +230,7 @@ dfba_wilcoxon<-function(Y1,
   if (n==0){stop("Y1 and Y2 differences are all trivial")}
   #else {}
 
-  #The following finds the Tplus and Tminus stats and the number of nonzero blocks
+  #The following finds the Tpos and Tneg stats and the number of nonzero blocks
   dt=(seq(1,n,1))*0
   IC=0
   for (I in 1:l1){
@@ -156,20 +245,20 @@ dfba_wilcoxon<-function(Y1,
   #the vector of signed rank scores.
   dtar=rank(dta)
   dtars=dtar*dt/dta
-  #The following computes the Tplus and Tminus statistics
-  tplus=0
+  #The following computes the Tpos and Tneg statistics
+  tpos=0
   for (I in 1:n){
-    if (dtars[I]>0){tplus=tplus+dtar[I]
-    } else {tplus=tplus}
+    if (dtars[I]>0){tpos=tpos+dtar[I]
+    } else {tpos=tpos}
   }
-  tplus=round(tplus)
-  tneg=(n*(n+1)*.5)-tplus
+  tpos=round(tpos)
+  tneg=(n*(n+1)*.5)-tpos
 #  cat("The Wilcoxon signed-rank statistics are:"," ","\n")
-#  cat("n","  ","T_plus","  ","T_negative","\n")
-#  cat(n,"  ",tplus,"      ",tneg,"\n")
+#  cat("n","  ","T_pos","  ","T_neg","\n")
+#  cat(n,"  ",tpos,"      ",tneg,"\n")
 
   if (is.null(method)){
-    if (n>24){method="large"} else {
+    if (n > 24){method="large"} else {
       method="small"}
   }
   #else {}
@@ -188,17 +277,17 @@ dfba_wilcoxon<-function(Y1,
     priorvector=rep(0,200)
     priorvector[1]=pbeta(x[1],a0,b0)
     for (i in 2:200){
-      priorvector[i]=pbeta(x[i],a0,b0)-pbeta(x[i-1],a0,b0)}
-
-
+      priorvector[i]=pbeta(x[i],a0,b0)-pbeta(x[i-1],a0,b0)
+      }
 
     fphi<-rep(0.0,200)
     for (j in 1:200){
+      cat(round(j/200, 2)*100, '% complete', '\r')
       phi=1/(400)+(j-1)*(1/200)
       for (k in 1:samples){
         tz=sum((1:n)*rbinom(n, 1, phi))
 
-        if(tz==tplus) {
+        if(tz==tpos) {
           fphi[j]=fphi[j]+1.0
         } else{
           fphi[j]=fphi[j]
@@ -215,8 +304,8 @@ dfba_wilcoxon<-function(Y1,
       phiv[j]=(1/400)+(j-1)*(1/200)
       phibar=phibar+(phiv[j]*phipost[j])}
 
-    plot(phiv,phipost,type="l",xlab="phi_w",ylab="posterior discrete probabilities",main="posterior-solid; prior-dashed")
-    lines(phiv,priorvector,type="l",lty=2)
+#    plot(phiv,phipost,type="l",xlab="phi_w",ylab="posterior discrete probabilities",main="posterior-solid; prior-dashed")
+#    lines(phiv,priorvector,type="l",lty=2)
 
 #    cat("mean for phi_w is:"," ","\n")
 #    cat(phibar," ","\n")
@@ -225,26 +314,26 @@ dfba_wilcoxon<-function(Y1,
 
 
     #The following finds the posterior cumulative distribution and outputs these values.
-    cum_phi=cumsum(phipost)
+    cumulative_phi=cumsum(phipost)
 
     I=1
-    while (cum_phi[I]<(1-prob_interval)/2){
+    while (cumulative_phi[I]<(1-prob_interval)/2){
       I=I+1}
     qLbelow=phiv[I]-.0025
 
     if (I!=1){
-      extrap=(1-prob_interval)/2-cum_phi[I-1]
-      probI=cum_phi[I]-cum_phi[I-1]} else {
+      extrap=(1-prob_interval)/2-cumulative_phi[I-1]
+      probI=cumulative_phi[I]-cumulative_phi[I-1]} else {
         extrap=(1-prob_interval)/2
-        probI=cum_phi[1]}
+        probI=cumulative_phi[1]}
     qLv=qLbelow+(.005)*(extrap/probI)
 
     I=1
-    while (cum_phi[I]<1-(1-prob_interval)/2){
+    while (cumulative_phi[I]<1-(1-prob_interval)/2){
       I=I+1}
     qHbelow=phiv[I]-.0025
-    extrapup=1-((1-prob_interval)/2)-cum_phi[I-1]
-    probIu=cum_phi[I]-cum_phi[I-1]
+    extrapup=1-((1-prob_interval)/2)-cumulative_phi[I-1]
+    probIu=cumulative_phi[I]-cumulative_phi[I-1]
     qHv=qHbelow+(.005)*(extrapup/probIu)
 #    cat(" ","  ","\n")
 #    cat("equal-tail area interval"," ","\n")
@@ -255,11 +344,11 @@ dfba_wilcoxon<-function(Y1,
 #    cat(" ","  ","\n")
 
 #    phi_w=phiv
-#    cumdis<-data.frame(phi_w,cum_phi)
+#    cumdis<-data.frame(phi_w,cumulative_phi)
     #The prH1 is the probability that phi_w is greater than .5.
 
 
-    prH1=1-cum_phi[round(100)]
+    prH1=1-cumulative_phi[round(100)]
     cum_prior=cumsum(priorvector)
     priorprH1=1-cum_prior[round(100)]
 #    cat("probability that phi_w exceeds .5 is:"," ","\n")
@@ -283,8 +372,8 @@ dfba_wilcoxon<-function(Y1,
 #    return(cat(" ","  ","\n"))
 
 
-  dfba_wilcoxon_small_list<-list(T_plus=tplus,
-                                 T_negative=tneg,
+  dfba_wilcoxon_small_list<-list(T_pos=tpos,
+                                 T_neg=tneg,
                                  n = n,
                                  prob_interval = prob_interval,
                                  samples = samples,
@@ -292,8 +381,8 @@ dfba_wilcoxon<-function(Y1,
                       #           phi_w = phi_w,
                                  a0 = a0,
                                  b0 = b0,
-                                 phipost = phipost,
-                      #           priorvector = priorvector,
+                      #           phipost = phipost,
+                                 priorvector = priorvector,
                                  priorprH1 = priorprH1,
                                  phiv = phiv,
                                  phipost = phipost,
@@ -303,7 +392,8 @@ dfba_wilcoxon<-function(Y1,
                                                BF10),
                                  phibar = phibar,
                                  qLv = qLv,
-                                 qHv = qHv)
+                                 qHv = qHv,
+                                 cumulative_phi = cumulative_phi)
   } else {
     # method="large"
 #    m1L<-"Following is based on beta approximation for phi_w"
@@ -316,7 +406,7 @@ dfba_wilcoxon<-function(Y1,
     #for the phi_w parameter
     na0=a0-1
     nb0=b0-1
-    term=(3*tplus)/((2*n)+2)
+    term=(3*tpos)/((2*n)+2)
     na=term-.25
     nb=(((3*n)-1)/4)-term
     apost=na+na0+1
@@ -397,8 +487,8 @@ dfba_wilcoxon<-function(Y1,
 #    m1X=" "
 #    m2X=" "
 #    return(cat(m1X,m2X,"\n"))
-  dfba_wilcoxon_large_list<-list(T_plus=tplus,
-                                 T_negative=tneg,
+  dfba_wilcoxon_large_list<-list(T_pos=tpos,
+                                 T_neg=tneg,
                                  n = n,
                                  prob_interval = prob_interval,
                                  samples = samples,

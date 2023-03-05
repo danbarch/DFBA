@@ -1,5 +1,5 @@
 * using log directory ‘/Users/danielbarch/dfba/DFBA.Rcheck’
-* using R version 4.1.1 (2021-08-10)
+* using R version 4.2.2 (2022-10-31)
 * using platform: x86_64-apple-darwin17.0 (64-bit)
 * using session charset: UTF-8
 * using options ‘--no-manual --as-cran’
@@ -32,103 +32,69 @@
 * checking whether the package can be unloaded cleanly ... OK
 * checking whether the namespace can be loaded with stated dependencies ... OK
 * checking whether the namespace can be unloaded cleanly ... OK
-* checking dependencies in R code ... NOTE
-package 'methods' is used but not declared
+* checking dependencies in R code ... OK
 * checking S3 generic/method consistency ... OK
 * checking replacement functions ... OK
 * checking foreign function calls ... OK
 * checking R code for possible problems ... NOTE
-Beta_betweengroups: no visible global function definition for ‘rbeta’
-Beta_betweengroups: no visible global function definition for ‘var’
-Beta_betweengroups: no visible global function definition for
-  ‘quantile’
-dfba_bayes_vs_t_power: no visible global function definition for ‘new’
-dfba_gamma: no visible global function definition for ‘new’
-dfba_mann_whitney: no visible global function definition for ‘pbeta’
-dfba_mann_whitney: no visible global function definition for ‘rexp’
-dfba_mann_whitney: no visible binding for global variable ‘omega_e’
-dfba_mann_whitney: no visible global function definition for ‘new’
-dfba_phi: no visible global function definition for ‘new’
-dfba_power_curve: no visible global function definition for ‘new’
-dfba_sim_data: no visible global function definition for ‘rnorm’
-dfba_sim_data: no visible global function definition for ‘rweibull’
-dfba_sim_data: no visible global function definition for ‘rcauchy’
-dfba_sim_data: no visible global function definition for ‘rlnorm’
-dfba_sim_data: no visible global function definition for ‘rchisq’
-dfba_sim_data: no visible global function definition for ‘rlogis’
-dfba_sim_data: no visible global function definition for ‘rexp’
-dfba_sim_data: no visible global function definition for ‘runif’
-dfba_sim_data: no visible global function definition for ‘var’
-dfba_sim_data: no visible global function definition for ‘pt’
-dfba_sim_data: no visible global function definition for ‘sd’
-dfba_wilcoxon: no visible global function definition for ‘sd’
-dfba_wilcoxon: no visible global function definition for ‘pbeta’
-dfba_wilcoxon: no visible global function definition for ‘rbinom’
-dfba_wilcoxon: no visible global function definition for ‘new’
+dfba_beta_bayes_factor: no visible global function definition for
+  ‘dbeta’
+dfba_beta_descriptive: no visible global function definition for
+  ‘dbeta’
+plot,dfba_binomial_out: no visible global function definition for
+  ‘dbeta’
+plot,dfba_bivariate_concordance_out: no visible global function
+  definition for ‘dbeta’
+plot,dfba_bivariate_concordance_star_out: no visible global function
+  definition for ‘dbeta’
+plot,dfba_gamma_out: no visible global function definition for ‘dbeta’
+plot,dfba_mann_whitney_large_out: no visible global function definition
+  for ‘dbeta’
+plot,dfba_mcnemar_out: no visible global function definition for
+  ‘dbeta’
+plot,dfba_sign_test_out: no visible global function definition for
+  ‘dbeta’
+plot,dfba_wilcoxon_large_out: no visible global function definition for
+  ‘dbeta’
 Undefined global functions or variables:
-  new omega_e pbeta pt quantile rbeta rbinom rcauchy rchisq rexp rlnorm
-  rlogis rnorm runif rweibull sd var
+  dbeta
 Consider adding
-  importFrom("methods", "new")
-  importFrom("stats", "pbeta", "pt", "quantile", "rbeta", "rbinom",
-             "rcauchy", "rchisq", "rexp", "rlnorm", "rlogis", "rnorm",
-             "runif", "rweibull", "sd", "var")
-to your NAMESPACE file (and ensure that your DESCRIPTION Imports field
-contains 'methods').
+  importFrom("stats", "dbeta")
+to your NAMESPACE file.
 * checking Rd files ... OK
 * checking Rd metadata ... OK
-* checking Rd line widths ... NOTE
-Rd file 'dfba_mann_whitney.Rd':
-  \examples lines wider than 100 characters:
-     The data for each condition are presorted only for the user convenience if checking the U stats by hand
-     groupA <- c(43, 45, 47, 50, 54, 58, 60, 63, 69, 84, 85, 91, 99, 127, 130, 147, 165, 175, 193, 228, 252, 276)
-     groupC <- c(96.49, 96.78, 97.26, 98.85, 99.75, 100.14, 101.15, 101.39, 102.58, 107.22, 107.70, 113.26)
-     groupD <- c(101.16, 102.09, 103.14, 104.70, 105.27, 108.22, 108.32, 108.51, 109.88, 110.32, 110.55, 113.42)
-     Output from above examples are without a plot of the omega_E distribution. The dfba_plot_mann_whitney()
-     Note this solution for the large-n case is a probabibility density display rather than a distribution
-
-These lines will be truncated in the PDF manual.
+* checking Rd line widths ... OK
 * checking Rd cross-references ... OK
 * checking for missing documentation entries ... OK
 * checking for code/documentation mismatches ... OK
-* checking Rd \usage sections ... WARNING
-Undocumented arguments in documentation object 'Beta_betweengroups'
-  ‘n2v’ ‘N’
-
-Functions with \usage entries need to have the appropriate \alias
-entries, and all their arguments documented.
-The \usage entries must correspond to syntactically valid R code.
-See chapter ‘Writing R documentation files’ in the ‘Writing R
-Extensions’ manual.
+* checking Rd \usage sections ... OK
 * checking Rd contents ... OK
-* checking for unstated dependencies in examples ... WARNING
-Warning: parse error in file 'lines':
-1: unexpected '$'
-26: Beta_betweengroups(wts, n1v, n2v, priora0, priorb0)
-27: $
-    ^
-* checking examples ... ERROR
-Running examples in ‘DFBA-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: Beta_betweengroups
-> ### Title: Bayesian Contrasts Compute contrasts for binomial data from
-> ###   multiple conditions
-> ### Aliases: Beta_betweengroups
-> 
-> ### ** Examples
-> 
-> wts<-c(1/3,1/3,1/3,-.5,-.5)
-> n1v<-c(8,7,10,3,6) # Successes per condition
-> n2v<-c(4,5,2,9,6)  # Failures per condition
-> priora0<-c(1,1,1,1,1)
-> priorb0<-c(1,1,1,1,1)
-> Beta_betweengroups(wts, n1v, n2v, priora0, priorb0)
-Error in Beta_betweengroups(wts, n1v, n2v, priora0, priorb0) : 
-  could not find function "Beta_betweengroups"
-Execution halted
+* checking for unstated dependencies in examples ... OK
+* checking examples ... [20m/20m] OK
+Examples with CPU (user + system) or elapsed time > 5s
+                         user system elapsed
+dfba_power_curve      621.834  3.757 626.485
+dfba_mann_whitney     302.425  0.827 303.262
+dfba_bayes_vs_t_power 180.686  0.967 181.882
+dfba_wilcoxon          67.213  0.345  67.707
+* checking for unstated dependencies in ‘tests’ ... OK
+* checking tests ... ERROR
+  Running ‘testthat.R’
+Running the tests in ‘tests/testthat.R’ failed.
+Complete output:
+  > # This file is part of the standard setup for testthat.
+  > # It is recommended that you do not modify it.
+  > #
+  > # Where should you do additional test configuration?
+  > # Learn more about the roles of various files in:
+  > # * https://r-pkgs.org/tests.html
+  > # * https://testthat.r-lib.org/reference/test_package.html#special-files
+  > 
+  > library(testthat)
+  > library(dfba.R)
+  Error in library(dfba.R) : there is no package called 'dfba.R'
+  Execution halted
 * checking for non-standard things in the check directory ... OK
 * checking for detritus in the temp directory ... OK
 * DONE
-Status: 1 ERROR, 2 WARNINGs, 3 NOTEs
+Status: 1 ERROR, 1 NOTE

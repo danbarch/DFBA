@@ -1,18 +1,56 @@
-Beta_betweengroups      Bayesian Contrasts Compute contrasts for
-                        binomial data from multiple conditions
-dfba_bayes_vs_t_power   Simulated Data Generator and Inferential
-                        Comparison
+dfba_bayes_vs_t_power   Simulated Distribution-Free Bayesian Power and
+                        _t_ Power
+dfba_beta_bayes_factor
+                        Bayes Factor for Posterior Beta Distribution
+dfba_beta_contrast      Bayesian Contrasts
+dfba_beta_descriptive   Descriptive Statistics for a Beta Distribution
+dfba_binomial           Bayesian Binomial Rate Parameter Inference
+dfba_bivariate_concordance
+                        Bayesian Distribution-Free Correlation and
+                        Concordance
 dfba_gamma              Goodman-Kruskal Gamma
 dfba_gamma_out-class    Classes for DFBA
 dfba_mann_whitney       Independent Samples Test (Mann Whitney U)
-dfba_phi                Concordance Parameter Phi
-dfba_plot_beta          dfba_plot_beta Plots data from dfba functions
+dfba_mcnemar            Bayesian Repeated-Measures McNemar Test for
+                        Change
+dfba_median_test        Bayesian Median Test Description
 dfba_power_curve        Power Curves
+dfba_sign_test          Bayesian Sign Test
 dfba_sim_data           Simulated Data Generator and Inferential
                         Comparison
-dfba_table_gamma        dfba_table_gamma Plots cross-tabulated gamma
-                        data
 dfba_wilcoxon           Repeated-Measures Test (Wilcoxon Signed-Ranks
                         Test)
-show,dfba_phi_out-method
-                        Methods for DFBA
+show,dfba_beta_contrast_out-method
+                        Formats for Beta Contrasts
+show,dfba_beta_descriptive_out-method
+                        Formats for Beta Descriptive
+show,dfba_binomial_out-method
+                        Formats for Bayesian Binomial Test
+show,dfba_bivariate_concordance_out-method
+                        Formatted output for dfba_bivariate_concordance
+show,dfba_gamma_out-method
+                        Formatted output for dfba_gamma
+show,dfba_interval_BF_out-method
+                        Formats for Interval Bayes Factor
+show,dfba_mann_whitney_large_out-method
+                        Formats for large-n Mann Whitney
+show,dfba_mann_whitney_small_out-method
+                        Formats for small-n Mann Whitney
+show,dfba_mcnemar_out-method
+                        Format for Bayesian McNemar Test
+show,dfba_median_test_out-method
+                        Formats for Bayesian Median Test Output
+show,dfba_point_BF_out-method
+                        Formats for Point Bayes Factor
+show,dfba_power_curve_out-method
+                        Formats for power curve
+show,dfba_sign_test_out-method
+                        Formats for Bayesian Sign Test
+show,dfba_sim_data_out-method
+                        Format for Simulated Data Function
+show,dfba_t_power_out-method
+                        Bayesian vs. t Power Methods
+show,dfba_wilcoxon_large_out-method
+                        Formats for large-n Wilcoxon
+show,dfba_wilcoxon_small_out-method
+                        Formats for small-n Wilcoxon

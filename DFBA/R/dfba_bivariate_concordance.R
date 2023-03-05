@@ -139,6 +139,7 @@
 #' (a Bayesian view). The American Statistician, 30, 112-119.
 #'
 #' @importFrom stats qbeta
+#' @importFrom stats dbeta
 #' @importFrom stats complete.cases
 #'
 #' @examples
