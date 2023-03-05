@@ -405,11 +405,11 @@ dfba_mann_whitney<-function(E,
     #Following finds the Bayes factor for omega_E being greater than .5.
 
     if ((prH1==1)|(priorprH1==0)){
-      BF10=samples
+      BF10 <- samples
 #      cat("Bayes factor BF10 for omega_E >.5 is estimated to be greater than:"," ","\n")
 #      cat(BF10," ","\n")
       } else {
-        BF10=(prH1*(1-priorprH1))/(priorprH1*(1-prH1))
+        BF10 <- (prH1*(1-priorprH1))/(priorprH1*(1-prH1))
 #        cat("Bayes factor BF10 for omega_E>.5 is:"," ","\n")
 #        cat(BF10," ","\n")
         }

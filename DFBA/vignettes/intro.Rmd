@@ -1,0 +1,48 @@
+---
+title: "intro"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{intro}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(DFBA)
+```
+
+# Overview
+
+This vignette is a general introduction to the package `DFBA`, along with a brief discussion of what the scope and domain of applications are for the functions in the package. First, it is important to state what *distribution-free* Bayesian statistics are and what they are not, and to explain the practical and theoretical importance for doing distribution-free analyses. It is also important to briefly distinguish Bayesian *versus* frequentist methods for statistical inference.
+
+## Frequentist and Bayesian Approaches to *Nonparametric Methods*
+
+Frequentist and Bayesian approaches fundamentally differ on the basic idea of what can be represented with a probability distribution. To frequentists, population parameters are fixed constants and therefore cannot be represented with probability distributions. The frequentist approach to statistics is based on the relative frequency method of assigning probability values (Ellis, 1842). From this framework, there are no probabilities for anything that does not have a relative frequency (von Mises, 1957). As a consequence of this philosophical decision about the population parameters, frequentist theorists had to invent procedures to obtain point and interval estimates of the population parameters and to invent methods for making decisions about condition differences. These procedures are *ad hoc* and are not direct results from probability theory. Since probability in the frequentist approach is derived from the relative frequency of data outcomes, frequentist methods involve computing the likelihood of the observe data *plus non-observed data that are more extreme*. In contradistinction to the frequentist approach, in the Bayesian framework, probability can be anything that satisfies the Kolmogorov (1933) axioms, so probabilities need not be limited to processes that have a relative frequency. Importantly, probability can be a measure of information or knowledge provided that the probability representation meets the Kolmogorov axioms (de Finetti, 1974). The advantage of this approach is the Bayesian methods for point and interval estimation and the methods for making decisions are obtain directly from probability theory. No *ad hoc* rules are needed because Bayes's Theorem provides the basis for rigorously converting the prior distribution for the population parameters to a posterior distribution. Moreover, from Bayes's Theorem the only data that are used are the observed data. Thus, frequentists and Bayesians have diametrically opposed views about population parameters and the relevant likelihood function. To frequentists, the parameters are fix constants and the data outcomes are a random variable, whereas to Bayesians the parameters have a probability distribution, but the only likelihood computed after an experiment is the likelihood for the observed data.
+
+The package `DFBA` provides a set of functions for performing Bayesian analyses in a fashion that does not depend on making parametric assumptions about the measurement error. Both frequentist and Bayesian statistics typically make parametric assumptions about the distribution of measurement errors. The term *parametric statistics* usually refers to any procedure where a normal distribution is assumed for each condition and where the standard deviation of the errors is equal in each condition. Such assumptions may be unrealistic in practice: it is unlikely that these parametric assumptions are precisely true; there may be extreme outlier scores within groups of observations which can have an undue influence on the error model; mixture processes often occur, so the assumption of a homogeneous process might be unreasonable; data -- including categorical and rank-based measurements -- may not be continuous, *etc.* Frequentist statistics first developed nonparametric methods for such applications where the parametric model was not assumed. The beauty of those methods is that they often provide investigators with the means to arrive at robust conclusions without the worry that their results were due in part to an invalid error model. Even when parametric models seem to be reasonable, frequentist nonparametric statistics are a valuable alternative to see if the conclusions from parametric analyses hold. 
+
+Frequentist distribution-free statistics were developed long before their Bayesian counterparts. In the mid-twentieth century, Wilcoxon and later Mann and Whitney developed frequentist tests for continuous data that only used rank-order information. Importantly this work bypassed the need for making the usual parametric assumptions for $t$-tests (Wilcoxon, 1945; Mann & Whitney, 1947). Textbooks by Siegel provided a comprehensive framework for doing frequentist nonparametric statistics (Siegel, 1956; Siegel & Castellan, 1988). With these developments, frequentist distribution-free procedures became an important set of tools for data analysts. 
+
+The field of Bayesian statistics, by contrast, was slow to develop distribution-free statistical tests. Lindley, a noted Bayesian statistician, observed that distribution-free statistics was a topic on which Bayesian statistics was embarrassingly silent (Lindley, 1972). The topic that has come to be called *Bayesian nonparametric models* (*e.g.*, Ferguson, 1973; M&uuml;ller *et al.*, 2015) includes procedures that were not distribution-free. Instead, these models are complex explorations of parameter spaces with infinite dimensionality. Eventually, fully-Bayesian counterparts to the Wilcoxon and to the Mann-Whitney tests were developed (Chechile, 2018; 2020b). Chechile (2020a) further expanded those results along with other Bayesian procedures that parallel the tests discussed in frequentist textbooks on nonparametric statistics. Chechile deliberately used the term *distribution-free Bayesian statistics* (Chechile, personal communication) so as to distinguish the simple Bayesian counterparts to the frequentist distribution-free procedures from the more complex aforementioned *Bayesian nonparametric models*. 
+ 
+## The `DFBA` Package
+ 
+The `DFBA` package implements the methods for distribution-free Bayesian analyses across a range of applied contexts. The functions were designed and documented in a fashion to be readily accessible to research scientists who might widely vary in their background on statistical theory. All the functions in the package have the prefix of `dfba_`, which is followed by a function name. While specific vignettes are available for each of the functions, the functions are nonetheless briefly described below.
+
+## DFBA Functions
+
+### `dfba_beta_descriptive()`: Supplementary descriptive statistics for the beta distribution
+
+`dfba_beta_descriptive()`: The `stats()` package has a number of functions to obtain the probability density, cumulative probability, quantiles, and random scores for a set of probability distributions. For example, for the beta distribution, the functions `dbeta()`, `pbeta()`, `qbeta()`, and `rbeta()` return the probability density, cumulative probability, quantiles, and random values, respectively. The `dfba_beta_descriptive()` function supplements the functions in the `stats()` package. `dfba_beta_descriptive()` provides the mean, median, and mode for a beta variate in terms of the two shape parameters for the beta distribution; and provides two interval estimates for the beta variate. Each of the interval estimates captures a set proportion of the distribution where the user can stipulate the probability within the limits. The *equal-tail interval* estimate has equal-tail probabilities, *i.e.*, the probability below the lower limit is equal to the probability above the upper limit. The *highest density interval* estimate is the most compact interval that contains the stipulated probability. `dfba_beta_descriptive()` is called by several of the other functions in the \pkg{DFBA} package. See the vignette about this function for more information about the beta distribution along with examples.
+
+
+### `dfba_binomial()`: Distribution-free Bayesian Binomial Tests
+
+For the binomial research design there are two categorical outcomes per test. The binomial model is a Bernoulli process where it is assumed that the trials are independent with the same population probability (say $\phi$) for one of the two outcomes. For the Bayesian analysis the prior distribution for the $\phi$ parameter is expressed in terms of a beta distribution. Such a prior results in a posterior distribution that is another member of the beta family of distributions. There are two shape parameters for any beta distribution that must be finite, positive real values. In the `DFBA` package, the two shape parameters for a prior beta distribution are denoted as $a_0$ and $b_0$. The case where $a_0=b_0=1$ is the special case that corresponds to a uniform prior distribution for $\phi$ on the $[0,\,1]$ interval. The posterior beta distribution has shape parameters of $a=a_0+n_1$ and $b=b_0+n_2$ where $n_1$ and $n_2$ are the frequency of observations in the two binomial categories. The `dfba_binomial()` function computes the posterior point and interval estimates for the population $\phi$ parameter. More details and examples about the `dfba_binomial()` function are provided in the separate vignette about that program.
