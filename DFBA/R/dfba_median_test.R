@@ -1,5 +1,5 @@
 #' Bayesian Median Test
-
+#'
 #' Description
 #'
 #' Given two independent groups of continuous variables, performs a Bayesian
