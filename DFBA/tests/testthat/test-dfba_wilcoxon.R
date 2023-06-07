@@ -1,12 +1,84 @@
+# Wilcoxon tests
 
-# Small method tests
+## Test Data
 
-# data for small method tests
+### data for small method tests
 
-dfba_wil=rep(0,22)
 Y1<-c(2.286,0.621,0.967,3.782,18.960,5.473,4.274,0.605)
 Y2<-c(1.114,0.002,0.382,1.251,0.003,8.413,7.947,0.050)
-Awil<-dfba_wilcoxon(Y1,Y2,samples=10000)
+
+### data for large method tests
+
+Y1L<-rep(Y1, 4)
+Y2L<-rep(Y2, 4)
+
+# Error tests
+
+test_that("Vector lengths must match",{
+  expect_error(dfba_wilcoxon(Y1[-1],
+                             Y2,
+                             samples=10000),
+               "Y1 and Y2 must have the same length. This function is for paired within-block data.")
+})
+
+test_that("Missing a0 parameter produces stop error",{
+  expect_error(dfba_wilcoxon(a0 = NA,
+                             Y1,
+                             Y2,
+                             samples=10000),
+               "Both a0 and b0 must be positive and finite")
+})
+
+test_that("Missing b0 parameter produces stop error",{
+  expect_error(dfba_wilcoxon(b0 = NA,
+                             Y1,
+                             Y2,
+                             samples=10000),
+               "Both a0 and b0 must be positive and finite")
+})
+
+test_that("Unreasonable probability intervals must be stopped",{
+  expect_error(dfba_wilcoxon(Y1,
+                             Y2,
+                             samples=10000,
+                             prob_interval = 1000000),
+               "The probability for the interval estimate of phi_w must be a proper proportion.")
+})
+
+test_that("Too few samples throws error",{
+  expect_error(dfba_wilcoxon(Y1,
+                             Y2,
+                             samples=10),
+               "stipulating Monte Carlo samples < 10000 is too few")
+})
+
+test_that("Too small vectors throws error",{
+  expect_error(dfba_wilcoxon(Y1[1:2],
+                             Y2[1:2],
+                             samples=10000),
+               "There are not enough values in the Y1 and Y2 vectors for meaningful results.")
+})
+
+test_that("Stop if differences are trivial",{
+  expect_error(dfba_wilcoxon(Y1,
+                             Y1,
+                             samples=10000),
+               "Y1 and Y2 differences are all trivial")
+})
+
+test_that("Method must be large or small",{
+  expect_error(dfba_wilcoxon(Y1,
+                             Y2,
+                             samples=10000,
+                             method = "medium"),
+               "An explicit method stipulation must be either the word large or the word small.")
+})
+# Small method tests
+
+
+Awil<-dfba_wilcoxon(Y1,
+                    Y2,
+                    samples=10000)
 
 
 test_that("T_positive for small method is correct",{
@@ -45,11 +117,30 @@ test_that("Total cumulative probability for Phi for small method is correct",{
   expect_equal(floor(Awil$cumulative_phi[200]+.0001), 1)
 })
 
+test_that("Function works with a tie",{
+  expect_lte(abs(dfba_wilcoxon(Y1,
+                             c(Y1[1], Y2[-1]),
+                             samples=10000)$phibar-0.613),
+               0.05)
+})
+
+test_that("Equal-tail interval works for tiny LL",{
+  expect_lte(dfba_wilcoxon(Y1,
+                               Y1+3,
+                               samples=10000)$qLv,
+             0.05)
+})
+
+test_that("Giant BF = Samples",{
+  expect_equal(dfba_wilcoxon(Y1L,
+                             Y1L-30,
+                             method = "small",
+                           samples=10000)$BF10,
+             10000)
+})
 # Large method tests
 
-# data vectors for the large sample cases.
-  Y1L<-rep(Y1, 4)
-  Y2L<-rep(Y2, 4)
+
   Bwil<-dfba_wilcoxon(Y1L,Y2L)
 
   test_that("T_positive for large method is correct",{
@@ -102,4 +193,10 @@ test_that("Total cumulative probability for Phi for small method is correct",{
 
   test_that("Upper Limit for Highest-Density Interval for large method is correct",{
     expect_lte(abs(Bwil$qHmax - 0.8010602), 0.0001)
+  })
+
+  test_that("Giant BF = Inf",{
+    expect_equal(dfba_wilcoxon(rep(Y1L, 10),
+                               rep(Y1L-20, 10))$BF10,
+                 Inf)
   })

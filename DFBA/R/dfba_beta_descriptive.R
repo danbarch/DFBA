@@ -78,7 +78,7 @@ dfba_beta_descriptive <- function(a,
 
   if (prob_interval > 1|
       prob_interval < 0){
-    stop("prob_interval must be a proper proportion")
+    stop("The probability for the interval estimate must be between 0 and 1.")
     }
 
   if (a <= 0|
@@ -100,7 +100,7 @@ dfba_beta_descriptive <- function(a,
        b == 1)|
       a < 1|
       b < 1){
-    phimode = NA
+    phimode <- NA
     } else {
     phimode = (a-1)/(a+b-2)
     }

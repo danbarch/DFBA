@@ -179,6 +179,7 @@ dfba_bivariate_concordance<-function(x,
                    b0=1,
                    prob_interval=0.95,
                    fitting.parameters=NULL){
+
   xy_input<-data.frame(x,y)                         #append x and y vectors
   xy<-xy_input[complete.cases(xy_input),]           #keep only rows with valid x and y values
   removed_rows<-nrow(xy_input)-nrow(xy)             #count removed rows

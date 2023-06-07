@@ -6,6 +6,29 @@
   ABiCon<-dfba_bivariate_concordance(x = mt1,
                                      y = mt2)
 
+  # Error Tests
+
+  test_that("Missing data throws warning",{
+    expect_warning(dfba_bivariate_concordance(x = c(NA, mt1[-1]),
+                                              y = mt2)
+                   )
+  })
+
+  test_that("Missing a0 parameter produces stop error",{
+    expect_error(dfba_bivariate_concordance(a0 = NA,
+                                            x = mt1,
+                                            y = mt2),
+                 "Both the a0 and b0 shape parameters must be positive and finite")
+  })
+
+  test_that("Missing b0 parameter produces stop error",{
+    expect_error(dfba_bivariate_concordance(b0 = NA,
+                                            x = mt1,
+                                            y = mt2),
+                 "Both the a0 and b0 shape parameters must be positive and finite")
+  })
+
+  # Function Tests
   test_that("Tau is correct",{
     expect_lte(abs(ABiCon$tau - 0.3807107), 3e-05)
   })

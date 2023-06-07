@@ -8,5 +8,6 @@
 
 library(testthat)
 library(DFBA)
+library(vdiffr)
 
 test_check("DFBA")

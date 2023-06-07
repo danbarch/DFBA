@@ -28,7 +28,9 @@ setMethod("show", "dfba_wilcoxon_small_out", function(object) {
   cat(" ", "prior", "\t\t\t", "posterior\n")
   cat(" ", object$priorprH1, "\t\t\t", object$prH1, "\n")
   cat("  Bayes factor BF10 for phi_W > 0.5:\n")
-  cat(" ", object$BF10, "\n")
+  cat(" ", ifelse(object$prH1==1|object$priorprH1==0,
+                  paste0("Bayes factor BF10 for omega_E >.5 is estimated to be greater than: ", object$samples),
+                  object$BF10), "\n")
 })
 
 

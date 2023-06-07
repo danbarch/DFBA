@@ -31,7 +31,6 @@
 #' @return \item{delta_vec}{Vector of the 21 delta offset values}
 #' @return \item{Bayes_power}{The vector of 21 Bayesian power values}
 #' @return \item{t_power}{The vector of 21 frequentist power from \emph{t}-tests}
-#' @return \item{}{}
 #' @return \item{outputdf}{A dataframe for the Bayesian power and the corresponding frequentist \emph{t} power as a function of delta}
 #'
 #' @details
@@ -266,18 +265,35 @@ dfba_power_curve<-function(n = 20,
              "pareto"
              )
 
-    if (!model %in% mlist){
-      cat("The set of distributions for model are:"," ","\n")
-      print(mlist)
-      stop("The stipulated model is not on the list")
-      }
+#    if (!model %in% mlist){
+#      cat("The set of distributions for model are:"," ","\n")
+#      print(mlist)
+#      stop("The stipulated model is not on the list")
+#      }
+#
+#    designlist<-c("paired","independent")
+#    if (!design %in% designlist){
+#      cat("The options for experimental design are:"," ","\n")
+#      print(designlist)
+#      stop("The stipulated design is not on the list")
+#      }
 
-    designlist<-c("paired","independent")
+    if (!model %in% mlist){
+      modelstop <- paste0("The set of distributions for model are:"," ","\n",
+                          "\t\t", paste0(mlist, collapse = "\n\t\t"), "\n",
+                          "The stipulated model is not on the list")
+      stop(modelstop)
+    }
+
+    designlist<-c("paired",
+                  "independent")
+
     if (!design %in% designlist){
-      cat("The options for experimental design are:"," ","\n")
-      print(designlist)
-      stop("The stipulated design is not on the list")
-      }
+      designstop <- paste0("The set of distributions for design are:"," ","\n",
+                           "\t\t", paste0(designlist, collapse = "\n\t\t"), "\n",
+                           "The stipulated design is not on the list")
+      stop(designstop)
+    }
 
     if (effect_crit<0|
         effect_crit>1){

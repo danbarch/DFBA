@@ -27,6 +27,8 @@
 #' @return \item{method}{A character string that is either \code{"small"} or \code{"large"} for the algorithm used (default is NULL)}
 #' @return \item{a0}{The first shape parameter for the beta prior distribution (default is 1)}
 #' @return \item{b0}{The second shape parameter for the beta distribution prior (default is 1)}
+#' @return \item{apost}{First shape parameter for the posterior beta distribution}
+#' @return \item{bpost}{Second shape parameter for the posterior beta distribution}
 #' @return \item{phiv}{The 200 candidate values for phi_w for \code{method = "small"}}
 #' @return \item{phipost}{The discrete posterior distribution for phi_w when \code{method = "small"}}
 #' @return \item{priorprH1}{The prior probability that phi_w > .5}
@@ -173,7 +175,9 @@ dfba_wilcoxon<-function(Y1,
   l1=length(Y1)
   l2=length(Y2)
   if (l1!=l2) {
-    stop("Y1 and Y2 must have the same length. This function is for paired within-block data.")} else {}
+    stop("Y1 and Y2 must have the same length. This function is for paired within-block data.")
+  }
+  #else {}
 
 #  if (length(prior_vec)!=2){
 #    stop("an explicit stipulation of prior_vec must only have the two shape parameters for the prior beta distribution")} else {}
@@ -187,7 +191,7 @@ dfba_wilcoxon<-function(Y1,
       b0<=0|
       b0 == Inf|
       is.na(b0)){
-    stop("Both of the beta shape parameters must be positive and finite.")}
+    stop("Both a0 and b0 must be positive and finite")}
 #  else {}
 
   if ((prob_interval<0)|(prob_interval>1)){
@@ -195,7 +199,9 @@ dfba_wilcoxon<-function(Y1,
 #  else {}
 
   if (samples<10000){
-    stop("stipulating Monte Carlo samples < 10000 is too small")} else {}
+    stop("stipulating Monte Carlo samples < 10000 is too few")
+  }
+  #else {}
 
   #Following code checks for NA values and cleans the difference scores
   Etemp=Y1
@@ -387,9 +393,7 @@ dfba_wilcoxon<-function(Y1,
                                  phiv = phiv,
                                  phipost = phipost,
                                  prH1 = prH1,
-                                 BF10 = ifelse((prH1==1)|(priorprH1==0),
-                                               paste0("Bayes factor BF10 for omega_E >.5 is estimated to be greater than: ", samples),
-                                               BF10),
+                                 BF10 = BF10,
                                  phibar = phibar,
                                  qLv = qLv,
                                  qHv = qHv,
@@ -506,9 +510,7 @@ dfba_wilcoxon<-function(Y1,
         # report that in the output?
                                  priorprH1=priorprH1,
                                  prH1 = prH1,
-                                 BF10 = ifelse((prH1==1)|(priorprH1==0),
-                                               paste0("estimated to be greater than ", samples),
-                                               BF10),
+                                 BF10 = BF10,
             #                     phibar = phibar,
                                  qlequal = qlequal,
                                  qhequal = qhequal,
@@ -518,7 +520,7 @@ dfba_wilcoxon<-function(Y1,
   #else {}
 
   if ((method!="large")&(method!="small")) {
-    stop("An explicit method stipulation must be either the word large or small.")
+    stop("An explicit method stipulation must be either the word large or the word small.")
   }
   #else {}
   if(method == "small"){

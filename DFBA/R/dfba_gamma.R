@@ -102,8 +102,7 @@ dfba_gamma<-function(x,
                      prob_interval = 0.95
                      ){
 #  if(is.matrix(x)==TRUE){
-  if(is.matrix(x)==FALSE){
-    stop("input must be in matrix or table format")
+  if(is.matrix(x)==FALSE){stop("input must be in matrix or table format")
   }
 
   if(a0 <= 0|
@@ -113,8 +112,9 @@ dfba_gamma<-function(x,
      b0 == Inf|
      is.na(b0)){
     stop("Both the a0 and b0 shape parameters must be positive and finite.")
-  }
-    table<-x
+    }
+
+  table<-x
     x_vec<-rep(1:nrow(table), unname(rowSums(table)))
     y_vec<-rep(as.vector(t(col(table))), as.vector(t(table)))
 #  } else {

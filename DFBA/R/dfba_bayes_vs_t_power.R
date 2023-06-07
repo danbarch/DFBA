@@ -255,7 +255,7 @@ dfba_bayes_vs_t_power<-function(n_min=20,
     #else {}
 #    n=round(n_min)
     if (n_min < 20 | n_min%%1 != 0){
-      stop("The function requires n_min to be an integer that is 20 or larger")
+      stop("n_min must be an integer that is 20 or larger")
     }
     #else {}
 
@@ -279,17 +279,29 @@ dfba_bayes_vs_t_power<-function(n_min=20,
              "pareto")
 
     if (!model %in% mlist){
-      cat("The set of distributions for model are:"," ","\n")
-      print(mlist)
-      stop("The stipulated model is not on the list")
+#      modelwarning <- cat("The set of distributions for model are:"," ","\n",
+#                          mlist, "\n",
+#                          "The stipulated model is not on the list")
+      modelstop <- paste0("The set of distributions for model are:"," ","\n",
+                        "\t\t", paste0(mlist, collapse = "\n\t\t"), "\n",
+                     "The stipulated model is not on the list")
+      stop(modelstop)
       }
 
     designlist<-c("paired",
                   "independent")
+
     if (!design %in% designlist){
-      cat("The options for experimental design are:"," ","\n")
-      print(designlist)
-      stop("The stipulated design is not on the list")
+#      designerror<-cat("The options for experimental design are:"," ","\n",
+#                       designlist, "\n",
+#                       "The stipulated design is not on the list")
+#      cat("The options for experimental design are:"," ","\n")
+#      print(designlist)
+      designstop <- paste0("The set of distributions for design are:"," ","\n",
+                          "\t\t", paste0(designlist, collapse = "\n\t\t"), "\n",
+                          "The stipulated design is not on the list")
+      stop(designstop)
+
       }
 
     if ((effect_crit<0)|(effect_crit>1)){

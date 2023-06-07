@@ -24,6 +24,10 @@
 #' @return \item{U_E}{Total number of comparisons for which observations from independent sample 1 ("Experimental") data exceed observations from independent sample 2 ("Control") data)}
 #' @return \item{U_C}{Total number of comparisons for which observations from independent sample 2 ("Control") data exceed observations from independent sample 1 ("Experimental") data)}
 #' @return \item{prob_interval}{User-defined width of \code{omega_E} interval estimate (default is 0.95)}
+#' @return \item{a0}{First shape parameter for the prior beta distribution}
+#' @return \item{b0}{Second shape parameter for the prior beta distribution}
+#' @return \item{apost}{First shape parameter for the posterior beta distribution}
+#' @return \item{bpost}{Second shape parameter for the posterior beta distribution}
 #' @return \item{samples}{The number of desired Monte Carlo samples (default is 30000)}
 #' @return \item{method}{A character string indicating the calculation method used}
 #' @return \item{omega_E}{A vector of values representing candidate values for \code{omega_E} when \code{method = "small"}}
@@ -79,7 +83,7 @@
 #' the quantiles of the discrete approach with the corresponding quantiles for a
 #' particular beta distribution. The large-\emph{n} solution also uses Lagrange
 #' polynomials for interpolation. The large-\emph{n} approximation is reasonably
-#' accurate when \eqn{n >} 19 for each condition. When the \code{method} input
+#' accurate when \eqn{n > 19} for each condition. When the \code{method} input
 #' is omitted, the function selects the appropriate procedure (\emph{i.e.},
 #' either the discrete case for a small sample size or the large-\emph{n}
 #' approach). Nonetheless, the user can stipulate which method they desire
@@ -176,8 +180,10 @@ dfba_mann_whitney<-function(E,
 #  a0<-prior_vec[1]
 #  b0<-prior_vec[2]
 
-  if (a0 <= 0|
+  if (is.na(a0)|
+      a0 <= 0|
       a0 == Inf|
+      is.na(b0)|
       b0 <= 0|
       b0 == Inf){
     stop("Both a0 and b0 must be positive and finite.")}
@@ -188,7 +194,7 @@ dfba_mann_whitney<-function(E,
   #else {}
 
   if (samples < 10000){
-    stop("stipulating Monte Carlo samples < 10000 is too small")}
+    stop("For reliable results please use at least 10000 Monte Carlo samples")}
   #else {}
 
   Etemp=E
@@ -261,7 +267,13 @@ dfba_mann_whitney<-function(E,
   if (is.null(method)){
     if (nH>=20){method="large"} else {
       method="small"}
-  } else {}
+  }
+  #else {}
+
+  if ((method!="large")&(method!="small")) {
+    stop("An explicit method stipulation must be either the word large or small.")
+  }
+  #else {}
 
   if (method=="small"){
 #    m1lable<-"Following is based on Monte Carlo samples"
@@ -333,12 +345,16 @@ dfba_mann_whitney<-function(E,
             Uz[i]<-sum(XE[i]>XC)
           }
 
-          if(sum(Uz) == UE) {fomega[j] = fomega[j]+1} else {}
+          if(sum(Uz) == UE) {
+            fomega[j] = fomega[j]+1
+          } else {
+
+            }
         }
       }
 
     }
-
+cat('\n')
 
     tot=sum(priorvector*fomega)
     omegapost=(priorvector*fomega)/tot
@@ -430,9 +446,7 @@ dfba_mann_whitney<-function(E,
                                        priorvector = priorvector,
                                        priorprH1 = priorprH1,
                                        prH1 = prH1,
-                                       BF10 = ifelse((prH1==1)|(priorprH1==0),
-                                                     paste0("Bayes factor BF10 for omega_E >.5 is estimated to be greater than: ", samples),
-                                                     BF10),
+                                       BF10 = BF10,
                                        omegabar = omegabar,
                                        qLv = qLv,
                                        qHv = qHv)
@@ -584,10 +598,7 @@ dfba_mann_whitney<-function(E,
 #    m2X=" "
 #    return(cat(m1X,m2X,"\n"))} else {}
 
-  if ((method!="large")&(method!="small")) {
-    stop("An explicit method stipulation must be either the word large or small.")
-  }
-  #else {}
+
 
 
 if(method == "small"){

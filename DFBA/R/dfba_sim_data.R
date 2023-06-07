@@ -259,22 +259,39 @@ dfba_sim_data<-function(n = 20,
            "gumbel",
            "pareto")
 
+#  if (!model %in% mlist){
+#    cat("The set of distributions for model are:"," ","\n")
+#    print(mlist)
+#    stop("The stipulated model is not on the list")
+#    }
+#
+##  designlist<-
+#  if (!design %in% c("paired","independent")){
+#    cat("The options for experimental design are:"," ","\n")
+#    cat("paired or independent"," ","\n")
+#    stop("The stipulated design is not on the list")
+#    }
+
   if (!model %in% mlist){
-    cat("The set of distributions for model are:"," ","\n")
-    print(mlist)
-    stop("The stipulated model is not on the list")
-    }
+    modelstop <- paste0("The set of distributions for model are:"," ","\n",
+                        "\t\t", paste0(mlist, collapse = "\n\t\t"), "\n",
+                        "The stipulated model is not on the list")
+    stop(modelstop)
+  }
 
-#  designlist<-
-  if (!design %in% c("paired","independent")){
-    cat("The options for experimental design are:"," ","\n")
-    cat("paired or independent"," ","\n")
-    stop("The stipulated design is not on the list")
-    }
+  designlist<-c("paired",
+                "independent")
 
-  a0=a0
-  b0=b0
-  block.max=block.max
+  if (!design %in% designlist){
+    designstop <- paste0("The set of distributions for design are:"," ","\n",
+                         "\t\t", paste0(designlist, collapse = "\n\t\t"), "\n",
+                         "The stipulated design is not on the list")
+    stop(designstop)
+  }
+
+#  a0=a0
+#  b0=b0
+#  block.max=block.max
 
   if (block.max<0|(is.na(block.max))){
     stop("block.max must be nonnegative")
@@ -340,7 +357,7 @@ dfba_sim_data<-function(n = 20,
 #    if((shape_vec[1]<=0)|(shape_vec[2]<=0)){
     if((shape1<=0)|(shape2<=0)){
 #      stop("The components of shape_vec are the Cauchy distribution scale factor for the respective control and experiment conditions and must be positive values.")
-      stop("shape1 and shape2 are the Cauchy distribution scale factor for the respective control and experiment conditions and must be positive values.")
+      stop("shape1 and shape2 are the Cauchy distribution scale factors for the respective control and experiment conditions and must be positive values.")
       }
 #    else {}
     C=rcauchy(n,
@@ -463,14 +480,14 @@ dfba_sim_data<-function(n = 20,
       stop("shape1 and shape2 must be greater than or equal to 1.")
     }
 #  else {}
-    g=runif(n,.00001,.99999)
+    g <- runif(n,.00001,.99999)
 #    alpha1=1.16*shape_vec[1]
-    alpha1=1.16*shape1
+    alpha1 <- 1.16*shape1
     C=1/(1-g)^(1/alpha1)
 #    alpha2=1.16*shape_vec[2]
-    alpha2=1.16*shape2
-    g2=runif(n,.00001,.99999)
-    E=(1+delta)/(1-g2)^(1/alpha2)
+    alpha2 <- 1.16*shape2
+    g2 <- runif(n,.00001,.99999)
+    E<- (1+delta)/(1-g2)^(1/alpha2)
   }
   #else {}
 

@@ -8,7 +8,6 @@
 #' @importFrom stats rbeta
 #' @importFrom stats var
 #' @importFrom stats quantile
-#' @import graphics
 #'
 #' @param n1_vec A vector of length K that consists of the observed number of successes for the categorical variable in each of the K separate conditions
 #' @param n2_vec A vector of length K that consists of the observed number of failures for the  categorical variable in each of the K separate conditions
@@ -178,9 +177,9 @@ dfba_beta_contrast<-function(n1_vec,
   if (samples<10000){
     stop("For reliable results please use at least 10000 Monte Carlo samples")}
 
-  if (missing(n1_vec)) stop ("n1_vec for the frequencies of successes in each condition is required.")
-  if (missing(n2_vec)) stop ("n2_vec for the frequencies of failures in each condition is required.")
-  if (missing(contrast_vec)) stop ("contrast_vec of contrast coefficients is required.")
+#  if (missing(n1_vec)) stop ("n1_vec for the frequencies of successes in each condition is required.")
+#  if (missing(n2_vec)) stop ("n2_vec for the frequencies of failures in each condition is required.")
+#  if (missing(contrast_vec)) stop ("contrast_vec of contrast coefficients is required.")
 
   l1=length(n1_vec)
   l2=length(n2_vec)
@@ -217,7 +216,7 @@ dfba_beta_contrast<-function(n1_vec,
      any(b0_vec <= 0)|
      any(is.na(b0_vec))|
      any(b0_vec == Inf)){
-    stop("Both the a0_vec and b0_vec shape parameters for the prior beta must be positive and finite.")
+    stop("All values in both the a0_vec and b0_vec shape parameter vectors for the prior beta must be positive and finite.")
   }
 
 #  for (i in 1:l1){
@@ -229,16 +228,18 @@ dfba_beta_contrast<-function(n1_vec,
   b_vec=n2_vec+b0_vec
 
 
-  if (round(sum(contrast_vec))!=0){
-    stop("The sum of the coefficients in the contrast_vec must be 0.")}
-
   if(sum(contrast_vec[contrast_vec > 0]) != 1){
-    stop("The sum of the positive contast coefficients must be 1")
+    stop("The sum of the positive contrast coefficients must be 1")
   }
 
   if(sum(contrast_vec[contrast_vec < 0]) != -1){
     stop("The sum of the negative contrast coefficients must be -1")
   }
+
+#  if (round(sum(contrast_vec))!=0){
+#    stop("The sum of the coefficients in the contrast_vec must be 0.")}
+  ## NOTE: this test is unnecessary b/c positive contrasts must sum to 1
+  ##       and negative contrasts must sum to -1
 
   #totpos=0
   #
@@ -334,7 +335,7 @@ dfba_beta_contrast<-function(n1_vec,
 #    cat(priorprH1," ","\n")
 
   if (prH1==1|priorprH1==0){
-    BF10 = samples
+    BF10 <- samples
 #    cat("Bayes factor BF10 for a positive contrast is estimated to be large than:"," ","\n")
 #    cat(BF10," ","\n")
     } else {

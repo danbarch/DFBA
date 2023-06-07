@@ -138,8 +138,8 @@
 #'                        H0 = .75)
 #'
 #' # An example with the Jeffreys prior
-#' dfba_beta_bayes_factor(a = 377,
-#'                        b = 123,
+#' dfba_beta_bayes_factor(a = 377.5,
+#'                        b = 123.5,
 #'                        method = "point",
 #'                        H0 = .75,
 #'                        a0 = .5,
@@ -183,16 +183,17 @@ dfba_beta_bayes_factor<-function(a,
 
   if(method == "point"){ #point method
 
-    # Checking input validity
-    # H0 between 0 and 1 (inclusive)
-    if((H0 > 1)|(H0 < 0)){
-    stop("H0 must be greater than or equal to 0 and less than or equal to 1")
-  }
-
     # H0 is a point (for point method)
     if(length(H0) != 1){
       stop("'H0' must be a single numeric value when method = 'point'")
     }
+
+    # Checking input validity
+    # H0 between 0 and 1 (inclusive)
+    if(H0 > 1|H0 < 0){
+      stop("H0 must be greater than or equal to 0 and less than or equal to 1")
+    }
+
 
     dpriorH0 = dbeta(H0,
                      a0,
@@ -230,12 +231,12 @@ dfba_beta_bayes_factor<-function(a,
     }
 
     # Both parts of interval have to be between 0 and 1 (inclusive)
-    if((H0[1] > 1)|(H0[1] < 0)|(H0[2] > 1)|(H0[2] < 0)){
+    if(any(H0 > 1)|any(H0 < 0)){
       stop("H0 interval limits must be greater than or equal to 0 and less than or equal to 1")
     }
 
     # Upper limit has to be greater than lower limit
-    if(H0[1] >= H0[2]){
+    if(method == "interval" & H0[1] >= H0[2]){
       stop("When method = 'interval', H0 upper limit must be greater than H0 lower limit")
     }
 

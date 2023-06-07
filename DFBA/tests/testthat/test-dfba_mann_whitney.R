@@ -1,6 +1,85 @@
+# Tests of mann-whitney
+
+# Small method test data
+E <- c(1.61, 2.02, 2.34, 2.89, 4.51, 4.72, 4.86, 6.21, 9.50, 33.39)
+C <- c(1.11, 1.13, 1.32, 1.82, 1.99, 4.12, 6.28, 6.21, 8.24, 44.55)
+
+# Large method test data
+
+Elarge<-rep(E, 3)
+Clarge<-rep(C, 3)
+
+# Error tests
+
+test_that("Missing a0 parameter produces stop error",{
+  expect_error(dfba_mann_whitney(a0 = NA,
+                                 E,
+                                 C,
+                                 samples=10000),
+               "Both a0 and b0 must be positive and finite")
+})
+
+test_that("Missing b0 parameter produces stop error",{
+  expect_error(dfba_mann_whitney(b0 = NA,
+                                 E,
+                                 C,
+                                 samples=10000),
+               "Both a0 and b0 must be positive and finite")
+})
+
+test_that("Unreasonable probability intervals must be stopped",{
+  expect_error(dfba_mann_whitney(E,
+                                 C,
+                                 samples=10000,
+                                 prob_interval = 77),
+               "The probability for the interval estimate of phi_w must be a proper proportion.")
+})
+test_that("Not enough samples",{
+  expect_error(dfba_mann_whitney(E,
+                                 C,
+                                 samples=8),
+               "For reliable results please use at least 10000 Monte Carlo samples")
+})
+
+test_that("empty E vector stops function",{
+  expect_error(dfba_mann_whitney(E = NA,
+                                 C,
+                                 samples=10000),
+               "The E and C vectors must have a length greater than 0."
+  )
+})
+
+test_that("empty C vector stops function",{
+  expect_error(dfba_mann_whitney(E,
+                                 C = NA,
+                                 samples=10000),
+               "The E and C vectors must have a length greater than 0."
+  )
+})
+test_that("Missing data in E vector throws message",{
+  expect_message(dfba_mann_whitney(c(NA, E[-1]),
+                                   C,
+                                   samples=10000)
+  )
+})
+
+test_that("Missing data in C vector throws message",{
+  expect_message(dfba_mann_whitney(E,
+                                   c(NA, C[-1]),
+                                   samples=10000)
+  )
+})
+
+test_that("Warning if method is neither large nor small",{
+  expect_error(dfba_mann_whitney(E,
+                                   C,
+                                   samples=10000,
+                                   method = "medium"),
+                 "An explicit method stipulation must be either the word large or small."
+  )
+})
+
 # Small method
-  E <- c(1.61, 2.02, 2.34, 2.89, 4.51, 4.72, 4.86, 6.21, 9.50, 33.39)
-  C <- c(1.11, 1.13, 1.32, 1.82, 1.99, 4.12, 6.28, 6.21, 8.24, 44.55)
 
   AMann<-dfba_mann_whitney(E,
                            C,
@@ -50,12 +129,33 @@
     expect_lte(abs(AMann$omegabar - 0.5911166), 0.005174341)
   })
 
+  test_that("[small] Posterior mean is correct with ties",{
+    expect_lte(abs(dfba_mann_whitney(E = c(3, 5, 6),
+                                 C = c(1, 2, 3, 4),
+                                 samples = 10000)$omegabar)-0.756,
+               0.1)
+  })
+
   test_that("[small] Equal-tail interval lower limit is correct",{
     expect_lte(abs(AMann$qLv - 0.3524778), 0.013732592)
   })
 
   test_that("[small] Equal-tail interval upper limit is correct",{
     expect_lte(abs(AMann$qHv-.8073713), 0.013191075)
+  })
+
+  test_that("[small] Giant BF = samples",{
+    expect_equal(dfba_mann_whitney(E = rep(E, 2),
+                                   C = rep(E, 2)-40,
+                                   samples = 10000,
+                                   method = "small")$BF10, 10000)
+  })
+
+  test_that("Equal-tail interval works for tiny LL",{
+    expect_lte(dfba_mann_whitney(E,
+                                 C = E + 40,
+                             samples=10000)$qLv,
+               0.05)
   })
 
   ## The next tests are for the large-sample case.
@@ -77,11 +177,9 @@
 
 # Large method
 
-  Elarge<-rep(E, 3)
-  Clarge<-rep(C, 3)
-
   BMann <- dfba_mann_whitney(Elarge,
-                             Clarge)
+                             Clarge,
+                             method = "large")
 
   test_that("[large] E mean is correct",{
     expect_lte(abs(BMann$Emean - 7.205), 0.0005)
@@ -151,3 +249,13 @@
     expect_lte(abs(BMann$BF10 - 11.04786), 0.08)
   })
 
+  test_that("[large] Posterior mean is correct when UC > UE",{
+    expect_lte(abs(dfba_mann_whitney(Clarge,
+                                     Elarge,
+                                     method = "large")$postmean - 0.3996738), 0.0005)
+  })
+
+  test_that("[large] Giant BF = Inf",{
+    expect_equal(dfba_mann_whitney(rep(Elarge, 2),
+                                   C = rep(Elarge, 2) - 40)$BF10, Inf)
+  })

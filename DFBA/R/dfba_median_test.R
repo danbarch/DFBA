@@ -28,7 +28,7 @@
 #' @return \item{postEhi}{Posterior probability that an above-median response exceeds the \code{E} group base rate}
 #' @return \item{postChi}{Posterior probabilty that an above-median response exceeds the \code{C} group base rate}
 #' @return \item{priorEhi}{The probability that a beta prior distribution would exceed the \code{E} group base rate}
-#' @return \item{priorChi}{The probability that a beta prior distribution would exceed the \code{E} group base rate}
+#' @return \item{priorChi}{The probability that a beta prior distribution would exceed the \code{C} group base rate}
 #' @return \item{BF10E}{The Bayes factor in favor of the hypothesis that an above-median response from the \code{E} group is more probable than the \code{E} expected base rate}
 #' @return \item{BF10C}{The Bayes factor in favor of the hypothesis that an above-median response from the \code{C} group is more probable than the \code{C} group base rate}
 #'
