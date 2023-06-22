@@ -115,8 +115,6 @@ dfba_sign_test<-function(Y1,
 
   # Check if vectors have the same length
 
-#  l1 = length(Y1)
-#  l2 = length(Y2)
   if (length(Y1) != length(Y2)) {
     stop("Y1 and Y2 must have the same length. This function is for paired within-block data.")
   }
@@ -138,122 +136,58 @@ dfba_sign_test<-function(Y1,
     stop("The probability for the interval estimation must be a proper proportion.")
   }
 
-# filter out pairs where Y1, Y2, or both is/are NA
-
   filtered_data <- data.frame(Y1 = Y1,
                               Y2 = Y2,
                               d = Y1 - Y2)[complete.cases(data.frame(Y1, Y2, Y1 - Y2)),]
-
-
-#  Etemp = Y1
-#  Ctemp = Y2
-#  d = Y1 - Y2
-#  dtemp = d
-#  jc = 0
-#  for (j in 1:length(Y1)) {
-#    if (is.na(dtemp[j])) {
-#    }
-#    else {
-#      jc = jc + 1
-#      Y1[jc] = Etemp[j]
-#      Y2[jc] = Ctemp[j]
-#      d[jc] = dtemp[j]
-#    }
-#  }
-#  Y1 = Y1[1:jc]
-#  Y2 = Y2[1:jc]
-#  d = d[1:jc]
 
   Y1 <- filtered_data$Y1
   Y2 <- filtered_data$Y2
   d <- filtered_data$d
   l1 <- nrow(filtered_data)
-#  l1 = jc
+
   if (l1 < 3) {
     stop("There are not enough values in the Y1 and Y2 vectors for meaningful results.")
   }
 
-  sdd = sd(d)
-#  IC = 0
-#  for (I in 1:l1) {
-#    if (abs(d[I]) <= sdd/30000) {
-#      IC = IC
-#    }
-#    else {
-#      IC = IC + 1
-#    }
-#  }
-
-#  n = IC
+  sdd <- sd(d)
 
   n <- sum(abs(d) > sdd/30000)
-  #Rich: please make sure that *n <- sum(abs(d) > sdd/30000)* properly replaces
-  #the commented-out lines above
+
 
   if (n == 0) {
     stop("Y1 and Y2 differences are all trivial")
   }
 
-#  dt = (seq(1, n, 1)) * 0
-#  IC = 0
-#  for (I in 1:l1) {
-#    if (abs(d[I]) <= sdd/30000) {
-#      IC = IC
-#    }
-#    else {
-#      IC = IC + 1
-#      dt[IC] = d[I]
-#    }
-#  }
-## Rich - I think this is just keeping all the d values that are greater than
-  # sdd/30000, right? If so, we can do it like this:
-
-  #n_pos=sum(dt>0)
-  n_pos = sum(d > sdd/30000)
-  n_neg = n- n_pos
-  a.post = n_pos + a0
-  b.post = n_neg + b0
-
-
-#  cat("Analysis of the Signs of the Differences Y1-Y2 Pairs"," ","\n")
-#  cat("Number Positive ","Number Negative","\n")
-#  cat(n_pos,"              ",n_neg,"\n")
-#  cat(" "," ","\n")
-#  cat("Following is an Analysis of the Positive Sign Rate:"," ","\n")
-
+  n_pos <- sum(d > sdd/30000)
+  n_neg <- n- n_pos
+  a.post <- n_pos + a0
+  b.post <- n_neg + b0
 
   des_out<-dfba_beta_descriptive(a.post,
                                  b.post,
                                  prob_interval = prob_interval)
-  phimean = des_out$x_mean
-  phimedian = des_out$x_median
-  phimode = des_out$x_mode
-  eti_lower = des_out$eti_lower
-  eti_upper = des_out$eti_upper
-  hdi_lower = des_out$hdi_lower
-  hdi_upper = des_out$hdi_upper
-  prior_H1 = 1-pbeta(.5,
-                     a0,
-                     b0)
-  post_H1 = 1-pbeta(.5,
-                    a.post,
-                    b.post)
+  phimean <- des_out$x_mean
+  phimedian <- des_out$x_median
+  phimode <- des_out$x_mode
+  eti_lower <- des_out$eti_lower
+  eti_upper <- des_out$eti_upper
+  hdi_lower <- des_out$hdi_lower
+  hdi_upper <- des_out$hdi_upper
+  prior_H1 <- 1-pbeta(.5,
+                      a0,
+                      b0)
+  post_H1 <- 1-pbeta(.5,
+                     a.post,
+                     b.post)
 
-#  cat("Prior and Posterior Prob. for Positive Rate :"," ","\n")
-#  cat(prior_H1," ",post_H1,"\n")
-#  cat(" "," ","\n")
-
-#  cat("Bayes Factors (BF10) for Pos. Rate > .5 and BF01"," ","\n")
   out_BF <- dfba_beta_bayes_factor(a=a.post,
                                    b=b.post,
                                    method="interval",
                                    H0 = c(0,
                                           .5))
 
-    BF10 = out_BF$BF10
-    BF01 = out_BF$BF01
-
-#    cat(BF10," ",BF01,"\n")
+    BF10 <- out_BF$BF10
+    BF01 <- out_BF$BF01
 
       sign_list<-list(Y1 = Y1,
                       Y2 = Y2,

@@ -245,13 +245,13 @@ test_that("negative shape stops the show (pareto)",{
                          design = "paired",
                          delta = 0.4,
                          block.max = 0)
-  Cw=Aexpf$C
-  Cwor=sort(Cw)
+  Cw <- Aexpf$C
+  Cwor <- sort(Cw)
 
-  Uact=1-exp(-Cwor)
-  Upred=(seq(1,600,1))/600
+  Uact <- 1-exp(-Cwor)
+  Upred <- seq(1,600,1)/600
 
-  RsqExp=(cor(Uact,Upred,method="pearson"))^2
+  RsqExp <- (cor(Uact,Upred,method="pearson"))^2
 
   test_that("Test R^2 GOF for Group C [Exponential Distribution]",{
     expect_gte(RsqExp, 0.9645)
@@ -265,12 +265,14 @@ test_that("negative shape stops the show (pareto)",{
                           delta = 0.4,
                           shape1 = 0.8,
                           shape2 = 0.8)
-  shape1 = 0.8
-  Cw2=AWeibull$C
-  Cwor2=sort(Cw2)
-  Uact2=1-exp(-Cwor2^shape1)
-  Upred2=(seq(1,600,1))/600
-  RsqW=(cor(Uact2, Upred2, method = "pearson"))^2
+  shape1 <- 0.8
+  Cw2 <- AWeibull$C
+  Cwor2 <- sort(Cw2)
+  Uact2 <- 1-exp(-Cwor2^shape1)
+  Upred2 <- seq(1,
+                600,
+                1)/600
+  RsqW <- (cor(Uact2, Upred2, method = "pearson"))^2
 
   test_that("Test R^2 GOF for Group C [Weibull Distribution]",{
     expect_gte(RsqW, 0.969)
@@ -284,12 +286,12 @@ test_that("negative shape stops the show (pareto)",{
                           delta = 0.4,
                           shape1 = 0.551,
                           shape2 = 0.551)
-  shape1 = 0.551
-  Cw=Alogis$C
-  Cwor=sort(Cw)
-  Uact=1/(1+exp(-(Cwor/shape1)))
-  Upred=(seq(1,600,1))/600
-  RsqLogistic=(cor(Uact,Upred,method="pearson"))^2
+  shape1 <- 0.551
+  Cw <- Alogis$C
+  Cwor <- sort(Cw)
+  Uact <- 1/(1+exp(-(Cwor/shape1)))
+  Upred <- seq(1,600,1)/600
+  RsqLogistic <- (cor(Uact,Upred,method="pearson"))^2
 
   test_that("Test R^2 GOF for Group C [Logistic Distribution]",{
     expect_gte(RsqLogistic, 0.9794)
@@ -302,11 +304,11 @@ test_that("negative shape stops the show (pareto)",{
                         delta = 0.4,
                         shape1 = 1,
                         shape2 = 1)
-  Cw=Agum$C
-  Cwor=sort(Cw)
-  Uact=exp(-exp(-Cwor))
-  Upred=(seq(1,600,1))/600
-  RsqGum=(cor(Uact,Upred,method="pearson"))^2
+  Cw <- Agum$C
+  Cwor <- sort(Cw)
+  Uact <- exp(-exp(-Cwor))
+  Upred <- seq(1,600,1)/600
+  RsqGum <- (cor(Uact,Upred,method="pearson"))^2
 
   test_that("Test R^2 GOF for Group C [Gumbel Distribution]",{
     expect_gte(RsqGum, 0.9794)
@@ -320,12 +322,12 @@ test_that("negative shape stops the show (pareto)",{
                          delta = 0.4,
                          shape1 = 1,
                          shape2 = 1)
-  shape1=1
-  Cw=Acauchy$C
-  Cwor=sort(Cw)
-  Uact=.5+atan(Cwor/shape1)
-  Upred=(seq(1,600,1))/600
-  RsqCauchy=(cor(Uact, Upred, method="pearson"))^2
+  shape1 <- 1
+  Cw <- Acauchy$C
+  Cwor <- sort(Cw)
+  Uact <- .5+atan(Cwor/shape1)
+  Upred <- seq(1,600,1)/600
+  RsqCauchy <- (cor(Uact, Upred, method="pearson"))^2
 
   test_that("Test R^2 GOF for Group C [Cauchy Distribution]",{
     expect_gte(RsqCauchy, 0.9765)
@@ -339,13 +341,13 @@ test_that("negative shape stops the show (pareto)",{
                          delta = 0.4,
                          shape1 = 1,
                          shape2 = 1)
-  shape1=1
-  alpha1=1.16*shape1
-  Cw=Apareto$C
-  Cwor=sort(Cw)
-  Uact=1-(1/(Cwor^alpha1))
-  Upred=(seq(1,600,1))/600
-  RsqPareto=(cor(Uact,Upred,method="pearson"))^2
+  shape1 <- 1
+  alpha1 <- 1.16*shape1
+  Cw <- Apareto$C
+  Cwor <- sort(Cw)
+  Uact <- 1-(1/(Cwor^alpha1))
+  Upred <- seq(1,600,1)/600
+  RsqPareto <- (cor(Uact,Upred,method="pearson"))^2
 
   test_that("Test R^2 GOF for Group C [Pareto Distribution]",{
     expect_gte(RsqPareto, 0.9693719)

@@ -48,8 +48,8 @@ setMethod("plot",
             x.data<-seq(0, 1, 1/1000)
             y.predata<-dbeta(x.data, x$a0, x$b0)
             y.postdata<-dbeta(x.data, x$apost, x$bpost)
-            xlab="omega_E"
-            ylab="Probability Density"
+            xlab <- "omega_E"
+            ylab <- "Probability Density"
             if (plot.prior==FALSE){
               plot(x.data,
                    y.postdata,

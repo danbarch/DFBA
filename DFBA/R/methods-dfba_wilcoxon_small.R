@@ -46,8 +46,8 @@ setMethod("plot",
             x.data<-x$phiv
             y.predata<-x$priorvector
             y.postdata<-x$phipost
-            xlab="phi_W"
-            ylab="Discrete Probability"
+            xlab <- "phi_W"
+            ylab <- "Discrete Probability"
             if (plot.prior==FALSE){
               plot(x.data,
                    y.postdata,

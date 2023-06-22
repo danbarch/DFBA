@@ -90,11 +90,10 @@ dfba_beta_descriptive <- function(a,
     stop("Both the a and b shape parameters for a beta must be positive and finite")
     }
 
-  phimean = a/(a+b)
-  phimedian = qbeta(.5,
+  phimean <- a/(a+b)
+  phimedian <- qbeta(.5,
                     a,
                     b)
-
 
   if ((a == 1 &
        b == 1)|
@@ -102,58 +101,43 @@ dfba_beta_descriptive <- function(a,
       b < 1){
     phimode <- NA
     } else {
-    phimode = (a-1)/(a+b-2)
+    phimode <- (a-1)/(a+b-2)
     }
 
-#  m1="Centrality Statistics"
-#  cat(m1,"are :","\n")
-#  cat("Mean","    ","Median","    ","Mode","\n")
-#  cat(phimean," ",phimedian," ",phimode,"\n")
-#  cat(" ","  ","\n")
-
-#  hdiper = 100*prob_interval
-#  m2 = as.character(hdiper)
-#  cat(m2,"percent interval limits are :","\n")
-#  cat("Interval with equal tails",":","\n")
-  qlequal = qbeta((1-prob_interval)/2,
-                  a,
-                  b)
-  qhequal = qbeta(prob_interval+((1-prob_interval)/2),
-                  a,
-                  b)
-#  cat(qlequal," ",qhequal,"\n")
-#
-#  cat("Highest Density Interval",":","\n")
+  qlequal <- qbeta((1-prob_interval)/2,
+                   a,
+                   b)
+  qhequal <- qbeta(prob_interval+((1-prob_interval)/2),
+                   a,
+                   b)
 
   if ((a == 1 & b == 1)|
       a < 1|
       b < 1){
-    qLmin=NA
-    qHmax=NA
+    qLmin <- NA
+    qHmax <- NA
     } else {
-      alphaL = seq(0,
-                   1 - prob_interval,
-                   (1 - prob_interval)/1000)
-      qL=qbeta(alphaL,
-               a,
-               b)
-      qH=qbeta(prob_interval+alphaL,
-               a,
-               b)
-      diff = qH - qL
-      I=1
-      mindiff = min(diff)
+      alphaL <- seq(0,
+                    1 - prob_interval,
+                    (1 - prob_interval)/1000)
+      qL <- qbeta(alphaL,
+                  a,
+                  b)
+      qH <- qbeta(prob_interval+alphaL,
+                  a,
+                  b)
+      diff <- qH - qL
+      I <- 1
+      mindiff <- min(diff)
       while (diff[I] > mindiff){
-        I=I+1}
-      qLmin=qL[I]
-      qHmax=qH[I]
+        I <- I+1}
+      qLmin <- qL[I]
+      qHmax <- qH[I]
     }
 
- # cat(qLmin," ",qHmax,"\n")
-
-  x = seq(0, 1, .005)
-  y = dbeta(x, a, b)
-  ycumulative = pbeta(x, a, b)
+  x <- seq(0, 1, .005)
+  y <- dbeta(x, a, b)
+  ycumulative <- pbeta(x, a, b)
 
   outputdf<-data.frame(x = x,
                        density = y,

@@ -47,8 +47,8 @@ setMethod("plot",
             x.data<-x$omega_E
             y.predata<-x$priorvector
             y.postdata<-x$omegapost
-            xlab="omega_E"
-            ylab="Discrete Probability"
+            xlab <- "omega_E"
+            ylab <- "Discrete Probability"
             if (plot.prior==FALSE){
               plot(x.data,
                    y.postdata,

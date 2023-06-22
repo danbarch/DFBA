@@ -145,97 +145,33 @@ dfba_median_test <- function(E,
   E <- E[!is.na(E)]
   C <- C[!is.na(C)]
 
-#  Etemp=E
-#  Ctemp=C
-#  jc=0
-#  for (j in 1:length(E)){
-#    if (is.na(Etemp[j])){
-#    } else {
-#      jc=jc+1
-#      E[jc]=Etemp[j]}
-#  }
-#  E=E[1:jc]
-#
-#  kc=0
-#  for (k in 1:length(C)){
-#    if (is.na(Ctemp[k])){} else {
-#      kc=kc+1
-#      C[kc]=Ctemp[k]}
-#  }
-#  C=C[1:kc]
-
-#  Y<-c(E, C)
-
   # Find overall median
-    med=median(c(E, C))
+    med <- median(c(E, C))
 
-#  cat("Overall median is",":","\n")
-#  cat(med," ","\n")
-#  cat(" ","  ","\n")
 
-#  l1=length(E)
-#  l2=length(C)
+    nEabove <- sum(E > med)
+    nEbelow <- sum(E <= med)
 
-    # Count E and C values above and below the median
-#  nEabove=0
-#  nEbelow=0
-
-    nEabove = sum(E > med)
-    nEbelow = sum(E <= med)
-
-    nCabove = sum(C > med)
-    nCbelow = sum(C <= med)
-
-#  for (I in 1:length(E)){
-#    if (E[I]>med){nEabove=nEabove+1} else {nEbelow=nEbelow+1}}
-#  nCabove=0
-#  nCbelow=0
-#  for (I in 1:length(C)){
-#    if (C[I]>med){nCabove=nCabove+1} else {nCbelow=nCbelow+1}}
-
-#  cat("Frequencies above the median are",":","\n")
-#  cat("E","   ","C","\n")
-#  cat(nEabove,"   ",nCabove,"\n")
-#  cat("Frequencies at or below the median are",":","\n")
-#  cat("E","   ","C","\n")
-#  cat(nEbelow,"   ",nCbelow,"\n")
+    nCabove <- sum(C > med)
+    nCbelow <- sum(C <= med)
 
 # posterior beta parameters
-  a.post = nEabove+a0
-  b.post = nCabove+b0
+  a.post <- nEabove+a0
+  b.post <- nCabove+b0
 
-  Ebaserate = length(E)/(length(E)+length(C))
-  Cbaserate = 1 - Ebaserate
+  Ebaserate <- length(E)/(length(E)+length(C))
+  Cbaserate <- 1 - Ebaserate
 
-  postEhi= 1 - pbeta(Ebaserate,
-                     a.post,
-                     b.post)
-  postChi= 1 - postEhi
-  priorEhi= 1 - pbeta(Ebaserate,
-                      a0,
-                      b0)
-  priorChi= 1 - priorEhi
+  postEhi <- 1 - pbeta(Ebaserate,
+                       a.post,
+                       b.post)
+  postChi <- 1 - postEhi
+  priorEhi <- 1 - pbeta(Ebaserate,
+                        a0,
+                        b0)
+  priorChi <- 1 - priorEhi
 
 
-
-#  cat("Respective baserates for E and C responses are",":","\n")
-#  cat(Ebaserate," ",Cbaserate,"\n")
-#  cat(" ","  ","\n")
-
-#  cat("Following is an analysis of the responses above the median"," ","\n")
-#  cat("to see if the rates of these above-median responses are higher for E or C"," ","\n")
-
-#  cat("Posterior beta shape parameter for the phi parameter"," ","\n")
-#  cat("a.post"," ","b.post","\n")
-#  cat(a.post,"     ",b.post,"\n")
-#  cat(" ","  ","\n")
-
-#  cat("Prior prob. that E and C exceed their respective baserates are",":","\n")
-#  cat(priorEhi," ",priorChi,"\n")
-#  cat(" "," ","\n")
-#  cat("Posterior prob. that E and C exceed their respective baserates are",":","\n")
-#  cat(postEhi," ",postChi,"\n")
-#  cat(" "," ","\n")
 
   # Calculate Bayes Factors
   BF10E <- ifelse(postChi == 0,
@@ -244,10 +180,6 @@ dfba_median_test <- function(E,
   BF01E <- ifelse(postEhi == 0,
                   Inf,
                   ((1/priorChi) - 1)/((1/postChi) - 1))
-
-
-#  cat("Bayes factor BF10 E>E_baserate"," ","Bayes factor BF10 C>C_baserate","\n")
-#  cat(BF10E,"                     ",BF01E,"\n")
 
   # list of output objects
     outmedian <- list(median=med,

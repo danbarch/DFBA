@@ -265,18 +265,6 @@ dfba_power_curve<-function(n = 20,
              "pareto"
              )
 
-#    if (!model %in% mlist){
-#      cat("The set of distributions for model are:"," ","\n")
-#      print(mlist)
-#      stop("The stipulated model is not on the list")
-#      }
-#
-#    designlist<-c("paired","independent")
-#    if (!design %in% designlist){
-#      cat("The options for experimental design are:"," ","\n")
-#      print(designlist)
-#      stop("The stipulated design is not on the list")
-#      }
 
     if (!model %in% mlist){
       modelstop <- paste0("The set of distributions for model are:"," ","\n",
@@ -304,9 +292,6 @@ dfba_power_curve<-function(n = 20,
     shape_values<-c(shape1,
                     shape2)
 
-    a0=a0
-    b0=b0
-    block.max=block.max
 
     if (a0<=0|
         a0 == Inf|
@@ -320,58 +305,34 @@ dfba_power_curve<-function(n = 20,
         is.na(block.max)){
         stop("block.max must be nonnegative")
         }
-    nsims=round(samples)
+    nsims <- round(samples)
 
-
-#    detect_bayes=seq(1,21,1)*0.0
     detect_bayes<-rep(NA, 21)
-#    detect_t=seq(1,21,1)*0.0
     detect_t<-rep(NA, 21)
-#    outputsim=seq(1,2,1)*0.0
     outputsim<-rep(NA, 2)
-#    tpvalue=seq(1,nsims,1)*0.0
     tpvalue<-rep(NA, nsims)
-#    bayesprH1=seq(1,nsims,1)*0.0
     bayesprH1<-rep(NA, nsims)
     delta_vec<-seq(0,20*delta.step,delta.step)
 
     for (i in 1:21){
-      deltav=delta_vec[i]
+      deltav <- delta_vec[i]
       for (j in 1:nsims){
-        outputsim=dfba_sim_data(n,
-                                a0 = a0,
-                                b0 = b0,
-                                model,
-                                design,
-                                delta=deltav,
-                                #shape_vec=shape_values,
-                                shape1 = shape1,
-                                shape2 = shape2,
-                                block.max = block.max)
-        bayesprH1[j]=outputsim$prH1
-        tpvalue[j]=outputsim$pvalue
+        outputsim <- dfba_sim_data(n,
+                                   a0 = a0,
+                                   b0 = b0,
+                                   model,
+                                   design,
+                                   delta=deltav,
+                                   shape1 = shape1,
+                                   shape2 = shape2,
+                                   block.max = block.max)
+        bayesprH1[j] <- outputsim$prH1
+        tpvalue[j] <- outputsim$pvalue
         cat(round((j/nsims+(i-1))/21, 2)*100, '% complete', sep="", '\r')
         }
-      detect_bayes[i]=(sum(bayesprH1>effect_crit))/nsims
-      detect_t[i]=(sum(tpvalue<1-effect_crit))/nsims
+      detect_bayes[i] <- (sum(bayesprH1>effect_crit))/nsims
+      detect_t[i] <- (sum(tpvalue<1-effect_crit))/nsims
     }
-#    cat("Power results for the proportion of samples detecting effects"," ","\n")
-#    cat("where the variates are distributed as a",model,"random variable","\n")
-#    cat("and where prior shape values are ",a0," ",b0,"\n")
-#    cat("and where the design is",design,"\n")
-#    cat("with a blocking max of ",block.max,"\n")
-#    cat("The number of Monte Carlo samples are:"," ","\n")
-#    cat(nsims," ","\n")
-#    cat("Criterion for detecting an effect is"," ","\n")
-#    cat(effect_crit," ","\n")
-#    cat("The n value per condition is:"," ","\n")
-#    cat(n,"  ","\n")
-#    cat(" "," ","\n")
-#    delta_value=delta_vec
-#    Bayes_power=detect_bayes
-#    t_power=detect_t
-#    outputresults=data.frame(delta_value,Bayes_power,t_power)
-#    print(outputresults)
 
     dfba_power_curve_list<- list(n = n,
                             nsims = nsims,

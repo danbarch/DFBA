@@ -177,38 +177,27 @@ dfba_beta_contrast<-function(n1_vec,
   if (samples<10000){
     stop("For reliable results please use at least 10000 Monte Carlo samples")}
 
-#  if (missing(n1_vec)) stop ("n1_vec for the frequencies of successes in each condition is required.")
-#  if (missing(n2_vec)) stop ("n2_vec for the frequencies of failures in each condition is required.")
-#  if (missing(contrast_vec)) stop ("contrast_vec of contrast coefficients is required.")
-
-  l1=length(n1_vec)
-  l2=length(n2_vec)
-  l3=length(contrast_vec)
+  l1 <- length(n1_vec)
+  l2 <- length(n2_vec)
+  l3 <- length(contrast_vec)
   if ((l2!=l1)|(l3!=l1)){
     stop("The vectors n1_vec, n2_vec, and contrast_vec must have the same length.")}
 
-  n1t_vec=round(n1_vec)
-  n2t_vec=round(n2_vec)
+  n1t_vec <- round(n1_vec)
+  n2t_vec <- round(n2_vec)
 
-  if(any(n1_vec!=round(n1_vec))|any(n1_vec<0)|any(is.na(n1_vec))){
+  if(any(n1_vec != round(n1_vec))|
+     any(n1_vec < 0)|
+     any(is.na(n1_vec))){
     stop("n1_vec values must be non-negative integers")
   }
 
-  if(any(n2_vec!=round(n2_vec))|any(n2_vec<0)|any(is.na(n2_vec))){
+  if(any(n2_vec != round(n2_vec))|
+     any(n2_vec < 0)|
+     any(is.na(n2_vec))){
     stop("n2_vec values must be non-negative integers")
   }
 
-#  for (i in 1:l1){
-#    if (n1_vec[i]!=n1t_vec[i]){
-#      stop("n1_vec values must be non-negative integers")}
-#    if (n2_vec[i]!=n2t_vec[i]){
-#      stop("n2_vec values must be non-negative integers")}
-#  }
-#
-#  for (i in 1:l1){
-#    if ((n1_vec[i]<0)|(n2_vec[i]<0)|(is.na(n1_vec[i]))|(is.na(n2_vec[i]))) {
-#      stop("Both the n1_vec and n2_vec frequencies must be non-negative integer values.")}
-#  }
 
   if(any(a0_vec <= 0)|
      any(is.na(a0_vec))|
@@ -219,13 +208,9 @@ dfba_beta_contrast<-function(n1_vec,
     stop("All values in both the a0_vec and b0_vec shape parameter vectors for the prior beta must be positive and finite.")
   }
 
-#  for (i in 1:l1){
-#    if ((a0_vec[i]<=0)|(b0_vec[i]<=0)|(is.na(a0_vec[i]))|(is.na(b0_vec[i]))){
-#      stop("Both the a0_vec and b0_vec shape parameters for the prior beta must be >0.")}
-#    else {}}
 
-  a_vec=n1_vec+a0_vec
-  b_vec=n2_vec+b0_vec
+  a_vec <- n1_vec + a0_vec
+  b_vec <- n2_vec + b0_vec
 
 
   if(sum(contrast_vec[contrast_vec > 0]) != 1){
@@ -236,113 +221,59 @@ dfba_beta_contrast<-function(n1_vec,
     stop("The sum of the negative contrast coefficients must be -1")
   }
 
-#  if (round(sum(contrast_vec))!=0){
-#    stop("The sum of the coefficients in the contrast_vec must be 0.")}
-  ## NOTE: this test is unnecessary b/c positive contrasts must sum to 1
-  ##       and negative contrasts must sum to -1
-
-  #totpos=0
-  #
-  #for (i in 1:l1){
-  #  if (contrast_vec[i]>0){
-  #    totpos=totpos+contrast_vec[i]} else {} }
-  #if (totpos!=1){
-  #  stop("The sum of the positive contrast coefficients must be 1.")}
-  #
-  #totneg=0
-  #for (i in 1:l1){
-  #  if (contrast_vec[i]<0){
-  #    totneg=totneg+contrast_vec[i]} else {} }
-  #if (totneg!=-1){
-  #  stop("The sum of the negative contrast coefficients must be -1.")}
-
-  if ((prob_interval<0)|(prob_interval>1)){
+  if (prob_interval < 0|
+      prob_interval > 1){
     stop("The probability for the interval estimate must be between 0 and 1.")}
-
- # cat("Contrast coefficients are:"," ","\n")
- # cat(contrast_vec,"\n")
- # cat(" ","  ","\n")
-
-#  phimeans=(seq(1,l1,1))*0
-#
-#  for (i in 1:l1){
-#    phimeans[i]=a_vec[i]/(a_vec[i]+b_vec[i])}
 
   phimeans <- a_vec/(a_vec + b_vec)
 
-  mean_delta=sum(contrast_vec*phimeans)
+  mean_delta <- sum(contrast_vec*phimeans)
 
-#  cat("Exact posterior contrast mean is:"," ","\n")
-#  cat(mean_delta," ","\n")
-#  cat(" ","  ","\n")
-#  cat("Following results are based on Monte Carlo sampling"," ","\n")
-#  cat("The number of samples are:"," ","\n")
-#  cat(samples," ","\n")
-#  cat(" ","  ","\n")
-#  cat("Probability in equal-tail interval: ",prob_interval,"\n")
-#  cat(" "," ","\n")
-
-
-#  delta=(seq(1,samples,1))*0
   delta <- rep(NA, length(samples))
 
   for (i in 1:samples){
-    delta[i]=0
+    delta[i] <- 0
     for (j in 1:l1){
-      delta[i]=delta[i]+contrast_vec[j]*rbeta(1,a_vec[j],b_vec[j]) }
+      delta[i] <- delta[i] + contrast_vec[j]*rbeta(1,
+                                                   a_vec[j],
+                                                   b_vec[j])
+      }
   }
 
-  xv = seq(0, 1, .01)
-  deltaquan=seq(0, 1, .01)
+  xv <- seq(0, 1, .01)
+  deltaquan <- seq(0, 1, .01)
 
   for (i in 1:101){
-    deltaquan[i]=quantile(delta,
-                          prob = deltaquan[i])
+    deltaquan[i] <- quantile(delta,
+                             prob = deltaquan[i])
     }
 
-  # plot(deltaquan,xv,type="l",xlab="contrast value",ylab="posterior cumulative probability",main="Based on Monte Carlo Sampling")
+  lowlimit <- quantile(delta,
+                       prob=(1-prob_interval)/2)
+  uplimit <- quantile(delta,
+                      prob <- 1-((1-prob_interval)/2))
 
-#  cat("The equal-tail limits for the contrast are:"," ","\n")
-  lowlimit = quantile(delta,
-                      prob=(1-prob_interval)/2)
-  uplimit = quantile(delta,
-                     prob=1-((1-prob_interval)/2))
-
-#  cat(lowlimit," ",uplimit,"\n")
-#  cat(" "," ","\n")
-
-#  cat("Posterior probability that the contrast is positive is:"," ","\n")
-
-    prH1 = (sum(delta>0))/samples
-
-#      cat(prH1," ","\n")
-
-#  delta0=(seq(1,samples,1))*0
+    prH1 <- (sum(delta>0))/samples
 
   delta0 <- rep(NA, samples)
 
   for (i in 1:samples){
-    delta0[i] = 0
+    delta0[i] <- 0
     for (j in 1:l1){
-      delta0[i] = delta0[i]+contrast_vec[j]*rbeta(1,a0_vec[j],b0_vec[j])
+      delta0[i] <- delta0[i] + contrast_vec[j]*rbeta(1,
+                                                     a0_vec[j],
+                                                     b0_vec[j])
       }
   }
 
-#  cat("Prior probability for a positive contrast is:"," ","\n")
+  priorprH1 <- (sum(delta0 > 0))/samples
 
-  priorprH1=(sum(delta0>0))/samples
-
-#    cat(priorprH1," ","\n")
-
-  if (prH1==1|priorprH1==0){
+  if (prH1 == 1|priorprH1 == 0){
     BF10 <- samples
-#    cat("Bayes factor BF10 for a positive contrast is estimated to be large than:"," ","\n")
-#    cat(BF10," ","\n")
     } else {
-      BF10=(prH1*(1-priorprH1))/(priorprH1*(1-prH1))
-#      cat("Bayes factor BF10 for a positive contrast is:"," ","\n")
-#      cat(BF10," ","\n")
-      }
+      BF10 <- (prH1*(1-priorprH1))/(priorprH1*(1-prH1))
+    }
+
   dfba_beta_contrast_list<-list(mean = mean_delta,
                                 lower_limit = lowlimit,
                                 upper_limit = uplimit,

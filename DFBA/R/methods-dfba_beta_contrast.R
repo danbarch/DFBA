@@ -38,8 +38,8 @@ setMethod("plot",
           function(x){
             x.data<-x$delta_quantiles
             y.data<-seq(0, 1, 0.01)
-            xlab="contrast value"
-            ylab="posterior cumulative probability"
+            xlab <- "contrast value"
+            ylab <- "posterior cumulative probability"
 
             plot(x.data,
                  y.data,

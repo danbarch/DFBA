@@ -168,22 +168,14 @@ dfba_wilcoxon<-function(Y1,
                         Y2,
                         a0 = 1,
                         b0 = 1,
-#                        prior_vec=c(1,1),
                         prob_interval=.95,
                         samples=30000,
                         method=NULL){
-  l1=length(Y1)
-  l2=length(Y2)
+  l1 <- length(Y1)
+  l2 <- length(Y2)
   if (l1!=l2) {
     stop("Y1 and Y2 must have the same length. This function is for paired within-block data.")
   }
-  #else {}
-
-#  if (length(prior_vec)!=2){
-#    stop("an explicit stipulation of prior_vec must only have the two shape parameters for the prior beta distribution")} else {}
-
-#  a0<-prior_vec[1]
-#  b0<-prior_vec[2]
 
   if (a0<=0|
       a0 == Inf|
@@ -191,192 +183,168 @@ dfba_wilcoxon<-function(Y1,
       b0<=0|
       b0 == Inf|
       is.na(b0)){
-    stop("Both a0 and b0 must be positive and finite")}
-#  else {}
-
+    stop("Both a0 and b0 must be positive and finite")
+    }
   if ((prob_interval<0)|(prob_interval>1)){
-    stop("The probability for the interval estimate of phi_w must be a proper proportion.")}
-#  else {}
-
+    stop("The probability for the interval estimate of phi_w must be a proper proportion.")
+    }
   if (samples<10000){
     stop("stipulating Monte Carlo samples < 10000 is too few")
   }
-  #else {}
-
   #Following code checks for NA values and cleans the difference scores
-  Etemp=Y1
-  Ctemp=Y2
-  d=Y1-Y2
-  dtemp=d
-  jc=0
-  for (j in 1:length(Y1)){
+  Etemp <- Y1
+  Ctemp <- Y2
+  d <- Y1 - Y2
+  dtemp <- d
+  jc <- 0
+  for (j in seq_along(Y1)){
     if (is.na(dtemp[j])){} else {
-      jc=jc+1
-      Y1[jc]=Etemp[j]
-      Y2[jc]=Ctemp[j]
-      d[jc]=dtemp[j]}
+      jc <- jc+1
+      Y1[jc] <- Etemp[j]
+      Y2[jc] <- Ctemp[j]
+      d[jc]<- dtemp[j]}
   }
-  Y1=Y1[1:jc]
-  Y2=Y2[1:jc]
-  d=d[1:jc]
-  l1=jc
+  Y1 <- Y1[1:jc]
+  Y2 <- Y2[1:jc]
+  d <- d[1:jc]
+  l1 <- jc
 
   if (l1<3){
-    stop("There are not enough values in the Y1 and Y2 vectors for meaningful results.")}
-  #else {}
+    stop("There are not enough values in the Y1 and Y2 vectors for meaningful results.")
+    }
 
-  #The following code computes the within-block difference scores, and finds the
-  #number of blocks where the difference scores are nonzero (within a trivial rounding error).
-  sdd=sd(d)
-  IC=0
+# The following code computes the within-block difference scores, and finds the
+# number of blocks where the difference scores are nonzero (within a trivial rounding error).
+  sdd <- sd(d)
+  IC <- 0
   for (I in 1:l1){
-    if (abs(d[I])<=sdd/30000){IC=IC} else {IC=IC+1}}
-  n=IC
-  #The following code deals with the case where all differences are trivially close to 0.
-  if (n==0){stop("Y1 and Y2 differences are all trivial")}
-  #else {}
+    if (abs(d[I])<=sdd/30000){
+      IC <- IC
+    } else {
+        IC <- IC+1
+    }
+    }
+  n <- IC
+# The following code deals with the case where all differences are trivially close to 0.
+  if (n==0){stop("Y1 and Y2 differences are all trivial")
+    }
 
-  #The following finds the Tpos and Tneg stats and the number of nonzero blocks
-  dt=(seq(1,n,1))*0
-  IC=0
+# The following finds the Tpos and Tneg stats and the number of nonzero blocks
+  dt <- rep(0, n)
+  IC <- 0
   for (I in 1:l1){
-    if (abs(d[I])<=sdd/30000){IC=IC} else {
-      IC=IC+1
-      dt[IC]=d[I]}}
-  dta=(seq(1,n,1))*0
+    if (abs(d[I])<=sdd/30000){
+      IC <- IC
+      } else {
+      IC <- IC+1
+      dt[IC] <- d[I]}}
+  dta <- rep(0, n)
   for (I in 1:n){
-    dta[I]=abs(dt[I])}
-  #The vector dtar is for the ranks of the absolute-value d scores; whereas
-  #the dta vector is for the absolute-value of the d scores, and dtars is
-  #the vector of signed rank scores.
-  dtar=rank(dta)
-  dtars=dtar*dt/dta
-  #The following computes the Tpos and Tneg statistics
-  tpos=0
+    dta[I] <- abs(dt[I])}
+# The vector dtar is for the ranks of the absolute-value d scores; whereas
+# the dta vector is for the absolute-value of the d scores, and dtars is
+# the vector of signed rank scores.
+  dtar <- rank(dta)
+  dtars <- dtar*dt/dta
+# The following computes the Tpos and Tneg statistics
+  tpos <- 0
   for (I in 1:n){
-    if (dtars[I]>0){tpos=tpos+dtar[I]
-    } else {tpos=tpos}
+    if (dtars[I]>0){
+      tpos <- tpos+dtar[I]
+    } else {
+      tpos <- tpos
+      }
   }
-  tpos=round(tpos)
-  tneg=(n*(n+1)*.5)-tpos
-#  cat("The Wilcoxon signed-rank statistics are:"," ","\n")
-#  cat("n","  ","T_pos","  ","T_neg","\n")
-#  cat(n,"  ",tpos,"      ",tneg,"\n")
+  tpos <- round(tpos)
+  tneg <- (n*(n+1)*.5)-tpos
 
   if (is.null(method)){
-    if (n > 24){method="large"} else {
-      method="small"}
+    if (n > 24){
+      method <- "large"
+      } else {
+      method <- "small"}
   }
-  #else {}
 
   if (method=="small"){
- #   m1lable<-"Following is based on Monte Carlo samples"
- #   m2lable<-" with discrete prob. values."
- #   cat(m1lable,m2lable,"\n")
- #  cat("The number of Monte Carlo samples is:"," ","\n")
- #  cat(samples," ","\n")
- #  cat(" ","   ","\n")
 
-    #Code for the discrete prior
-    phiv=seq(1/400,.9975,.005)
-    x=phiv+.0025
-    priorvector=rep(0,200)
-    priorvector[1]=pbeta(x[1],a0,b0)
+# Code for the discrete prior
+    phiv <- seq(1/400,.9975,.005)
+    x <- phiv+.0025
+    priorvector <- rep(0,200)
+    priorvector[1] <- pbeta(x[1],a0,b0)
     for (i in 2:200){
-      priorvector[i]=pbeta(x[i],a0,b0)-pbeta(x[i-1],a0,b0)
+      priorvector[i] <- pbeta(x[i],a0,b0)-pbeta(x[i-1],a0,b0)
       }
 
     fphi<-rep(0.0,200)
     for (j in 1:200){
       cat(round(j/200, 2)*100, '% complete', '\r')
-      phi=1/(400)+(j-1)*(1/200)
+      phi <- 1/(400)+(j-1)*(1/200)
       for (k in 1:samples){
-        tz=sum((1:n)*rbinom(n, 1, phi))
+        tz <- sum((1:n)*rbinom(n, 1, phi))
 
         if(tz==tpos) {
-          fphi[j]=fphi[j]+1.0
+          fphi[j] <- fphi[j]+1.0
         } else{
-          fphi[j]=fphi[j]
+          fphi[j] <- fphi[j]
         }
       }
     }
-    #The tot value below is the denominator of the discrete analysis,
-    #phipost is the vector for the posterior distribution.
-    tot=sum(priorvector*fphi)
-    phipost=(priorvector*fphi)/tot
-    phiv=rep(0.0,200)
-    phibar=0.0
+    cat("\n")
+
+# The tot value below is the denominator of the discrete analysis,
+# phipost is the vector for the posterior distribution.
+    tot <- sum(priorvector*fphi)
+    phipost <- (priorvector*fphi)/tot
+    phiv <- rep(0.0,200)
+    phibar <- 0.0
     for (j in 1:200){
-      phiv[j]=(1/400)+(j-1)*(1/200)
-      phibar=phibar+(phiv[j]*phipost[j])}
-
-#    plot(phiv,phipost,type="l",xlab="phi_w",ylab="posterior discrete probabilities",main="posterior-solid; prior-dashed")
-#    lines(phiv,priorvector,type="l",lty=2)
-
-#    cat("mean for phi_w is:"," ","\n")
-#    cat(phibar," ","\n")
+      phiv[j] <- (1/400)+(j-1)*(1/200)
+      phibar <- phibar+(phiv[j]*phipost[j])
+      }
 
     postdis<-data.frame(phiv,phipost)
 
 
-    #The following finds the posterior cumulative distribution and outputs these values.
-    cumulative_phi=cumsum(phipost)
+# The following finds the posterior cumulative distribution
+# and outputs those values.
+    cumulative_phi <- cumsum(phipost)
 
-    I=1
+    I <- 1
     while (cumulative_phi[I]<(1-prob_interval)/2){
-      I=I+1}
-    qLbelow=phiv[I]-.0025
+      I <- I+1}
+    qLbelow <- phiv[I]-.0025
 
     if (I!=1){
-      extrap=(1-prob_interval)/2-cumulative_phi[I-1]
-      probI=cumulative_phi[I]-cumulative_phi[I-1]} else {
-        extrap=(1-prob_interval)/2
-        probI=cumulative_phi[1]}
-    qLv=qLbelow+(.005)*(extrap/probI)
+      extrap <- (1-prob_interval)/2-cumulative_phi[I-1]
+      probI <- cumulative_phi[I]-cumulative_phi[I-1]
+      } else {
+        extrap <- (1-prob_interval)/2
+        probI <- cumulative_phi[1]
+        }
+    qLv <- qLbelow+(.005)*(extrap/probI)
 
-    I=1
+    I <- 1
     while (cumulative_phi[I]<1-(1-prob_interval)/2){
-      I=I+1}
-    qHbelow=phiv[I]-.0025
-    extrapup=1-((1-prob_interval)/2)-cumulative_phi[I-1]
-    probIu=cumulative_phi[I]-cumulative_phi[I-1]
-    qHv=qHbelow+(.005)*(extrapup/probIu)
-#    cat(" ","  ","\n")
-#    cat("equal-tail area interval"," ","\n")
-#    probpercent=100*prob_interval
-#    mi=as.character(probpercent)
-#    cat(mi,"percent interval limits are:","\n")
-#    cat(qLv," ",qHv,"\n")
-#    cat(" ","  ","\n")
+      I <- I+1}
+    qHbelow <- phiv[I]-.0025
+    extrapup <- 1-((1-prob_interval)/2)-cumulative_phi[I-1]
+    probIu <- cumulative_phi[I]-cumulative_phi[I-1]
+    qHv <- qHbelow+(.005)*(extrapup/probIu)
 
-#    phi_w=phiv
-#    cumdis<-data.frame(phi_w,cumulative_phi)
-    #The prH1 is the probability that phi_w is greater than .5.
+# The prH1 is the probability that phi_w is greater than .5.
+    prH1 <- 1-cumulative_phi[round(100)]
+    cumulative_prior <- cumsum(priorvector)
+    priorprH1 <- 1-cumulative_prior[round(100)]
 
-
-    prH1=1-cumulative_phi[round(100)]
-    cum_prior=cumsum(priorvector)
-    priorprH1=1-cum_prior[round(100)]
-#    cat("probability that phi_w exceeds .5 is:"," ","\n")
-#    cat("prior","  ","posterior","\n")
-#    cat(priorprH1,"  ",prH1,"\n")
-#    cat(" ","  ","\n")
-
-    #Following finds the Bayes factor for phi_w being greater than .5.
+# Following finds the Bayes factor for phi_w being greater than .5.
 
     if ((prH1==1)|(priorprH1==0)){
-      BF10=samples
-#      cat("Bayes factor BF10 for phi_w >.5 is estimated to be greater than",":","\n")
-#      cat(BF10," ","\n")
+      BF10 <- samples
       }
       else {
-        BF10=(prH1*(1-priorprH1))/(priorprH1*(1-prH1))
-#        cat("Bayes factor BF10 for phi_w>.5 is",":","\n")
-#        cat(BF10," ","\n")
+        BF10 <- (prH1*(1-priorprH1))/(priorprH1*(1-prH1))
         }
-    #list(posterior_discrete_values=phipost,posterior_cum_distribution=cumdis)
-#    return(cat(" ","  ","\n"))
-
 
   dfba_wilcoxon_small_list<-list(T_pos=tpos,
                                  T_neg=tneg,
@@ -384,10 +352,8 @@ dfba_wilcoxon<-function(Y1,
                                  prob_interval = prob_interval,
                                  samples = samples,
                                  method = method,
-                      #           phi_w = phi_w,
                                  a0 = a0,
                                  b0 = b0,
-                      #           phipost = phipost,
                                  priorvector = priorvector,
                                  priorprH1 = priorprH1,
                                  phiv = phiv,
@@ -400,97 +366,46 @@ dfba_wilcoxon<-function(Y1,
                                  cumulative_phi = cumulative_phi)
   } else {
     # method="large"
-#    m1L<-"Following is based on beta approximation for phi_w"
-#    m2L<-"which is reasonable for n>24"
-#    cat(m1L,m2L,"\n")
-#    cat(" ","   ","\n")
 
     #The following code finds the shape parameters of a beta
     #distribution that approximates the posterior distribution
     #for the phi_w parameter
-    na0=a0-1
-    nb0=b0-1
-    term=(3*tpos)/((2*n)+2)
-    na=term-.25
-    nb=(((3*n)-1)/4)-term
-    apost=na+na0+1
-    bpost=nb+nb0+1
-#    x=seq(0,1,.005)
-#    y=dbeta(x,a,b)
-#    y0=dbeta(x,a0,b0)
-#    plot(x,y,type="l",xlab="phi_w",ylab="probability density",main="posterior solid; prior dashed")
-#    lines(x,y0,type="l",lty=2)
+    na0 <- a0-1
+    nb0 <- b0-1
+    term <- (3*tpos)/((2*n)+2)
+    na <- term-.25
+    nb <- (((3*n)-1)/4)-term
+    apost <- na+na0+1
+    bpost <- nb+nb0+1
 
-    postmean=apost/(apost+bpost)
-    postmedian=qbeta(.5,apost,bpost)
-#    ms1="posterior beta model shape parameters are:"
-#    ms2=" "
-#    cat(ms1,ms2,"\n")
-#    cat(a,"  ",b,"\n")
-#    cat("  ","   ","\n")
-    ##ASK RICH:
-    ## why not apost and bpost (like the M-W)?
+    postmean <- apost/(apost+bpost)
+    postmedian <- qbeta(.5,apost,bpost)
 
-#    mc1="posterior mean"
-#    mc2="posterior median"
-#    cat(mc1,"  ",mc2,"\n")
-#    cat(postmean,"       ",postmedian,"\n")
-#    cat(" ","  ","\n")
+    qlequal <- qbeta((1-prob_interval)*.5,apost,bpost)
+    qhequal <- qbeta(1-(1-prob_interval)*.5,apost,bpost)
 
-    qlequal=qbeta((1-prob_interval)*.5,apost,bpost)
-    qhequal=qbeta(1-(1-prob_interval)*.5,apost,bpost)
-
-#    met1="equal-tail limit values are"
-#    met2=":"
-#    cat(met1,met2,"\n")
-#    cat(qlequal," ",qhequal,"\n")
-#    cat(" ","  ","\n")
-
-    alphaL=seq(0,(1-prob_interval),(1-prob_interval)/1000)
-    qL=qbeta(alphaL,apost,bpost)
-    qH=qbeta(prob_interval+alphaL,apost,bpost)
-    diff=qH-qL
-    I=1
-    mindiff=min(diff)
+    alphaL <- seq(0,(1-prob_interval),(1-prob_interval)/1000)
+    qL <- qbeta(alphaL,apost,bpost)
+    qH <- qbeta(prob_interval+alphaL,apost,bpost)
+    diff <- qH-qL
+    I <- 1
+    mindiff <- min(diff)
     while (diff[I]>mindiff){
-      I=I+1}
-    qLmin=qL[I]
-    qHmax=qH[I]
-    probpercent=100*prob_interval
-#    mi=as.character(probpercent)
-#    cat(mi,"percent highest-density limits are:","\n")
-#    cat(qLmin," ",qHmax,"\n")
-#    cat(" ","  ","\n")
+      I <- I+1
+      }
+    qLmin <- qL[I]
+    qHmax <- qH[I]
+    probpercent <- 100*prob_interval
 
-    prH1=1-pbeta(.5,apost,bpost)
-    priorprH1=1-pbeta(.5,na0+1,nb0+1)
-#    mH11="probability that phi_w > .5"
-#    mH12=" "
-#    cat(mH11,mH12,"\n")
-#    mH1prior="prior"
-#    mH1post="posterior"
-#    cat(mH1prior,"  ",mH1post,"\n")
-#    cat(priorprH1,"  ",prH1,"\n")
-#    cat(" ","  ","\n")
+    prH1 <- 1-pbeta(.5,apost,bpost)
+    priorprH1 <- 1-pbeta(.5,na0+1,nb0+1)
+
     if ((prH1==1)|(priorprH1==0)){
-      BF10 = Inf
-
-#      minf1="Bayes factor BF10 for phi_w >.5 is approaching"
-#      minf2="infinity"
-#      cat(minf1,minf2,"\n")
+      BF10 <- Inf
       } else {
-        BF10=(prH1*(1-priorprH1))/(priorprH1*(1-prH1))
-#        mBF1="Bayes factor BF10 for phi_w > .5"
-#        mBF2="is"
-#        cat(mBF1,mBF2,"\n")
-#        cat(BF10)
+        BF10 <- (prH1*(1-priorprH1))/(priorprH1*(1-prH1))
         }
 
-
-#    cat(" ","   ","\n")
-#    m1X=" "
-#    m2X=" "
-#    return(cat(m1X,m2X,"\n"))
   dfba_wilcoxon_large_list<-list(T_pos=tpos,
                                  T_neg=tneg,
                                  n = n,
@@ -503,26 +418,19 @@ dfba_wilcoxon<-function(Y1,
                                  bpost = bpost,
                                  postmean = postmean,
                                  postmedian = postmedian,
-         #                        phipost = phipost,
-        #                         priorvector = priorvector,
-         #                        priorprH1 = priorprH1,
-        # Vector data is based on the beta: should we
-        # report that in the output?
                                  priorprH1=priorprH1,
                                  prH1 = prH1,
                                  BF10 = BF10,
-            #                     phibar = phibar,
                                  qlequal = qlequal,
                                  qhequal = qhequal,
                                  qLmin = qLmin,
                                  qHmax = qHmax)
     }
-  #else {}
 
   if ((method!="large")&(method!="small")) {
     stop("An explicit method stipulation must be either the word large or the word small.")
   }
-  #else {}
+
   if(method == "small"){
     new("dfba_wilcoxon_small_out", dfba_wilcoxon_small_list)
   } else {

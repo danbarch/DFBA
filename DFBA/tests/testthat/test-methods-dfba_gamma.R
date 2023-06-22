@@ -34,8 +34,8 @@ test_that("Plot method works with no prior",{
 
 # Phi_star
 
-p = seq(.05,.95,.05)
-ypred = 17.332-(50.261*p) + (48.308*p^2)
+p <- seq(.05,.95,.05)
+ypred <- 17.332-(50.261*p) + (48.308*p^2)
 
 #  # Note the coefficients in the ypred equation were found first
 #  # via a polynomial regression

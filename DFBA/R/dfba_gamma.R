@@ -89,8 +89,8 @@
 #' dfba_gamma(N)
 #'
 #' # Sample problem with table input
-#' T <- as.table(N)
-#' dfba_gamma(T)
+#' NTable <- as.table(N)
+#' dfba_gamma(NTable)
 
 #' @export
 dfba_gamma<-function(x,
@@ -115,7 +115,7 @@ dfba_gamma<-function(x,
     }
 
   table<-x
-    x_vec<-rep(1:nrow(table), unname(rowSums(table)))
+    x_vec<-rep(seq_len(nrow(table)), unname(rowSums(table)))
     y_vec<-rep(as.vector(t(col(table))), as.vector(t(table)))
 #  } else {
 #    if(length(x)!=length(y)){
@@ -141,7 +141,7 @@ dfba_gamma<-function(x,
 
 #  }
 
-  x<-rep(1:nrow(table), unname(rowSums(table)))
+  x<-rep(seq_len(nrow(table)), unname(rowSums(table)))
   y<-rep(as.vector(t(col(table))), as.vector(t(table)))
 
     dfba_gamma_list<-list(gamma=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$tau,

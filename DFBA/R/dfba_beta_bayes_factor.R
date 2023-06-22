@@ -181,8 +181,8 @@ dfba_beta_bayes_factor<-function(a,
   }
 
 
-  if(method == "point"){ #point method
-
+  if(method == "point"){
+    #point method
     # H0 is a point (for point method)
     if(length(H0) != 1){
       stop("'H0' must be a single numeric value when method = 'point'")
@@ -195,10 +195,10 @@ dfba_beta_bayes_factor<-function(a,
     }
 
 
-    dpriorH0 = dbeta(H0,
+    dpriorH0 <- dbeta(H0,
                      a0,
                      b0)
-    dpostH0 = dbeta(H0,
+    dpostH0 <- dbeta(H0,
                     a,
                     b)
     BF10 <- ifelse(dpostH0 == 0,
@@ -222,8 +222,8 @@ dfba_beta_bayes_factor<-function(a,
                            dpostH0 = dpostH0
                            )
 
-  } else{ #interval method
-
+  } else{
+    #interval method
     # Checking input validity
     # Interval must be defined by 2 numbers
     if(length(H0) != 2){
@@ -243,26 +243,26 @@ dfba_beta_bayes_factor<-function(a,
     lowerH0value <- H0[1]
     upperH0value <- H0[2]
 
-    pH0up = pbeta(upperH0value,
+    pH0up <- pbeta(upperH0value,
                   a0,
                   b0)
 
-    pH0lo = pbeta(lowerH0value,
+    pH0lo <- pbeta(lowerH0value,
                   a0,
                   b0)
 
-    pH0 = pH0up-pH0lo
-    pH1 = 1-pH0
+    pH0 <- pH0up-pH0lo
+    pH1 <- 1-pH0
 
-    postH0up = pbeta(upperH0value,
-                     a,
-                     b)
-    postH0lo = pbeta(lowerH0value,
-                     a,
-                     b)
+    postH0up <- pbeta(upperH0value,
+                      a,
+                      b)
+    postH0lo <- pbeta(lowerH0value,
+                      a,
+                      b)
 
-    postH0 = postH0up-postH0lo
-    postH1 = 1-postH0
+    postH0 <- postH0up - postH0lo
+    postH1 <- 1 - postH0
 
     BF10 <- ifelse(postH0 == 0,
                    Inf,
@@ -272,7 +272,7 @@ dfba_beta_bayes_factor<-function(a,
                    Inf,
                    ((1/pH0)-1)/((1/postH0)-1))
 
-    dfba_interval_BF_list<-list(method = method,
+    dfba_interval_BF_list <- list(method = method,
                                a = a,
                                b = b,
                                a0 = a0,

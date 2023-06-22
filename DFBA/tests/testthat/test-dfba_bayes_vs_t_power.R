@@ -8,10 +8,10 @@
                                  design = "paired",
                                  samples = 300)
 
-  bayespower=Apow1$outputdf[[2]]
-  tpower=Apow1$outputdf[[3]]
-  bayes70c=bayespower[11]
-  t70c=tpower[11]
+  bayespower <- Apow1$outputdf[[2]]
+  tpower <- Apow1$outputdf[[3]]
+  bayes70c <- bayespower[11]
+  t70c <- tpower[11]
 
 
   # Test the errors

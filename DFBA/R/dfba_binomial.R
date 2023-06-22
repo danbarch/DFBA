@@ -218,36 +218,19 @@ dfba_binomial <- function(n1,
     }
 
   # n's must be integers
-#  n1t=round(n1)
-#  n2t=round(n2)
-#  if ((n1!=n1t)|(n2!=n2t)){stop("n1 and n2 must be integers")}
+
   if (n1 != round(n1)|
       n2 != round(n2)){
     stop("n1 and n2 must be integers")
     }
 
 
-  apost = n1+a0
-  bpost = n2+b0
-
-#  cat("Estimate of the Binomial Population Rate Parameter"," ","\n")
-#  cat("Prior Beta Shape Parameters are :"," ","\n")
-#  cat(a0," ",b0,"\n")
-#  cat("Posterior Beta Shape Parameters are :"," ","\n")
-#  cat("apost"," ","bpost","\n")
-#  cat(apost,"    ",bpost,"\n")
-#  cat(" ","  ","\n")
+  apost <- n1 + a0
+  bpost <- n2 + b0
 
   out_bin <- dfba_beta_descriptive(apost,
                                    bpost,
                                    prob_interval=prob_interval)
-#  phimean=out_bin$x_mean
-#  phimedian=out_bin$x_median
-#  phimode=out_bin$x_mode
-#  eti_lower=out_bin$eti_lower
-#  eti_upper=out_bin$eti_upper
-#  hdi_lower=out_bin$hdi_lower
-#  hdi_upper=out_bin$hdi_upper
 
   bin_list<-list(n1 = n1,
                  n2 = n2,

@@ -67,15 +67,15 @@ The `a0_vec` and `b0_vec` arguments are vectors of, respectively, the $a_0$ and 
 As an example, for four separate groups of data where the binomial frequencies $(n_1,~n_2)$ are: $G_1:(22,~18)$, $G_2:(15,~25)$, $G_3:(13,~27)$, and $G_4:(21,~19)$, respectively, the corresponding contrast vectors arguments would be:
 
 ```{r}
-n1_responses = c(22, 15, 13, 21)
+n1_responses <- c(22, 15, 13, 21)
 
-n2_responses = c(18, 25, 27, 19)
+n2_responses <- c(18, 25, 27, 19)
 ```
 
 A contrast vector argument (`contrast_vec`) to compare groups $G1$ and $G3$ versus groups $G2$ and $G4$ can be defined as: 
 
 ```{r}
-G13_vs_G24 = c(.5, -.5, .5, -.5)
+G13_vs_G24 <- c(.5, -.5, .5, -.5)
 ```
 
 Using the defaults for the optional arguments (`a0_vec`, `b0_vec`, `prob_interval`, and `samples`), the Bayesian analysis of the contrast is given by:

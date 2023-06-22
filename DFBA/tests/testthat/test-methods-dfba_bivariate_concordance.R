@@ -19,14 +19,14 @@ test_that("Show method works for phi",{
 
 test_that("Plot method works for phi",{
   expect_doppelganger(
-    title = "bivariate_concordance_plot",
+    title = "bc_p",
     fig = plot(object),
   )
 })
 
 test_that("Plot method works for phi with no prior",{
   expect_doppelganger(
-    title = "bivariate_concordance_plot_no_prior",
+    title = "bc_no_p",
     fig = plot(object,
                plot.prior = FALSE),
   )
@@ -34,8 +34,8 @@ test_that("Plot method works for phi with no prior",{
 
 # Phi_star
 
-p = seq(.05,.95,.05)
-ypred = 17.332-(50.261*p) + (48.308*p^2)
+p <- seq(.05,.95,.05)
+ypred <- 17.332-(50.261*p) + (48.308*p^2)
 
 #  # Note the coefficients in the ypred equation were found first
 #  # via a polynomial regression
@@ -53,14 +53,14 @@ test_that("Show method works for phi_star",{
 
 test_that("Plot method works for phi_star",{
   expect_doppelganger(
-    title = "bivariate_concordance_star_plot",
+    title = "bc_star",
     fig = plot(objectstar),
   )
 })
 
 test_that("Plot method works for phi_star with no prior",{
   expect_doppelganger(
-    title = "bivariate_concordance_star_plot_no_prior",
+    title = "bc_no_p_star",
     fig = plot(objectstar,
                plot.prior = FALSE),
   )

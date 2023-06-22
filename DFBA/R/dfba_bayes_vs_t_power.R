@@ -240,7 +240,6 @@ dfba_bayes_vs_t_power<-function(n_min=20,
                                 model,
                                 design,
                                 effect_crit=.95,
-                                #shape_vec=c(1,1),
                                 shape1 = 1,
                                 shape2 = 1,
                                 samples=1000,
@@ -248,16 +247,15 @@ dfba_bayes_vs_t_power<-function(n_min=20,
                                 b0 = 1,
                                 block.max = 0){
 
-    deltav=delta
+    deltav <- delta
     if (delta<0){
       stop("The function requires a nonnegative value for delta.")
     }
-    #else {}
-#    n=round(n_min)
+
     if (n_min < 20 | n_min%%1 != 0){
       stop("n_min must be an integer that is 20 or larger")
     }
-    #else {}
+
 
     if (a0 <= 0|
         a0 == Inf|
@@ -279,9 +277,6 @@ dfba_bayes_vs_t_power<-function(n_min=20,
              "pareto")
 
     if (!model %in% mlist){
-#      modelwarning <- cat("The set of distributions for model are:"," ","\n",
-#                          mlist, "\n",
-#                          "The stipulated model is not on the list")
       modelstop <- paste0("The set of distributions for model are:"," ","\n",
                         "\t\t", paste0(mlist, collapse = "\n\t\t"), "\n",
                      "The stipulated model is not on the list")
@@ -292,11 +287,6 @@ dfba_bayes_vs_t_power<-function(n_min=20,
                   "independent")
 
     if (!design %in% designlist){
-#      designerror<-cat("The options for experimental design are:"," ","\n",
-#                       designlist, "\n",
-#                       "The stipulated design is not on the list")
-#      cat("The options for experimental design are:"," ","\n")
-#      print(designlist)
       designstop <- paste0("The set of distributions for design are:"," ","\n",
                           "\t\t", paste0(designlist, collapse = "\n\t\t"), "\n",
                           "The stipulated design is not on the list")
@@ -307,30 +297,27 @@ dfba_bayes_vs_t_power<-function(n_min=20,
     if ((effect_crit<0)|(effect_crit>1)){
       stop("The effect_crit value must be a number nonzero number less than 1.")
       }
-#    else {}
 
-#    shape_values<-c(shape_vec[1],shape_vec[2])
     shape_values<-c(shape1,
                     shape2)
 
-    nsims = round(samples)
+    nsims <- round(samples)
 
-    mup = n_min + 50
-    m = seq(n_min, mup, 5)
-#    detect_bayes=seq(1, 11, 1)*0.0
+    mup <- n_min + 50
+    m <- seq(n_min, mup, 5)
+
     detect_bayes<-rep(NA, 11)
-#    detect_t=seq(1,11,1)*0.0
+
     detect_t<-rep(NA, 11)
-#    outputsim=seq(1,2,1)*0.0
+
     outputsim<-rep(NA, 2)
 
-#    tpvalue=seq(1,nsims,1)*0.0
     tpvalue<-rep(NA, nsims)
-#    bayesprH1=seq(1,nsims,1)*0.0
+
     bayesprH1<-rep(NA, nsims)
 
     for (i in 1:11){
-      n=m[i]
+      n <- m[i]
       for (j in 1:nsims){
         outputsim<-dfba_sim_data(n = n,
                                  model = model,
@@ -341,23 +328,16 @@ dfba_bayes_vs_t_power<-function(n_min=20,
                                  a0 = a0,
                                  b0 = b0,
                                  block.max = block.max)
-        bayesprH1[j]=outputsim$prH1
-        tpvalue[j]=outputsim$pvalue
+        bayesprH1[j] <- outputsim$prH1
+        tpvalue[j] <- outputsim$pvalue
         cat(round((j/nsims+(i-1))/11, 2)*100, '% complete', sep="", '\r')
         }
-      detect_bayes[i]=(sum(bayesprH1>effect_crit))/nsims
-      detect_t[i]=(sum(tpvalue<1-effect_crit))/nsims
+      detect_bayes[i] <- (sum(bayesprH1>effect_crit))/nsims
+      detect_t[i] <- (sum(tpvalue<1-effect_crit))/nsims
     }
-#    cat("Power results for the proportion of samples detecting effects"," ","\n")
-#    cat("where the variates are distributed as a",model,"random variable","\n")
-#    cat("and where the design is",design,"\n")
-#    cat("The number of Monte Carlo samples are:"," ","\n")
-#    cat(nsims," ","\n")
-#    cat("Criterion for detecting an effect is"," ","\n")
-#    cat(effect_crit," ","\n")
-#    cat("The delta offset parameter is:"," ","\n")
-#    cat(deltav," ","\n")
-#    cat(" ","  ","\n")
+
+    cat("\n")
+
     dfba_t_power_list<-list(nsims = nsims,
                             model = model,
                             design = design,
