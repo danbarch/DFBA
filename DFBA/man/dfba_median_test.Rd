@@ -2,8 +2,7 @@
 % Please edit documentation in R/dfba_median_test.R
 \name{dfba_median_test}
 \alias{dfba_median_test}
-\title{Bayesian Median Test
-Description}
+\title{Bayesian Median Test}
 \usage{
 dfba_median_test(E, C, a0 = 1, b0 = 1)
 }
@@ -51,18 +50,22 @@ A list containing the following components:
 
 \item{priorEhi}{The probability that a beta prior distribution would exceed the \code{E} group base rate}
 
-\item{priorChi}{The probability that a beta prior distribution would exceed the \code{E} group base rate}
+\item{priorChi}{The probability that a beta prior distribution would exceed the \code{C} group base rate}
 
 \item{BF10E}{The Bayes factor in favor of the hypothesis that an above-median response from the \code{E} group is more probable than the \code{E} expected base rate}
 
 \item{BF10C}{The Bayes factor in favor of the hypothesis that an above-median response from the \code{C} group is more probable than the \code{C} group base rate}
 }
 \description{
+Description
+}
+\details{
 Given two independent groups of continuous variables, performs a Bayesian
 analysis of the likelihood of observing an above-median value from one of
 the groups relative to expectation.
-}
-\details{
+
+
+
 Given continuous measurements \eqn{E} and \eqn{C} from two separate and
 independent groups, a combined sample median value can be computed. For the
 frequentist median test, a 2x2 table is created. Row 1 consists of the

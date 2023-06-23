@@ -15,7 +15,8 @@ dfba_power_curve(
   shape1 = 1,
   shape2 = 1,
   block.max = 0,
-  samples = 1000
+  samples = 1000,
+  hide_progress = FALSE
 )
 }
 \arguments{
@@ -40,6 +41,8 @@ dfba_power_curve(
 \item{block.max}{The maximum size for a block effect (default is 0)}
 
 \item{samples}{Desired number of Monte Carlo data sets drawn to estimate the power (default is 1000)}
+
+\item{hide_progress}{(Optional) If \code{TRUE}, hide percent progress while Monte Carlo sampling is running. (default is \code{FALSE}).}
 }
 \value{
 A list containing the following components:
@@ -65,8 +68,6 @@ A list containing the following components:
 \item{Bayes_power}{The vector of 21 Bayesian power values}
 
 \item{t_power}{The vector of 21 frequentist power from \emph{t}-tests}
-
-\item{}{}
 
 \item{outputdf}{A dataframe for the Bayesian power and the corresponding frequentist \emph{t} power as a function of delta}
 }

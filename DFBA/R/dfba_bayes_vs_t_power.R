@@ -16,6 +16,7 @@
 #' @param a0 The first shape parameter for the prior beta distribution (default is 1). Must be positive and finite.
 #' @param b0 The second shape parameter for the prior beta distribution (default is 1). Must be positive and finite.
 #' @param block.max The maximum size for a block effect (default is 0)
+#' @param hide_progress (Optional) If \code{TRUE}, hide percent progress while Monte Carlo sampling is running. (default is \code{FALSE}).
 #'
 #' @return A list containing the following components:
 #' @return \item{nsims}{The number of Monte Carlo data sets; equal to the value of the \code{samples} argument}
@@ -245,7 +246,8 @@ dfba_bayes_vs_t_power<-function(n_min=20,
                                 samples=1000,
                                 a0 = 1,
                                 b0 = 1,
-                                block.max = 0){
+                                block.max = 0,
+                                hide_progress = FALSE){
 
     deltav <- delta
     if (delta<0){
@@ -330,13 +332,17 @@ dfba_bayes_vs_t_power<-function(n_min=20,
                                  block.max = block.max)
         bayesprH1[j] <- outputsim$prH1
         tpvalue[j] <- outputsim$pvalue
-        cat(round((j/nsims+(i-1))/11, 2)*100, '% complete', sep="", '\r')
+        if (hide_progress == FALSE) {
+          cat(round((j/nsims+(i-1))/11, 2)*100, '% complete', sep="", '\r')
+        }
         }
       detect_bayes[i] <- (sum(bayesprH1>effect_crit))/nsims
       detect_t[i] <- (sum(tpvalue<1-effect_crit))/nsims
     }
 
-    cat("\n")
+    if (hide_progress == FALSE) {
+      cat("\n")
+    }
 
     dfba_t_power_list<-list(nsims = nsims,
                             model = model,

@@ -15,6 +15,7 @@
 #' @param prob_interval Desired probability value for the interval estimate for \code{omega_E} (default is 95\%)
 #' @param samples The number of Monte Carlo samples for \code{omega_E} when \code{method = "small"} (default is 30000)
 #' @param method (Optional) The method option is either "small" or "large". The "small" algorithm is based on a discrete Monte Carlo solution for cases where n is typically less than 20. The "large" algorithm is based on beta approximation model for the posterior distribution for the omega_E parameter. This approximation is reasonable when n > 19. Regardless of \eqn{n}, the user can stipulate \code{method}. When the \code{method} argument is omitted, the program selects the appropriate procedure
+#' @param hide_progress (Optional) If \code{TRUE}, hide percent progress while Monte Carlo sampling is running when \code{method = SMALL}. (default is \code{FALSE}).
 #'
 #' @return A list containing the following components:
 #' @return \item{Emean}{Mean of the independent sample 1 ("Experimental") data}
@@ -173,7 +174,8 @@ dfba_mann_whitney<-function(E,
                             b0 = 1,
                             prob_interval=.95,
                             samples=30000,
-                            method=NULL){
+                            method=NULL,
+                            hide_progress = FALSE){
 #  if (length(prior_vec)!=2){
 #    stop("an explicit stipulation of prior_vec must only have the two shape parameters for the prior beta distribution")} else {}
 
@@ -262,7 +264,9 @@ dfba_mann_whitney<-function(E,
 
 
     for (j in 1:200){
-      cat(round(j/200, 2)*100, '% complete', '\r')
+      if(hide_progress == FALSE){
+        cat(round(j/200, 2)*100, '% complete', '\r')
+      }
       omega <- (1/400)+(j-1)*(1/200)
       komega <- (1-omega)/omega
 
@@ -308,7 +312,9 @@ dfba_mann_whitney<-function(E,
       }
 
     }
-cat('\n')
+    if (hide_progress == FALSE){
+      cat('\n')
+    }
 
     tot <- sum(priorvector*fomega)
     omegapost <- (priorvector*fomega)/tot

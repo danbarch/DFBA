@@ -100,8 +100,8 @@ rownames(N) <- c('R1', 'R2', 'R3')
 dfba_gamma(N)
 
 # Sample problem with table input
-T <- as.table(N)
-dfba_gamma(T)
+NTable <- as.table(N)
+dfba_gamma(NTable)
 }
 \references{
 Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists: A

@@ -18,6 +18,7 @@
 #' @param shape2 The shape parameter for the condition 2 variate for the distribution indicated by the \code{model} input (default is 1)
 #' @param block.max The maximum size for a block effect (default is 0)
 #' @param samples Desired number of Monte Carlo data sets drawn to estimate the power (default is 1000)
+#' @param hide_progress (Optional) If \code{TRUE}, hide percent progress while Monte Carlo sampling is running. (default is \code{FALSE}).
 #'
 #' @return A list containing the following components:
 #' @return \item{n}{The fixed sample size for each variate}
@@ -242,7 +243,8 @@ dfba_power_curve<-function(n = 20,
                            shape1 = 1,
                            shape2 = 1,
                            block.max = 0,
-                           samples=1000){
+                           samples = 1000,
+                           hide_progress = FALSE){
 
     if (delta.step<0){
       stop("The function requires a nonnegative value for delta.")
@@ -328,10 +330,16 @@ dfba_power_curve<-function(n = 20,
                                    block.max = block.max)
         bayesprH1[j] <- outputsim$prH1
         tpvalue[j] <- outputsim$pvalue
-        cat(round((j/nsims+(i-1))/21, 2)*100, '% complete', sep="", '\r')
+        if (hide_progress == FALSE) {
+          cat(round((j/nsims+(i-1))/21, 2)*100, '% complete', sep="", '\r')
+        }
         }
       detect_bayes[i] <- (sum(bayesprH1>effect_crit))/nsims
       detect_t[i] <- (sum(tpvalue<1-effect_crit))/nsims
+    }
+
+    if (hide_progress == FALSE){
+      cat("\n")
     }
 
     dfba_power_curve_list<- list(n = n,

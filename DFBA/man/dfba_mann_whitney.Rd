@@ -11,7 +11,8 @@ dfba_mann_whitney(
   b0 = 1,
   prob_interval = 0.95,
   samples = 30000,
-  method = NULL
+  method = NULL,
+  hide_progress = FALSE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ dfba_mann_whitney(
 \item{samples}{The number of Monte Carlo samples for \code{omega_E} when \code{method = "small"} (default is 30000)}
 
 \item{method}{(Optional) The method option is either "small" or "large". The "small" algorithm is based on a discrete Monte Carlo solution for cases where n is typically less than 20. The "large" algorithm is based on beta approximation model for the posterior distribution for the omega_E parameter. This approximation is reasonable when n > 19. Regardless of \eqn{n}, the user can stipulate \code{method}. When the \code{method} argument is omitted, the program selects the appropriate procedure}
+
+\item{hide_progress}{(Optional) If \code{TRUE}, hide percent progress while Monte Carlo sampling is running when \code{method = SMALL}. (default is \code{FALSE}).}
 }
 \value{
 A list containing the following components:
@@ -45,6 +48,14 @@ A list containing the following components:
 \item{U_C}{Total number of comparisons for which observations from independent sample 2 ("Control") data exceed observations from independent sample 1 ("Experimental") data)}
 
 \item{prob_interval}{User-defined width of \code{omega_E} interval estimate (default is 0.95)}
+
+\item{a0}{First shape parameter for the prior beta distribution}
+
+\item{b0}{Second shape parameter for the prior beta distribution}
+
+\item{apost}{First shape parameter for the posterior beta distribution}
+
+\item{bpost}{Second shape parameter for the posterior beta distribution}
 
 \item{samples}{The number of desired Monte Carlo samples (default is 30000)}
 
@@ -116,7 +127,7 @@ developed from extensive previous empirical studies designed to approximate
 the quantiles of the discrete approach with the corresponding quantiles for a
 particular beta distribution. The large-\emph{n} solution also uses Lagrange
 polynomials for interpolation. The large-\emph{n} approximation is reasonably
-accurate when \eqn{n >} 19 for each condition. When the \code{method} input
+accurate when \eqn{n > 19} for each condition. When the \code{method} input
 is omitted, the function selects the appropriate procedure (\emph{i.e.},
 either the discrete case for a small sample size or the large-\emph{n}
 approach). Nonetheless, the user can stipulate which method they desire

@@ -15,7 +15,8 @@ dfba_bayes_vs_t_power(
   samples = 1000,
   a0 = 1,
   b0 = 1,
-  block.max = 0
+  block.max = 0,
+  hide_progress = FALSE
 )
 }
 \arguments{
@@ -40,6 +41,8 @@ dfba_bayes_vs_t_power(
 \item{b0}{The second shape parameter for the prior beta distribution (default is 1). Must be positive and finite.}
 
 \item{block.max}{The maximum size for a block effect (default is 0)}
+
+\item{hide_progress}{(Optional) If \code{TRUE}, hide percent progress while Monte Carlo sampling is running. (default is \code{FALSE}).}
 }
 \value{
 A list containing the following components:

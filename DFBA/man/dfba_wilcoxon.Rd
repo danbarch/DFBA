@@ -11,7 +11,8 @@ dfba_wilcoxon(
   b0 = 1,
   prob_interval = 0.95,
   samples = 30000,
-  method = NULL
+  method = NULL,
+  hide_progress = FALSE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ dfba_wilcoxon(
 \item{samples}{When \code{method = "small"}, the number of desired Monte Carlo samples per candidate value for \code{phi_w} (default is 30000 per candidate phi)}
 
 \item{method}{(Optional) The method option is either \code{"small"} or \code{"large"}. The "small" algorithm is based on a discrete Monte Carlo solution for cases where \emph{n} is typically less than 20. The \code{"large"} algorithm is based on beta approximation model for the posterior distribution for the \code{phi_w} parameter. This approximation is reasonable when \emph{n} > 19. Regardless of \emph{n} the user can stipulate either method. When the \code{method} argument is omitted, the program selects the appropriate procedure.}
+
+\item{hide_progress}{(Optional) If \code{TRUE}, hide percent progress while Monte Carlo sampling is running when \code{method = SMALL}. (default is \code{FALSE}).}
 }
 \value{
 A list containing the following components:
@@ -47,6 +50,10 @@ A list containing the following components:
 \item{a0}{The first shape parameter for the beta prior distribution (default is 1)}
 
 \item{b0}{The second shape parameter for the beta distribution prior (default is 1)}
+
+\item{apost}{First shape parameter for the posterior beta distribution}
+
+\item{bpost}{Second shape parameter for the posterior beta distribution}
 
 \item{phiv}{The 200 candidate values for phi_w for \code{method = "small"}}
 

@@ -17,6 +17,7 @@
 #' @param prob_interval Desired probability for interval estimates of the sign bias parameter \code{phi_w} (default is 0.95)
 #' @param samples When \code{method = "small"}, the number of desired Monte Carlo samples per candidate value for \code{phi_w} (default is 30000 per candidate phi)
 #' @param method (Optional) The method option is either \code{"small"} or \code{"large"}. The "small" algorithm is based on a discrete Monte Carlo solution for cases where \emph{n} is typically less than 20. The \code{"large"} algorithm is based on beta approximation model for the posterior distribution for the \code{phi_w} parameter. This approximation is reasonable when \emph{n} > 19. Regardless of \emph{n} the user can stipulate either method. When the \code{method} argument is omitted, the program selects the appropriate procedure.
+#' @param hide_progress (Optional) If \code{TRUE}, hide percent progress while Monte Carlo sampling is running when \code{method = SMALL}. (default is \code{FALSE}).
 #'
 #' @return A list containing the following components:
 #' @return \item{T_pos}{Sum of the positive ranks in the pairwise comparisons}
@@ -168,9 +169,10 @@ dfba_wilcoxon<-function(Y1,
                         Y2,
                         a0 = 1,
                         b0 = 1,
-                        prob_interval=.95,
-                        samples=30000,
-                        method=NULL){
+                        prob_interval = .95,
+                        samples = 30000,
+                        method = NULL,
+                        hide_progress = FALSE){
   l1 <- length(Y1)
   l2 <- length(Y2)
   if (l1!=l2) {
@@ -278,7 +280,9 @@ dfba_wilcoxon<-function(Y1,
 
     fphi<-rep(0.0,200)
     for (j in 1:200){
-      cat(round(j/200, 2)*100, '% complete', '\r')
+      if (hide_progress == FALSE) {
+        cat(round(j/200, 2)*100, '% complete', '\r')
+      }
       phi <- 1/(400)+(j-1)*(1/200)
       for (k in 1:samples){
         tz <- sum((1:n)*rbinom(n, 1, phi))
@@ -290,7 +294,9 @@ dfba_wilcoxon<-function(Y1,
         }
       }
     }
-    cat("\n")
+    if (hide_progress == FALSE) {
+      cat("\n")
+    }
 
 # The tot value below is the denominator of the discrete analysis,
 # phipost is the vector for the posterior distribution.

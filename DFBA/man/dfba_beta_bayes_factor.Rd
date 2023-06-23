@@ -150,8 +150,8 @@ dfba_beta_bayes_factor(a = 377,
                        H0 = .75)
 
 # An example with the Jeffreys prior
-dfba_beta_bayes_factor(a = 377,
-                       b = 123,
+dfba_beta_bayes_factor(a = 377.5,
+                       b = 123.5,
                        method = "point",
                        H0 = .75,
                        a0 = .5,
