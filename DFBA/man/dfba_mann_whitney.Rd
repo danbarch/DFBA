@@ -53,9 +53,9 @@ A list containing the following components:
 
 \item{b0}{Second shape parameter for the prior beta distribution}
 
-\item{apost}{First shape parameter for the posterior beta distribution}
+\item{a_post}{First shape parameter for the posterior beta distribution}
 
-\item{bpost}{Second shape parameter for the posterior beta distribution}
+\item{b_post}{Second shape parameter for the posterior beta distribution}
 
 \item{samples}{The number of desired Monte Carlo samples (default is 30000)}
 
@@ -75,9 +75,9 @@ A list containing the following components:
 
 \item{omegabar}{Posterior mean estimate for \code{omega_E}}
 
-\item{qLv}{Lower limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
+\item{hdi_lower}{Lower limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
 
-\item{qHv}{Upper limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
+\item{hdi_upper}{Upper limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
 }
 \description{
 Given two independent vectors \code{E} and \code{C}, the function computes
@@ -163,7 +163,7 @@ dfba_mann_whitney(E = groupA,
 # variates:
 dfba_mann_whitney(E =groupB,C=groupA,a0=.5,b0=.5)
 
-# Notice that BF10 from the above analysis is 1/BF10 from the original order
+# Note that BF10 from the above analysis is 1/BF10 from the original order
 # of the variates.
 
 # The next analysis constructs 99\% interval estimates with the Jeffreys
@@ -177,7 +177,10 @@ dfba_mann_whitney(E = groupA,
 
 # The following forces a discrete approach with a flat prior for a case with
 # large n:
-dfba_mann_whitney(E=groupA,C=groupB,method="small")
+dfba_mann_whitney(E = groupA,
+                  C = groupB,
+                  method = "small",
+                  hide_progress = TRUE)
 
 #Examples with small n per group
 
@@ -186,17 +189,35 @@ groupC <- c(96.49, 96.78, 97.26, 98.85, 99.75, 100.14, 101.15, 101.39,
 groupD <- c(101.16, 102.09, 103.14, 104.70, 105.27, 108.22, 108.32, 108.51,
             109.88, 110.32, 110.55, 113.42)
 
-S1ex<-dfba_mann_whitney(E = groupC, C = groupD)
-S2ex<-dfba_mann_whitney(E = groupC, C = groupD, samples = 50000)
-S3ex<-dfba_mann_whitney(E = groupC, C = groupD)
+CDex1<-dfba_mann_whitney(E = groupC,
+                         C = groupD,
+                         hide_progress = TRUE)
 
-# Note that S1ex and S3ex are replication analyses for the discrete approach.
-# The variabilty is due to the different outcomes from the Monte Carlo
+CDex1
+
+CDex2<-dfba_mann_whitney(E = groupC,
+                         C = groupD,
+                         samples = 50000,
+                         hide_progress = TRUE)
+CDex2
+
+
+CDex3<-dfba_mann_whitney(E = groupC,
+                         C = groupD,
+                         hide_progress = TRUE)
+
+CDex3
+
+# Note that CDex1 and CDex2 are replication analyses for the discrete approach.
+# The variability is due to the different outcomes from the Monte Carlo
 # sampling.
 
 # Plot output
-plot(S1ex)
-plot(S2ex,
+# with prior and posterior curves
+plot(CDex1)
+
+# with only posterior curve
+plot(CDex2,
      plot.prior = FALSE)
 
 

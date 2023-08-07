@@ -8,24 +8,34 @@
 setMethod("show", "dfba_mann_whitney_small_out", function(object) {
   cat("Descriptive Statistics \n")
   cat("========================\n")
-  cat(" ", "n_E", "\t", "n_C", "\n")
-  cat(" ", object$n_E, "\t\t\t", object$n_C, "\n")
-  cat(" ", "E mean", "\t", "C mean", "\n")
-  cat(" ", object$Emean, "\t\t\t", object$Cmean, "\n")
-  cat(" ", "U_E and U_C Mann-Whitney Statistics", "\n")
-  cat(" ", object$U_E, "\t\t\t", object$U_C, "\n")
+  cat(" ", sprintf("%-10s", "n_E"), "\t", "n_C", "\n")
+  cat(" ", sprintf("%-10g", object$n_E), "\t", object$n_C, "\n")
+  cat(" ", sprintf("%-10s", "E mean"), "\t", "C mean", "\n")
+  cat(" ", sprintf("%-10g", object$Emean), "\t", object$Cmean, "\n")
+  cat(" ", "Mann-Whitney Statistics", "\n")
+  cat(" ", sprintf("%-10s", "U_E"), "\t", "U_C", "\n")
+  cat(" ", sprintf("%-10g", object$U_E), "\t", object$U_C, "\n")
   cat("\n  Monte Carlo Sampling with Discrete Probability Values\n")
   cat("========================\n")
   cat(" ", "Number of MC Samples\n")
   cat(" ", object$samples, "\n")
   cat(" ", "\n  Mean of omega_E:\n")
   cat(" ", object$omegabar, "\n")
-  cat("equal-tail area interval")
-  cat(" ", object$prob_interval*100, "% interval limits:", "\n", sep="")
-  cat(" ", object$qLv, "\t\t\t", object$qHv, "\n")
+  cat(" ", paste0(round(object$prob_interval*100), "% Equal-tail interval limits:"), "\n")
+  cat(" ",
+      sprintf("%-12s", "Lower Limit"),
+      "\t",
+      "Upper Limit",
+      "\n")
+  cat(" ",
+      sprintf("%-12g",
+              object$eti_lower),
+      "\t",
+      object$eti_upper,
+      "\n")
   cat(" ", "probability that omega_E exceeds 0.5:\n")
-  cat(" ", "prior", "\t\t\t", "posterior\n")
-  cat(" ", object$priorprH1, "\t\t\t", object$prH1, "\n")
+  cat(" ", sprintf("%-10s", "prior"), "\t", "posterior\n")
+  cat(" ", sprintf("%-10g", object$priorprH1), "\t", object$prH1, "\n")
   cat("  Bayes factor BF10 for omega_E > 0.5:\n")
   cat(" ", ifelse((object$prH1==1)|(object$priorprH1==0),
                   paste0("Bayes factor BF10 for omega_E >.5 is estimated to be greater than: ", object$samples),

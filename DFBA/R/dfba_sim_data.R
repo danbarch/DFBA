@@ -29,13 +29,13 @@
 #' @param delta Theoretical mean difference between conditions; the second condition minus the first condition
 #' @param shape1 The shape parameter for condition 1 for the distribution indicated by \code{model} input (default is 1)
 #' @param shape2 The shape parameter for condition 2 for the distribution indicated by \code{model} input (default is 1)
-#' @param block.max The maximum size for a block effect (default is 0)
+#' @param block_max The maximum size for a block effect (default is 0)
 #'
 #' @return A list containing the following components:
 #' @return \item{pvalue}{The upper tail of the sample t value for the test that delta <= 0}
 #' @return \item{prH1}{Bayesian posterior probability either for the hypothesis that phi_w > .5 from the nonparametric Wilcoxon test when \code{design = "paired"} or for the hypothesis that omega_E > .5 from the Mann-Whitney test when \code{design = "independent"}}
-#' @return \item{E}{Vector of length n of simulated values for condition 1}
-#' @return \item{C}{Vector of length n of simulated values for condition 2}
+#' @return \item{C}{Vector of length n of simulated values for condition 1}
+#' @return \item{E}{Vector of length n of simulated values for condition 2}
 #'
 #' @details
 #'
@@ -105,10 +105,10 @@
 #' 80-20 law where 20\% of the population receives 80\% of the income
 #' (Hardy, 2010).
 #'
-#' The \code{block.max} argument provides for incorporating block effects in the
+#' The \code{block_max} argument provides for incorporating block effects in the
 #' random sampling. The block effect for each score is a separate effect for the
 #' block. The block effect B for a score is a random number drawn from a uniform
-#' distribution on the interval \code{[0, block.max]}. When \code{design = "paired"},
+#' distribution on the interval \code{[0, block_max]}. When \code{design = "paired"},
 #' the same random block effect is added to the score in the first condition,
 #' which is the random \code{C} value, and it is also added to the corresponding
 #' paired value for the \code{E} variate. Thus, the pairing research design
@@ -118,7 +118,7 @@
 #' discrimination of condition differences because it increases the variability
 #' of the difference in the two variates. The user can study the effect of the
 #' relative discriminability of detecting an effect of delta by adjusting the
-#' value of the \code{block.max} argument. The default for \code{block.max} is 0,
+#' value of the \code{block_max} argument. The default for \code{block_max} is 0,
 #' but it can be altered to any non-negative real number.
 #'
 #' The output from calling the \code{dfba_sim_data()} function are two
@@ -210,7 +210,7 @@
 #'              delta = .25,
 #'              shape1 = .8,
 #'              shape2 = .8,
-#'              block.max = 1.5)
+#'              block_max = 1.5)
 #'
 #' # Example of two paired Cauchy variates with a .4 offset
 #'
@@ -237,13 +237,13 @@ dfba_sim_data<-function(n = 20,
                         delta,
                         shape1 = 1,
                         shape2 = 1,
-                        block.max=0){
+                        block_max=0){
 
   if (delta<0){
     stop("The function requires a positive difference in the location of the two conditions.")
     }
 
-  if (n<20){
+  if (n < 20| n%%1 != 0){
     stop("The function requires an integer that is 20 or larger for sample size")
     }
 
@@ -275,8 +275,8 @@ dfba_sim_data<-function(n = 20,
     stop(designstop)
   }
 
-  if (block.max<0|(is.na(block.max))){
-    stop("block.max must be nonnegative")
+  if (block_max<0|(is.na(block_max))){
+    stop("block_max must be nonnegative")
   }
 
    if (a0 <= 0|
@@ -423,8 +423,8 @@ dfba_sim_data<-function(n = 20,
   }
 
   if (design=="independent"){
-    Bex <- runif(n,0,block.max)
-    Bcn <- runif(n,0,block.max)
+    Bex <- runif(n,0,block_max)
+    Bcn <- runif(n,0,block_max)
     E <- E+Bex
     C <- C+Bcn
 
@@ -445,7 +445,7 @@ dfba_sim_data<-function(n = 20,
   }
 
   if (design=="paired"){
-    B <- runif(n,0,block.max)
+    B <- runif(n,0,block_max)
     E <- E+B
     C <- C+B
     d <- E-C
@@ -474,20 +474,3 @@ dfba_sim_data<-function(n = 20,
 
 }
 
-#
-#
-#  gumbel<-function(n,delta,shape_vec=c(1,1)){
-#    g=runif(n,.00001,.99999)
-#    C=-shape_vec[1]*log(log(1/g))
-#    g2=runif(n,.00001,.99999)
-#    E=delta-shape_vec[2]*log(log(1/g2))
-#    return(E)
-#  }
-#
-#  pareto<-function(n,delta,shape_vec=c(1.16,1.16)){
-#    g=runif(n,.00001,.99999)
-#    C=1/(1-g)^(1/shape_vec[1])
-#    g2=runif(n,.00001,.99999)
-#    E=(1+delta)/(1-g2)^(1/shape_vec[2])
-#    return(E)
-#  }

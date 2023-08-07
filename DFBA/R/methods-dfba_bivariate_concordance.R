@@ -5,10 +5,10 @@
 setMethod("show", signature("dfba_bivariate_concordance_out"), function(object) {
   cat("Descriptive Statistics \n")
   cat("========================\n")
-  cat(" ", "Concordant Pairs", "\t", "Discordant Pairs", "\n")
-  cat(" ", object$nc, "\t\t\t", object$nd, "\n")
+  cat(" ", sprintf("%-16s", "Concordant Pairs"), "\t", "Discordant Pairs", "\n")
+  cat(" ", sprintf("%-16g", object$nc), "\t", object$nd, "\n")
   cat(" ", "Proportion of Concordant Pairs", "\n")
-  cat(" ", object$sample.p, "\n")
+  cat(" ", object$sample_p, "\n")
   cat("\nFrequentist Analyses\n")
   cat("========================\n")
   cat("  ", "Tau_A\n")
@@ -16,13 +16,13 @@ setMethod("show", signature("dfba_bivariate_concordance_out"), function(object) 
   cat("\nBayesian Analyses\n")
   cat("========================\n")
   cat(" ", "Posterior Beta Shape Parameters for the Phi Concordance Measure\n")
-  cat(" ", "a.post", "\t\t", "b.post\n")
-  cat(" ", object$a.post, "\t\t", object$b.post, "\n")
+  cat(" ", sprintf("%-10s", "a_post"), "\t", "b_post\n")
+  cat(" ", sprintf("%-10g", object$a_post), "\t", object$b_post, "\n")
   cat(" ", "Posterior Median\n")
-  cat(" ", object$post.median, "\n")
-  cat(" ", object$prob_interval*100, "% Equal-tail Interval\n", sep="")
-  cat(" ", "Lower Limit", "\t\t", "Upper Limit\n")
-  cat(" ", object$post.eti.lower, "\t\t", object$post.eti.upper, "\n")
+  cat(" ", object$post_median, "\n")
+  cat(" ", paste0(round(object$prob_interval*100), "% Equal-tail interval limits:"), "\n")
+  cat(" ", sprintf("%-12s", "Lower Limit"), "\t", "Upper Limit", "\n")
+  cat(" ", sprintf("%-12g", object$eti_lower), "\t", object$eti_upper, "\n")
 })
 
 # Formatted output for dfba_bivariate_concordance when fitting parameters are specified in options
@@ -32,10 +32,10 @@ setMethod("show", signature("dfba_bivariate_concordance_out"), function(object) 
 setMethod("show", "dfba_bivariate_concordance_star_out", function(object) {
   cat("Descriptive Statistics \n")
   cat("========================\n")
-  cat(" ", "Concordant Pairs", "\t", "Discordant Pairs", "\n")
-  cat(" ", object$nc, "\t\t\t", object$nd, "\n")
+  cat(" ", sprintf("%-16s", "Concordant Pairs"), "\t", "Discordant Pairs", "\n")
+  cat(" ", sprintf("%-16g", object$nc), "\t", object$nd, "\n")
   cat(" ", "Proportion of Concordant Pairs", "\n")
-  cat(" ", object$sample.p, "\n")
+  cat(" ", object$sample_p, "\n")
   cat("\nFrequentist Analyses\n")
   cat("========================\n")
   cat("  ", "Tau_A point estimate\n")
@@ -43,23 +43,23 @@ setMethod("show", "dfba_bivariate_concordance_star_out", function(object) {
   cat("\nBayesian Analyses\n")
   cat("========================\n")
   cat(" ", "Posterior Beta Shape Parameters for the Phi Concordance Measure\n")
-  cat(" ", "a.post", "\t\t", "b.post\n")
-  cat(" ", object$a.post, "\t\t", object$b.post, "\n")
+  cat(" ", sprintf("%-10s", "a_post"), "\t", "b_post\n")
+  cat(" ", sprintf("%-10g", object$a_post), "\t", object$b_post, "\n")
   cat(" ", "Posterior Median\n")
-  cat(" ", object$post.median, "\n")
-  cat(" ", object$prob_interval*100, "% Equal-tail Interval\n", sep="")
-  cat(" ", "Lower Limit", "\t\t", "Upper Limit\n")
-  cat(" ", object$post.eti.lower, "\t\t", object$post.eti.upper, "\n")
+  cat(" ", object$post_median, "\n")
+  cat(" ", paste0(round(object$prob_interval*100), "% Equal-tail interval limits:"), "\n")
+  cat(" ", sprintf("%-12s", "Lower Limit"), "\t", "Upper Limit", "\n")
+  cat(" ", sprintf("%-12g", object$eti_lower), "\t", object$eti_upper, "\n")
   cat("\nAdjusted for number of model-fitting parameters\n")
   cat("------------------------\n")
   cat(" ", "Beta Shape Parameters\n")
-  cat(" ", "a.post", "\t\t", "b.post\n")
-  cat(" ", object$a.post_star, "\t\t", object$b.post_star, "\n")
+  cat(" ", sprintf("%-10s", "a_post"), "\t", "b_post\n")
+  cat(" ", sprintf("%-10g", object$a_post_star), "\t", object$b_post_star, "\n")
   cat(" ", "Posterior Median\n")
-  cat(" ", object$post.median_star, "\n")
-  cat(" ", object$prob_interval*100, "% Equal-tail Interval\n", sep="")
-  cat(" ", "Lower Limit", "\t\t", "Upper Limit\n")
-  cat(" ", object$post.eti.lower_star, "\t\t", object$post.eti.upper_star, "\n")
+  cat(" ", object$post_median_star, "\n")
+  cat(" ", paste0(round(object$prob_interval*100), "% Equal-tail interval limits:"), "\n")
+  cat(" ", sprintf("%-12s", "Lower Limit"), "\t", "Upper Limit", "\n")
+  cat(" ", sprintf("%-12g", object$eti_lower_star), "\t", object$eti_upper_star, "\n")
 })
 
 
@@ -74,8 +74,8 @@ setMethod("plot",
           function(x, plot.prior=TRUE){
             x.phi<-seq(0, 1, 1/1000)
             y.phi<-dbeta(x.phi,
-                         x$a.post,
-                         x$b.post)
+                         x$a_post,
+                         x$b_post)
             if (plot.prior==FALSE){
               plot(x.phi,
                    y.phi,
@@ -110,8 +110,8 @@ setMethod("plot",
           function(x, plot.prior=TRUE){
             x.phi<-seq(0, 1, 1/1000)
             y.phi<-dbeta(x.phi,
-                         x$a.post_star,
-                         x$b.post_star)
+                         x$a_post_star,
+                         x$b_post_star)
             if (plot.prior==FALSE){
               plot(x.phi,
                    y.phi,

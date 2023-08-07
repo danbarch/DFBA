@@ -51,9 +51,9 @@ A list containing the following components:
 
 \item{b0}{The second shape parameter for the beta distribution prior (default is 1)}
 
-\item{apost}{First shape parameter for the posterior beta distribution}
+\item{a_post}{First shape parameter for the posterior beta distribution}
 
-\item{bpost}{Second shape parameter for the posterior beta distribution}
+\item{b_post}{Second shape parameter for the posterior beta distribution}
 
 \item{phiv}{The 200 candidate values for phi_w for \code{method = "small"}}
 
@@ -65,27 +65,23 @@ A list containing the following components:
 
 \item{BF10}{Bayes factor for the relative increase in the posterior odds for the alternative hypothesis that phi_w > .5 over the null model for phi_w <= .5}
 
-\item{postmean}{The posterior mean for phi_w}
+\item{post_mean}{The posterior mean for phi_w}
 
 \item{cumulative_phi}{The posterior cumulative distribution for phi_w when \code{method = "small"}}
 
-\item{qLv}{The lower limit for the posterior interval estimate for phi_w when \code{method = "small"}}
+\item{hdi_lower}{The lower limit for the posterior highest-density interval estimate for phi_w}
 
-\item{qHv}{The upper limit for the posterior interval estimate for phi_w when \code{method = "small"}}
+\item{hdi_upper}{The upper limit for the posterior highest-density interval estimate for phi_w}
 
-\item{apost}{The first shape parameter for a beta distribution model for phi_w when \code{method = "large"}}
+\item{a_post}{The first shape parameter for a beta distribution model for phi_w when \code{method = "large"}}
 
-\item{bpost}{The second shape parameter for a beta distribution model for phi_w when \code{method = "large"}}
+\item{b_post}{The second shape parameter for a beta distribution model for phi_w when \code{method = "large"}}
 
-\item{postmedian}{The posterior median for phi_w when \code{method = "large"}}
+\item{post_median}{The posterior median for phi_w when \code{method = "large"}}
 
-\item{qlequal}{The equal-tail lower limit for phi_w when \code{method = "large"}}
+\item{eti_lower}{The equal-tail lower limit for phi_w}
 
-\item{qhequal}{The equal-tail upper limit for phi_w when \code{method = "large"}}
-
-\item{qLmin}{The lower limit for the highest-density interval for phi_w when \code{method = "large"}}
-
-\item{qHmax}{The upper limit for the highest-density interval for phi_w when \code{method = "large"}}
+\item{eti_upper}{The equal-tail upper limit for phi_w}
 }
 \description{
 Given two continuous, paired variates \code{Y1} and \code{Y2},
@@ -157,7 +153,8 @@ conditionB <- c(0.53, 0.55, 0.58, 0.97, 0.60, 0.22, 0.05, 13.14, 0.63, 0.33,
                 0.91, 0.37)
 
 dfba_wilcoxon(Y1 = conditionA,
-             Y2 = conditionB)
+              Y2 = conditionB,
+              hide_progress = TRUE)
 
 # Note the results for this method="small" analysis differs from
 # the previously run. These differences are the differences from
@@ -168,7 +165,8 @@ dfba_wilcoxon(Y1 = conditionA,
 dfba_wilcoxon(conditionA,
               conditionB,
               a0 = .5,
-              b0 = .5)
+              b0 = .5,
+              hide_progress = TRUE)
 
 # Using 99\% interval estimates and with 50000 Monte Carlo samples per
 # candidate phi_w
@@ -176,7 +174,8 @@ dfba_wilcoxon(conditionA,
 dfba_wilcoxon(conditionA,
               conditionB,
               prob_interval=.99,
-              samples=50000)
+              samples=50000,
+              hide_progress = TRUE)
 
 # Examples with large sample size
 
@@ -188,15 +187,17 @@ C <- c(2.89, 4.19, 3.22, 6.50, 3.10, 4.19, 5.13, 3.77, 2.71, 2.58, 7.59,
        2.68, 4.98, 2.35, 5.15, 8.46, 3.77, 8.83, 4.06, 2.50, 5.48, 2.80,
        8.89, 3.19, 9.36, 4.58, 2.94, 4.75)
 
-       BW<-dfba_wilcoxon(Y1=E,Y2=C)
-       BW
-       plot(BW)
+BW<-dfba_wilcoxon(Y1 = E,
+                  Y2 = C)
+BW
+plot(BW)
 
 # Forcing the method="small" despite a sufficiently large n value
 
 CW<-dfba_wilcoxon(Y1 = E,
                  Y2 = C,
-                 method = "small")
+                 method = "small",
+                 hide_progress = TRUE)
 CW
 plot(CW)
 plot(CW, plot.prior = FALSE)

@@ -23,8 +23,8 @@
 #' @return \item{nCbelow}{Number of \code{C} response at or below median}
 #' @return \item{a0}{The first shape parameter for the prior beta distribution for the population binomial parameter}
 #' @return \item{b0}{The second shape parameter for the prior beta distribution for the population binomial parameter}
-#' @return \item{a.post}{Posterior first shape parameter for the beta distribution for the probability that an above-median response is from the \code{E} group}
-#' @return \item{b.post}{Posterior second shape parameter for the beta distribution for the probability that an above-median response is from the \code{E} group}
+#' @return \item{a_post}{Posterior first shape parameter for the beta distribution for the probability that an above-median response is from the \code{E} group}
+#' @return \item{b_post}{Posterior second shape parameter for the beta distribution for the probability that an above-median response is from the \code{E} group}
 #' @return \item{postEhi}{Posterior probability that an above-median response exceeds the \code{E} group base rate}
 #' @return \item{postChi}{Posterior probabilty that an above-median response exceeds the \code{C} group base rate}
 #' @return \item{priorEhi}{The probability that a beta prior distribution would exceed the \code{E} group base rate}
@@ -58,8 +58,8 @@
 #' distributions for the population \eqn{\phi} parameter belong to the beta family
 #' of distributions. The default prior for this function is the uniform
 #' distribution, \emph{i.e}, \code{a0 = b0 = 1}. The posterior shape parameters
-#' for \eqn{\phi} are \code{a.post = a0 + nEabove} and
-#' \code{b.post = b0 + nCabove}.
+#' for \eqn{\phi} are \code{a_post = a0 + nEabove} and
+#' \code{b_post = b0 + nCabove}.
 #'
 #' Because the number of scores in groups \eqn{E} and \eqn{C} might be very
 #' different, it is important to examine the \eqn{\phi} parameter relative to an
@@ -156,15 +156,15 @@ dfba_median_test <- function(E,
     nCbelow <- sum(C <= med)
 
 # posterior beta parameters
-  a.post <- nEabove+a0
-  b.post <- nCabove+b0
+  a_post <- nEabove+a0
+  b_post <- nCabove+b0
 
   Ebaserate <- length(E)/(length(E)+length(C))
   Cbaserate <- 1 - Ebaserate
 
   postEhi <- 1 - pbeta(Ebaserate,
-                       a.post,
-                       b.post)
+                       a_post,
+                       b_post)
   postChi <- 1 - postEhi
   priorEhi <- 1 - pbeta(Ebaserate,
                         a0,
@@ -193,8 +193,8 @@ dfba_median_test <- function(E,
                     nCbelow = nCbelow,
                     a0 = a0,
                     b0 = b0,
-                    a.post = a.post,
-                    b.post = b.post,
+                    a_post = a_post,
+                    b_post = b_post,
                     postEhi = postEhi,
                     postChi = postChi,
                     priorEhi = priorEhi,

@@ -91,11 +91,11 @@ test_that("Unreasonable probability intervals must be stopped",{
   })
 
   test_that("Equal-tail lower limit is correct",{
-    expect_lte(abs(Acon$lower_limit-.030875), 0.0176)
+    expect_lte(abs(Acon$eti_lower-.030875), 0.0176)
   })
 
   test_that("Equal-tail upper limit is correct",{
-    expect_lte(abs(Acon$upper_limit-.32255), 0.0114)
+    expect_lte(abs(Acon$eti_upper-.32255), 0.0114)
   })
 
   test_that("Prior probability of positive contrast is correct",{

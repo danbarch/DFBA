@@ -27,8 +27,8 @@
 #' @return \item{prob_interval}{User-defined width of \code{omega_E} interval estimate (default is 0.95)}
 #' @return \item{a0}{First shape parameter for the prior beta distribution}
 #' @return \item{b0}{Second shape parameter for the prior beta distribution}
-#' @return \item{apost}{First shape parameter for the posterior beta distribution}
-#' @return \item{bpost}{Second shape parameter for the posterior beta distribution}
+#' @return \item{a_post}{First shape parameter for the posterior beta distribution}
+#' @return \item{b_post}{Second shape parameter for the posterior beta distribution}
 #' @return \item{samples}{The number of desired Monte Carlo samples (default is 30000)}
 #' @return \item{method}{A character string indicating the calculation method used}
 #' @return \item{omega_E}{A vector of values representing candidate values for \code{omega_E} when \code{method = "small"}}
@@ -38,8 +38,8 @@
 #' @return \item{prH1}{Posterior probability of the alternative model that omega_E exceeds 0.5}
 #' @return \item{BF10}{Bayes Factor describing the relative increase in the posterior odds for the alternative model that \code{omega_E} exceeds 0.5 over the null model of \code{omega_E} less than or equal to 0.5}
 #' @return \item{omegabar}{Posterior mean estimate for \code{omega_E}}
-#' @return \item{qLv}{Lower limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
-#' @return \item{qHv}{Upper limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
+#' @return \item{hdi_lower}{Lower limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
+#' @return \item{hdi_upper}{Upper limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
 #'
 #' @details
 #'
@@ -130,7 +130,7 @@
 #' # variates:
 #' dfba_mann_whitney(E =groupB,C=groupA,a0=.5,b0=.5)
 #'
-#' # Notice that BF10 from the above analysis is 1/BF10 from the original order
+#' # Note that BF10 from the above analysis is 1/BF10 from the original order
 #' # of the variates.
 #'
 #' # The next analysis constructs 99% interval estimates with the Jeffreys
@@ -144,7 +144,10 @@
 #'
 #' # The following forces a discrete approach with a flat prior for a case with
 #' # large n:
-#' dfba_mann_whitney(E=groupA,C=groupB,method="small")
+#' dfba_mann_whitney(E = groupA,
+#'                   C = groupB,
+#'                   method = "small",
+#'                   hide_progress = TRUE)
 #'
 #' #Examples with small n per group
 #'
@@ -153,17 +156,35 @@
 #' groupD <- c(101.16, 102.09, 103.14, 104.70, 105.27, 108.22, 108.32, 108.51,
 #'             109.88, 110.32, 110.55, 113.42)
 #'
-#' S1ex<-dfba_mann_whitney(E = groupC, C = groupD)
-#' S2ex<-dfba_mann_whitney(E = groupC, C = groupD, samples = 50000)
-#' S3ex<-dfba_mann_whitney(E = groupC, C = groupD)
+#' CDex1<-dfba_mann_whitney(E = groupC,
+#'                          C = groupD,
+#'                          hide_progress = TRUE)
 #'
-#' # Note that S1ex and S3ex are replication analyses for the discrete approach.
-#' # The variabilty is due to the different outcomes from the Monte Carlo
+#' CDex1
+#'
+#' CDex2<-dfba_mann_whitney(E = groupC,
+#'                          C = groupD,
+#'                          samples = 50000,
+#'                          hide_progress = TRUE)
+#' CDex2
+#'
+#'
+#' CDex3<-dfba_mann_whitney(E = groupC,
+#'                          C = groupD,
+#'                          hide_progress = TRUE)
+#'
+#' CDex3
+#'
+#' # Note that CDex1 and CDex2 are replication analyses for the discrete approach.
+#' # The variability is due to the different outcomes from the Monte Carlo
 #' # sampling.
 #'
 #' # Plot output
-#' plot(S1ex)
-#' plot(S2ex,
+#' # with prior and posterior curves
+#' plot(CDex1)
+#'
+#' # with only posterior curve
+#' plot(CDex2,
 #'      plot.prior = FALSE)
 #'
 #'
@@ -321,13 +342,15 @@ dfba_mann_whitney<-function(E,
     phiv <- rep(0.0,200)
     for (j in 1:200){
       phiv[j] <- (1/400)+(j-1)*(1/200)}
-    postdis<-data.frame(phiv,omegapost)
+    postdis<-data.frame(phiv,
+                        omegapost)
 
     #Following finds the mean of the posterior omega distribution
     #and provides a plot of the distribution.
     omegabar <- sum(phiv*omegapost)
 
-    postdis<-data.frame(phiv,omegapost)
+    postdis<-data.frame(phiv,
+                        omegapost)
 
     cumulative_omega <- cumsum(omegapost)
 
@@ -341,7 +364,7 @@ dfba_mann_whitney<-function(E,
       probI <- cumulative_omega[I]-cumulative_omega[I-1]} else {
         extrap <- (1-prob_interval)/2
         probI <- cumulative_omega[1]}
-    qLv <- qLbelow+(.005)*(extrap/probI)
+    eti_lower <- qLbelow+(.005)*(extrap/probI)
 
     I <- 1
     while (cumulative_omega[I]<1-(1-prob_interval)/2){
@@ -349,7 +372,8 @@ dfba_mann_whitney<-function(E,
     qHbelow <- phiv[I]-.0025
     extrapup <- 1-((1-prob_interval)/2)-cumulative_omega[I-1]
     probIu <- cumulative_omega[I]-cumulative_omega[I-1]
-    qHv <- qHbelow+(.005)*(extrapup/probIu)
+    eti_upper <- qHbelow+(.005)*(extrapup/probIu)
+
     probpercent <- 100*prob_interval
 
     omega_E <- phiv
@@ -383,8 +407,8 @@ dfba_mann_whitney<-function(E,
                                        prH1 = prH1,
                                        BF10 = BF10,
                                        omegabar = omegabar,
-                                       qLv = qLv,
-                                       qHv = qHv)
+                                       eti_lower = eti_lower,
+                                       eti_upper = eti_upper)
 
     }
 
@@ -442,16 +466,20 @@ dfba_mann_whitney<-function(E,
 
     na <- a-1
     nb <- b-1
-    apost <- a0+na
-    bpost <- b0+nb
-    a <- apost
-    b <- bpost
+    a_post <- a0 + na
+    b_post <- b0 + nb
+    a <- a_post
+    b <- b_post
 
-    postmean <- a/(a+b)
-    postmedian <- qbeta(.5,a,b)
+    post_mean <- a/(a+b)
+    post_median <- qbeta(.5,a,b)
 
-    qlequal <- qbeta((1-prob_interval)*.5,a,b)
-    qhequal <- qbeta(1-(1-prob_interval)*.5,a,b)
+    eti_lower <- qbeta((1-prob_interval)*.5,
+                       a,
+                       b)
+    eti_upper <- qbeta(1-(1-prob_interval)*.5,
+                       a,
+                       b)
 
 
     alphaL <- seq(0,(1-prob_interval),(1-prob_interval)/1000)
@@ -463,8 +491,8 @@ dfba_mann_whitney<-function(E,
     while (diff[I]>mindiff){
       I <- I+1
       }
-    qLmin <- qL[I]
-    qHmax <- qH[I]
+    hdi_lower <- qL[I]
+    hdi_upper <- qH[I]
 
 
     prH1 <- 1-pbeta(.5,a,b)
@@ -486,16 +514,16 @@ dfba_mann_whitney<-function(E,
                                            prob_interval = prob_interval,
                                            a0 = a0,
                                            b0 = b0,
-                                           apost = apost,
-                                           bpost = bpost,
-                                           postmean = postmean,
-                                           postmedian = postmedian,
+                                           a_post = a_post,
+                                           b_post = b_post,
+                                           post_mean = post_mean,
+                                           post_median = post_median,
                                            method = method,
                                            omegabar = omegabar,
-                                           qlequal = qlequal,
-                                           qhequal = qhequal,
-                                           qLmin = qLmin,
-                                           qHmax = qHmax,
+                                           eti_lower = eti_lower,
+                                           eti_upper = eti_upper,
+                                           hdi_lower = hdi_lower,
+                                           hdi_upper = hdi_upper,
                                            priorprH1 = priorprH1,
                                            prH1 = prH1,
                                            BF10 = BF10)

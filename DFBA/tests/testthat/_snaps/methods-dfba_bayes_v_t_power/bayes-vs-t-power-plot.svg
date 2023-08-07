@@ -75,26 +75,26 @@
 <text transform='translate(41.76,157.60) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.68px' lengthAdjust='spacingAndGlyphs'>0.8</text>
 <text transform='translate(41.76,75.47) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.68px' lengthAdjust='spacingAndGlyphs'>1.0</text>
 <polygon points='59.04,502.56 689.76,502.56 689.76,59.04 59.04,59.04 ' style='stroke-width: 0.75; fill: none;' />
-<text x='293.76' y='33.24' style='font-size: 14.40px; font-family: sans;' textLength='9.59px' lengthAdjust='spacingAndGlyphs'>--</text>
-<text x='303.35' y='33.24' style='font-size: 14.40px; font-family: sans;' textLength='3.60px' lengthAdjust='spacingAndGlyphs'> </text>
-<text x='306.95' y='33.24' style='font-size: 14.40px; font-family: sans;' textLength='72.04px' lengthAdjust='spacingAndGlyphs'>Frequentist</text>
-<text x='378.99' y='33.24' style='font-size: 14.40px; font-family: sans;' textLength='3.60px' lengthAdjust='spacingAndGlyphs'> </text>
-<text x='382.60' y='33.24' style='font-size: 14.40px; font-family: sans;' textLength='11.19px' lengthAdjust='spacingAndGlyphs'>−</text>
-<text x='395.79' y='33.24' style='font-size: 14.40px; font-family: sans;' textLength='59.25px' lengthAdjust='spacingAndGlyphs'>Bayesian</text>
+<text x='291.35' y='29.11' style='font-size: 14.40px; font-family: sans;' textLength='14.41px' lengthAdjust='spacingAndGlyphs'>…</text>
+<text x='305.76' y='33.24' style='font-size: 14.40px; font-family: sans;' textLength='3.60px' lengthAdjust='spacingAndGlyphs'> </text>
+<text x='309.36' y='33.24' style='font-size: 14.40px; font-family: sans;' textLength='72.04px' lengthAdjust='spacingAndGlyphs'>Frequentist</text>
+<text x='381.40' y='33.24' style='font-size: 14.40px; font-family: sans;' textLength='3.60px' lengthAdjust='spacingAndGlyphs'> </text>
+<text x='385.01' y='33.24' style='font-size: 14.40px; font-family: sans;' textLength='11.19px' lengthAdjust='spacingAndGlyphs'>−</text>
+<text x='398.20' y='33.24' style='font-size: 14.40px; font-family: sans;' textLength='59.25px' lengthAdjust='spacingAndGlyphs'>Bayesian</text>
 <text x='374.40' y='557.28' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='67.38px' lengthAdjust='spacingAndGlyphs'>Sample Size</text>
 <text transform='translate(12.96,280.80) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='84.05px' lengthAdjust='spacingAndGlyphs'>Power Estimate</text>
 </g>
 <g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDU5LjA0fDUwMi41Ng==)'>
-<line x1='88.98' y1='223.12' x2='134.22' y2='202.96' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00;' />
-<line x1='147.95' y1='199.20' x2='192.05' y2='194.03' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00;' />
-<line x1='206.04' y1='190.95' x2='250.76' y2='176.27' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00;' />
-<line x1='264.70' y1='172.86' x2='308.90' y2='165.61' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00;' />
-<line x1='323.15' y1='163.61' x2='367.25' y2='158.44' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00;' />
-<line x1='380.86' y1='154.42' x2='426.34' y2='132.03' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00;' />
-<line x1='439.69' y1='126.75' x2='484.31' y2='113.16' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00;' />
-<line x1='498.39' y1='111.39' x2='542.41' y2='113.46' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00;' />
-<line x1='556.75' y1='112.96' x2='600.85' y2='107.79' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00;' />
-<line x1='615.10' y1='105.79' x2='659.30' y2='98.53' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00;' />
+<line x1='88.98' y1='223.12' x2='134.22' y2='202.96' style='stroke-width: 0.75; stroke-dasharray: 1.00,3.00;' />
+<line x1='147.95' y1='199.20' x2='192.05' y2='194.03' style='stroke-width: 0.75; stroke-dasharray: 1.00,3.00;' />
+<line x1='206.04' y1='190.95' x2='250.76' y2='176.27' style='stroke-width: 0.75; stroke-dasharray: 1.00,3.00;' />
+<line x1='264.70' y1='172.86' x2='308.90' y2='165.61' style='stroke-width: 0.75; stroke-dasharray: 1.00,3.00;' />
+<line x1='323.15' y1='163.61' x2='367.25' y2='158.44' style='stroke-width: 0.75; stroke-dasharray: 1.00,3.00;' />
+<line x1='380.86' y1='154.42' x2='426.34' y2='132.03' style='stroke-width: 0.75; stroke-dasharray: 1.00,3.00;' />
+<line x1='439.69' y1='126.75' x2='484.31' y2='113.16' style='stroke-width: 0.75; stroke-dasharray: 1.00,3.00;' />
+<line x1='498.39' y1='111.39' x2='542.41' y2='113.46' style='stroke-width: 0.75; stroke-dasharray: 1.00,3.00;' />
+<line x1='556.75' y1='112.96' x2='600.85' y2='107.79' style='stroke-width: 0.75; stroke-dasharray: 1.00,3.00;' />
+<line x1='615.10' y1='105.79' x2='659.30' y2='98.53' style='stroke-width: 0.75; stroke-dasharray: 1.00,3.00;' />
 <circle cx='82.40' cy='226.04' r='2.70' style='stroke-width: 0.75;' />
 <circle cx='140.80' cy='200.04' r='2.70' style='stroke-width: 0.75;' />
 <circle cx='199.20' cy='193.19' r='2.70' style='stroke-width: 0.75;' />

@@ -28,24 +28,22 @@
 #' @return \item{method}{A character string that is either \code{"small"} or \code{"large"} for the algorithm used (default is NULL)}
 #' @return \item{a0}{The first shape parameter for the beta prior distribution (default is 1)}
 #' @return \item{b0}{The second shape parameter for the beta distribution prior (default is 1)}
-#' @return \item{apost}{First shape parameter for the posterior beta distribution}
-#' @return \item{bpost}{Second shape parameter for the posterior beta distribution}
+#' @return \item{a_post}{First shape parameter for the posterior beta distribution}
+#' @return \item{b_post}{Second shape parameter for the posterior beta distribution}
 #' @return \item{phiv}{The 200 candidate values for phi_w for \code{method = "small"}}
 #' @return \item{phipost}{The discrete posterior distribution for phi_w when \code{method = "small"}}
 #' @return \item{priorprH1}{The prior probability that phi_w > .5}
 #' @return \item{prH1}{The posterior probability for phi_w > .5}
 #' @return \item{BF10}{Bayes factor for the relative increase in the posterior odds for the alternative hypothesis that phi_w > .5 over the null model for phi_w <= .5}
-#' @return \item{postmean}{The posterior mean for phi_w}
+#' @return \item{post_mean}{The posterior mean for phi_w}
 #' @return \item{cumulative_phi}{The posterior cumulative distribution for phi_w when \code{method = "small"}}
-#' @return \item{qLv}{The lower limit for the posterior interval estimate for phi_w when \code{method = "small"}}
-#' @return \item{qHv}{The upper limit for the posterior interval estimate for phi_w when \code{method = "small"}}
-#' @return \item{apost}{The first shape parameter for a beta distribution model for phi_w when \code{method = "large"}}
-#' @return \item{bpost}{The second shape parameter for a beta distribution model for phi_w when \code{method = "large"}}
-#' @return \item{postmedian}{The posterior median for phi_w when \code{method = "large"}}
-#' @return \item{qlequal}{The equal-tail lower limit for phi_w when \code{method = "large"}}
-#' @return \item{qhequal}{The equal-tail upper limit for phi_w when \code{method = "large"}}
-#' @return \item{qLmin}{The lower limit for the highest-density interval for phi_w when \code{method = "large"}}
-#' @return \item{qHmax}{The upper limit for the highest-density interval for phi_w when \code{method = "large"}}
+#' @return \item{hdi_lower}{The lower limit for the posterior highest-density interval estimate for phi_w}
+#' @return \item{hdi_upper}{The upper limit for the posterior highest-density interval estimate for phi_w}
+#' @return \item{a_post}{The first shape parameter for a beta distribution model for phi_w when \code{method = "large"}}
+#' @return \item{b_post}{The second shape parameter for a beta distribution model for phi_w when \code{method = "large"}}
+#' @return \item{post_median}{The posterior median for phi_w when \code{method = "large"}}
+#' @return \item{eti_lower}{The equal-tail lower limit for phi_w}
+#' @return \item{eti_upper}{The equal-tail upper limit for phi_w}
 #'
 #' @details
 #'
@@ -120,7 +118,8 @@
 #'                 0.91, 0.37)
 #'
 #' dfba_wilcoxon(Y1 = conditionA,
-#'              Y2 = conditionB)
+#'               Y2 = conditionB,
+#'               hide_progress = TRUE)
 #'
 #' # Note the results for this method="small" analysis differs from
 #' # the previously run. These differences are the differences from
@@ -131,7 +130,8 @@
 #' dfba_wilcoxon(conditionA,
 #'               conditionB,
 #'               a0 = .5,
-#'               b0 = .5)
+#'               b0 = .5,
+#'               hide_progress = TRUE)
 #'
 #' # Using 99% interval estimates and with 50000 Monte Carlo samples per
 #' # candidate phi_w
@@ -139,7 +139,8 @@
 #' dfba_wilcoxon(conditionA,
 #'               conditionB,
 #'               prob_interval=.99,
-#'               samples=50000)
+#'               samples=50000,
+#'               hide_progress = TRUE)
 #'
 #' # Examples with large sample size
 #'
@@ -151,15 +152,17 @@
 #'        2.68, 4.98, 2.35, 5.15, 8.46, 3.77, 8.83, 4.06, 2.50, 5.48, 2.80,
 #'        8.89, 3.19, 9.36, 4.58, 2.94, 4.75)
 #'
-#'        BW<-dfba_wilcoxon(Y1=E,Y2=C)
-#'        BW
-#'        plot(BW)
+#' BW<-dfba_wilcoxon(Y1 = E,
+#'                   Y2 = C)
+#' BW
+#' plot(BW)
 #'
 #'# Forcing the method="small" despite a sufficiently large n value
 #'
 #'CW<-dfba_wilcoxon(Y1 = E,
 #'                  Y2 = C,
-#'                  method = "small")
+#'                  method = "small",
+#'                  hide_progress = TRUE)
 #'CW
 #'plot(CW)
 #'plot(CW, plot.prior = FALSE)
@@ -328,7 +331,7 @@ dfba_wilcoxon<-function(Y1,
         extrap <- (1-prob_interval)/2
         probI <- cumulative_phi[1]
         }
-    qLv <- qLbelow+(.005)*(extrap/probI)
+    hdi_lower <- qLbelow+(.005)*(extrap/probI)
 
     I <- 1
     while (cumulative_phi[I]<1-(1-prob_interval)/2){
@@ -336,7 +339,7 @@ dfba_wilcoxon<-function(Y1,
     qHbelow <- phiv[I]-.0025
     extrapup <- 1-((1-prob_interval)/2)-cumulative_phi[I-1]
     probIu <- cumulative_phi[I]-cumulative_phi[I-1]
-    qHv <- qHbelow+(.005)*(extrapup/probIu)
+    hdi_upper <- qHbelow+(.005)*(extrapup/probIu)
 
 # The prH1 is the probability that phi_w is greater than .5.
     prH1 <- 1-cumulative_phi[round(100)]
@@ -367,8 +370,8 @@ dfba_wilcoxon<-function(Y1,
                                  prH1 = prH1,
                                  BF10 = BF10,
                                  phibar = phibar,
-                                 qLv = qLv,
-                                 qHv = qHv,
+                                 hdi_lower = hdi_lower,
+                                 hdi_upper = hdi_upper,
                                  cumulative_phi = cumulative_phi)
   } else {
     # method="large"
@@ -381,30 +384,45 @@ dfba_wilcoxon<-function(Y1,
     term <- (3*tpos)/((2*n)+2)
     na <- term-.25
     nb <- (((3*n)-1)/4)-term
-    apost <- na+na0+1
-    bpost <- nb+nb0+1
+    a_post <- na + na0 + 1
+    b_post <- nb + nb0 + 1
 
-    postmean <- apost/(apost+bpost)
-    postmedian <- qbeta(.5,apost,bpost)
+    post_mean <- a_post/(a_post + b_post)
+    post_median <- qbeta(.5,
+                        a_post,
+                        b_post)
 
-    qlequal <- qbeta((1-prob_interval)*.5,apost,bpost)
-    qhequal <- qbeta(1-(1-prob_interval)*.5,apost,bpost)
+    eti_lower <- qbeta((1-prob_interval)*.5,
+                     a_post,
+                     b_post)
+
+        eti_upper <- qbeta(1-(1-prob_interval)*.5,
+                         a_post,
+                         b_post)
 
     alphaL <- seq(0,(1-prob_interval),(1-prob_interval)/1000)
-    qL <- qbeta(alphaL,apost,bpost)
-    qH <- qbeta(prob_interval+alphaL,apost,bpost)
+    qL <- qbeta(alphaL,
+                a_post,
+                b_post)
+    qH <- qbeta(prob_interval+alphaL,
+                a_post,
+                b_post)
     diff <- qH-qL
     I <- 1
     mindiff <- min(diff)
     while (diff[I]>mindiff){
       I <- I+1
       }
-    qLmin <- qL[I]
-    qHmax <- qH[I]
+    hdi_lower <- qL[I]
+    hdi_upper <- qH[I]
     probpercent <- 100*prob_interval
 
-    prH1 <- 1-pbeta(.5,apost,bpost)
-    priorprH1 <- 1-pbeta(.5,na0+1,nb0+1)
+    prH1 <- 1-pbeta(.5,
+                    a_post,
+                    b_post)
+    priorprH1 <- 1-pbeta(.5,
+                         na0 + 1,
+                         nb0 + 1)
 
     if ((prH1==1)|(priorprH1==0)){
       BF10 <- Inf
@@ -420,17 +438,17 @@ dfba_wilcoxon<-function(Y1,
                                  method = method,
                                  a0 = a0,
                                  b0 = b0,
-                                 apost = apost,
-                                 bpost = bpost,
-                                 postmean = postmean,
-                                 postmedian = postmedian,
+                                 a_post = a_post,
+                                 b_post = b_post,
+                                 post_mean = post_mean,
+                                 post_median = post_median,
                                  priorprH1=priorprH1,
                                  prH1 = prH1,
                                  BF10 = BF10,
-                                 qlequal = qlequal,
-                                 qhequal = qhequal,
-                                 qLmin = qLmin,
-                                 qHmax = qHmax)
+                                 eti_lower = eti_lower,
+                                 eti_upper = eti_upper,
+                                 hdi_lower = hdi_lower,
+                                 hdi_upper = hdi_upper)
     }
 
   if ((method!="large")&(method!="small")) {

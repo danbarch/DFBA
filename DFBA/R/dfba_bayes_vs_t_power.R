@@ -15,7 +15,7 @@
 #' @param samples Desired number of Monte Carlo data sets drawn to estimate the power (default is 1000)
 #' @param a0 The first shape parameter for the prior beta distribution (default is 1). Must be positive and finite.
 #' @param b0 The second shape parameter for the prior beta distribution (default is 1). Must be positive and finite.
-#' @param block.max The maximum size for a block effect (default is 0)
+#' @param block_max The maximum size for a block effect (default is 0)
 #' @param hide_progress (Optional) If \code{TRUE}, hide percent progress while Monte Carlo sampling is running. (default is \code{FALSE}).
 #'
 #' @return A list containing the following components:
@@ -26,7 +26,7 @@
 #' @return \item{deltav}{The offset between the variates; equal to the \code{delta} argument}
 #' @return \item{a0}{The first shape parameter for the beta prior distribution}
 #' @return \item{b0}{The second shape parameter for the beta prior distribution}
-#' @return \item{block.max}{The maximum size of a block effect; equal to \code{block.max} argument}
+#' @return \item{block_max}{The maximum size of a block effect; equal to \code{block_max} argument}
 #' @return \item{outputdf}{A dataframe of possible sample sizes and the corresponding Bayesian and frequentist power values}
 #'
 #' @details
@@ -78,7 +78,7 @@
 #'      \item \code{delta}
 #'      \item \code{shape1}
 #'      \item \code{shape2}
-#'      \item \code{block.max}.
+#'      \item \code{block_max}.
 #'      }
 #'
 #' The \code{a0} and \code{b0} values are the respective first and second beta
@@ -134,10 +134,10 @@
 #' 80-20 law where 20\% of the population receives 80\% of the income
 #' (Hardy, 2010).
 #'
-#' The \code{block.max} argument provides for incorporating block effects in the
+#' The \code{block_max} argument provides for incorporating block effects in the
 #' random sampling. The block effect for each score is a separate effect for the
 #' block. The block effect B for a score is a random number drawn from a uniform
-#' distribution on the interval \code{[0, block.max]}. When \code{design = "paired"},
+#' distribution on the interval \code{[0, block_max]}. When \code{design = "paired"},
 #' the same random block effect is added to the score in the first condition,
 #' which is the random \code{C} value, and it is also added to the corresponding
 #' paired value for the \code{E} variate. Thus, the pairing research design
@@ -147,7 +147,7 @@
 #' discrimination of condition differences because it increases the variability
 #' of the difference in the two variates. The user can study the effect of the
 #' relative discriminability of detecting an effect of delta by adjusting the
-#' value of the \code{block.max} argument. The default for \code{block.max} is 0,
+#' value of the \code{block_max} argument. The default for \code{block_max} is 0,
 #' but it can be altered to any non-negative real number.
 #'
 #'
@@ -171,24 +171,28 @@
 #' dfba_bayes_vs_t_power(n_min = 40,
 #'                       delta = .45,
 #'                       model = "normal",
-#'                       design = "paired")
+#'                       design = "paired",
+#'                       hide_progress = TRUE)
 #'
 #' dfba_bayes_vs_t_power(n_min = 40,
 #'                       delta = .45,
 #'                       model = "normal",
-#'                       design = "independent")
+#'                       design = "independent",
+#'                       hide_progress = TRUE)
 #'
 #' # Examples with Weibull-distributed variates with no blocking effect
 #'
 #' dfba_bayes_vs_t_power(n_min = 50,
 #'                       delta = .45,
 #'                       model = "weibull",
-#'                       design ="paired")
+#'                       design ="paired",
+#'                       hide_progress = TRUE)
 #'
 #' dfba_bayes_vs_t_power(n_min = 50,
 #'                       delta = .45,
 #'                       model = "weibull",
-#'                       design = "independent")
+#'                       design = "independent",
+#'                       hide_progress = TRUE)
 #'
 #' # Examples with Weibull-distributed variates with a blocking effect
 #'
@@ -198,7 +202,8 @@
 #'                       design = "independent",
 #'                       shape1 = .8,
 #'                       shape2 = .8,
-#'                       block.max = 2.3)
+#'                       block_max = 2.3,
+#'                       hide_progress = TRUE)
 #'
 #' dfba_bayes_vs_t_power(n_min = 50,
 #'                       delta = .45,
@@ -206,7 +211,8 @@
 #'                       design = "paired",
 #'                       shape1 = .8,
 #'                       shape2 = .8,
-#'                       block.max = 2.3)
+#'                       block_max = 2.3,
+#'                       hide_progress = TRUE)
 #'
 #' @references
 #'
@@ -246,7 +252,7 @@ dfba_bayes_vs_t_power<-function(n_min=20,
                                 samples=1000,
                                 a0 = 1,
                                 b0 = 1,
-                                block.max = 0,
+                                block_max = 0,
                                 hide_progress = FALSE){
 
     deltav <- delta
@@ -329,7 +335,7 @@ dfba_bayes_vs_t_power<-function(n_min=20,
                                  shape2 = shape2,
                                  a0 = a0,
                                  b0 = b0,
-                                 block.max = block.max)
+                                 block_max = block_max)
         bayesprH1[j] <- outputsim$prH1
         tpvalue[j] <- outputsim$pvalue
         if (hide_progress == FALSE) {
@@ -351,7 +357,7 @@ dfba_bayes_vs_t_power<-function(n_min=20,
                             deltav = deltav,
                             a0 = a0,
                             b0 = b0,
-                            block.max = block.max,
+                            block_max = block_max,
                             outputdf=data.frame(sample_size = m,
                                               Bayes_power = detect_bayes,
                                               t_power = detect_t)

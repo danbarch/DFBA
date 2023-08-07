@@ -30,17 +30,17 @@ A list containing the following components:
 
 \item{b0}{The second shape parameter for the prior beta distribution for the \code{phi_rb} parameter}
 
-\item{a.post}{First shape parameter for the posterior beta distribution for the \code{phi_rb} parameter}
+\item{a_post}{First shape parameter for the posterior beta distribution for the \code{phi_rb} parameter}
 
-\item{b.post}{Second shape parameter for the posterior beta distribution for the \code{phi_rb} parameter}
+\item{b_post}{Second shape parameter for the posterior beta distribution for the \code{phi_rb} parameter}
 
-\item{post.mean}{Posterior mean for \code{phi_rb}}
+\item{post_mean}{Posterior mean for \code{phi_rb}}
 
-\item{post.median}{Posterior median for \code{phi_rb}}
+\item{post_median}{Posterior median for \code{phi_rb}}
 
-\item{post_eti_lower}{Lower limit for the posterior equal-tail interval estimate for \code{phi_rb} that contains the probability defined in \code{prob_interval}}
+\item{eti_lower}{Lower limit for the posterior equal-tail interval estimate for \code{phi_rb} that contains the probability defined in \code{prob_interval}}
 
-\item{post_eti_upper}{Upper limit for the posterior equal-tail interval estimate for phi_rb that contains the probability defined in \code{prob_interval}}
+\item{eti_upper}{Upper limit for the posterior equal-tail interval estimate for phi_rb that contains the probability defined in \code{prob_interval}}
 
 \item{BF10point}{The Bayes factor against the point null hypothesis that \code{phi_rb = .5}}
 

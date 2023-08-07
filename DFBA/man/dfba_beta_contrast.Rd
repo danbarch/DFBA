@@ -34,9 +34,9 @@ A list containing the following components:
 
 \item{mean}{Exact posterior mean estimate for the contrast}
 
-\item{lower_limit}{The lower equal-tail limit for the contrast for the probability interval value specified by \code{prob_interval}}
+\item{eti_lower}{The lower equal-tail limit for the contrast for the probability interval value specified by \code{prob_interval}}
 
-\item{upper_limit}{The upper equal-tail limit for the contrast for the probability interval value specified by \code{prob_interval}}
+\item{eti_upper}{The upper equal-tail limit for the contrast for the probability interval value specified by \code{prob_interval}}
 
 \item{prob_positive_delta}{Posterior probability that the contrast is positive}
 

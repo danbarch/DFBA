@@ -15,15 +15,15 @@
 #' @return \item{gamma}{Sample Goodman-Kruskal gamma statistic; equivalent to the sample rank correlation coefficient tau_A}
 #' @return \item{a0}{First shape parameter for prior beta}
 #' @return \item{b0}{Second shape parameter for prior beta}
-#' @return \item{sample.p}{Sample estimate for proportion concordance \code{nc/(nc+nd)}}
+#' @return \item{sample_p}{Sample estimate for proportion concordance \code{nc/(nc+nd)}}
 #' @return \item{nc}{Number of concordant comparisons between the paired measures}
 #' @return \item{nd}{Number of discordant comparisons between the paired measures}
-#' @return \item{a.post}{First shape parameter for the posterior beta distribution for the phi parameter}
-#' @return \item{b.post}{Second shape parameter for the posterior beta distribution for the phi parameter}
-#' @return \item{post.median}{Median of the posterior distribution for the phi concordance parameter}
+#' @return \item{a_post}{First shape parameter for the posterior beta distribution for the phi parameter}
+#' @return \item{b_post}{Second shape parameter for the posterior beta distribution for the phi parameter}
+#' @return \item{post_median}{Median of the posterior distribution for the phi concordance parameter}
 #' @return \item{prob_interval}{The probability of the interval estimate for the phi parameter}
-#' @return \item{post.eti.lower}{Lower limit of the posterior equal-tail interval for the phi parameter where the width of the interval is specified by the \code{prob_interval} input}
-#' @return \item{post.eti.upper}{Upper limit of the posterior equal-tail interval for the phi parameter where the width of the interval is specified by the \code{prob_interval} input}
+#' @return \item{eti_lower}{Lower limit of the posterior equal-tail interval for the phi parameter where the width of the interval is specified by the \code{prob_interval} input}
+#' @return \item{eti_upper}{Upper limit of the posterior equal-tail interval for the phi parameter where the width of the interval is specified by the \code{prob_interval} input}
 #'
 #' @details
 #' For bivariate data where two measures are restricted on an ordinal scale,
@@ -147,15 +147,15 @@ dfba_gamma<-function(x,
     dfba_gamma_list<-list(gamma=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$tau,
                         a0=a0,
                         b0=b0,
-                sample.p=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$sample.p,
+                sample_p=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$sample_p,
                 nc=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$nc,
                 nd=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$nd,
-                a.post=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$a.post,
-                b.post=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$b.post,
+                a_post=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$a_post,
+                b_post=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$b_post,
                 prob_interval=prob_interval,
-                post.median=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$post.median,
-                post.eti.lower=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$post.eti.lower,
-                post.eti.upper=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$post.eti.upper
+                post_median=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$post_median,
+                eti_lower=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$eti_lower,
+                eti_upper=dfba_bivariate_concordance(x, y, a0, b0, prob_interval)$eti_upper
 #                table.row=x_vec,
 #                table.column=y_vec
                 )

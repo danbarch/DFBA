@@ -18,8 +18,8 @@
 #' @return \item{prob_interval}{The probability within the interval limits for the interval estimate of population positivity rate}
 #' @return \item{n_pos}{Sample number of positive differences}
 #' @return \item{n_neg}{Sample number of negative differences}
-#' @return \item{a.post}{First shape parameter for the posterior beta distribution for the population  positivity rate}
-#' @return \item{b.post}{Second shape parameter for the posterior beta distribution for the population positivity rate for differences}
+#' @return \item{a_post}{First shape parameter for the posterior beta distribution for the population  positivity rate}
+#' @return \item{b_post}{Second shape parameter for the posterior beta distribution for the population positivity rate for differences}
 #' @return \item{phimean}{Mean of the posterior distribution for the positivity rate parameter}
 #' @return \item{phimedian}{Median of the posterior distribution for the positivity rate parameter}
 #' @return \item{phimode}{Mode of the posterior distribution for the positivity rate parameter}
@@ -54,13 +54,13 @@
 #' signed-rank procedure to remove the \eqn{d} values that are zero. Consequently,
 #' the signs for the nonzero \eqn{d} values are binary, so the posterior is a
 #' beta distribution with shape parameters \eqn{a} - denoted in the output as
-#' \code{a.post} and \eqn{b} - denoted in the output as \code{b.post} - where
-#' \code{a.post = a0 + n_pos} and \code{b.post = b0 + n_neg} and \code{a0} and \code{b0}
+#' \code{a_post} and \eqn{b} - denoted in the output as \code{b_post} - where
+#' \code{a_post = a0 + n_pos} and \code{b_post = b0 + n_neg} and \code{a0} and \code{b0}
 #' are the respective first and second beta shape parameters for the prior
 #' distribution. The default prior is a uniform distribution \code{a0 = b0 = 1}.
 #'
 #' The function estimates the population rate for positive signs by calling
-#' \code{dfba_beta_descriptive()} using the computed \code{a.post} and \code{b.post}
+#' \code{dfba_beta_descriptive()} using the computed \code{a_post} and \code{b_post}
 #' as arguments. Since interest in the sign test is focused on the null
 #' hypothesis that the positivity rate is less than or equal to .5,
 #' \code{dfba_sign_test()} calls \code{dfba_beta_bayes_factor()} to calculate the
@@ -160,11 +160,11 @@ dfba_sign_test<-function(Y1,
 
   n_pos <- sum(d > sdd/30000)
   n_neg <- n- n_pos
-  a.post <- n_pos + a0
-  b.post <- n_neg + b0
+  a_post <- n_pos + a0
+  b_post <- n_neg + b0
 
-  des_out<-dfba_beta_descriptive(a.post,
-                                 b.post,
+  des_out<-dfba_beta_descriptive(a_post,
+                                 b_post,
                                  prob_interval = prob_interval)
   phimean <- des_out$x_mean
   phimedian <- des_out$x_median
@@ -177,11 +177,11 @@ dfba_sign_test<-function(Y1,
                       a0,
                       b0)
   post_H1 <- 1-pbeta(.5,
-                     a.post,
-                     b.post)
+                     a_post,
+                     b_post)
 
-  out_BF <- dfba_beta_bayes_factor(a=a.post,
-                                   b=b.post,
+  out_BF <- dfba_beta_bayes_factor(a_post,
+                                   b_post,
                                    method="interval",
                                    H0 = c(0,
                                           .5))
@@ -196,8 +196,8 @@ dfba_sign_test<-function(Y1,
                       prob_interval = prob_interval,
                       n_pos = n_pos,
                       n_neg = n_neg,
-                      a.post = a.post,
-                      b.post = b.post,
+                      a_post = a_post,
+                      b_post = b_post,
                       phimean = phimean,
                       phimedian = phimedian,
                       phimode = phimode,

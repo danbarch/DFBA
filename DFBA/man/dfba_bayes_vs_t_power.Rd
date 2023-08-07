@@ -198,24 +198,28 @@ but it can be altered to any non-negative real number.
 dfba_bayes_vs_t_power(n_min = 40,
                       delta = .45,
                       model = "normal",
-                      design = "paired")
+                      design = "paired",
+                      hide_progress = TRUE)
 
 dfba_bayes_vs_t_power(n_min = 40,
                       delta = .45,
                       model = "normal",
-                      design = "independent")
+                      design = "independent",
+                      hide_progress = TRUE)
 
 # Examples with Weibull-distributed variates with no blocking effect
 
 dfba_bayes_vs_t_power(n_min = 50,
                       delta = .45,
                       model = "weibull",
-                      design ="paired")
+                      design ="paired",
+                      hide_progress = TRUE)
 
 dfba_bayes_vs_t_power(n_min = 50,
                       delta = .45,
                       model = "weibull",
-                      design = "independent")
+                      design = "independent",
+                      hide_progress = TRUE)
 
 # Examples with Weibull-distributed variates with a blocking effect
 
@@ -225,7 +229,8 @@ dfba_bayes_vs_t_power(n_min = 50,
                       design = "independent",
                       shape1 = .8,
                       shape2 = .8,
-                      block.max = 2.3)
+                      block.max = 2.3,
+                      hide_progress = TRUE)
 
 dfba_bayes_vs_t_power(n_min = 50,
                       delta = .45,
@@ -233,7 +238,8 @@ dfba_bayes_vs_t_power(n_min = 50,
                       design = "paired",
                       shape1 = .8,
                       shape2 = .8,
-                      block.max = 2.3)
+                      block.max = 2.3,
+                      hide_progress = TRUE)
 
 }
 \references{

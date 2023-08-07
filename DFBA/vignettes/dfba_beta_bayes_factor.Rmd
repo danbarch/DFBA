@@ -26,7 +26,7 @@ The `dfba_beta_bayes_factor()` function one of of three functions in the `DFBA` 
 
 # Types of Bayes Factors and Their Interpretation {#BF_Interpretation}
 
-Scientists are very often conducting research in an effort to assess conflicting hypotheses. In frequentist theory the researcher has to assume a null hypothesis to assess if that hypothesis is reasonable. But Bayesian statistics does not require the assumption of a null hypothesis. Both the null and alternative hypotheses are rival models. The questions are: which model is more reasonable, and is the evidence strong enough to endorse one of the two hypotheses as a scientific finding? These are complex issues without a single answer for all cases. Yet a useful tool in addressing these issue is the Bayes factor. 
+Scientists often conduct research to assess conflicting hypotheses. In frequentist theory the researcher has to assume a null hypothesis to assess if that hypothesis is reasonable. But Bayesian statistics does not require the assumption of a null hypothesis. Both the null and alternative hypotheses are rival models. The questions are: which model is more reasonable, and is the evidence strong enough to endorse one of the two hypotheses as a scientific finding? These are complex issues without a single answer for all cases. Yet a useful tool in addressing these issue is the Bayes factor. 
 
 There are two related Bayes factors, which are usually denoted as $BF_{10}$ and $BF_{01}$, and coded as `BF10` and `BF01`, respectively. The relationship between these two Bayes factors is $BF01 = \frac{1}{BF_{10}}$. $BF_{10}$ is a number that reflects the relative strength of the alternative hypothesis to the null. If $BF_{10} > 1$, then the data have increased the belief in the alternative hypothesis. Similarly, if $BF10 < 1$ (and thus $BF_{01}>1$), then the data have decreased the belief in the alternative hypothesis. If $BF_{10}=BF_{01}=1$, then the data have not altered the credibility of either hypothesis. In all cases, the Bayes factors are non-negative numbers. 
 
@@ -52,7 +52,7 @@ Thus $BF_{10}>1$ means that the data are more likely for model $H_1$ than for mo
 
 In the `DFBA` package, the Bayes factor deals with two rival hypotheses about a population parameter that are *mutually exclusive and exhaustive*. For example, an investigator might be interested in comparing a null model of the binomial rate parameter $\phi$ that is $H_0: \phi \le .5$ versus the alternative model of $H_1: \phi > .5$. This example corresponds to the case where the null and alternative hypotheses are *mutually exclusive intervals for the parameter*, and these hypotheses are *exhaustive of all possible models* for the $\phi$ parameter. Another example of interval hypothesis might be the case for a null hypothesis of $H_0:\phi \in [.495,\,.505]$ versus the alternative hypothesis $H_1:\phi \notin [.495,\,.505]$ (the $\in$ and $\notin$ symbols denote, respectively "in" and "not in"). Besides interval hypotheses, the Bayes factor can also be used to examine a *point null hypothesis*.  A point null hypothesis might be the hypothesis that $H_0:\phi=.5$, which is compared to the alternative hypothesis of $H_1:\phi \ne .5$. 
 
-For binomial sampling, the prior and posterior beta distribution provide values for the both the prior and posterior odds for the two hypotheses when the null and alternative are interval hypotheses. But what happens if the null is a single point, such as the sharp hypothesis $H_0:\phi =.5$?. The population parameter $\phi$ is distributed on the continuous interval $[0,1]$. The prior and posterior beta distribution have a probability density. Importantly, this means that no point has a nonzero probability density. Even the mode has a probability mass of zero because probability for any continuous variate corresponds to the area under a probability density distribution, but single points lack area.  For this reason, all point null hypotheses have a probability *measure* of zero, but they still have a probability *density* that can be different for the prior and posterior distributions. Thus there still is a meaningful Bayes factor for a point hypothesis. As described in Chechile (2020), the Bayes factor $BF_{10}$ can be re-expressed as
+For binomial sampling, the prior and posterior beta distribution provide values for the both the prior and posterior odds for the two hypotheses when the null and alternative are interval hypotheses. But what happens if the null is a single point, such as the sharp hypothesis $H_0:\phi =.5$?. The population parameter $\phi$ is distributed on the continuous interval $[0,1]$. Because $\phi$ is a continuous variable, the prior and posterior beta distributions are probability density functions. To obtain a probability, the probability density must be integrated over some interval for $\phi$. Because of this fundamental property, there is no probability for any single point because a mathematical point lacks interval width. Even the mode of the distribution has a probability mass of 0. Yet all points for the beta distribution do have a nonzero probability density that can be different for the prior and posterior distributions. Thus, there still is a meaningful Bayes factor for a point hypothesis. As described in Chechile (2020), the Bayes factor $BF_{10}$ can be re-expressed as
 
 \begin{equation} 
   BF10 = \left[\frac{p(H_1|D)}{p(H_1)}\right]\cdot\left[\frac{p(H_0)}{p(H_0|D)}\right]
@@ -69,11 +69,11 @@ As a simple example of how Bayes factors can be combined across studies, suppose
 
 # Using the `dfba_beta_bayes_factor()` Function {#using_dfba_bbf}
 
-There are six arguments for this function, which are `(a, b, method, H0, a0 = 1, b0 = 1)`. For binomial data, the posterior beta distribution has $a$ and $b$ shape parameters where $a=n_1+a_0$, $b=n_2+b_0$ where $a_0$ and $b_0$ are the beta shape parameters for the prior and $n_1$ and $n_2$ are the observed values for the two binomial response frequencies (values of $n_1$ and $n_2$ are inferred by values of the shape parameters and do not need to be separately specified). The `method` argument takes one of two possible string values: `interval` or `point`, which result in *interval-type* or *point-type* Bayes factor outputs (respectively). The `H0` argument also takes two possible forms, one for when `method = "interval"` and the other for when `method = "point"`. For interval-type Bayes factors, the `H0` input is a vector of two elements that consist of the lower and upper limits for the null hypothesis range for the binomial $\phi$ parameter. For example: if the null hypothesis were $H_0:\phi \le .5$, then input for `H0` would be `H0 = c(0, .5)`. When `method = "point"`, the `H0` argument is the value of the null hypothesis point (*e.g.*, `H0 = .5`). The arguments `a0` and `b0` are the shape parameters for the prior beta distribution. The default for the prior is a uniform distribution; other priors can be specified using the `a0` and `b0` arguments. As an example, suppose the user has a uniform prior, a null hypothesis of $H_0:\,\phi \le .5$ and observes $n_1=16$ and $n_2=4$:
+There are six arguments for this function, which are `(a_post, b_post, method, H0, a0 = 1, b0 = 1)`. For binomial data, the posterior beta distribution has $a$ (`a_post`) and $b$ (`b_post`) shape parameters where $a=n_1+a_0$, $b=n_2+b_0$ where $a_0$ and $b_0$ are the beta shape parameters for the prior and $n_1$ and $n_2$ are the observed values for the two binomial response frequencies (values of $n_1$ and $n_2$ are inferred by values of the shape parameters and do not need to be separately specified). The `method` argument takes one of two possible string values: `interval` or `point`, which result in *interval-type* or *point-type* Bayes factor outputs (respectively). The `H0` argument also takes two possible forms, one for when `method = "interval"` and the other for when `method = "point"`. For interval-type Bayes factors, the `H0` input is a vector of two elements that consist of the lower and upper limits for the null hypothesis range for the binomial $\phi$ parameter. For example: if the null hypothesis were $H_0:\phi \le .5$, then input for `H0` would be `H0 = c(0, .5)`. When `method = "point"`, the `H0` argument is the value of the null hypothesis point (*e.g.*, `H0 = .5`). The arguments `a0` and `b0` are the shape parameters for the prior beta distribution. The default for the prior is a uniform distribution; other priors can be specified using the `a0` and `b0` arguments. As an example, suppose the user has a uniform prior, a null hypothesis of $H_0:\,\phi \le .5$ and observes $n_1=16$ and $n_2=4$:
 
 ```{r}
-dfba_beta_bayes_factor(a = 17, # a = n1 + 1
-                       b = 5,  # b = n2 + 1
+dfba_beta_bayes_factor(a_post = 17, # a_post = n1 + 1
+                       b_post = 5,  # b_post = n2 + 1
                        method = "interval", 
                        H0 = c(0, .5))
 ```
@@ -82,8 +82,8 @@ dfba_beta_bayes_factor(a = 17, # a = n1 + 1
 Suppose the user instead wanted to use the Jeffreys prior of $a_0=b_0=.5$ for the same problem:
 
 ```{r}
-dfba_beta_bayes_factor(a = 16.5, # a = n1 + 0.5
-                       b = 4.5,  # b = n2 + 0.5
+dfba_beta_bayes_factor(a_post = 16.5, # a_post = n1 + 0.5
+                       b_post = 4.5,  # b_post = n2 + 0.5
                        method = "interval",
                        c(0, .5),
                        a0 = .5,
@@ -98,31 +98,31 @@ The greater value for $BF10$ for the Jeffreys prior is because the posterior pro
 As another example, let us consider the case where the user has the tight interval of $[.4975,\,.5025]$ as the null hypothesis, and the user has a uniform prior. Moreover, suppose that the user observes $n_1=272$ and $n_2=277$. In this case:
 
 ```{r}
-dfba_beta_bayes_factor(a = 273,
-                       b = 278,
+dfba_beta_bayes_factor(a_post = 273,
+                       b_post = 278,
                        method = "interval",
                        H0 = c(.4975, .5025))
 ```
 
 
-Notice that the prevailing Bayes factor is now $BF_01$, which is $19.99418$. The data has thus built a case for the null hypothesis. This example illustrates, unlike the frequentist tests of hypotheses, that the Bayes factor can provide evidence for either the alternative or the null hypothesis.
+Notice that the prevailing Bayes factor is now $BF_{01}$, which is $19.99418$. The data has thus built a case for the null hypothesis. This example illustrates, unlike the frequentist tests of hypotheses, that the Bayes factor can provide evidence for either the alternative or the null hypothesis.
 
 For another example, suppose that instead of an interval, the user wants to test the point-null hypothesis of $.5$ for the same data using the (default) uniform prior: 
 
 ```{r}
-dfba_beta_bayes_factor(a = 273,
-                       b = 278,
+dfba_beta_bayes_factor(a_post = 273,
+                       b_post = 278,
                        method = "point",
                        H0 = .5)
 ```
 
-The Bayes factor $BF01$ still large ($BF_01 = 18.28888$), but not identical to that of the previous example because this case deals with a *ratio of probability densities* rather than posterior-to-prior odds ratios of the two non-zero probabilities. For a point-null hypothesis, even in this case with a large Bayes factor, there is still a probability of zero for the null because all points lack area under the probability density function. 
+The Bayes factor $BF_{01}$ is still large ($BF_{01} = 18.28888$), but not identical to that of the previous example because this case deals with a *ratio of probability densities* rather than posterior-to-prior odds ratios of the two non-zero probabilities. For a point-null hypothesis, even in this case with a large Bayes factor, there is still a probability of zero for the null because all points lack area under the probability density function. 
 
 As a final example, let us consider testing the point-null hypothesis $H_0: \phi=.65$ for the same data: 
 
 ```{r}
-dfba_beta_bayes_factor(a = 273,
-                       b = 278,
+dfba_beta_bayes_factor(a_post = 273,
+                       b_post = 278,
                        method = "point",
                        H0 = .65)
 ```

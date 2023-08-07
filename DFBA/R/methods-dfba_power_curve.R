@@ -7,7 +7,7 @@ setMethod("show", "dfba_power_curve_out", function(object) {
   cat("Power results for the proportion of samples detecting effects"," ","\n")
   cat(" ", "where the variates are distributed as a",object$model,"random variable","\n")
   cat(" ", "and where the design is",object$design,"\n")
-  if(object$design=="paired"){cat(" ", "with a blocking max of ",object$block.max,"\n")}
+  if(object$design=="paired"){cat(" ", "with a blocking max of ",object$block_max,"\n")}
   cat(" ", "The number of Monte Carlo samples are:"," ","\n")
   cat(" ", object$nsims," ","\n")
   cat(" ", "Criterion for detecting an effect is"," ","\n")
@@ -27,12 +27,13 @@ setMethod("plot",
             plot(x$outputdf$delta_value,
                  x$outputdf$Bayes_power,
                  type="b",
+                 lty = 1,
                  ylim=c(0,1),
-                 main=expression("--"~"Frequentist"~ - "Bayesian"),
+                 main=expression(cdots~"Frequentist"~ - "Bayesian"),
                  xlab="Delta",
                  ylab="Power Estimate")
             lines(x$outputdf$delta_value,
                   x$outputdf$t_power,
                   type="b",
-                  lty=2)
+                  lty=3)
           })

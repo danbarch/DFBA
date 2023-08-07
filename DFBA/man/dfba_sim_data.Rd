@@ -42,9 +42,9 @@ A list containing the following components:
 
 \item{prH1}{Bayesian posterior probability either for the hypothesis that phi_w > .5 from the nonparametric Wilcoxon test when \code{design = "paired"} or for the hypothesis that omega_E > .5 from the Mann-Whitney test when \code{design = "independent"}}
 
-\item{E}{Vector of length n of simulated values for condition 1}
+\item{C}{Vector of length n of simulated values for condition 1}
 
-\item{C}{Vector of length n of simulated values for condition 2}
+\item{E}{Vector of length n of simulated values for condition 2}
 }
 \description{
 This function is designed to be called by other DFBA programs that compare

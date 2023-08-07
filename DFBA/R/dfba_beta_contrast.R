@@ -20,8 +20,8 @@
 #'
 #' @return A list containing the following components:
 #' @return \item{mean}{Exact posterior mean estimate for the contrast}
-#' @return \item{lower_limit}{The lower equal-tail limit for the contrast for the probability interval value specified by \code{prob_interval}}
-#' @return \item{upper_limit}{The upper equal-tail limit for the contrast for the probability interval value specified by \code{prob_interval}}
+#' @return \item{eti_lower}{The lower equal-tail limit for the contrast for the probability interval value specified by \code{prob_interval}}
+#' @return \item{eti_upper}{The upper equal-tail limit for the contrast for the probability interval value specified by \code{prob_interval}}
 #' @return \item{prob_positive_delta}{Posterior probability that the contrast is positive}
 #' @return \item{prior_positive_delta}{Prior probability that the contrast is positive}
 #' @return \item{bayes_factor}{The Bayes factor for the posterior-to-prior odds for a positive contrast to a non-positive contrast}
@@ -275,8 +275,8 @@ dfba_beta_contrast<-function(n1_vec,
     }
 
   dfba_beta_contrast_list<-list(mean = mean_delta,
-                                lower_limit = lowlimit,
-                                upper_limit = uplimit,
+                                eti_lower = lowlimit,
+                                eti_upper = uplimit,
                                 prob_positive_delta = prH1,
                                 prior_positive_delta = priorprH1,
                                 bayes_factor = BF10,

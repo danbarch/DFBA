@@ -20,19 +20,44 @@ setMethod("show", "dfba_wilcoxon_large_out", function(object) {
   cat(" for n > 24\n")
   cat("========================\n")
   cat(" ", "The posterior beta shape parameters are:\n")
-  cat(" ", "posterior a", "\t\t\t", "posterior b\n")
-  cat(" ", object$apost, "\t\t\t", object$bpost, "\n")
-  cat(" ", "posterior mean", "\t\t\t", "posterior median\n")
-  cat(" ", object$postmean, "\t\t\t", object$postmedian, "\n")
-  cat(" ", "probability within interval:\n")
-  cat(" ", round(object$prob_interval*100), " percent\n")
-  cat(" ", "equal-tail limit values are:\n")
-  cat(" ", object$qlequal, "\t\t\t", object$qhequal, "\n")
-  cat(" ", "highest-density limits are:\n")
-  cat(" ", object$qLmin, "\t\t\t", object$qHmax, "\n")
+  cat(" ", sprintf("%-14s", "posterior a"), "\t", "posterior b\n")
+  cat(" ", sprintf("%-14g", object$a_post), "\t", object$b_post, "\n")
+  cat(" ", sprintf("%-14s", "posterior mean"), "\t", "posterior median\n")
+  cat(" ", sprintf("%-14g", object$post_mean), "\t", object$post_median, "\n")
+  cat(" ", paste0(round(object$prob_interval*100), "% Equal-tail interval limits:"), "\n")
+  cat(" ",
+      sprintf("%-12s", "Lower Limit"),
+      "\t",
+      "Upper Limit",
+      "\n")
+  cat(" ",
+      sprintf("%-12g",
+              object$eti_lower),
+      "\t",
+      object$eti_upper,
+      "\n")
+  cat(" ", paste0(round(object$prob_interval*100), "% Highest-density interval limits:"), "\n")
+  cat(" ",
+      sprintf("%-12s",
+              "Lower Limit"),
+      "\t",
+      "Upper Limit",
+      "\n")
+  cat(" ",
+      ifelse(is.na(object$hdi_lower),
+             sprintf("%-12s", "NA*"),
+             sprintf("%-12g", object$hdi_lower)
+      ),
+      "\t",
+      ifelse(is.na(object$hdi_upper),
+             "NA*",
+             object$hdi_upper),
+      "\n\n",
+      ifelse(is.na(object$hdi_lower), "Note: this beta distribution has no defined highest-density interval\n
+             ", "\n"))
   cat(" ", "probability that phi_W > 0.5:\n")
-  cat(" ", "prior", "\t\t\t", "posterior\n")
-  cat(" ", object$priorprH1, "\t\t\t", object$prH1, "\n")
+  cat(" ", sprintf("%-10s", "prior"), "\t", "posterior\n")
+  cat(" ", sprintf("%-10g", object$priorprH1), "\t", object$prH1, "\n")
   cat(" ", "Bayes factor BF10 for phi_W > 0.5:\n")
   cat(" ", ifelse(object$prH1==1|object$priorprH1==0,
                   "BF10 approaches Infinity",
@@ -51,7 +76,7 @@ setMethod("plot",
                    plot.prior=TRUE){
             x.data<-seq(0, 1, 1/1000)
             y.predata<-dbeta(x.data, x$a0, x$b0)
-            y.postdata<-dbeta(x.data, x$apost, x$bpost)
+            y.postdata<-dbeta(x.data, x$a_post, x$b_post)
             xlab <- "phi_W"
             ylab <- "Probability Density"
 

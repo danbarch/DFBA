@@ -30,9 +30,9 @@ A list containing the following components:
 
 \item{prob_interval}{Probability within interval estimates for the population binomial rate parameter}
 
-\item{apost}{First shape parameter for the posterior beta distribution for the binomial rate parameter}
+\item{a_post}{First shape parameter for the posterior beta distribution for the binomial rate parameter}
 
-\item{bpost}{Second shape parameter for the posterior beta distribution for the binomial rate parameter}
+\item{b_post}{Second shape parameter for the posterior beta distribution for the binomial rate parameter}
 
 \item{phimean}{Mean of the posterior beta distribution for the binomial rate parameter}
 
@@ -142,8 +142,8 @@ then the posterior beta shape parameters are \eqn{a_{post} = a_0 + n_1} and
 function is \code{a0 = b0 = 1}, which corresponds to the uniform prior.
 
 Thus, the Bayesian inference for the unknown binomial rate parameter \eqn{phi}
-is the posterior beta distribution with shape parameters of \code{apost} and
-\code{bpost}. The \code{dfba_binomial()} function calls the
+is the posterior beta distribution with shape parameters of \code{a_post} and
+\code{b_post}. The \code{dfba_binomial()} function calls the
 \code{dfba_beta_descriptive()} function to find the centrality point estimates
 (\emph{i.e.}, the mean, median, and mode) and to find two interval estimates
 that contain the probability specified in the \code{prob_interval} argument.

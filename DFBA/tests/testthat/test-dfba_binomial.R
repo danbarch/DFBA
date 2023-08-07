@@ -40,11 +40,11 @@
 
   # Function Tests
   test_that("Posterior a parameter is correct",{
-    expect_equal(floor(Abin$apost+.1), 17)
+    expect_equal(floor(Abin$a_post+.1), 17)
   })
 
   test_that("Posterior b parameter is correct",{
-    expect_equal(floor(Abin$bpost+.1), 3)
+    expect_equal(floor(Abin$b_post+.1), 3)
   })
 
   test_that("Posterior phi mean is correct",{

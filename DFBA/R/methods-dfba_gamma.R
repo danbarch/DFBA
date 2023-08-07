@@ -5,22 +5,22 @@
 setMethod("show", "dfba_gamma_out", function(object) {
   cat("Descriptive Statistics \n")
   cat("========================\n")
-  cat(" ", "Concordant Pairs", "\t", "Discordant Pairs", "\n")
-  cat(" ", object$nc, "\t\t\t", object$nd, "\n")
+  cat(" ", sprintf("%-16s", "Concordant Pairs"), "\t", "Discordant Pairs", "\n")
+  cat(" ", sprintf("%-16g", object$nc), "\t", object$nd, "\n")
   cat(" ", "Proportion of Concordant Pairs", "\n")
-  cat(" ", object$sample.p, "\n")
+  cat(" ", object$sample_p, "\n")
   cat(" ", "Goodman-Kruskal Gamma\n")
   cat(" ", object$gamma, "\n")
   cat("\nBayesian Analyses\n")
   cat("========================\n")
   cat(" ", "Posterior Beta Shape Parameters for the Concordance Phi\n")
-  cat(" ", "a", "\t\t", "b\n")
-  cat(" ", object$a.post, "\t\t", object$b.post, "\n")
+  cat(" ", sprintf("%-10s", "a"), "\t", "b\n")
+  cat(" ", sprintf("%-10g", object$a_post), "\t", object$b_post, "\n")
   cat(" ", "Posterior Median\n")
-  cat(" ", object$post.median, "\n")
-  cat(" ", object$prob_interval*100, "% Equal-tail Interval\n", sep="")
-  cat(" ", "Lower Limit", "\t\t", "Upper Limit\n")
-  cat(" ", object$post.eti.lower, "\t\t", object$post.eti.upper)
+  cat(" ", object$post_median, "\n")
+  cat(" ", paste0(round(object$prob_interval*100), "% Equal-tail interval limits:"), "\n")
+  cat(" ", sprintf("%-12s", "Lower Limit"), "\t", "Upper Limit", "\n")
+  cat(" ", sprintf("%-12g", object$eti_lower), "\t", object$eti_upper, "\n")
 })
 
 
@@ -34,8 +34,8 @@ setMethod("plot",
           function(x, plot.prior=TRUE){
             x.phi<-seq(0, 1, 1/1000)
             y.phi<-dbeta(x.phi,
-                         x$a.post,
-                         x$b.post)
+                         x$a_post,
+                         x$b_post)
             if (plot.prior==FALSE){
               plot(x.phi,
                    y.phi,

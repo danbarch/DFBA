@@ -41,11 +41,11 @@ AMc<-dfba_mcnemar(n_01 = 17,
                     n_10 = 2)
 
   test_that("Posterior shape parameter a is correct",{
-    expect_equal(floor(AMc$a.post + 0.1), 18)
+    expect_equal(floor(AMc$a_post + 0.1), 18)
   })
 
   test_that("Posterior shape parameter b is correct",{
-    expect_equal(floor(AMc$b.post + 0.1), 3)
+    expect_equal(floor(AMc$b_post + 0.1), 3)
   })
 
   test_that("Posterior mean is correct",{

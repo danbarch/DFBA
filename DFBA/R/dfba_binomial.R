@@ -15,8 +15,8 @@
 #' @return \item{a0}{First shape parameter for the prior beta distribution of the binomial rate parameter}
 #' @return \item{b0}{Second shape parameter for the prior beta distribution of the binomial rate parameter}
 #' @return \item{prob_interval}{Probability within interval estimates for the population binomial rate parameter}
-#' @return \item{apost}{First shape parameter for the posterior beta distribution for the binomial rate parameter}
-#' @return \item{bpost}{Second shape parameter for the posterior beta distribution for the binomial rate parameter}
+#' @return \item{a_post}{First shape parameter for the posterior beta distribution for the binomial rate parameter}
+#' @return \item{b_post}{Second shape parameter for the posterior beta distribution for the binomial rate parameter}
 #' @return \item{phimean}{Mean of the posterior beta distribution for the binomial rate parameter}
 #' @return \item{phimedian}{Median of the posterior beta distribution for the binomial rate parameter}
 #' @return \item{phimode}{Mode of the posterior beta distribution for the binomial rate parameter}
@@ -117,8 +117,8 @@
 #' function is \code{a0 = b0 = 1}, which corresponds to the uniform prior.
 #'
 #' Thus, the Bayesian inference for the unknown binomial rate parameter \eqn{phi}
-#' is the posterior beta distribution with shape parameters of \code{apost} and
-#' \code{bpost}. The \code{dfba_binomial()} function calls the
+#' is the posterior beta distribution with shape parameters of \code{a_post} and
+#' \code{b_post}. The \code{dfba_binomial()} function calls the
 #' \code{dfba_beta_descriptive()} function to find the centrality point estimates
 #' (\emph{i.e.}, the mean, median, and mode) and to find two interval estimates
 #' that contain the probability specified in the \code{prob_interval} argument.
@@ -225,11 +225,11 @@ dfba_binomial <- function(n1,
     }
 
 
-  apost <- n1 + a0
-  bpost <- n2 + b0
+  a_post <- n1 + a0
+  b_post <- n2 + b0
 
-  out_bin <- dfba_beta_descriptive(apost,
-                                   bpost,
+  out_bin <- dfba_beta_descriptive(a_post,
+                                   b_post,
                                    prob_interval=prob_interval)
 
   bin_list<-list(n1 = n1,
@@ -237,8 +237,8 @@ dfba_binomial <- function(n1,
                  a0 = a0,
                  b0 = b0,
                  prob_interval = prob_interval,
-                 apost = apost,
-                 bpost = bpost,
+                 a_post = a_post,
+                 b_post = b_post,
                  phimean = out_bin$x_mean,
                  phimedian = out_bin$x_median,
                  phimode = out_bin$x_mode,

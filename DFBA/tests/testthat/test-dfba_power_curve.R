@@ -20,22 +20,22 @@ test_that("Missing b0 parameter produces stop error",{
                "Both a0 and b0 must be positive and finite")
 })
 
-test_that("Negative delta.step produces stop error",{
+test_that("Negative delta_step produces stop error",{
   expect_error(dfba_power_curve(n = 70,
                                 model = "normal",
                                 design = "paired",
                                 samples = 150,
-                                delta.step = -2),
+                                delta_step = -2),
                "The function requires a nonnegative value for delta.")
 })
 
-test_that("Negative block.max produces stop error",{
+test_that("Negative block_max produces stop error",{
   expect_error(dfba_power_curve(n = 70,
                                 model = "normal",
                                 design = "paired",
                                 samples = 150,
-                                block.max = -2),
-               "block.max must be nonnegative")
+                                block_max = -2),
+               "block_max must be nonnegative")
 })
 
 test_that("too small n",{

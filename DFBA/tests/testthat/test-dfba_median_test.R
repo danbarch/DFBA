@@ -69,11 +69,11 @@ test_that("Missing b0 parameter produces stop error",{
   })
 
   test_that("Posterior shape parameter a is correct",{
-    expect_lte(abs(AMed$a.post - 15), 3e-05)
+    expect_lte(abs(AMed$a_post - 15), 3e-05)
   })
 
   test_that("Posterior shape parameter b is correct",{
-    expect_lte(abs(AMed$b.post - 2), 3e-05)
+    expect_lte(abs(AMed$b_post - 2), 3e-05)
   })
 
   test_that("Posterior probability of > median for E vector is correct",{

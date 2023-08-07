@@ -1,5 +1,5 @@
 ---
-title: "dfba_bayes_vs_t_power() and dfba_power_curve()"
+title: "dfba_power_functions"
 output:
     bookdown::html_document2:
       base_format: rmarkdown::html_vignette
@@ -12,8 +12,7 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
-)
+  comment = "#>")
 ```
 
 ```{r setup}
@@ -32,53 +31,88 @@ As a general rule, the power estimates for the frequentist $t$-test are somewhat
 
 # Using the `dfba_bayes_vs_t_power()` Function {#using_bayes_v_t}
 
-The `dfba_bayes_vs_t_power()` function has three required argumenst and eight optional arguments. The three required arguments are: `delta`, `model`, and `design`. The `delta` argument is the difference between the centrality of the two conditions -- *e.g.*, *experimental* and *control* at the population level. The `model` argument is a string indicating one of nine probability models: `"normal"`, `"weibull"`, `"cauchy"`, `"lognormal"`, `"chisquare"`, `"logistic"`, `"exponential"`, `"gumbel"`, or `"pareto"` (see the vignette for the `dfba_sim_data()` function for a brief tutorial about any of these distributions). The `design` argument is a string that is either `"independent"` or `"paired"`. When `design = "paired"`, the power estimates are for the case where the scores for the experimental and control conditions are within a block such as scores from the same participant. When `design = "independent"`, the power estimates are for the case where the two conditions are independent (*i.e.*, a repeated-measures design). 
+The `dfba_bayes_vs_t_power()` function has three required arguments and nine optional arguments. The three required arguments are: `delta`, `model`, and `design`. The `delta` argument is the difference between the centrality of the two conditions -- *e.g.*, *experimental* and *control* at the population level. The `model` argument is a string indicating one of nine probability models: `"normal"`, `"weibull"`, `"cauchy"`, `"lognormal"`, `"chisquare"`, `"logistic"`, `"exponential"`, `"gumbel"`, or `"pareto"` (see the vignette for the `dfba_sim_data()` function for a brief tutorial about any of these distributions). The `design` argument is a string that takes either `"independent"` or `"paired"`. When `design = "paired"`, the power estimates are for the case where the scores for the experimental and control conditions are within a block such as scores from the same participant. When `design = "independent"`, the power estimates are for the case where the two conditions are independent (*i.e.*, a repeated-measures design). 
 
-## Example
+The nine optional arguments (along with their default values) are: `n_min = 20`, `effect_crit = .95`, `shape1 = 1`, `shape2 = 1`, `samples = 1000`, `a0 = 1`, `b0 = 1`, `block.max = 0`, and `hide_progress = FALSE`. It is likely that for a particular value of the `delta` argument the user might vary the value for `n_min` to see the power estimates for a different range of $11$ sample sizes for the two groups. Values greater than $20$ can be entered for the `n_min` argument, but the function will not allow for values *less than* $20$ in order to assure that the sample sizes are large enough to justify the large-$n$ approximation method used for the Bayesian distribution-free analyses. 
 
-*******************************************************************************
+The `shape1` and `shape2` inputs allow the user to change features of the population model. The meanings of these two arguments vary with values of the `model` input. For example, when `model = "normal"`, the shape parameters correspond to the standard deviations for the two variates in the population; for the case of `model = "weibull"`, the shape parameters are the Weibull distribution shape parameters (See the vignette about the `dfba_sim_data()` function for more details about each distribution).
 
-Dan the code for this chunk is:
+The `samples` argument can be adjusted to vary the number of Monte Carlo data sets drawn by the function. The default value of $1000$ means that there are $1000$ function calls to the `dfba_sim_data()` function for each of the $11$ sample sizes run. If the user wishes to vary that number to obtain either more or less precision in the power estimates, then the `samples` argument can be adjusted.
 
-\pkg{A \textless- dfba\_bayes\_vs\_t\_power(delta=.3, model=``normal'', design=``independent'')}
+The `a0` and `b0` arguments represent the $\alpha_0$ and $\beta_0$ shape parameters for the prior beta distribution for the Bayesian distribution-free analyses; the default values `a0 = 1` and `b0 = 1` correspond to a non-informative prior distribution. Other values of `a0` and `bo` may be specified to use a different prior distribution, for example, to use an informative prior.
 
-\pkg{A}
+The `block.max` argument allows the user to examine the effect of block differences on power estimates when `design = "independent"`. 
 
-\pkg{plot(A)}
+Finally, because Monte Carlo sampling takes a substantial amount of processing time, the function provides a progress counter indicating the percentage of the sampling that has completed; the counter is shown when `hide_progress` takes the default value of `TRUE` and is hidden when `hide_progress = FALSE` (see the [example](#example) section for an example case where `hide_progress = TRUE` is used to prevent printing the progress steps to this vignette).
 
-*******************************************************************************
+## Example 1 {#example}
 
-There are many other combinations of the values for \pkg{delta}, \pkg{model}, and \pkg{design} that the user can explore in an effort to make a decision about the forthcoming experiment. Furthermore there are eight other optional inputs that have default values that the user might wish to alter. These inputs are \pkg{n\_min=20}, \pkg{effect\_crit=.95}, \pkg{shape1=1}, \pkg{shape2=1}, \pkg{samples=1000}, \pkg{a0=1}, \pkg{b0=1}, and \pkg{block.max=0}. It is likely that for a particular \pkg{delta} input the user might vary the value for \pkg{n\_min} to see the power estimates for a different range of $11$ sample sizes for the two groups. The user can adjust \pkg{n\_min} upward from $20$, but the function will not allow for lower values for \pkg{n\_min} in order to assure that the sample sizes are large enough to justify the large-$n$ approximation method used for the Bayesian distribution-free analyses. 
+The following example shows a power analysis for testing the difference between two independent samples, each drawn from normal distributions where the stipulated difference between the means of the distributions is `delta = 0.3`. The argument `n_min` is omitted from the example code, so the default value of `n_min = 20` is used. Prospective frequentist and Bayesian power estimates are therefore given for $n = \{20, 25, \ldots, 70\}$.
 
-The \pkg{shape1} and \pkg{shape2} inputs allow the user to change features of the population model. The meaning of these two inputs varies for the value of the \pkg{model} input. For example for case of \pkg{model=``normal''}, the shape parameters correspond to the standard deviations for the two variates in the population; whereas for the case of \pkg{model=``weibull''}, the shape parameters are the Weibull distribution shape parameters. The user can see more details about each distribution in Section 2 of the vignette about the \pkg{dfba\_sim\_data} function.
+```{r}
+A <- dfba_bayes_vs_t_power(delta = 0.3,
+                           model = "normal",
+                           design = "independent",
+                           hide_progress = TRUE)
 
-The \pkg{samples} input can be adjusted to vary the number of Monte Carlo data sets drawn by the function. The default value of $1000$ means that there are $1000$ function calls to the \pkg{dfba\_sim\_data} function for each of the $11$ sample sizes run. If the user wishes to vary that number to obtain either greater or less precision in the power estimates, then the \pkg{samples} input can be adjusted.
+A
+```
 
-The \pkg{a0} and \pkg{b0} inputs allow the user to incorporate an informative prior for the Bayesian distribution-free analyses. The default setting for those parameter correspond to a non-informative prior distribution.
+The `plot()` method produces a visualization of the data in the `outputdf` object from the `dfba_bayes_vs_t_power()` values: frequentist and Bayesian power estimates as a function of prospective sample size. 
 
-Finally the \pkg{block.max} input allows the user to examine the effect of block differences on power estimates. This input is mainly varied from the default setting of $0$ when \pkg{design=``independent''} because block effects cancel for the case when \pkg{design=``paired''}.
+```{r fig.width = 7}
+plot(A)
+```
+
 
 # Using the `dfba_power_curve()` Function {#using_power_curve}
  
-The \pkg{dfba\_power\_curve} function has two required inputs and nine optional inputs that have preset default values. The required input are \pkg{model} and \pkg{design}. Like the \pkg{dfba\_bayes\_vs\_t\_power} function, the \pkg{model} input is the string name for one of the nine probability models. This input requires one from the following list: \pkg{``normal'', ``weibull'', ``cauchy'', ``lognormal'', ``chisquare'', ``logistic'', ``exponential'', ``gumbel'', ``pareto''}. See Section 2 in the vignette for the \pkg{dfba\_sim\_data} function for a brief tutorial about any of these distributions. The \pkg{design} input is a string variable that is either \pkg{``independent''} or \pkg{``paired''}. For a \textit{paired} input, the power estimates are for the case where the experimental and the control condition scores are within a block such as scores from the same animal. For an \textit{independent} input, the power estimates are for the case where the two conditions are independent (i.e., a between-block design). There are seven other optional inputs with defaults, which are the same as with the \pkg{dfba\_bayes\_vs\_t\_power} described in Section 2. These seven inputs are:  \pkg{a0=1}, \pkg{b0=1}, \pkg{effect\_crit=.95}, \pkg{shape1=1}, \pkg{shape2=1},  \pkg{block.max=0}, and \pkg{samples}.  There are two other optional inputs that are different from any of the inputs in the \pkg{dfba\_bayes\_vs\_t\_power} function. These inputs are \pkg{n} and \pkg{delta.step}. The \pkg{n} input is an integer value for the sample size in each of the two conditions. The \pkg{n} input must be greater than $20$ in order for the Bayesian analyses to use a large-$n$ approximation. Unlike the \pkg{dfba\_bayes\_vs\_t\_power} function, all the power estimates with the \pkg{dfba\_power\_curve} function have the same sample size for each condition, but the separation between the two condition varies. The step size increments for the $delta$ offset between the conditions is the value for the optional input \pkg{delta.step}. The default for this input is $.05$, but the user can adjust that value.
+The `dfba_power_curve()` function has two required arguments and ten optional arguments. The required arguments are `model` and `design`. As in the `dfba_bayes_vs_t_power()` function, the `model` argument is the string name for one of the nine probability models. This argument requires one from the following list: `"normal"`, `"weibull"`, `"cauchy"`, `"lognormal"`, `"chisquare"`, `"logistic"`, `"exponential"`, `"gumbel"`, `"pareto"` (see the vignette for the `dfba_sim_data()` function for a brief tutorial about any of these distributions). The `design` argument is a string variable that takes either `"independent"` or `"paired"` as possible values. When `design = "paired"`, the power estimates are for the case where the experimental and the control condition scores are within a block such as in the case of repeated measures. For an `independent` input, the power estimates are for the case where the two conditions are independent (*i.e.*, a between-groups design). Eight of the optional arguments also belong to the [`dfba_bayes_vs_t_power()` function](#using_bayes_v_t); listed again here with their default values: `a0 = 1`, `b0 = 1`, `effect_crit = .95`, `shape1 = 1`, `shape2 = 1`,  `block.max = 0`, `samples = 1000`, and `hide_progress = FALSE`. The other two optional arguments -- with their default values -- are `n = 20` and `delta.step = .05`. The `n` argument is an integer value for the sample size in each of the two conditions; it must take values greater than or equal to $20$ in order for the Bayesian analyses to use a large-$n$ approximation. Unlike the `dfba_bayes_vs_t_power()` function, all the power estimates calculated by the `dfba_power_curve()` function use the same sample size for each condition; the *separation between* the two condition varies instead. The step-size increments for the $delta$ offset between the conditions is the value for the optional `delta.step` argument.
 
-To see the output for the \pkg{dfba\_power\_curve} function consider the following instruction.
+## Examples {#curve_examples}
 
-*******************************************************************************
+### Example 2: Paired Design with Differences Sampled from a Normal Distribution {#curve_example1}
 
-Dan the code for this chunk is:
+In the following example, power is estimated for frequentist $t$-test analysis and Bayesian Wilcoxon test analysis of paired data where the differences are stipulated to be drawn from a normal distribution. In this example code, the argument `delta_step` is omitted and the default value `delta_step = .05` is used; thus: the power analysis evaluates frequentist and Bayesian power at stipulated mean differences of $\delta = \{0, 0.5, ..., 1\}$. 
 
-\pkg{B \textless- dfba\_power(n=40, model=``normal'', design=``paired'')}
+```{r}
+set.seed(1)
 
-\pkg{B}
+B <- dfba_power_curve(n = 40,
+                      model = "normal",
+                      design = "paired",
+                      hide_progress = TRUE)
 
-\pkg{plot(B)}
+B
+```
+Note that the differences in power estimates in this example are small but indicate greater for the parametric $t$-test than for the Bayesian Wilcoxon test at nearly all stipulated mean difference from $0$ to $1$.
 
-*******************************************************************************
 
+The `plot()` method produces a visualization of the data in the `outputdf` object from the `dfba_bayes_vs_t_power()` values: frequentist and Bayesian power estimates as a function of stipulated difference means (in this case, from $0$ to $1$ by the default `delta_step` value of $0.05$). 
+
+```{r fig.width = 7}
+plot(B)
+```
+
+
+### Example 3: Paired Design with Differences Sampled from a Weibull Distribution
+
+In the following example, power is estimated for frequentist $t$-test analysis and Bayesian Wilcoxon test analysis of paired data where the differences are stipulated to be drawn from a Weibull distribution. As in the [example 2 above](#curve_example1), the argument `delta_step` is omitted and the default value `delta_step = .05` is used; thus: the power analysis evaluates frequentist and Bayesian power at stipulated mean differences of $\delta = \{0, 0.5, ..., 1\}$. 
+
+```{r}
+C<- dfba_power_curve(n = 40,
+                     model = "weibull",
+                     design = "paired",
+                     shape1=.8,
+                     shape2=.8,
+                     hide_progress = TRUE)
+
+C
+```
+Please note that with the stipulation of differences drawn *not* from a normal distribution (rather, in this case, from a Weibull distribution), that the power estimates are consistently greater in this example for the Bayesian distribution-free analysis than for the corresponding parametric frequentist analysis. The pattern can be visualized using the `plot()` method:
  
 
+```{r fig.width=7}
+plot(C)
+```
 
-
-
-\end{document}

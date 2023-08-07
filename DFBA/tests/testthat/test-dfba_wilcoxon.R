@@ -97,12 +97,12 @@ test_that("Prior H1 for small method is correct",{
   expect_lte(abs(Awil$prH1 - 0.75174), 0.020536)
 })
 
-test_that("Equal tail lower limit for small method is correct",{
-  expect_lte(abs(Awil$qLv - 0.282248), 0.01515)
+test_that("HDI lower limit for small method is correct",{
+  expect_lte(abs(Awil$hdi_lower - 0.282248), 0.01515)
 })
 
-test_that("Equal tail upper limit for small method is correct",{
-  expect_lte(abs(Awil$qHv - 0.893838), 0.00708)
+test_that("HDI upper limit for small method is correct",{
+  expect_lte(abs(Awil$hdi_upper - 0.893838), 0.00708)
 })
 
 test_that("Bayes Factor 10 for small method is correct",{
@@ -127,7 +127,7 @@ test_that("Function works with a tie",{
 test_that("Equal-tail interval works for tiny LL",{
   expect_lte(dfba_wilcoxon(Y1,
                                Y1+3,
-                               samples=10000)$qLv,
+                               samples=10000)$hdi_lower,
              0.05)
 })
 
@@ -156,19 +156,19 @@ test_that("Giant BF = Samples",{
   })
 
   test_that("posterior a parameter for large method is correct",{
-    expect_lte(abs(Bwil$apost - 15.84091), 0.0001)
+    expect_lte(abs(Bwil$a_post - 15.84091), 0.0001)
   })
 
   test_that("posterior b parameter for large method is correct",{
-    expect_lte(abs(Bwil$bpost - 9.659091), 0.0001)
+    expect_lte(abs(Bwil$b_post - 9.659091), 0.0001)
   })
 
   test_that("posterior mean for large method is correct",{
-    expect_lte(abs(Bwil$postmean - 0.6212121), 0.0001)
+    expect_lte(abs(Bwil$post_mean - 0.6212121), 0.0001)
   })
 
   test_that("posterior median for large method is correct",{
-    expect_lte(abs(Bwil$postmedian - 0.6244281), 0.0001)
+    expect_lte(abs(Bwil$post_median - 0.6244281), 0.0001)
   })
 
   test_that("Posterior probability of H1 for large method is correct",{
@@ -180,19 +180,19 @@ test_that("Giant BF = Samples",{
   })
 
   test_that("Lower Limit for Equal-Tail Interval for large method is correct",{
-    expect_lte(abs(Bwil$qlequal - 0.4293161), 0.0001)
+    expect_lte(abs(Bwil$eti_lower - 0.4293161), 0.0001)
   })
 
   test_that("Upper Limit for Equal-Tail Interval for large method is correct",{
-    expect_lte(abs(Bwil$qhequal - 0.7950966), 0.0001)
+    expect_lte(abs(Bwil$eti_upper - 0.7950966), 0.0001)
   })
 
   test_that("Lower Limit for Highest-Density Interval for large method is correct",{
-    expect_lte(abs(Bwil$qLmin - 0.4361713), 0.0001)
+    expect_lte(abs(Bwil$hdi_lower - 0.4361713), 0.0001)
   })
 
   test_that("Upper Limit for Highest-Density Interval for large method is correct",{
-    expect_lte(abs(Bwil$qHmax - 0.8010602), 0.0001)
+    expect_lte(abs(Bwil$hdi_upper - 0.8010602), 0.0001)
   })
 
   test_that("Giant BF = Inf",{

@@ -28,11 +28,11 @@ Given the input of paired continuous measures $Y_1$ and $Y_2$, the `dfba_sign_te
   
 # Using the `dfba_sign_test()` Function
 
-The `dfba_sign_test()` function has two required arguments and three optional arguments The required arguments `Y1` and `Y2` are vectors of continuous paired measures. Consequently, the length of the two vectors must be the same, and it must be the case that the $i$th observation for measure `Y1` is meaningfully associated with the $i$th observation for measure `Y2`, such as the case of two observations in different conditions for the same research participant. The optional arguments `a0` and `b0` are the shape parameters for the prior beta distribution. The default value for both shape parameters is $1$, which corresponds to the uniform prior distribution. The input `prob_interval` is the value used for the interval estimate for the population proportion of positive differences; the default value is `prob_interval = .95`. 
+The `dfba_sign_test()` function has two required arguments and three optional arguments. The required arguments `Y1` and `Y2` are vectors of continuous paired measures. Consequently, the length of the two vectors must be the same, and it must be the case that the $i$th observation for measure `Y1` is meaningfully associated with the $i$th observation for measure `Y2`, such as the case of two observations in different conditions for the same research participant. The optional arguments `a0` and `b0` are the shape parameters for the prior beta distribution. The default value for both shape parameters is $1$, which corresponds to the uniform prior distribution. The input `prob_interval` is the value used for the interval estimate for the population proportion of positive differences; the default value is `prob_interval = .95`. 
 
 ## Example
 
-As an example of the Bayesian sign test, consider the following results from a repeated-measures design:  
+For an example of the Bayesian sign test, consider the following results from a repeated-measures design:  
 
 |M1      | M2      |
 |:------:|:-------:|
@@ -59,7 +59,7 @@ dfba_sign_test(Y1 = M1,
 ```
 
 
-Besides the frequencies for the positive signs $n_{pos}$ and negative signs $n_{neg}$, the analysis provides centrality estimates for the population $\phi$ parameter. The posterior distribution for $\phi$ is a beta distribution with shape parameters $a=n_{pos}+a_0$ and $b=n_{neg}+b_0$. The posterior probability that $\phi>.5$ is $.9887695$. There is a large Bayes factor $BF10$ value of $88.04348$ in favor of the alternative hypothesis $H_1: \phi > .5$. 
+Besides the frequencies for the positive signs $n_{pos}$ and negative signs $n_{neg}$, the analysis provides centrality estimates for the population $\phi$ parameter. The posterior distribution for $\phi$ is a beta distribution with shape parameters $a=n_{pos}+a_0$ and $b=n_{neg}+b_0$.^[to prevent confusion between the prior and posterior shape parameters, the `dfba_sign_test()` function uses the variable names `a0` and `b0` to refer to $a_0$ and $b_0$ and `a_post` and `b_post` to refer to the posterior $a$ and $b$, respectively] The posterior probability that $\phi>.5$ is $.9887695$. There is a large Bayes factor $BF_{10}$ value of $88.04348$ in favor of the alternative hypothesis $H_1: \phi > .5$. 
 
 The `plot()` method produces visualizations of the prior (optional) and posterior distributions (note: the representation of the prior distribution is optional: `plot.prior = TRUE` -- the default -- displays both the prior and posterior distribution; `plot.prior = FALSE` produces only a representation of the posterior distribution).
 

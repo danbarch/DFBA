@@ -65,9 +65,9 @@ Following the notation used in Chechile (2020b), let us define a population para
 
 If $E$ is *stochastically dominant*, then $\Omega_E>.5$. If $\Omega_E<.5$, then $C$ is stochastically dominant. We can also define the population parameter $\Omega_C=\lim_{n\to \infty} \frac{U_C}{U_E+U_C}$, but since $\Omega_C=1-\Omega_E$, we need just one of these two population characteristics. The `DFBA` package uses the  $\Omega_E$ parameter as a fundamental measure of the relative stochastic dominance of the two treatment conditions.
 
-The frequentist Mann-Whitney test is based on likelihoods exclusively. In general a likelihood is the conditional probability of an outcome given an assumed value for the relevant population parameter. Effectively, the frequentist analysis assumes the population value of $\Omega_E=.5$ and computes the likelihood for the observed $U_E$ *plus more extreme (unobserved) outcomes*.  When $\Omega_E=.5$, the two conditions are not different, so any pattern for the rank ordering is equally probable. For the first example considered above where $nE=nC=3$, there are ten possible rank orderings, so each possible outcome has a likelihood value of $\frac{1}{10}$. Because in this example there is only one more extreme possible eventthan the observed rank ordering (*i.e.*, the order of $1.~C~~2.~C~~3.~C~~4.~E~~5.~E~~6.~E$), the summed likelihood is $.2$. The summed likelihood is the frequentist $p$-value for hypothesis testing. If $p$ is less than $\alpha$, then the null hypothesis is rejected in favor of the alternative hypothesis that $\Omega_E \ne .5$.^[The `wilcox.test(..., paired = FALSE)` function in the `stats` package performs the frequentist Mann-Whitney test; the value for $U_E$ defined above is called `W` in the `wilcox.test()` output].
+The frequentist Mann-Whitney test is based on likelihoods exclusively. In general a likelihood is the conditional probability of an outcome given an assumed value for the relevant population parameter. Effectively, the frequentist analysis assumes the population value of $\Omega_E=.5$ and computes the likelihood for the observed $U_E$ *plus more extreme (unobserved) outcomes*.  When $\Omega_E=.5$, the two conditions are not different, so any pattern for the rank ordering is equally probable. For the first example considered above where $nE=nC=3$, there are ten possible rank orderings, so each possible outcome has a likelihood value of $\frac{1}{10}$. Because there is only one more extreme possible event in this example than the observed rank ordering (*i.e.*, the order of $1.~C~~2.~C~~3.~C~~4.~E~~5.~E~~6.~E$), the summed likelihood is $.2$. The summed likelihood is the frequentist $p$-value for hypothesis testing. If $p$ is less than $\alpha$, then the null hypothesis is rejected in favor of the alternative hypothesis that $\Omega_E \ne .5$.^[The `wilcox.test(..., paired = FALSE)` function in the `stats` package performs the frequentist Mann-Whitney test; the value for $U_E$ defined above is called `W` in the `wilcox.test()` output].
 
-Chechile (2020a; 2020b) provided a Bayesian version of the Mann-Whitney test. There are a number of important differences between the frequentist analysis and the Bayesian analysis. Unlike the frequentist approach, the Bayesian analysis is not predicated on the assumption that $\Omega_E=.5$. Instead, there is an entire prior distribution for $\Omega_E$. Furthermore, unlike in the frequentist analysis, in the Bayesian analysis of the $U$ statistics, the only likelihood that is computed after the data are collected is the likelihood of the *observed* $U$ statistics given a value for the population $\Omega_E$ parameter; the likelihoods of non-observed outcomes are irrelevant.^[The frequentist inclusion of likelihoods for non-observed events violates an essential principle in Bayesian statistics that is called the *likelihood principle* (Berger & Wolpert, 1988). In essence, this principle is the idea that upon the completion of data collection, the only likelihood that should be computed is the likelihood of the data. Other possible non-observed events are not part of Bayes theorem, and therefore any non-observed outcomes are irrelevant. Several researchers have demonstrated inferential paradoxes when the likelihood principle is violated (Lindley & Phillips, 1976; Chechile, 2020b). For example, Chechile (2020b) described two studies with Bernoulli data where there are the same number of success outcomes and the same number of failures. The likelihood for the observed outcome is thus the same for the two experiments. However, because the two experiments used different stopping rules, the non-observed outcomes are different in the two studies. With the inclusion of the likelihoods for the non-observed events, the frequentist analyses arrive at different conclusions for the two experiments. In one study the inclusion of the likelihood from non-observed more extreme events resulted in $p>.05$; whereas in the other experiment the inclusion of non-observed extreme likelihoods resulted in $p<.05$. So, the two studies with the same frequencies for the Bernoulli processes have different conclusions when frequentist tests are used.] The problem is the likelihood $P(U_E, U_C | \Omega_E)$ is not known. However in the similar fashion as with the Bayesian analysis for the Wilcoxon signed-rank statistic^[see the vignette for the `dfba_wilcoxon()` function], the unknown likelihood can be approximated via a Monte Carlo sampling process. For small sample sizes, the `dfba_mann_whitney()` function uses a discrete approximation method. Rather than a continuous prior distribution for the $\Omega_E$ parameter, the small-$n$ method instead considers $200$ values for $\Omega_E$ that range from $.0025$ to $.9975$ in steps of $.005$. Let us denote one of these possible $200$ values as $\Omega_{E_i}$. The Monte Carlo process samples $n_E$ and $n_C$ random scores from two distributions that have the same $\Omega_{E_i}$ value. Any one of the random Monte Carlo data sets with $n_E$ and $n_C$ scores can either (1) have the same $U_E$ and $U_C$ values as the observed $U$ statistics or (2) have $U$ statistics that differ from the observed. This Monte Carlo sampling process is repeated many thousands of times. The proportion of the Monte Carlo sets of scores that have the same $U_E$ and $U_C$ values as the observed $U$ statistics is an approximation of the likelihood $P(U_E, U_C | \Omega_{E_i})$. 
+Chechile (2020a; 2020b) provided a Bayesian version of the Mann-Whitney test. There are a number of important differences between the frequentist analysis and the Bayesian analysis. Unlike the frequentist approach, the Bayesian analysis is not predicated on the assumption that $\Omega_E=.5$. Instead, there is an entire prior distribution for $\Omega_E$. Furthermore, unlike in the frequentist analysis, in the Bayesian analysis of the $U$ statistics, the only likelihood that is computed after the data are collected is the likelihood of the *observed* $U$ statistics given a value for the population $\Omega_E$ parameter; the likelihoods of non-observed outcomes are irrelevant.^[The frequentist inclusion of likelihoods for non-observed events violates an essential principle in Bayesian statistics that is called the *likelihood principle* (Berger & Wolpert, 1988). In essence, this principle is the idea that upon the completion of data collection, the only likelihood that should be computed is the likelihood of the data. Other possible non-observed events are not part of Bayes theorem, and therefore any non-observed outcomes are irrelevant. Several researchers have demonstrated inferential paradoxes when the likelihood principle is violated (Lindley & Phillips, 1976; Chechile, 2020b). For example, Chechile (2020b) described two studies with Bernoulli data where there are the same number of success outcomes and the same number of failures. The likelihood for the observed outcome is thus the same for the two experiments. However, because the two experiments used different stopping rules, the non-observed outcomes are different in the two studies. With the inclusion of the likelihoods for the non-observed events, the frequentist analyses arrive at different conclusions for the two experiments. In one study the inclusion of the likelihood from non-observed more extreme events resulted in $p>.05$; whereas in the other experiment the inclusion of non-observed extreme likelihoods resulted in $p<.05$. So, the two studies with the same frequencies for the Bernoulli processes have different conclusions when frequentist tests are used.] The problem is the likelihood $P(U_E, U_C | \Omega_E)$ is not known. However in the similar fashion as with the Bayesian analysis for the Wilcoxon signed-rank statistic^[See the vignette for the `dfba_wilcoxon()` function], the unknown likelihood can be approximated via a Monte Carlo sampling process. For small sample sizes, the `dfba_mann_whitney()` function uses a discrete approximation method. Rather than a continuous prior distribution for the $\Omega_E$ parameter, the small-$n$ method instead considers $200$ values for $\Omega_E$ that range from $.0025$ to $.9975$ in steps of $.005$. Let us denote one of these possible $200$ values as $\Omega_{E_i}$. The Monte Carlo process samples $n_E$ and $n_C$ random scores from two distributions that have the same $\Omega_{E_i}$ value. Any one of the random Monte Carlo data sets with $n_E$ and $n_C$ scores can either (1) have the same $U_E$ and $U_C$ values as the observed $U$ statistics or (2) have $U$ statistics that differ from the observed. This Monte Carlo sampling process is repeated many thousands of times. The proportion of the Monte Carlo sets of scores that have the same $U_E$ and $U_C$ values as the observed $U$ statistics is an approximation of the likelihood $P(U_E, U_C | \Omega_{E_i})$. 
 
 At this point, the reader might wonder how to sample from distributions that have any desired value for $\Omega_E$. Chechile (2020a) showed how to sample from two different exponential distributions that have the desired value for $\Omega_{Ei}$. The exponential distribution has a probability density $f(x)=ke^{-x}$, where $k$ is the rate parameter. Chechile (2020a) showed that if one random set of exponential scores had a rate of $k=1$ while the other random set of exponential scores had a rate of $k=\frac{1-\Omega_{E_i}}{\Omega_{E_i}}$, then the two exponential variates would have the desired $\Omega_E=\Omega_{E_i}$. Consequently, for the $200$ candidate values for $\Omega_{E_i}$ evaluated in the `dfba_mann_whitney()` function, the small-$n$ algorithm approximates the likelihoods via a Monte Carlo sampling process. Given a prior distribution for the set of $\Omega_{E_i}$ values along with the likelihood estimates, there is a corresponding posterior distribution via Bayes theorem. The rest of the statistical inference consists of point and interval estimation of the posterior distribution for $\Omega_E$. Probabilities for interval hypotheses can also be computed along with Bayes factors.
     
@@ -156,7 +156,7 @@ where $\mathbf{L}$ is the following matrix:
   \right]
   \]
 
-The elements of matrix $\textbf{L}$ are constants, which are the coefficients of the six Lagrange polynomial functions for the six match points for $x$ (*i.e.*, $x \in (.5,\,.6,\ldots,1)$). The predicted $\hat{y}$ from equation (3) is equal to either $\widehat{\Omega}$, if $U_E \ge U_C$ or $1-\widehat{\Omega}$, if $U_E<U_C$. Equations \@ref(eq:betadistforlargeNa) and \@ref(eq:betadistforlargeNb) provide the shape parameters $a^{*}$ and $b^{*}$ for the approximating beta distribution. 
+The elements of matrix $\textbf{L}$ are constants, which are the coefficients of the six Lagrange polynomial functions for the six match points for $x$ (*i.e.*, $x \in (.5,\,.6,\ldots,1)$). The predicted $\widehat{y}$ from equation \@ref(eq:matrixformula) is equal to either $\widehat{\Omega}$, if $U_E \ge U_C$ or $1-\widehat{\Omega}$, if $U_E<U_C$. Equations \@ref(eq:betadistforlargeNa) and \@ref(eq:betadistforlargeNb) provide the shape parameters $a^{*}$ and $b^{*}$ for the approximating beta distribution. 
 
 Similar to the binomial model, the $a^{*}$ and $b^{*}$ shape parameters can be used to define a $n_a$ and $n_b$ parameters, such that 
 \begin{equation}
@@ -199,7 +199,8 @@ G2 <- c(101.16, 102.09, 103.14, 104.70, 105.27, 108.22, 108.32, 108.51, 109.88,
 set.seed(1)
 
 dfba_mann_whitney(E = G1, 
-                  C = G2)
+                  C = G2, 
+                  hide_progress = TRUE)
 ```
 
 
@@ -208,7 +209,8 @@ The above analysis is based on the default uniform prior and it obtains a poster
 ```{r}
 set.seed(2)
 dfba_mann_whitney(E = G1, 
-                  C = G2)
+                  C = G2,
+                  hide_progress = TRUE)
 ```
 
 
@@ -218,7 +220,8 @@ The `plot()` method produces visualizations of the prior (optional) and posterio
 
 ```{r fig.width = 7}
 plot(dfba_mann_whitney(E = G1, 
-                       C = G2))
+                       C = G2,
+                       hide_progress = TRUE))
 ```
 
 
@@ -237,14 +240,14 @@ The `plot(dfba_mann_whitney())` method provides a display of the probability den
 
 1. When `method = small`, the $x$ values for the prior and posterior distribution plots is given by the `omega_E` output value. The $y$ values for the prior and posterior distributions are given by, respectively: `priorvector` and `omegapost`.
 
-2. When `method = large`, the prior distribution is given by a beta distribution with shape parameters [`a0`, `b0`]; the posterior distribution is given by a beta distribution with shape parameters [`apost`, `bpost`]. The `dbeta()` function from the `stats` package produces $y$ values for any defined sequence of $x$ values.
+2. When `method = large`, the prior distribution is given by a beta distribution with shape parameters [`a0`, `b0`]; the posterior distribution is given by a beta distribution with shape parameters [`a_post`, `b_post`]. The `dbeta()` function from the `stats` package produces $y$ values for any defined sequence of $x$ values.
 
 
 The Monte Carlo algorithm is much slower to complete, especially as the sample sizes get to be increasingly large. It is our opinion, the default of `method = NULL` results in a reasonable rule-of-thumb that has been pretested over a wide range of sample sizes and data sets. Nonetheless, the user has the option of employing either the small-$n$ Monte Carlo algorithm or the large-$n$ algorithm by entering their choice with an input for `method`. 
 
 Finally, let us consider a case where there are more than two groups. For example, suppose that there were six independent groups tested in a $3 \times 2$ factorial study, and the following scores were observed.
 
-\[
+
 \begin{array}{c|ccc}
 & A1 & A2 & A3 \\
 \hline
@@ -266,7 +269,7 @@ B2 & 1.822 & 1.459 & 10.060 \\
   \hline 
   
   \end{array}
-  \]
+
 
 Let us code the data for each group as a vector. 
 
@@ -287,7 +290,7 @@ A3B2 <- c(11.067, 11.117, 10.180, 10.060, 10.664, 10.074, 10.355)
 
 Before doing statistical analyses, let us first see a display of the means in the six conditions. Note that the resulting display is a connected graph rather than a more conventional bar chart. This plotting choice was done to better illustrate potential interactions of the two factors in the experiment.
 
-```{r echo=FALSE}
+```{r echo=FALSE, fig.width=7}
 yB1 <- c(mean(A1B1), mean(A2B1), mean(A3B1))
 
 yB2 <- c(mean(A1B2), mean(A2B2), mean(A3B2))
@@ -325,7 +328,7 @@ The results show clear evidence that there is a $B$ effect (*i.e.*,  the pooled 
 \begin{equation}
   \begin{aligned}
   \Delta &= ([A_1B_1+A_2B_1] -[A_1B_2+A_2B_2]) - (A_3B_1 - A_3B_2)\\
-         &= (A_1B_1+A_1B_1+A_3B_2) - (A_1B_2+A_2B_2+A_3B_1).
+         &= (A_1B_1+A_2B_1+A_3B_2) - (A_1B_2+A_2B_2+A_3B_1).
   \end{aligned}
   (\#eq:InteractionContrastEquation)
 \end{equation}

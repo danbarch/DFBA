@@ -3,7 +3,7 @@
 #' @export
 #' @rdname dfba_beta_contrast_method
 #' @param object An object of class \code{\linkS4class{dfba_beta_contrast_out}}
-#' @importFrom {graphics} {plot}
+# #' @importFrom graphics plot
 setMethod("show", "dfba_beta_contrast_out", function(object) {
   cat("Bayesian Contrasts \n")
   cat("========================\n")
@@ -15,8 +15,8 @@ setMethod("show", "dfba_beta_contrast_out", function(object) {
   cat(" ", "Number of Monte Carlo Samples", "\n")
   cat(" ", object$samples, "\n")
   cat(" ", paste0("Equal-tail ", round(object$prob_interval*100), "% Probability Interval"), "\n")
-  cat(" ", "Lower Limit", "\t\t\t", "Upper Limit", "\n")
-  cat(" ", object$lower_limit, "\t\t\t", object$upper_limit, "\n")
+  cat(" ", sprintf("%-11s", "Lower Limit"), "\t", "Upper Limit", "\n")
+  cat(" ", sprintf("%-11g", object$eti_lower), "\t", object$eti_upper, "\n")
   cat(" ", "Posterior Probability that Contrast is Positive", "\n")
   cat(" ", object$prob_positive_delta, "\n")
   cat(" ", "Prior Probability that Contrast is Positive", "\n")
