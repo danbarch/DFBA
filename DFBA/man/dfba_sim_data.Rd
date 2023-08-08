@@ -13,7 +13,7 @@ dfba_sim_data(
   delta,
   shape1 = 1,
   shape2 = 1,
-  block.max = 0
+  block_max = 0
 )
 }
 \arguments{
@@ -33,7 +33,7 @@ dfba_sim_data(
 
 \item{shape2}{The shape parameter for condition 2 for the distribution indicated by \code{model} input (default is 1)}
 
-\item{block.max}{The maximum size for a block effect (default is 0)}
+\item{block_max}{The maximum size for a block effect (default is 0)}
 }
 \value{
 A list containing the following components:
@@ -122,10 +122,10 @@ Pareto distribution approximates an income distribution that represents the
 80-20 law where 20\% of the population receives 80\% of the income
 (Hardy, 2010).
 
-The \code{block.max} argument provides for incorporating block effects in the
+The \code{block_max} argument provides for incorporating block effects in the
 random sampling. The block effect for each score is a separate effect for the
 block. The block effect B for a score is a random number drawn from a uniform
-distribution on the interval \code{[0, block.max]}. When \code{design = "paired"},
+distribution on the interval \code{[0, block_max]}. When \code{design = "paired"},
 the same random block effect is added to the score in the first condition,
 which is the random \code{C} value, and it is also added to the corresponding
 paired value for the \code{E} variate. Thus, the pairing research design
@@ -135,7 +135,7 @@ contributions to the \code{E} and \code{C} variates, which reduces the
 discrimination of condition differences because it increases the variability
 of the difference in the two variates. The user can study the effect of the
 relative discriminability of detecting an effect of delta by adjusting the
-value of the \code{block.max} argument. The default for \code{block.max} is 0,
+value of the \code{block_max} argument. The default for \code{block_max} is 0,
 but it can be altered to any non-negative real number.
 
 The output from calling the \code{dfba_sim_data()} function are two
@@ -193,7 +193,7 @@ dfba_sim_data(n = 80,
              delta = .25,
              shape1 = .8,
              shape2 = .8,
-             block.max = 1.5)
+             block_max = 1.5)
 
 # Example of two paired Cauchy variates with a .4 offset
 

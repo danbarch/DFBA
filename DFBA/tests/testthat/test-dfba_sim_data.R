@@ -8,7 +8,7 @@ test_that("Missing a0 parameter produces stop error",{
                              model = "normal",
                              design = "independent",
                              delta = 0.4,
-                             block.max = 0),
+                             block_max = 0),
                "Both a0 and b0 must be positive and finite")
 })
 
@@ -18,7 +18,7 @@ test_that("Missing b0 parameter produces stop error",{
                              model = "normal",
                              design = "independent",
                              delta = 0.4,
-                             block.max = 0),
+                             block_max = 0),
                "Both a0 and b0 must be positive and finite")
 })
 
@@ -27,7 +27,7 @@ test_that("negative delta stops the show",{
                              model = "normal",
                              design = "independent",
                              delta = -0.4,
-                             block.max = 0),
+                             block_max = 0),
                "The function requires a positive difference in the location of the two conditions.")
 })
 
@@ -36,7 +36,7 @@ test_that("negative block.max stops the show",{
                              model = "normal",
                              design = "independent",
                              delta = 0.4,
-                             block.max = -100),
+                             block_max = -100),
                "block.max must be nonnegative")
 })
 
@@ -45,7 +45,7 @@ test_that("n too small",{
                              model = "normal",
                              design = "independent",
                              delta = 0.4,
-                             block.max = 0),
+                             block_max = 0),
                "The function requires an integer that is 20 or larger for sample size")
 })
 
@@ -66,7 +66,7 @@ test_that("model is not in the list",{
                              model = "T",
                              design = "independent",
                              delta = 0.4,
-                             block.max = 0),
+                             block_max = 0),
                modelstop)
 })
 
@@ -81,7 +81,7 @@ test_that("design is not in the list",{
                              model = "normal",
                              design = "independenttttt",
                              delta = 0.4,
-                             block.max = 0),
+                             block_max = 0),
                designstop)
 })
 
@@ -95,7 +95,7 @@ test_that("negative shape stops the show (normal)",{
                              design = "independent",
                              delta = 0.4,
                              shape1 = -77,
-                             block.max = 100),
+                             block_max = 100),
                "shape1 and shape2 are standard deviations and must be positive values.")
 })
 
@@ -107,7 +107,7 @@ test_that("negative shape stops the show (weibull)",{
                              design = "independent",
                              delta = 0.4,
                              shape1 = -77,
-                             block.max = 100),
+                             block_max = 100),
                "shape1 and shape2 are the Weibull shape parameters for the respective control and experiment conditions and must be positive values.")
 })
 
@@ -119,7 +119,7 @@ test_that("negative shape stops the show (cauchy)",{
                              design = "independent",
                              delta = 0.4,
                              shape1 = -77,
-                             block.max = 100),
+                             block_max = 100),
                "shape1 and shape2 are the Cauchy distribution scale factors for the respective control and experiment conditions and must be positive values.")
 })
 
@@ -131,7 +131,7 @@ test_that("negative shape stops the show (lognormal)",{
                              design = "independent",
                              delta = 0.4,
                              shape1 = -77,
-                             block.max = 100),
+                             block_max = 100),
                "shape1 and shape2 are the sdlog values for the respective control and experiment conditions and must be positive values.")
 })
 
@@ -143,7 +143,7 @@ test_that("negative shape stops the show (chi-squared)",{
                              design = "independent",
                              delta = 0.4,
                              shape1 = -77,
-                             block.max = 100),
+                             block_max = 100),
                "shape1 and shape2 are df for respectively the control and experiment conditions and must be positive values.")
 })
 
@@ -155,7 +155,7 @@ test_that("negative shape stops the show (logistic)",{
                              design = "independent",
                              delta = 0.4,
                              shape1 = -77,
-                             block.max = 100),
+                             block_max = 100),
                "shape1 and shape2 are scale factors and must be positive values.")
 })
 
@@ -167,7 +167,7 @@ test_that("negative shape stops the show (exponential)",{
                              design = "independent",
                              delta = 0.4,
                              shape1 = -77,
-                             block.max = 100),
+                             block_max = 100),
                "shape1 and shape2 are scale factors and must be positive values.")
 })
 
@@ -179,7 +179,7 @@ test_that("negative shape stops the show (gumbel)",{
                              design = "independent",
                              delta = 0.4,
                              shape1 = -77,
-                             block.max = 100),
+                             block_max = 100),
                "shape1 and shape2 are scale factors and must be positive values.")
 })
 
@@ -191,7 +191,7 @@ test_that("negative shape stops the show (pareto)",{
                              design = "independent",
                              delta = 0.4,
                              shape1 = -77,
-                             block.max = 100),
+                             block_max = 100),
                "shape1 and shape2 must be greater than or equal to 1.")
 })
 
@@ -203,7 +203,7 @@ test_that("negative shape stops the show (pareto)",{
                        model = "normal",
                        design = "independent",
                        delta = 0.4,
-                       block.max = 0)
+                       block_max = 0)
 
 
   test_that("Posterior probability of H1 is correct [normal, independent]",{
@@ -218,7 +218,7 @@ test_that("negative shape stops the show (pareto)",{
                        model = "normal",
                        design = "paired",
                        delta = 0.4,
-                       block.max = 0)
+                       block_max = 0)
 
   test_that("Posterior probability of H1 is correct [normal, paired]",{
     expect_gte(Tsim2$prH1, 0.933)
@@ -232,7 +232,7 @@ test_that("negative shape stops the show (pareto)",{
                        model = "normal",
                        design = "independent",
                        delta = 0.4,
-                       block.max = 16)
+                       block_max = 16)
 
   test_that("Mean of C values is correct [normal, independent]",{
     expect_lte(abs(mean(Tsim3$C)-8.000), 1.264)
@@ -244,7 +244,7 @@ test_that("negative shape stops the show (pareto)",{
                          model = "exponential",
                          design = "paired",
                          delta = 0.4,
-                         block.max = 0)
+                         block_max = 0)
   Cw <- Aexpf$C
   Cwor <- sort(Cw)
 

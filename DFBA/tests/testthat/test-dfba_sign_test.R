@@ -59,11 +59,11 @@ test_that("Trivial differences throw stop",{
     })
 
     test_that("Posterior shape parameter a is correct",{
-      expect_equal(floor(ASgn$a.post + 0.1), 11)
+      expect_equal(floor(ASgn$a_post + 0.1), 11)
     })
 
     test_that("Posterior shape parameter b is correct",{
-      expect_equal(floor(ASgn$b.post + 0.1), 3)
+      expect_equal(floor(ASgn$b_post + 0.1), 3)
     })
 
     test_that("Posterior mean for positivity rate phi is correct",{
