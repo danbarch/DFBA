@@ -15,7 +15,7 @@ dfba_bayes_vs_t_power(
   samples = 1000,
   a0 = 1,
   b0 = 1,
-  block.max = 0,
+  block_max = 0,
   hide_progress = FALSE
 )
 }
@@ -40,7 +40,7 @@ dfba_bayes_vs_t_power(
 
 \item{b0}{The second shape parameter for the prior beta distribution (default is 1). Must be positive and finite.}
 
-\item{block.max}{The maximum size for a block effect (default is 0)}
+\item{block_max}{The maximum size for a block effect (default is 0)}
 
 \item{hide_progress}{(Optional) If \code{TRUE}, hide percent progress while Monte Carlo sampling is running. (default is \code{FALSE}).}
 }
@@ -61,7 +61,7 @@ A list containing the following components:
 
 \item{b0}{The second shape parameter for the beta prior distribution}
 
-\item{block.max}{The maximum size of a block effect; equal to \code{block.max} argument}
+\item{block_max}{The maximum size of a block effect; equal to \code{block_max} argument}
 
 \item{outputdf}{A dataframe of possible sample sizes and the corresponding Bayesian and frequentist power values}
 }
@@ -118,7 +118,7 @@ function, which are passed from the \code{dfba_bayes_vs_t_power()} function:
      \item \code{delta}
      \item \code{shape1}
      \item \code{shape2}
-     \item \code{block.max}.
+     \item \code{block_max}.
      }
 
 The \code{a0} and \code{b0} values are the respective first and second beta
@@ -174,10 +174,10 @@ Pareto distribution approximates an income distribution that represents the
 80-20 law where 20\% of the population receives 80\% of the income
 (Hardy, 2010).
 
-The \code{block.max} argument provides for incorporating block effects in the
+The \code{block_max} argument provides for incorporating block effects in the
 random sampling. The block effect for each score is a separate effect for the
 block. The block effect B for a score is a random number drawn from a uniform
-distribution on the interval \code{[0, block.max]}. When \code{design = "paired"},
+distribution on the interval \code{[0, block_max]}. When \code{design = "paired"},
 the same random block effect is added to the score in the first condition,
 which is the random \code{C} value, and it is also added to the corresponding
 paired value for the \code{E} variate. Thus, the pairing research design
@@ -187,7 +187,7 @@ contributions to the \code{E} and \code{C} variates, which reduces the
 discrimination of condition differences because it increases the variability
 of the difference in the two variates. The user can study the effect of the
 relative discriminability of detecting an effect of delta by adjusting the
-value of the \code{block.max} argument. The default for \code{block.max} is 0,
+value of the \code{block_max} argument. The default for \code{block_max} is 0,
 but it can be altered to any non-negative real number.
 }
 \examples{
@@ -229,7 +229,7 @@ dfba_bayes_vs_t_power(n_min = 50,
                       design = "independent",
                       shape1 = .8,
                       shape2 = .8,
-                      block.max = 2.3,
+                      block_max = 2.3,
                       hide_progress = TRUE)
 
 dfba_bayes_vs_t_power(n_min = 50,
@@ -238,7 +238,7 @@ dfba_bayes_vs_t_power(n_min = 50,
                       design = "paired",
                       shape1 = .8,
                       shape2 = .8,
-                      block.max = 2.3,
+                      block_max = 2.3,
                       hide_progress = TRUE)
 
 }

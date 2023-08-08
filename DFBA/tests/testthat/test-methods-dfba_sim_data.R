@@ -9,13 +9,13 @@ object_independent <- dfba_sim_data(n = 450,
                                     model = "pareto",
                                     design = "independent",
                                     delta = 0.4,
-                                    block.max = 100)
+                                    block_max = 100)
 
 object_paired <- dfba_sim_data(n = 450,
                                     model = "pareto",
                                     design = "paired",
                                     delta = 0.4,
-                                    block.max = 100)
+                                    block_max = 100)
 test_that("Show method works",{
   expect_output(show(object_independent))
 })

@@ -137,11 +137,11 @@ test_that("Warning if method is neither large nor small",{
   })
 
   test_that("[small] Equal-tail interval lower limit is correct",{
-    expect_lte(abs(AMann$qLv - 0.3524778), 0.013732592)
+    expect_lte(abs(AMann$eti_lower - 0.3524778), 0.013732592)
   })
 
   test_that("[small] Equal-tail interval upper limit is correct",{
-    expect_lte(abs(AMann$qHv-.8073713), 0.013191075)
+    expect_lte(abs(AMann$eti_upper-.8073713), 0.013191075)
   })
 
   test_that("[small] Giant BF = samples",{
@@ -154,7 +154,7 @@ test_that("Warning if method is neither large nor small",{
   test_that("Equal-tail interval works for tiny LL",{
     expect_lte(dfba_mann_whitney(E,
                                  C = E + 40,
-                             samples=10000)$qLv,
+                             samples=10000)$eti_lower,
                0.05)
   })
 
@@ -206,19 +206,19 @@ test_that("Warning if method is neither large nor small",{
   })
 
   test_that("[large] Posterior shape parameter a is correct",{
-    expect_lte(abs(BMann$apost - 27.90098), 0.0005)
+    expect_lte(abs(BMann$a_post - 27.90098), 0.0005)
   })
 
   test_that("[large] Posterior shape parameter b is correct",{
-    expect_lte(abs(BMann$bpost - 18.57538), 0.0005)
+    expect_lte(abs(BMann$b_post - 18.57538), 0.0005)
   })
 
   test_that("[large] Posterior mean is correct",{
-    expect_lte(abs(BMann$postmean - 0.6003262), 0.0005)
+    expect_lte(abs(BMann$post_mean - 0.6003262), 0.0005)
   })
 
   test_that("[large] Posterior median is correct",{
-    expect_lte(abs(BMann$postmedian - 0.6017773), 0.0005)
+    expect_lte(abs(BMann$post_median - 0.6017773), 0.0005)
   })
 
   test_that("[large] Omega average is correct",{
@@ -226,19 +226,19 @@ test_that("Warning if method is neither large nor small",{
   })
 
   test_that("[large] Equal-tail interval lower limit is correct",{
-    expect_lte(abs(BMann$qlequal - 0.4576042), 0.0005)
+    expect_lte(abs(BMann$eti_lower - 0.4576042), 0.0005)
   })
 
   test_that("[large] Equal-tail interval upper limit is correct",{
-    expect_lte(abs(BMann$qhequal - 0.7348651), 0.0005)
+    expect_lte(abs(BMann$eti_upper - 0.7348651), 0.0005)
   })
 
   test_that("[large] Highest-density interval lower limit is correct",{
-    expect_lte(abs(BMann$qLmin - 0.4606209), 0.0005)
+    expect_lte(abs(BMann$hdi_lower - 0.4606209), 0.0005)
   })
 
   test_that("[large] Highest-density interval upper limit is correct",{
-    expect_lte(abs(BMann$qHmax - 0.7376452), 0.0005)
+    expect_lte(abs(BMann$hdi_upper - 0.7376452), 0.0005)
   })
 
   test_that("[large] Prior probability of H1 is correct",{
@@ -252,7 +252,7 @@ test_that("Warning if method is neither large nor small",{
   test_that("[large] Posterior mean is correct when UC > UE",{
     expect_lte(abs(dfba_mann_whitney(Clarge,
                                      Elarge,
-                                     method = "large")$postmean - 0.3996738), 0.0005)
+                                     method = "large")$post_mean - 0.3996738), 0.0005)
   })
 
   test_that("[large] Giant BF = Inf",{
