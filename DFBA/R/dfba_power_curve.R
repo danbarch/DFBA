@@ -51,7 +51,8 @@
 #'
 #' For each data set, statistical tests are performed. If \code{design = "paired"},
 #' the frequentist \emph{t}-test is a one-tailed test on the within-block
-#' difference scores to assess the null hypothesis that \code{delta <= 0}; if
+#' difference scores to assess the null hypothesis that the population mean for
+#' \code{E} is greater than the population mean for \code{C}; if
 #' \code{design = "independent"}, the frequentist \emph{t}-test is the one-tailed
 #' test to assess if there is a significant difference between the two
 #' independent conditions (\emph{i.e.} if the mean for condition 2 is signficantly
@@ -178,7 +179,7 @@
 #'
 #' Chechile, R. A. (2020). A Bayesian analysis for the Mann- Whitney statistic.
 #' Communications in Statistics - Theory and Methods,
-#' https://10.1080/03610926.2018.1549247
+#' https://doi.org/10.1080/03610926.2018.1549247
 #'
 #' Fishman, G. S. (1996) Monte Carlo: Concepts, Algorithms and Applications.
 #' New York: Springer.
@@ -194,32 +195,41 @@
 #'
 #' @examples
 #'
-#' dfba_power_curve(n = 85,
-#'                  model = "normal",
-#'                  design = "independent")
+#' # Note: these examples have long runtimes due to Monte Carlo sampling;
+#' # please feel free to run them in the console.
 #'
+#' \dontrun{
 #' dfba_power_curve(n = 85,
 #'                  model = "normal",
-#'                  design = "paired")
+#'                  design = "independent",
+#'                  hide_progress = FALSE)
 #'
 #' dfba_power_curve(n = 85,
 #'                  model = "normal",
 #'                  design = "paired",
-#'                  delta_step = .03)
+#'                  hide_progress = FALSE)
+#'
+#' dfba_power_curve(n = 85,
+#'                  model = "normal",
+#'                  design = "paired",
+#'                  delta_step = .03,
+#'                  hide_progress = FALSE)
 #'
 #' dfba_power_curve(n = 30,
 #'                  model = "lognormal",
 #'                  design = "independent",
 #'                  delta_step = .06,
 #'                  block_max = 3,
-#'                  samples = 2500)
+#'                  samples = 2500,
+#'                  hide_progress = FALSE)
 #'
 #' dfba_power_curve(n = 30,
 #'                  model = "lognormal",
 #'                  design = "paired",
 #'                  delta_step =.06,
 #'                  block_max = 3,
-#'                  samples = 2500)
+#'                  samples = 2500,
+#'                  hide_progress = FALSE)
 #'
 #' # Using the Jeffreys prior rather than default flat prior
 #'
@@ -230,7 +240,9 @@
 #'                  b0 = .5,
 #'                  delta_step = .06,
 #'                  block_max = 3,
-#'                  samples = 2500)
+#'                  samples = 2500,
+#'                  hide_progress = FALSE)
+#' }
 #'
 #' @export
 dfba_power_curve<-function(n = 20,

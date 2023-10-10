@@ -39,7 +39,7 @@ The `shape1` and `shape2` inputs allow the user to change features of the popula
 
 The `samples` argument can be adjusted to vary the number of Monte Carlo data sets drawn by the function. The default value of $1000$ means that there are $1000$ function calls to the `dfba_sim_data()` function for each of the $11$ sample sizes run. If the user wishes to vary that number to obtain either more or less precision in the power estimates, then the `samples` argument can be adjusted.
 
-The `a0` and `b0` arguments represent the $\alpha_0$ and $\beta_0$ shape parameters for the prior beta distribution for the Bayesian distribution-free analyses; the default values `a0 = 1` and `b0 = 1` correspond to a non-informative prior distribution. Other values of `a0` and `bo` may be specified to use a different prior distribution, for example, to use an informative prior.
+The `a0` and `b0` arguments represent the two shape parameters for the prior beta distribution for the Bayesian distribution-free analyses; the default values `a0 = 1` and `b0 = 1` correspond to a non-informative prior distribution. Other values of `a0` and `b0` may be specified to use a different prior distribution, for example, to use an informative prior.
 
 The `block.max` argument allows the user to examine the effect of block differences on power estimates when `design = "independent"`. 
 
@@ -73,7 +73,7 @@ The `dfba_power_curve()` function has two required arguments and ten optional ar
 
 ### Example 2: Paired Design with Differences Sampled from a Normal Distribution {#curve_example1}
 
-In the following example, power is estimated for frequentist $t$-test analysis and Bayesian Wilcoxon test analysis of paired data where the differences are stipulated to be drawn from a normal distribution. In this example code, the argument `delta_step` is omitted and the default value `delta_step = .05` is used; thus: the power analysis evaluates frequentist and Bayesian power at stipulated mean differences of $\delta = \{0, 0.5, ..., 1\}$. 
+In the following example, power is estimated for frequentist $t$-test analysis and Bayesian Wilcoxon test analysis of paired data where the differences are stipulated to be drawn from a normal distribution. In this example code, the argument `delta_step` is omitted and the default value `delta_step = .05` is used; thus: the power analysis evaluates frequentist and Bayesian power at stipulated mean differences of $\delta = \{0, 0.05, 0.10,\dots, 1\}$. 
 
 ```{r}
 set.seed(1)
@@ -97,7 +97,7 @@ plot(B)
 
 ### Example 3: Paired Design with Differences Sampled from a Weibull Distribution
 
-In the following example, power is estimated for frequentist $t$-test analysis and Bayesian Wilcoxon test analysis of paired data where the differences are stipulated to be drawn from a Weibull distribution. As in the [example 2 above](#curve_example1), the argument `delta_step` is omitted and the default value `delta_step = .05` is used; thus: the power analysis evaluates frequentist and Bayesian power at stipulated mean differences of $\delta = \{0, 0.5, ..., 1\}$. 
+In the following example, power is estimated for frequentist $t$-test analysis and Bayesian Wilcoxon test analysis of paired data where the differences are stipulated to be drawn from a Weibull distribution. As in the [example 2 above](#curve_example1), the argument `delta_step` is omitted and the default value `delta_step = .05` is used; thus: the power analysis evaluates frequentist and Bayesian power at stipulated mean differences of $\delta = \{0, 0.05, 0.10,\dots, 1\}$. 
 
 ```{r}
 C<- dfba_power_curve(n = 40,

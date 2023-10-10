@@ -1,7 +1,7 @@
 #' Formats for Beta Descriptive
 
 # Show
-
+#' @keywords internal
 #' @export
 #' @rdname dfba_beta_descriptive_method
 #' @param object An object of class \code{\linkS4class{dfba_beta_descriptive_out}}

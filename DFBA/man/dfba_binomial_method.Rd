@@ -19,3 +19,4 @@
 \description{
 Formats for Bayesian Binomial Test
 }
+\keyword{internal}

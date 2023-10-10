@@ -1,6 +1,7 @@
-#' Formats for Beta Contrasts
 
+#' Formats for Beta Contrasts
 #' @export
+#' @keywords internal
 #' @rdname dfba_beta_contrast_method
 #' @param object An object of class \code{\linkS4class{dfba_beta_contrast_out}}
 # #' @importFrom graphics plot

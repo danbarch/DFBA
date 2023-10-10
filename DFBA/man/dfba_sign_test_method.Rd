@@ -19,3 +19,4 @@
 \description{
 Formats for Bayesian Sign Test
 }
+\keyword{internal}

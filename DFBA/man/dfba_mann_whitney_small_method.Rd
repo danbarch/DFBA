@@ -19,3 +19,4 @@
 \description{
 Formats for small-n Mann Whitney
 }
+\keyword{internal}

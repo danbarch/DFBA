@@ -78,7 +78,7 @@ For an example let us construct a set of measures *via* the following commands
 set.seed(77)
 
 w1 <- 10 + rweibull(30, .8) 
-w2 <- 9.2 + rweibull(30, .7)
+w2 <- 9.1 + rweibull(30, .7)
 ```
 
 
@@ -91,15 +91,20 @@ The code below creates two objects for the Bayesian Wilcoxon analyses. The `Y1` 
 A <- dfba_wilcoxon(Y1 = w1,
                    Y2 = w2)
 
+A
+```
+
+```{r}
 B <- dfba_wilcoxon(Y1 = w1,
                    Y2 = w2,
                    method = "small",
                    samples = 100000,
                    hide_progress = TRUE)
+B
 ```
 
 
-Both analyses are similar in that there is a posterior probability greater than $.976$ that $\phi_w>.5$. The mean of the posterior distribution is approximately $.69$  for both approaches. The interval Bayes factor that $\phi_w>.5$ is about $42$ for both analyses. 
+Both analyses are similar in that there is a posterior probability greater than $.95$ that $\phi_w>.5$. The mean of the posterior distribution is approximately $.67$ for both approaches. The interval Bayes factor that $\phi_w>.5$ is about $21$ for both analyses. 
 
 Plots of the prior and posterior distributions for `dfba_wilcoxon()` objects are generated using the `plot()` method. Using the example data, `plot(A)` results in a large-$n$ probability density display and `plot(B)` produces a discrete probability display of the Monte-Carlo based analysis. 
 
@@ -111,7 +116,7 @@ plot(A)
 plot(B)
 ```
 
-It is interesting to compare the conclusions about the `w1` and `w2` variates that were reached *via* the Bayesian Wilcoxon signed-rank analysis with the results from the standard paired $t$-test. The $t$-test -- `t.test(w1, w2, paired = TRUE)` -- results in a non-significant $p$-value of $.19$. So, the $t$ test fails to detect a significant difference between the two conditions, whereas there is strong evidence from the Bayesian analysis of a condition difference. This example is not unusual when the variates are not normally distributed. This example underscores the utility of the Bayesian Wilcoxon signed-rank analysis for being a powerful and robust statistical procedure.
+It is interesting to compare the conclusions about the `w1` and `w2` variates that were reached *via* the Bayesian Wilcoxon signed-rank analysis with the results from the standard paired $t$-test. The $t$-test -- `t.test(w1, w2, paired = TRUE)` -- results in a non-significant $p$-value of $`r round(t.test(w1, w2, paired = TRUE)$p.value, 2)`$. Thus, the $t$ test fails to detect a significant difference between the two conditions, whereas there is strong evidence from the Bayesian analysis of a condition difference. This example is not unusual when the variates are not normally distributed. This example underscores the utility of the Bayesian Wilcoxon signed-rank analysis for being a powerful and robust statistical procedure.
 
 The final example is based on the following data taken from Chechile (2020) where there are more that two conditions within a block. The data are shown below. The first two conditions -- $C_1$ and $C_2$ -- are *control* conditions and the third condition -- $E$ -- is an *experimental* condition.
 

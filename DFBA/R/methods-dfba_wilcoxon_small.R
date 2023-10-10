@@ -1,7 +1,7 @@
 #' Formats for small-n Wilcoxon
 
 ## Show
-
+#' @keywords internal
 #' @export
 #' @rdname dfba_wilcoxon_method_small
 #' @param object An object of class \code{\linkS4class{dfba_wilcoxon_small_out}}

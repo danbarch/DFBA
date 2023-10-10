@@ -2,6 +2,7 @@
 
 # Show
 
+#' @keywords internal
 #' @export
 #' @rdname dfba_median_test_method
 #' @param object An object of class \code{\linkS4class{dfba_median_test_out}}

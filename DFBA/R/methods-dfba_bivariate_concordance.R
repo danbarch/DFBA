@@ -1,4 +1,6 @@
 #' Formatted output for dfba_bivariate_concordance
+#'
+#' @keywords internal
 #' @export
 #' @rdname dfba_bivariate_concordance_methods
 #' @param object An object of class \code{\linkS4class{dfba_bivariate_concordance_out}}

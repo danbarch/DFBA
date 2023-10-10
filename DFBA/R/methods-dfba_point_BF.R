@@ -1,6 +1,7 @@
 #' Formats for Point Bayes Factor
 
 # Show
+#' @keywords internal
 #' @export
 #' @rdname dfba_point_BF_show_method
 #' @param object An object of class \code{\linkS4class{dfba_point_BF_out}}

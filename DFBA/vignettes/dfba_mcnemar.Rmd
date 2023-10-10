@@ -42,7 +42,7 @@ The `dfba_mcnemar()` function has the following five arguments (default values a
 
 * `prob_interval = .95`
 
-The `n_01` argument is the number of respondents that were initially scored as a $0$ but switched to a $1$ score after some treatment or experience. The `n_10` input is the frequency of respondents that switch from $1$ to $0$ switch. *All of respondents who did not switch their response are ignored.* The analytic focus on *only those observations of category change* is a central feature of *both* the frequentist *and* the Bayesian forms of the McNemar test. 
+The `n_01` argument is the number of respondents that were initially scored as a $0$ but switched to a $1$ score after some treatment or experience. The `n_10` argument is the frequency of respondents that switch from $1$ to $0$ *All of respondents who did not switch their response are ignored.* The analytic focus on *only those observations of category change* is a central feature of *both* the frequentist *and* the Bayesian forms of the McNemar test. 
 
 The `a0` and `b0` arguments are the two shape parameters for the prior beta distribution for the $\phi_{rb}$ parameter. The uniform distribution (*i.e.*, $a0=b0=1$) is the default prior for the change-rate parameter. Finally, the `prob_interval` argument is the value for the interval estimates for $\phi_{rb}$. The default value for \pkg{prob\_interval} is $.95$. 
 

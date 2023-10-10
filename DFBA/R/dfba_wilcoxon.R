@@ -111,15 +111,24 @@
 #'
 #'
 #' @examples
+#'
+#' # Note: examples with method = "small" have long runtimes due to Monte Carlo
+#' # sampling; please feel free to run them in the console.
+#'
 #' ## Examples with a small number of pairs
+#'
+#'
+#'
 #' conditionA <- c(1.49, 0.64, 0.96, 2.34, 0.78, 1.29, 0.72, 1.52, 0.62, 1.67,
 #'                 1.19, 0.86)
 #' conditionB <- c(0.53, 0.55, 0.58, 0.97, 0.60, 0.22, 0.05, 13.14, 0.63, 0.33,
 #'                 0.91, 0.37)
 #'
+#' \dontrun{
 #' dfba_wilcoxon(Y1 = conditionA,
 #'               Y2 = conditionB,
-#'               hide_progress = TRUE)
+#'               hide_progress = FALSE)
+#'}
 #'
 #' # Note the results for this method="small" analysis differs from
 #' # the previously run. These differences are the differences from
@@ -127,20 +136,25 @@
 #'
 #' # Using the Jeffreys prior for the same two conditions.
 #'
+#' \dontrun{
 #' dfba_wilcoxon(conditionA,
 #'               conditionB,
 #'               a0 = .5,
 #'               b0 = .5,
-#'               hide_progress = TRUE)
+#'               hide_progress = FALSE)
+#' }
 #'
 #' # Using 99% interval estimates and with 50000 Monte Carlo samples per
 #' # candidate phi_w
+#'
+#' \dontrun{
 #'
 #' dfba_wilcoxon(conditionA,
 #'               conditionB,
 #'               prob_interval=.99,
 #'               samples=50000,
-#'               hide_progress = TRUE)
+#'               hide_progress = FALSE)
+#' }
 #'
 #' # Examples with large sample size
 #'
@@ -159,13 +173,17 @@
 #'
 #'# Forcing the method="small" despite a sufficiently large n value
 #'
+#'
+#' \dontrun{
 #'CW<-dfba_wilcoxon(Y1 = E,
 #'                  Y2 = C,
 #'                  method = "small",
-#'                  hide_progress = TRUE)
+#'                  hide_progress = FALSE)
 #'CW
 #'plot(CW)
 #'plot(CW, plot.prior = FALSE)
+#' }
+#'
 
 #' @export
 dfba_wilcoxon<-function(Y1,

@@ -1,6 +1,7 @@
 #' Bayesian vs. t Power Methods
 #'
 # Show
+#' @keywords internal
 #' @export
 #' @rdname dfba_t_power_method
 #' @param object An object of class \code{\linkS4class{dfba_t_power_out}}
@@ -21,6 +22,7 @@ setMethod("show", "dfba_t_power_out", function(object) {
 
 # Plot
 
+#' @keywords internal
 #' @export
 #' @rdname dfba_t_power_method
 #' @param x An object of class \code{\linkS4class{dfba_t_power_out}}

@@ -119,7 +119,7 @@
 #' beta with known shape parameters uses the \code{rbeta()} function. Thus, unlike
 #' Bayesian procedures that employ Markov chain Monte Carlo algorithms, the
 #' Monte Carlo sampling in the \code{dfba_beta_contrast()} function does not depend
-#' on a burn-in process or a starting estimate.. Thus, all the \eqn{N} sampled
+#' on a burn-in process or a starting estimate. Thus, all the \eqn{N} sampled
 #' values are valid random samples. Repeated use of the \code{dfba_beta_contrast()}
 #' function for the same input will naturally exhibit some random variation in
 #' the interval estimate and in the Bayes factor for a contrast greater than 0.

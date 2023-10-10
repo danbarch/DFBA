@@ -17,3 +17,4 @@
 \description{
 Formats for Beta Descriptive
 }
+\keyword{internal}

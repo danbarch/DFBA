@@ -155,15 +155,15 @@ dfba_mcnemar <- function(n_01,
                      a_post,
                      b_post)
 
-    outBFpoint <- dfba_beta_bayes_factor(a = a_post,
-                                         b = b_post,
+    outBFpoint <- dfba_beta_bayes_factor(a_post = a_post,
+                                         b_post = b_post,
                                          method = "point",
                                          H0 = .5,
                                          a0 = a0,
                                          b0 = b0)
 
-    outBFinterval <- dfba_beta_bayes_factor(a = a_post,
-                                            b = b_post,
+    outBFinterval <- dfba_beta_bayes_factor(a_post = a_post,
+                                            b_post = b_post,
                                             method = "interval",
                                             H0 = c(0, .5),
                                             a0 = a0,

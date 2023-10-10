@@ -74,7 +74,7 @@ where $a_0>0$ and $b_0>0$ and are finite. See the vignette about the `dfba_beta_
   (\#eq:betaposterior)
 \end{equation}
 
-where $a=a_0+n_1$ and $b=b_0+n_2$.^[to prevent confusion between the prior and posterior shape parameters, the `dfba_binomial()` function uses the variable names `a0` and `b0` to refer to $a_0$ and $b_0$ and `a_post` and `b_post` to refer to the posterior $a$ and $b$, respectively] Thus, if a beta distribution is the prior for the binomial $\phi$ parameter, then the resulting posterior distribution from Bayes theorem is another member of the beta family of distributions. This property of the prior and posterior being in the same distributional family is called *conjugacy*. The beta distribution is a natural Bayesian conjugate function for all Bernoulli processes where the likelihood is proportional to $\phi^{n_1}(1-\phi)^{n_2}$ (Lindley & Phillips, 1976; Chechile, 2020). 
+where $a=a_0+n_1$ and $b=b_0+n_2$.^[To prevent confusion between the prior and posterior shape parameters, the `dfba_binomial()` function uses the variable names `a0` and `b0` to refer to $a_0$ and $b_0$ and `a_post` and `b_post` to refer to the posterior $a$ and $b$, respectively] Thus, if a beta distribution is the prior for the binomial $\phi$ parameter, then the resulting posterior distribution from Bayes theorem is another member of the beta family of distributions. This property of the prior and posterior being in the same distributional family is called *conjugacy*. The beta distribution is a natural Bayesian conjugate function for all Bernoulli processes where the likelihood is proportional to $\phi^{n_1}(1-\phi)^{n_2}$ (Lindley & Phillips, 1976; Chechile, 2020). 
 
 # Using the `dfba_binomial()` Function {#Usage}
 

@@ -141,6 +141,9 @@ Communications in Statistics paper cited below.
 }
 \examples{
 
+# Note: examples with method = "small" have long runtimes due to Monte Carlo
+# sampling; please feel free to run them in the console.
+
 # Examples with large n per group
 # The data for each condition are presorted only for the user convenience if
 # checking the U stats by hand
@@ -161,7 +164,10 @@ dfba_mann_whitney(E = groupA,
 
 # The following also uses a Jeffreys prior but the analysis reverses the
 # variates:
-dfba_mann_whitney(E =groupB,C=groupA,a0=.5,b0=.5)
+dfba_mann_whitney(E = groupB,
+                  C = groupA,
+                  a0 = .5,
+                  b0 = .5)
 
 # Note that BF10 from the above analysis is 1/BF10 from the original order
 # of the variates.
@@ -177,10 +183,14 @@ dfba_mann_whitney(E = groupA,
 
 # The following forces a discrete approach with a flat prior for a case with
 # large n:
+
+
+\dontrun{
 dfba_mann_whitney(E = groupA,
                   C = groupB,
                   method = "small",
-                  hide_progress = TRUE)
+                  hide_progress = FALSE)
+}
 
 #Examples with small n per group
 
@@ -189,38 +199,43 @@ groupC <- c(96.49, 96.78, 97.26, 98.85, 99.75, 100.14, 101.15, 101.39,
 groupD <- c(101.16, 102.09, 103.14, 104.70, 105.27, 108.22, 108.32, 108.51,
             109.88, 110.32, 110.55, 113.42)
 
+\dontrun{
 CDex1<-dfba_mann_whitney(E = groupC,
                          C = groupD,
-                         hide_progress = TRUE)
+                         hide_progress = FALSE)
 
 CDex1
 
 CDex2<-dfba_mann_whitney(E = groupC,
                          C = groupD,
                          samples = 50000,
-                         hide_progress = TRUE)
+                         hide_progress = FALSE)
 CDex2
 
 
 CDex3<-dfba_mann_whitney(E = groupC,
                          C = groupD,
-                         hide_progress = TRUE)
+                         hide_progress = FALSE)
 
 CDex3
 
+}
 # Note that CDex1 and CDex2 are replication analyses for the discrete approach.
 # The variability is due to the different outcomes from the Monte Carlo
 # sampling.
 
 # Plot output
 # with prior and posterior curves
+
+\dontrun{
+
 plot(CDex1)
 
 # with only posterior curve
 plot(CDex2,
      plot.prior = FALSE)
 
-
+}
 }
 \references{
 Chechile, R.A. (2020). Bayesian Statistics for Experimental

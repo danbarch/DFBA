@@ -2,7 +2,7 @@
 
 ## Show
 
-
+#' @keywords internal
 #' @export
 #' @rdname dfba_wilcoxon_method_large
 #' @param object An object of class \code{\linkS4class{dfba_wilcoxon_large_out}}

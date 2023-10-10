@@ -1,7 +1,7 @@
 #' Formats for large-n Mann Whitney
 
 ## Show
-
+#' @keywords internal
 #' @export
 #' @rdname dfba_mann_whitney_large_method
 #' @param object An object of class \code{\linkS4class{dfba_mann_whitney_large_out}}

@@ -17,3 +17,4 @@
 \description{
 Formats for power curve
 }
+\keyword{internal}

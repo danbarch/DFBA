@@ -1,7 +1,5 @@
 #' Bayesian Median Test
 #'
-#' Description
-#'
 #' Given two independent groups of continuous variables, performs a Bayesian
 #' analysis of the likelihood of observing an above-median value from one of
 #' the groups relative to expectation.

@@ -105,4 +105,4 @@ plot(B)
 Chechile, R.A. (2020). *Bayesian Statistics for Experimental Scientists: A General Introduction Using Distribution-Free Methods*. Cambridge: MIT Press.
  
 
-Chechile, R. A., & Barch Jr., D.H. (2022). A distribution-free, Bayesian goodness-of-fit method for assessing similar scientific prediction equations. *Journal of Mathematical Psychology*, https://doi.org/10.1016/j.jmp.2021.102638
+Chechile, R. A., & Barch Jr., D.H. (2022). A distribution-free, Bayesian goodness-of-fit method for assessing similar scientific prediction equations. *Journal of Mathematical Psychology*, <https://doi.org/10.1016/j.jmp.2021.102638>

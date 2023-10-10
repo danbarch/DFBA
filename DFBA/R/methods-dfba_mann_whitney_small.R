@@ -1,7 +1,7 @@
 #' Formats for small-n Mann Whitney
 
 ## Small n
-
+#' @keywords internal
 #' @export
 #' @rdname dfba_mann_whitney_small_method
 #' @param object An object of class \code{\linkS4class{dfba_mann_whitney_small_out}}

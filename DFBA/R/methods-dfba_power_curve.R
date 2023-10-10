@@ -1,5 +1,6 @@
 #' Formats for power curve
 #'
+#' @keywords internal
 #' @export
 #' @rdname dfba_power_curve_method
 #' @param object An object of class \code{\linkS4class{dfba_power_curve_out}}

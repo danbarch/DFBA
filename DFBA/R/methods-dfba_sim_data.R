@@ -1,5 +1,6 @@
 #' Format for Simulated Data Function
 
+#' @keywords internal
 #' @export
 #' @rdname dfba_sim_data_method
 #' @param object An object of class \code{\linkS4class{dfba_sim_data_out}}
