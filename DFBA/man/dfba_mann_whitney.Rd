@@ -75,9 +75,13 @@ A list containing the following components:
 
 \item{omegabar}{Posterior mean estimate for \code{omega_E}}
 
-\item{hdi_lower}{Lower limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
+\item{eti_lower}{Lower limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
 
-\item{hdi_upper}{Upper limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
+\item{eti_upper}{Upper limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
+
+\item{hdi_lower}{Lower limit of the highest-density probability interval for \code{omega_E} with probability width indicated by \code{prob_interval} when \code{method = "small"}}
+
+\item{hdi_upper}{Upper limit of the highest-density probability interval for \code{omega_E} with probability width indicated by \code{prob_interval} when \code{method = "small"}}
 }
 \description{
 Given two independent vectors \code{E} and \code{C}, the function computes
@@ -244,5 +248,5 @@ Cambridge: MIT Press.
 
 Chechile, R.A. (2020). A Bayesian analysis for the Mann-Whitney
 statistic. Communications in Statistics -- Theory and Methods 49(3): 670-696.
-DOI: 10.1080/03610926.2018.1549247.
+https://doi-org.ezproxy.library.tufts.edu/10.1080/03610926.2017.1388402.
 }

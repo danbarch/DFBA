@@ -144,8 +144,8 @@ is equal to \eqn{N} and if \eqn{\phi_1, \ldots, \phi_K} are the parameters
 for the population success rates, then there are \eqn{N} random values drawn
 from each of \eqn{\phi_i} parameters for \eqn{i = 1, \ldots , K}. Given the
 contrast coefficients stipulated in the arguments, there are \eqn{N} delta random
-posterior values where \eqn{\Delta_j = \Psi_1\phi_{1j}+ \ldots +\Psi_K\phi_{Kj}} for
-\eqn{j = 1, \ldots, N}, where \eqn{\Psi_K} are the contrast coefficients specified
+posterior values where \eqn{\Delta_j = \Psi_1\phi_{1j}+ \ldots +\Psi_i\phi_{Kj}} for
+\eqn{j = 1, \ldots, N}, where \eqn{\Psi_i} are the contrast coefficients specified
 in the \code{contrast_vec} argument. The Monte Carlo sampling from each posterior
 beta with known shape parameters uses the \code{rbeta()} function. Thus, unlike
 Bayesian procedures that employ Markov chain Monte Carlo algorithms, the

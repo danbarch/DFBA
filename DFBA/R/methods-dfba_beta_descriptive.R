@@ -28,6 +28,16 @@ setMethod("show", "dfba_beta_descriptive_out", function(object) {
              "Note: this beta distribution has no unique mode\n\n",
              "\n")
       )
+  cat("Spread Estimate", "\n")
+  cat("========================\n")
+  cat(" ",
+      sprintf("%-10s", "Variance"),
+      "\n"
+      )
+  cat(" ",
+      sprintf("%-10g", object$x_variance),
+      "\n\n"
+  )
 #  cat(" ", "Mean","\t\t\t", "Median", "\t\t\t", "Mode", "\n")
 #  cat(" ", object$x_mean, "\t\t", object$x_median, "\t\t", object$x_mode,
 #      ifelse(is.na(object$x_mode), "Note: this beta distribution has no unique mode\n", "\n"))

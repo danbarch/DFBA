@@ -38,8 +38,10 @@
 #' @return \item{prH1}{Posterior probability of the alternative model that omega_E exceeds 0.5}
 #' @return \item{BF10}{Bayes Factor describing the relative increase in the posterior odds for the alternative model that \code{omega_E} exceeds 0.5 over the null model of \code{omega_E} less than or equal to 0.5}
 #' @return \item{omegabar}{Posterior mean estimate for \code{omega_E}}
-#' @return \item{hdi_lower}{Lower limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
-#' @return \item{hdi_upper}{Upper limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
+#' @return \item{eti_lower}{Lower limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
+#' @return \item{eti_upper}{Upper limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
+#' @return \item{hdi_lower}{Lower limit of the highest-density probability interval for \code{omega_E} with probability width indicated by \code{prob_interval} when \code{method = "small"}}
+#' @return \item{hdi_upper}{Upper limit of the highest-density probability interval for \code{omega_E} with probability width indicated by \code{prob_interval} when \code{method = "small"}}
 #'
 #' @details
 #'
@@ -102,7 +104,7 @@
 #'
 #' @references Chechile, R.A. (2020). A Bayesian analysis for the Mann-Whitney
 #' statistic. Communications in Statistics -- Theory and Methods 49(3): 670-696.
-#' DOI: 10.1080/03610926.2018.1549247.
+#' https://doi-org.ezproxy.library.tufts.edu/10.1080/03610926.2017.1388402.
 
 #' @importFrom stats qbeta
 #'

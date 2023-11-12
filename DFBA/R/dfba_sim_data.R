@@ -36,6 +36,7 @@
 #' @return \item{prH1}{Bayesian posterior probability either for the hypothesis that phi_w > .5 from the nonparametric Wilcoxon test when \code{design = "paired"} or for the hypothesis that omega_E > .5 from the Mann-Whitney test when \code{design = "independent"}}
 #' @return \item{C}{Vector of length n of simulated values for condition 1}
 #' @return \item{E}{Vector of length n of simulated values for condition 2}
+#' @return \item{design}{The data structure indicated by the \code{design} argument. One of \code{"independent"} or \code{"paired"}.}
 #'
 #' @details
 #'
@@ -160,11 +161,11 @@
 #'
 #' Chechile, R. A. (2017). A Bayesian analysis for the Wilcoxon signed-rank
 #' statistic. Communications in Statistics - Theory and Methods,
-#' https://doi.org/10.1080/03610926.2017.1388402
+#' https://doi.org/10.1080/03610926.2017.1388402.
 #'
 #' Chechile, R. A. (2020). A Bayesian analysis for the Mann- Whitney statistic.
 #' Communications in Statistics - Theory and Methods,
-#' https://10.1080/03610926.2018.1549247
+#' https://doi-org.ezproxy.library.tufts.edu/10.1080/03610926.2017.1388402.
 #'
 #' Fishman, G. S. (1996) Monte Carlo: Concepts, Algorithms and Applications.
 #' New York: Springer.

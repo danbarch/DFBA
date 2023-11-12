@@ -37,6 +37,10 @@ test_that("Missing b parameter produces stop error",{
     expect_lte(abs(ADes$x_mode - 0.4065934), 3e-05)
   })
 
+  test_that("Beta variance is correct",{
+    expect_lte(abs(ADes$x_variance - 0.002570707), 3e-05)
+  })
+
   test_that("Equal-tail lower limit is correct",{
     expect_lte(abs(ADes$eti_lower - 0.3262818), 3e-05)
   })

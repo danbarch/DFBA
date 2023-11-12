@@ -45,7 +45,7 @@ A list containing the following components:
 
 \item{b0}{The second shape parameter for the prior beta distribution for the concordance proportion}
 
-\item{interval_width}{The probability within the interval estimates for the phi parameter}
+\item{prob_interval}{The probability within the interval estimates for the phi parameter}
 
 \item{post_median}{Median of posterior distribution on phi}
 

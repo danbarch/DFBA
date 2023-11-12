@@ -26,7 +26,7 @@
 #' @return \item{b_post}{The second shape parameter for the posterior beta distribution for the concordance proportion}
 #' @return \item{a0}{The first shape parameter for the prior beta distribution for the  concordance proportion}
 #' @return \item{b0}{The second shape parameter for the prior beta distribution for the concordance proportion}
-#' @return \item{interval_width}{The probability within the interval estimates for the phi parameter}
+#' @return \item{prob_interval}{The probability within the interval estimates for the phi parameter}
 #' @return \item{post_median}{Median of posterior distribution on phi}
 #' @return \item{eti_lower}{Lower limit of the equal-tail interval with width specified by prob_interval}
 #' @return \item{eti_upper}{Upper limit of the equal-tail interval with width specified by prob_interval}

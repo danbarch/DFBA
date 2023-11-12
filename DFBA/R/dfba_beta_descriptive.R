@@ -15,6 +15,7 @@
 #' @return \item{x_mean}{The mean of the distribution}
 #' @return \item{x_median}{The median of the distribution}
 #' @return \item{x_mode}{The mode for the distribution}
+#' @return \item{x_variance}{The variance for the distribution}
 #' @return \item{eti_lower}{The equal-tail lower interval limit}
 #' @return \item{eti_upper}{The equal-tail upper interval limit}
 #' @return \item{hdi_lower}{The lower limit for the highest-density interval}
@@ -32,16 +33,16 @@
 #'
 #' The \code{dfba_beta_descriptive()} function provides features
 #' to complement the beta distribution functions available in the \strong{stats}
-#' package. The function provides the mean, median, and mode for a
+#' package. The function provides the mean, median, mode, and variance for a
 #' beta variate in terms of its two shape parameters.
 #'
-#' While the mean and median are straightforward, there are several conditions
-#' that result in an undefined mode. When either (1) \eqn{a = b = 1}, (2)  \eqn{a < 1},
-#' or (3) \eqn{b < 1}, the mode is undefined. For example, when \eqn{a = b = 1},
-#' the function is the uniform distribution, which does not have a modal value.
-#' The other cases above result in the density function diverging at either
-#' \eqn{x = 0} or \eqn{x = 1}. The function returns a value of \code{NA} for the
-#' mode for all the cases where a unique mode does not exist.
+#' While the mean, variance, and median are straightforward, there are several
+#' conditions that result in an undefined mode. When either (1) \eqn{a = b = 1},
+#' (2)  \eqn{a < 1}, or (3) \eqn{b < 1}, the mode is undefined. For example,
+#' when \eqn{a = b = 1}, the function is the uniform distribution, which does not
+#' have a modal value. The other cases above result in the density function
+#' diverging at either \eqn{x = 0} or \eqn{x = 1}. The function returns a value of
+#' \code{NA} for the mode for all the cases where a unique mode does not exist.
 #'
 #' For interval estimation, the function finds an equal-tail interval limits in
 #' all cases, and it also provides the highest-density limits when there is a
@@ -91,6 +92,7 @@ dfba_beta_descriptive <- function(a,
     }
 
   phimean <- a/(a+b)
+  phivariance <- (a*b)/(((a+b)^2)*(a+b+1))
   phimedian <- qbeta(.5,
                     a,
                     b)
@@ -149,6 +151,7 @@ dfba_beta_descriptive <- function(a,
                         x_mean = phimean,
                         x_median = phimedian,
                         x_mode = phimode,
+                        x_variance = phivariance,
                         eti_lower = qlequal,
                         eti_upper = qhequal,
                         hdi_lower = qLmin,

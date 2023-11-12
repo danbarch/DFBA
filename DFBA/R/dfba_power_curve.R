@@ -71,10 +71,11 @@
 #' the alternative hypothesis are calculated using the \code{dfba_sim_data()}
 #' function.
 #'
-#' The arguments for the \code{dfba_power_curve()} function are passed from the
-#' \code{dfba_bayes_vs_t_power()} function. Besides the sample size \code{n}, there
+#' The arguments for the \code{dfba_power_curve()} function are passed into the
+#' \code{dfba_sim_data()} function. Besides the sample size \code{n}, there
 #' are eight other arguments that are required by the \code{dfba_power_curve()}
-#' function, which are passed from the \code{dfba_bayes_vs_t_power()} function:
+#' function, which are passed into the \code{dfba_sim_data()} function:
+#'
 #' \itemize{
 #'      \item \code{a0}
 #'      \item \code{b0}
