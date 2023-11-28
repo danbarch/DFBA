@@ -165,7 +165,7 @@
 #'
 #' Chechile, R. A. (2020). A Bayesian analysis for the Mann- Whitney statistic.
 #' Communications in Statistics - Theory and Methods,
-#' https://doi-org.ezproxy.library.tufts.edu/10.1080/03610926.2017.1388402.
+#' https://doi.org/10.1080/03610926.2018.1549247.
 #'
 #' Fishman, G. S. (1996) Monte Carlo: Concepts, Algorithms and Applications.
 #' New York: Springer.
