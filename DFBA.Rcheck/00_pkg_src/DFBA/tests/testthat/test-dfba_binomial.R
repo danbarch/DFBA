@@ -1,13 +1,50 @@
+# Binomial Test
 
-  dfba_bin=rep(0,9)
-  Abin<-dfba_binomial(n1 = 16,n2 =2)
+  Abin<-dfba_binomial(n1 = 16,
+                      n2 = 2)
 
+  # Error Tests
+
+  test_that("Unreasonable probability intervals must be stopped",{
+    expect_error(dfba_binomial(n1 = 16,
+                               n2 = 2,
+                               prob_interval = 23),
+                 "prob_interval must be greater than 0 and less than 1")
+  })
+
+  test_that("Missing a0 parameter produces stop error",{
+    expect_error(dfba_binomial(a0 = NA,
+                               n1 = 16,
+                               n2 = 2),
+                 "Both a0 and b0 must be positive and finite")
+  })
+
+  test_that("Missing b0 parameter produces stop error",{
+    expect_error(dfba_binomial(b0 = NA,
+                               n1 = 16,
+                               n2 = 2),
+                 "Both a0 and b0 must be positive and finite")
+  })
+
+  test_that("n's cannot be negative",{
+    expect_error(dfba_binomial(n1 = -16,
+                               n2 = 2),
+                 "Neither n1 nor n2 can be negative")
+  })
+
+  test_that("n's must be integers",{
+    expect_error(dfba_binomial(n1 = 16.666,
+                               n2 = 2),
+                 "n1 and n2 must be integers")
+  })
+
+  # Function Tests
   test_that("Posterior a parameter is correct",{
-    expect_equal(floor(Abin$apost+.1), 17)
+    expect_equal(floor(Abin$a_post+.1), 17)
   })
 
   test_that("Posterior b parameter is correct",{
-    expect_equal(floor(Abin$bpost+.1), 3)
+    expect_equal(floor(Abin$b_post+.1), 3)
   })
 
   test_that("Posterior phi mean is correct",{

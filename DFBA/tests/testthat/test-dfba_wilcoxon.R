@@ -45,11 +45,11 @@ test_that("Unreasonable probability intervals must be stopped",{
                "The probability for the interval estimate of phi_w must be a proper proportion.")
 })
 
-test_that("Too few samples throws error",{
-  expect_error(dfba_wilcoxon(Y1,
+test_that("Too few samples throws message",{
+  expect_message(dfba_wilcoxon(Y1,
                              Y2,
-                             samples=10),
-               "stipulating Monte Carlo samples < 10000 is too few")
+                             samples=1),
+               "For reliable results, the recommended minimum number of Monte Carlo samples is 10000")
 })
 
 test_that("Too small vectors throws error",{
@@ -75,10 +75,11 @@ test_that("Method must be large or small",{
 })
 # Small method tests
 
+set.seed(77)
 
 Awil<-dfba_wilcoxon(Y1,
                     Y2,
-                    samples=10000)
+                    samples=500)
 
 
 test_that("T_positive for small method is correct",{
@@ -120,14 +121,14 @@ test_that("Total cumulative probability for Phi for small method is correct",{
 test_that("Function works with a tie",{
   expect_lte(abs(dfba_wilcoxon(Y1,
                              c(Y1[1], Y2[-1]),
-                             samples=10000)$phibar-0.613),
+                             samples=500)$phibar-0.613),
                0.05)
 })
 
 test_that("Equal-tail interval works for tiny LL",{
   expect_lte(dfba_wilcoxon(Y1,
                                Y1+3,
-                               samples=10000)$hdi_lower,
+                               samples=500)$hdi_lower,
              0.05)
 })
 
@@ -135,9 +136,11 @@ test_that("Giant BF = Samples",{
   expect_equal(dfba_wilcoxon(Y1L,
                              Y1L-30,
                              method = "small",
-                           samples=10000)$BF10,
-             10000)
+                           samples=500)$BF10,
+             500)
 })
+
+set.seed(NULL)
 # Large method tests
 
 

@@ -11,7 +11,8 @@ dfba_wilcoxon(
   b0 = 1,
   prob_interval = 0.95,
   samples = 30000,
-  method = NULL
+  method = NULL,
+  hide_progress = FALSE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ dfba_wilcoxon(
 \item{samples}{When \code{method = "small"}, the number of desired Monte Carlo samples per candidate value for \code{phi_w} (default is 30000 per candidate phi)}
 
 \item{method}{(Optional) The method option is either \code{"small"} or \code{"large"}. The "small" algorithm is based on a discrete Monte Carlo solution for cases where \emph{n} is typically less than 20. The \code{"large"} algorithm is based on beta approximation model for the posterior distribution for the \code{phi_w} parameter. This approximation is reasonable when \emph{n} > 19. Regardless of \emph{n} the user can stipulate either method. When the \code{method} argument is omitted, the program selects the appropriate procedure.}
+
+\item{hide_progress}{(Optional) If \code{TRUE}, hide percent progress while Monte Carlo sampling is running when \code{method = SMALL}. (default is \code{FALSE}).}
 }
 \value{
 A list containing the following components:
@@ -48,6 +51,10 @@ A list containing the following components:
 
 \item{b0}{The second shape parameter for the beta distribution prior (default is 1)}
 
+\item{a_post}{First shape parameter for the posterior beta distribution}
+
+\item{b_post}{Second shape parameter for the posterior beta distribution}
+
 \item{phiv}{The 200 candidate values for phi_w for \code{method = "small"}}
 
 \item{phipost}{The discrete posterior distribution for phi_w when \code{method = "small"}}
@@ -58,27 +65,23 @@ A list containing the following components:
 
 \item{BF10}{Bayes factor for the relative increase in the posterior odds for the alternative hypothesis that phi_w > .5 over the null model for phi_w <= .5}
 
-\item{postmean}{The posterior mean for phi_w}
+\item{post_mean}{The posterior mean for phi_w}
 
 \item{cumulative_phi}{The posterior cumulative distribution for phi_w when \code{method = "small"}}
 
-\item{qLv}{The lower limit for the posterior interval estimate for phi_w when \code{method = "small"}}
+\item{hdi_lower}{The lower limit for the posterior highest-density interval estimate for phi_w}
 
-\item{qHv}{The upper limit for the posterior interval estimate for phi_w when \code{method = "small"}}
+\item{hdi_upper}{The upper limit for the posterior highest-density interval estimate for phi_w}
 
-\item{apost}{The first shape parameter for a beta distribution model for phi_w when \code{method = "large"}}
+\item{a_post}{The first shape parameter for a beta distribution model for phi_w when \code{method = "large"}}
 
-\item{bpost}{The second shape parameter for a beta distribution model for phi_w when \code{method = "large"}}
+\item{b_post}{The second shape parameter for a beta distribution model for phi_w when \code{method = "large"}}
 
-\item{postmedian}{The posterior median for phi_w when \code{method = "large"}}
+\item{post_median}{The posterior median for phi_w when \code{method = "large"}}
 
-\item{qlequal}{The equal-tail lower limit for phi_w when \code{method = "large"}}
+\item{eti_lower}{The equal-tail lower limit for phi_w}
 
-\item{qhequal}{The equal-tail upper limit for phi_w when \code{method = "large"}}
-
-\item{qLmin}{The lower limit for the highest-density interval for phi_w when \code{method = "large"}}
-
-\item{qHmax}{The upper limit for the highest-density interval for phi_w when \code{method = "large"}}
+\item{eti_upper}{The equal-tail upper limit for phi_w}
 }
 \description{
 Given two continuous, paired variates \code{Y1} and \code{Y2},
@@ -143,14 +146,24 @@ produce similar estimates but the former method requires increased
 processing time.
 }
 \examples{
+
+# Note: examples with method = "small" have long runtimes due to Monte Carlo
+# sampling; please feel free to run them in the console.
+
 ## Examples with a small number of pairs
+
+
+
 conditionA <- c(1.49, 0.64, 0.96, 2.34, 0.78, 1.29, 0.72, 1.52, 0.62, 1.67,
                 1.19, 0.86)
 conditionB <- c(0.53, 0.55, 0.58, 0.97, 0.60, 0.22, 0.05, 13.14, 0.63, 0.33,
                 0.91, 0.37)
 
+\dontrun{
 dfba_wilcoxon(Y1 = conditionA,
-             Y2 = conditionB)
+              Y2 = conditionB,
+              hide_progress = FALSE)
+}
 
 # Note the results for this method="small" analysis differs from
 # the previously run. These differences are the differences from
@@ -158,18 +171,25 @@ dfba_wilcoxon(Y1 = conditionA,
 
 # Using the Jeffreys prior for the same two conditions.
 
+\dontrun{
 dfba_wilcoxon(conditionA,
               conditionB,
               a0 = .5,
-              b0 = .5)
+              b0 = .5,
+              hide_progress = FALSE)
+}
 
 # Using 99\% interval estimates and with 50000 Monte Carlo samples per
 # candidate phi_w
 
+\dontrun{
+
 dfba_wilcoxon(conditionA,
               conditionB,
               prob_interval=.99,
-              samples=50000)
+              samples=50000,
+              hide_progress = FALSE)
+}
 
 # Examples with large sample size
 
@@ -181,18 +201,24 @@ C <- c(2.89, 4.19, 3.22, 6.50, 3.10, 4.19, 5.13, 3.77, 2.71, 2.58, 7.59,
        2.68, 4.98, 2.35, 5.15, 8.46, 3.77, 8.83, 4.06, 2.50, 5.48, 2.80,
        8.89, 3.19, 9.36, 4.58, 2.94, 4.75)
 
-       BW<-dfba_wilcoxon(Y1=E,Y2=C)
-       BW
-       plot(BW)
+BW<-dfba_wilcoxon(Y1 = E,
+                  Y2 = C)
+BW
+plot(BW)
 
 # Forcing the method="small" despite a sufficiently large n value
 
+
+\dontrun{
 CW<-dfba_wilcoxon(Y1 = E,
                  Y2 = C,
-                 method = "small")
+                 method = "small",
+                 hide_progress = FALSE)
 CW
 plot(CW)
 plot(CW, plot.prior = FALSE)
+}
+
 }
 \references{
 Chechile, R.A. (2020). Bayesian Statistics for Experimental

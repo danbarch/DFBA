@@ -1,15 +1,15 @@
 #' Formats for Bayesian Sign Test
 
 # Show
-
+#' @keywords internal
 #' @export
 #' @rdname dfba_sign_test_method
 #' @param object An object of class \code{\linkS4class{dfba_sign_test_out}}
 setMethod("show", "dfba_sign_test_out", function(object) {
   cat("Analysis of the Signs of the Y1 - Y2 Differences", "\n")
   cat("========================\n")
-  cat(" ", "Positive Differences","\t", "Negative Differences","\n")
-  cat(" ", object$n_pos, "\t\t\t", object$n_neg,"\n")
+  cat(" ", sprintf("%-20s", "Positive Differences"),"\t", "Negative Differences","\n")
+  cat(" ", sprintf("%-20g", object$n_pos), "\t\t\t", object$n_neg,"\n")
   cat("Analysis of the Positive Sign Rate"," ","\n")
   cat("========================\n")
   cat(" ", "Posterior Mean", "\n")
@@ -17,18 +17,43 @@ setMethod("show", "dfba_sign_test_out", function(object) {
   cat(" ", "Posterior Median", "\n")
   cat(" ", object$phimedian, "\n")
   cat(" ", "Posterior Mode", "\n")
-  cat(" ", object$phimode, "\n")
-  cat("Probability within", round(object$prob_interval*100), "percent interval\n")
-  cat("========================\n")
-  cat(" ", "equal-tail limit values:\n")
-  cat(" ", object$eti_lower, "\t\t\t", object$eti_upper, "\n")
-  cat(" ", "highest-density limits:\n")
-  cat(" ", object$hdi_lower, "\t\t\t", object$hdi_upper, "\n")
-  cat(" ", "Prior Probability", "\t", "Posterior Probability"," ","\n")
-  cat(" ", object$prior_H1,"\t\t\t", object$post_H1,"\n")
+  cat(" ", object$phimode, "\n\n")
+  cat(" ", paste0(round(object$prob_interval*100), "% Equal-tail interval limits:"), "\n")
+  cat(" ",
+      sprintf("%-12s", "Lower Limit"),
+      "\t",
+      "Upper Limit",
+      "\n")
+  cat(" ",
+      sprintf("%-12g",
+              object$eti_lower),
+      "\t",
+      object$eti_upper,
+      "\n")
+  cat(" ", paste0(round(object$prob_interval*100), "% Highest-density interval limits:"), "\n")
+  cat(" ",
+      sprintf("%-12s",
+              "Lower Limit"),
+      "\t",
+      "Upper Limit",
+      "\n")
+  cat(" ",
+      ifelse(is.na(object$hdi_lower),
+             sprintf("%-12s", "NA*"),
+             sprintf("%-12g", object$hdi_lower)
+      ),
+      "\t",
+      ifelse(is.na(object$hdi_upper),
+             "NA*",
+             object$hdi_upper),
+      "\n\n",
+      ifelse(is.na(object$hdi_lower), "Note: this beta distribution has no defined highest-density interval\n
+             ", "\n"))
+  cat(" ", sprintf("%-17s", "Prior Probability"), "\t", "Posterior Probability"," ","\n")
+  cat(" ", sprintf("%-17g", object$prior_H1), "\t", object$post_H1,"\n")
   cat(" ", "Bayes Factors for Pos. Rate > .5","\n")
-  cat(" ", "BF10","\t\t\t", "BF01","\n")
-  cat(" ", object$BF10, "\t\t", object$BF01,"\n")
+  cat(" ", sprintf("%-10s", "BF10"),"\t", "BF01","\n")
+  cat(" ", sprintf("%-10g", object$BF10), "\t", object$BF01,"\n")
 })
 
 # plot
@@ -43,9 +68,9 @@ setMethod("plot",
                    plot.prior=TRUE){
             x.data<-seq(0, 1, 1/1000)
             y.predata<-dbeta(x.data, x$a0, x$b0)
-            y.postdata<-dbeta(x.data, x$a.post, x$b.post)
-            xlab="phi"
-            ylab="Probability Density"
+            y.postdata<-dbeta(x.data, x$a_post, x$b_post)
+            xlab <- "phi"
+            ylab <- "Probability Density"
 
             if (plot.prior==FALSE){
               plot(x.data,

@@ -22,23 +22,23 @@
 #' @return \item{sample_p}{Sample concordance proportion}
 #' @return \item{nc}{Number of concordant comparisons}
 #' @return \item{nd}{Number of discordant comparisons}
-#' @return \item{a.post}{The first shape parameter for the posterior beta distribution for the concordance proportion}
-#' @return \item{b.post}{The second shape parameter for the posterior beta distribution for the concordance proportion}
+#' @return \item{a_post}{The first shape parameter for the posterior beta distribution for the concordance proportion}
+#' @return \item{b_post}{The second shape parameter for the posterior beta distribution for the concordance proportion}
 #' @return \item{a0}{The first shape parameter for the prior beta distribution for the  concordance proportion}
 #' @return \item{b0}{The second shape parameter for the prior beta distribution for the concordance proportion}
-#' @return \item{interval_width}{The probability within the interval estimates for the phi parameter}
-#' @return \item{post.median}{Median of posterior distribution on phi}
-#' @return \item{post.eti.lower}{Lower limit of the equal-tail interval with width specified by prob_interval}
-#' @return \item{post.eti.upper}{Upper limit of the equal-tail interval with width specified by prob_interval}
+#' @return \item{prob_interval}{The probability within the interval estimates for the phi parameter}
+#' @return \item{post_median}{Median of posterior distribution on phi}
+#' @return \item{eti_lower}{Lower limit of the equal-tail interval with width specified by prob_interval}
+#' @return \item{eti_upper}{Upper limit of the equal-tail interval with width specified by prob_interval}
 #' @return \item{tau_star}{Corrected tau_A to account for the number of free fitting parameter in goodness-of-fit applications}
 #' @return \item{nc_star}{The corrected number of concordant comparisons for a goodness-of-fit application when there is an integer value for \code{fitting.parameters}}
 #' @return \item{nd_star}{The number of discordant comparison when there is an integer value for \code{fitting.parameters}}
-#' @return \item{sample.p_star}{Correct proportion of concordant comparisons to account for free-fitting parameter for goodness-of-fit applications}
-#' @return \item{a.post_star}{Corrected value for the first shape parameter for the posterior for the concordance proportion when there are free fitting parameter for goodness-of-fit applications}
-#' @return \item{b.post_star}{The second shape parameter for the posterior distribution for the concordance proportion when there is a goodness-of-fit application}
-#' @return \item{post.median_star}{The posterior median for the concordance proportion when there is a goodness-of-fit application}
-#' @return \item{post.eti.lower_star}{Lower limit for the interval estimate when there is a goodness-of-fit application}
-#' @return \item{post.eti.upper_star}{Upper limt for the interval estimate when there is a goodness-of-fit application}
+#' @return \item{sample_p_star}{Correct proportion of concordant comparisons to account for free-fitting parameter for goodness-of-fit applications}
+#' @return \item{a_post_star}{Corrected value for the first shape parameter for the posterior for the concordance proportion when there are free fitting parameter for goodness-of-fit applications}
+#' @return \item{b_post_star}{The second shape parameter for the posterior distribution for the concordance proportion when there is a goodness-of-fit application}
+#' @return \item{post_median_star}{The posterior median for the concordance proportion when there is a goodness-of-fit application}
+#' @return \item{eti_lower_star}{Lower limit for the interval estimate when there is a goodness-of-fit application}
+#' @return \item{eti_upper_star}{Upper limt for the interval estimate when there is a goodness-of-fit application}
 #'
 #' @details
 #'
@@ -139,20 +139,16 @@
 #' (a Bayesian view). The American Statistician, 30, 112-119.
 #'
 #' @importFrom stats qbeta
+#' @importFrom stats dbeta
 #' @importFrom stats complete.cases
 #'
 #' @examples
-#' ## Example from the 1961 study by Clark, Vandenberg, and Proctor of twins in
-#' ## Human Biology 33, 163-180.
 #'
-#' maletwin1<-c(45, 40, 48, 42, 45, 44, 40, 37, 27, 45, 51, 44, 44, 29, 27, 48,
-#'              33, 39, 47, 54, 32)
 #'
-#' maletwin2<-c(37, 41, 50, 46, 31, 39, 37, 42, 27, 48, 49, 52, 27, 36, 29, 44,
-#'              44, 43, 34, 48, 33)
+#' x <- c(47, 39, 47, 42, 44, 46, 39, 37, 29, 42, 54, 33, 44, 31, 28, 49, 32, 37, 46, 55, 31)
+#' y <- c(36, 40, 49, 45, 30, 38, 39, 44, 27, 48, 49, 51, 27, 36, 30, 44, 42, 41, 35, 49, 33)
 #'
-#' dfba_bivariate_concordance(x = maletwin1,
-#'          y = maletwin2)
+#' dfba_bivariate_concordance(x, y)
 #'
 #' ## A goodness-of-fit example for a hypothetical case of fitting data in a
 #' ## yobs vector with prediction model
@@ -178,6 +174,7 @@ dfba_bivariate_concordance<-function(x,
                    b0=1,
                    prob_interval=0.95,
                    fitting.parameters=NULL){
+
   xy_input<-data.frame(x,y)                         #append x and y vectors
   xy<-xy_input[complete.cases(xy_input),]           #keep only rows with valid x and y values
   removed_rows<-nrow(xy_input)-nrow(xy)             #count removed rows
@@ -196,69 +193,77 @@ dfba_bivariate_concordance<-function(x,
 
   #Replace x and y vectors with complete-case-restricted data
 
-  x1<-xy$x
-  y1<-xy$y
+  x1 <- xy$x
+  y1 <- xy$y
 
-  t_xi<-unname(table(x1)[table(x1)>1])                #Counting T_x sizes of ties
-  t_yi<-unname(table(y1)[table(y1)>1])                #Counting T_y sizes of ties
-  Tx<-sum((t_xi*(t_xi-1))/2)                        #Calculating Tx
-  Ty<-sum((t_yi*(t_yi-1))/2)                        #Calculating Ty
-  t_xyi<-unname(table(xy)[table(xy)>1])             #Calculating txyi
-  Txy<-sum(t_xyi*(t_xyi-1)/2)                       #Calculating Txy
+  t_xi <- unname(table(x1)[table(x1)>1])          #Counting T_x sizes of ties
+  t_yi <- unname(table(y1)[table(y1)>1])          #Counting T_y sizes of ties
+  Tx<-sum((t_xi*(t_xi-1))/2)                      #Calculating Tx
+  Ty<-sum((t_yi*(t_yi-1))/2)                      #Calculating Ty
+  t_xyi<-unname(table(xy)[table(xy)>1])           #Calculating txyi
+  Txy<-sum(t_xyi*(t_xyi-1)/2)                     #Calculating Txy
   n<-length(x1)
   n_max<-n*(n-1)/2-Tx-Ty+Txy
   xy_ranks<-data.frame(xrank=rank(x1, ties.method="average"),
                        yrank=rank(y1, ties.method="average"))
   xy_c<-xy_ranks[order(x1, -y1),]       # for n_c, sort on ascending x then descending y
   xy$concordant<-rep(NA, nrow(xy))
-  for (i in 1:nrow(xy-1)){
+  for (i in seq_len(nrow(xy-1))){
     xy$concordant[i]<-sum(xy_c$yrank[(i+1):length(xy_c$yrank)]>xy_c$yrank[i])
   }
-  nc<-sum(xy$concordant, na.rm=TRUE)
-  nd<-n_max-nc
-  Tau<-(nc-nd)/n_max
-  pc<-(Tau+1)/2
-  a.post<-a0+nc
-  b.post<-b0+nd
-  post.median<-qbeta(0.5, a.post, b.post)
-  post.eti.lower<-qbeta((1-prob_interval)/2, a.post, b.post)
-  post.eti.upper<-qbeta(1-(1-prob_interval)/2, a.post, b.post)
+  nc <- sum(xy$concordant, na.rm=TRUE)
+  nd <- n_max-nc
+  Tau <- (nc-nd)/n_max
+  pc <- (Tau+1)/2
+  a_post <- a0+nc
+  b_post <- b0+nd
+  post_median<-qbeta(0.5,
+                     a_post,
+                     b_post)
+
+  eti_lower<-qbeta((1-prob_interval)/2,
+                   a_post,
+                   b_post)
+
+  eti_upper<-qbeta(1-(1-prob_interval)/2,
+                   a_post,
+                   b_post)
 
 
-  dfba_bivariate_concordance_list<-list(tau=Tau,
-                      nc=nc,
-                      nd=nd,
-                      sample.p=pc,
-                      a0=a0,
-                      b0=b0,
-                      a.post=a.post,
-                      b.post=b.post,
-                      post.median=post.median,
-                      prob_interval=prob_interval,
-                      post.eti.lower=post.eti.lower,
-                      post.eti.upper=post.eti.upper)
+  dfba_bivariate_concordance_list<-list(tau = Tau,
+                      nc = nc,
+                      nd = nd,
+                      sample_p = pc,
+                      a0 = a0,
+                      b0 = b0,
+                      a_post = a_post,
+                      b_post = b_post,
+                      post_median = post_median,
+                      prob_interval = prob_interval,
+                      eti_lower = eti_lower,
+                      eti_upper = eti_upper)
 
    if (is.null(fitting.parameters) == FALSE){      #Calculate phi_star if fitting.parameters are present
     Lc<-n*fitting.parameters-(fitting.parameters*(fitting.parameters+1)/2)
     nc_star<-nc-Lc
     Tau_star<-(nc_star-nd)/(nc_star+nd)
     pc_star<-(Tau_star+1)/2
-    a.post_star<-a0+nc_star
-    post.median_star<-qbeta(0.5, a.post_star, b.post)
-    post.eti.lower_star<-qbeta((1-prob_interval)/2, a.post_star, b.post)
-    post.eti.upper_star<-qbeta(1-(1-prob_interval)/2, a.post_star, b.post)
+    a_post_star<-a0+nc_star
+    post_median_star<-qbeta(0.5, a_post_star, b_post)
+    eti_lower_star<-qbeta((1-prob_interval)/2, a_post_star, b_post)
+    eti_upper_star<-qbeta(1-(1-prob_interval)/2, a_post_star, b_post)
 
     dfba_bivariate_concordance_star_list<-append(dfba_bivariate_concordance_list,
                                list(tau_star=Tau_star,
                                     nc_star=nc_star,
                                     nd_star=nd,
-                                    sample.p_star=pc_star,
-                                    a.post_star=a.post_star,
-                                    b.post_star=b.post,
-                                    post.median_star=post.median_star,
+                                    sample_p_star=pc_star,
+                                    a_post_star=a_post_star,
+                                    b_post_star=b_post,
+                                    post_median_star=post_median_star,
                                     prob_interval=prob_interval,
-                                    post.eti.lower_star=post.eti.lower_star,
-                                    post.eti.upper_star=post.eti.upper_star))
+                                    eti_lower_star=eti_lower_star,
+                                    eti_upper_star=eti_upper_star))
   }
 
   if(is.null(fitting.parameters)==TRUE){

@@ -19,3 +19,4 @@
 \description{
 Format for Bayesian McNemar Test
 }
+\keyword{internal}

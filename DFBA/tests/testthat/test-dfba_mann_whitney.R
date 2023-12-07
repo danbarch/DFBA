@@ -11,6 +11,8 @@ Clarge<-rep(C, 3)
 
 # Error tests
 
+set.seed(77)
+
 test_that("Missing a0 parameter produces stop error",{
   expect_error(dfba_mann_whitney(a0 = NA,
                                  E,
@@ -34,11 +36,11 @@ test_that("Unreasonable probability intervals must be stopped",{
                                  prob_interval = 77),
                "The probability for the interval estimate of phi_w must be a proper proportion.")
 })
-test_that("Not enough samples",{
-  expect_error(dfba_mann_whitney(E,
+test_that("Few samples message",{
+  expect_message(dfba_mann_whitney(E,
                                  C,
                                  samples=8),
-               "For reliable results please use at least 10000 Monte Carlo samples")
+                 "For reliable results, the recommended minimum number of Monte Carlo samples is 10000")
 })
 
 test_that("empty E vector stops function",{
@@ -52,21 +54,21 @@ test_that("empty E vector stops function",{
 test_that("empty C vector stops function",{
   expect_error(dfba_mann_whitney(E,
                                  C = NA,
-                                 samples=10000),
+                                 samples=1),
                "The E and C vectors must have a length greater than 0."
   )
 })
 test_that("Missing data in E vector throws message",{
   expect_message(dfba_mann_whitney(c(NA, E[-1]),
                                    C,
-                                   samples=10000)
+                                   samples=10)
   )
 })
 
 test_that("Missing data in C vector throws message",{
   expect_message(dfba_mann_whitney(E,
                                    c(NA, C[-1]),
-                                   samples=10000)
+                                   samples=10)
   )
 })
 
@@ -80,10 +82,11 @@ test_that("Warning if method is neither large nor small",{
 })
 
 # Small method
+set.seed(77)
 
   AMann<-dfba_mann_whitney(E,
                            C,
-                           samples=10000)
+                           samples=500)
 
   test_that("[small] E mean is correct",{
     expect_lte(abs(AMann$Emean - 7.205), 0.001)
@@ -132,7 +135,7 @@ test_that("Warning if method is neither large nor small",{
   test_that("[small] Posterior mean is correct with ties",{
     expect_lte(abs(dfba_mann_whitney(E = c(3, 5, 6),
                                  C = c(1, 2, 3, 4),
-                                 samples = 10000)$omegabar)-0.756,
+                                 samples = 500)$omegabar)-0.756,
                0.1)
   })
 
@@ -147,16 +150,18 @@ test_that("Warning if method is neither large nor small",{
   test_that("[small] Giant BF = samples",{
     expect_equal(dfba_mann_whitney(E = rep(E, 2),
                                    C = rep(E, 2)-40,
-                                   samples = 10000,
-                                   method = "small")$BF10, 10000)
+                                   samples = 500,
+                                   method = "small")$BF10, 500)
   })
 
   test_that("Equal-tail interval works for tiny LL",{
     expect_lte(dfba_mann_whitney(E,
                                  C = E + 40,
-                             samples=10000)$eti_lower,
+                             samples=500)$eti_lower,
                0.05)
   })
+
+  set.seed(NULL)
 
   ## The next tests are for the large-sample case.
   # Tests 14 and 15 check the sample mean for E and C,

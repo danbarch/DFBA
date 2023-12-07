@@ -19,3 +19,4 @@
 \description{
 Formats for large-n Wilcoxon
 }
+\keyword{internal}

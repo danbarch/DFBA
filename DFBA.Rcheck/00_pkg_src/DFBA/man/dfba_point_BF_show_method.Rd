@@ -12,3 +12,4 @@
 \description{
 Formats for Point Bayes Factor
 }
+\keyword{internal}

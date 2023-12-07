@@ -6,6 +6,29 @@
   ABiCon<-dfba_bivariate_concordance(x = mt1,
                                      y = mt2)
 
+  # Error Tests
+
+  test_that("Missing data throws warning",{
+    expect_warning(dfba_bivariate_concordance(x = c(NA, mt1[-1]),
+                                              y = mt2)
+                   )
+  })
+
+  test_that("Missing a0 parameter produces stop error",{
+    expect_error(dfba_bivariate_concordance(a0 = NA,
+                                            x = mt1,
+                                            y = mt2),
+                 "Both the a0 and b0 shape parameters must be positive and finite")
+  })
+
+  test_that("Missing b0 parameter produces stop error",{
+    expect_error(dfba_bivariate_concordance(b0 = NA,
+                                            x = mt1,
+                                            y = mt2),
+                 "Both the a0 and b0 shape parameters must be positive and finite")
+  })
+
+  # Function Tests
   test_that("Tau is correct",{
     expect_lte(abs(ABiCon$tau - 0.3807107), 3e-05)
   })
@@ -19,33 +42,33 @@
   })
 
   test_that("Sample proportion is correct",{
-    expect_lte(abs(ABiCon$sample.p - 0.6903553), 3e-05)
+    expect_lte(abs(ABiCon$sample_p - 0.6903553), 3e-05)
   })
 
   test_that("Posterior shape parameter a is correct",{
-    expect_lte(abs(ABiCon$a.post - 137), 3e-05)
+    expect_lte(abs(ABiCon$a_post - 137), 3e-05)
   })
 
   test_that("Posterior shape parameter b is correct",{
-    expect_lte(abs(ABiCon$b.post - 62), 3e-05)
+    expect_lte(abs(ABiCon$b_post - 62), 3e-05)
   })
 
   test_that("Posterior median is correct",{
-    expect_lte(abs(ABiCon$post.median - 0.6890746), 3e-05)
+    expect_lte(abs(ABiCon$post_median - 0.6890746), 3e-05)
   })
 
   test_that("Equal-tail lower limit is correct",{
-    expect_lte(abs(ABiCon$post.eti.lower - 0.6225501), 3e-05)
+    expect_lte(abs(ABiCon$eti_lower - 0.6225501), 3e-05)
   })
 
   test_that("Equal-tail upper limit is correct",{
-    expect_lte(abs(ABiCon$post.eti.upper - 0.7507466), 3e-05)
+    expect_lte(abs(ABiCon$eti_upper - 0.7507466), 3e-05)
   })
 
 # GOF tests (phi_star)
 
-  p = seq(.05,.95,.05)
-  ypred = 17.332-(50.261*p) + (48.308*p^2)
+  p <- seq(.05,.95,.05)
+  ypred <- 17.332-(50.261*p) + (48.308*p^2)
 
 #  # Note the coefficients in the ypred equation were found first
 #  # via a polynomial regression
@@ -70,25 +93,25 @@
   })
 
   test_that("Adjusted sample proportion is correct",{
-    expect_lte(abs(AFit$sample.p_star - 0.7583333), 3e-05)
+    expect_lte(abs(AFit$sample_p_star - 0.7583333), 3e-05)
   })
 
   test_that("Adjusted posterior shape parameter a is correct",{
-    expect_lte(abs(AFit$a.post_star - 92), 3e-05)
+    expect_lte(abs(AFit$a_post_star - 92), 3e-05)
   })
 
   test_that("Adjusted posterior shape parameter b is correct",{
-    expect_lte(abs(AFit$b.post_star - 30), 3e-05)
+    expect_lte(abs(AFit$b_post_star - 30), 3e-05)
   })
 
   test_that("Adjusted posterior median is correct",{
-    expect_lte(abs(AFit$post.median_star - 0.7554904), 3e-05)
+    expect_lte(abs(AFit$post_median_star - 0.7554904), 3e-05)
   })
 
   test_that("Adjusted equal-tail lower limit is correct",{
-    expect_lte(abs(AFit$post.eti.lower_star - 0.6742621), 3e-05)
+    expect_lte(abs(AFit$eti_lower_star - 0.6742621), 3e-05)
   })
 
   test_that("Adjusted equal-tail upper limit is correct",{
-    expect_lte(abs(AFit$post.eti.upper_star - 0.8260471), 3e-05)
+    expect_lte(abs(AFit$eti_upper_star - 0.8260471), 3e-05)
   })

@@ -19,3 +19,4 @@
 \description{
 Formatted output for dfba_gamma
 }
+\keyword{internal}

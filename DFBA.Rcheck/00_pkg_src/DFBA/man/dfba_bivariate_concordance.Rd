@@ -37,21 +37,21 @@ A list containing the following components:
 
 \item{nd}{Number of discordant comparisons}
 
-\item{a.post}{The first shape parameter for the posterior beta distribution for the concordance proportion}
+\item{a_post}{The first shape parameter for the posterior beta distribution for the concordance proportion}
 
-\item{b.post}{The second shape parameter for the posterior beta distribution for the concordance proportion}
+\item{b_post}{The second shape parameter for the posterior beta distribution for the concordance proportion}
 
 \item{a0}{The first shape parameter for the prior beta distribution for the  concordance proportion}
 
 \item{b0}{The second shape parameter for the prior beta distribution for the concordance proportion}
 
-\item{interval_width}{The probability within the interval estimates for the phi parameter}
+\item{prob_interval}{The probability within the interval estimates for the phi parameter}
 
-\item{post.median}{Median of posterior distribution on phi}
+\item{post_median}{Median of posterior distribution on phi}
 
-\item{post.eti.lower}{Lower limit of the equal-tail interval with width specified by prob_interval}
+\item{eti_lower}{Lower limit of the equal-tail interval with width specified by prob_interval}
 
-\item{post.eti.upper}{Upper limit of the equal-tail interval with width specified by prob_interval}
+\item{eti_upper}{Upper limit of the equal-tail interval with width specified by prob_interval}
 
 \item{tau_star}{Corrected tau_A to account for the number of free fitting parameter in goodness-of-fit applications}
 
@@ -59,17 +59,17 @@ A list containing the following components:
 
 \item{nd_star}{The number of discordant comparison when there is an integer value for \code{fitting.parameters}}
 
-\item{sample.p_star}{Correct proportion of concordant comparisons to account for free-fitting parameter for goodness-of-fit applications}
+\item{sample_p_star}{Correct proportion of concordant comparisons to account for free-fitting parameter for goodness-of-fit applications}
 
-\item{a.post_star}{Corrected value for the first shape parameter for the posterior for the concordance proportion when there are free fitting parameter for goodness-of-fit applications}
+\item{a_post_star}{Corrected value for the first shape parameter for the posterior for the concordance proportion when there are free fitting parameter for goodness-of-fit applications}
 
-\item{b.post_star}{The second shape parameter for the posterior distribution for the concordance proportion when there is a goodness-of-fit application}
+\item{b_post_star}{The second shape parameter for the posterior distribution for the concordance proportion when there is a goodness-of-fit application}
 
-\item{post.median_star}{The posterior median for the concordance proportion when there is a goodness-of-fit application}
+\item{post_median_star}{The posterior median for the concordance proportion when there is a goodness-of-fit application}
 
-\item{post.eti.lower_star}{Lower limit for the interval estimate when there is a goodness-of-fit application}
+\item{eti_lower_star}{Lower limit for the interval estimate when there is a goodness-of-fit application}
 
-\item{post.eti.upper_star}{Upper limt for the interval estimate when there is a goodness-of-fit application}
+\item{eti_upper_star}{Upper limt for the interval estimate when there is a goodness-of-fit application}
 }
 \description{
 Given bivariate data, computes the sample number of concordant changes \code{nc}
@@ -168,17 +168,12 @@ and predicted score \code{y}), and further suppose that this model results in
 the number of concordant changes is reduced to \eqn{170-(20*2)+(2*3/2) = 133.}
 }
 \examples{
-## Example from the 1961 study by Clark, Vandenberg, and Proctor of twins in
-## Human Biology 33, 163-180.
 
-maletwin1<-c(45, 40, 48, 42, 45, 44, 40, 37, 27, 45, 51, 44, 44, 29, 27, 48,
-             33, 39, 47, 54, 32)
 
-maletwin2<-c(37, 41, 50, 46, 31, 39, 37, 42, 27, 48, 49, 52, 27, 36, 29, 44,
-             44, 43, 34, 48, 33)
+x <- c(47, 39, 47, 42, 44, 46, 39, 37, 29, 42, 54, 33, 44, 31, 28, 49, 32, 37, 46, 55, 31)
+y <- c(36, 40, 49, 45, 30, 38, 39, 44, 27, 48, 49, 51, 27, 36, 30, 44, 42, 41, 35, 49, 33)
 
-dfba_bivariate_concordance(x = maletwin1,
-         y = maletwin2)
+dfba_bivariate_concordance(x, y)
 
 ## A goodness-of-fit example for a hypothetical case of fitting data in a
 ## yobs vector with prediction model

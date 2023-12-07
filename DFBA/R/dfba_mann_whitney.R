@@ -228,7 +228,7 @@ dfba_mann_whitney<-function(E,
     stop("The probability for the interval estimate of phi_w must be a proper proportion.")}
 
   if (samples < 10000){
-    stop("For reliable results please use at least 10000 Monte Carlo samples")}
+    message("For reliable results, the recommended minimum number of Monte Carlo samples is 10000")}
 
   Etemp <- E
   Ctemp <- C

@@ -17,3 +17,4 @@
 \description{
 Bayesian vs. t Power Methods
 }
+\keyword{internal}

@@ -248,5 +248,5 @@ Cambridge: MIT Press.
 
 Chechile, R.A. (2020). A Bayesian analysis for the Mann-Whitney
 statistic. Communications in Statistics -- Theory and Methods 49(3): 670-696.
-https://doi-org.ezproxy.library.tufts.edu/10.1080/03610926.2017.1388402.
+https://doi.org/10.1080/03610926.2018.1549247.
 }

@@ -25,3 +25,4 @@
 \description{
 Formatted output for dfba_bivariate_concordance
 }
+\keyword{internal}

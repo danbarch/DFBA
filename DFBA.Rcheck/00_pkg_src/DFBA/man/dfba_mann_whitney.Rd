@@ -11,7 +11,8 @@ dfba_mann_whitney(
   b0 = 1,
   prob_interval = 0.95,
   samples = 30000,
-  method = NULL
+  method = NULL,
+  hide_progress = FALSE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ dfba_mann_whitney(
 \item{samples}{The number of Monte Carlo samples for \code{omega_E} when \code{method = "small"} (default is 30000)}
 
 \item{method}{(Optional) The method option is either "small" or "large". The "small" algorithm is based on a discrete Monte Carlo solution for cases where n is typically less than 20. The "large" algorithm is based on beta approximation model for the posterior distribution for the omega_E parameter. This approximation is reasonable when n > 19. Regardless of \eqn{n}, the user can stipulate \code{method}. When the \code{method} argument is omitted, the program selects the appropriate procedure}
+
+\item{hide_progress}{(Optional) If \code{TRUE}, hide percent progress while Monte Carlo sampling is running when \code{method = SMALL}. (default is \code{FALSE}).}
 }
 \value{
 A list containing the following components:
@@ -45,6 +48,14 @@ A list containing the following components:
 \item{U_C}{Total number of comparisons for which observations from independent sample 2 ("Control") data exceed observations from independent sample 1 ("Experimental") data)}
 
 \item{prob_interval}{User-defined width of \code{omega_E} interval estimate (default is 0.95)}
+
+\item{a0}{First shape parameter for the prior beta distribution}
+
+\item{b0}{Second shape parameter for the prior beta distribution}
+
+\item{a_post}{First shape parameter for the posterior beta distribution}
+
+\item{b_post}{Second shape parameter for the posterior beta distribution}
 
 \item{samples}{The number of desired Monte Carlo samples (default is 30000)}
 
@@ -64,9 +75,13 @@ A list containing the following components:
 
 \item{omegabar}{Posterior mean estimate for \code{omega_E}}
 
-\item{qLv}{Lower limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
+\item{eti_lower}{Lower limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
 
-\item{qHv}{Upper limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
+\item{eti_upper}{Upper limit of the equal-tail probability interval for \code{omega_E} with probability width indicated by \code{prob_interval}}
+
+\item{hdi_lower}{Lower limit of the highest-density probability interval for \code{omega_E} with probability width indicated by \code{prob_interval} when \code{method = "small"}}
+
+\item{hdi_upper}{Upper limit of the highest-density probability interval for \code{omega_E} with probability width indicated by \code{prob_interval} when \code{method = "small"}}
 }
 \description{
 Given two independent vectors \code{E} and \code{C}, the function computes
@@ -116,7 +131,7 @@ developed from extensive previous empirical studies designed to approximate
 the quantiles of the discrete approach with the corresponding quantiles for a
 particular beta distribution. The large-\emph{n} solution also uses Lagrange
 polynomials for interpolation. The large-\emph{n} approximation is reasonably
-accurate when \eqn{n >} 19 for each condition. When the \code{method} input
+accurate when \eqn{n > 19} for each condition. When the \code{method} input
 is omitted, the function selects the appropriate procedure (\emph{i.e.},
 either the discrete case for a small sample size or the large-\emph{n}
 approach). Nonetheless, the user can stipulate which method they desire
@@ -129,6 +144,9 @@ Technical details of the analysis are explained in the Chechile (2020)
 Communications in Statistics paper cited below.
 }
 \examples{
+
+# Note: examples with method = "small" have long runtimes due to Monte Carlo
+# sampling; please feel free to run them in the console.
 
 # Examples with large n per group
 # The data for each condition are presorted only for the user convenience if
@@ -150,9 +168,12 @@ dfba_mann_whitney(E = groupA,
 
 # The following also uses a Jeffreys prior but the analysis reverses the
 # variates:
-dfba_mann_whitney(E =groupB,C=groupA,a0=.5,b0=.5)
+dfba_mann_whitney(E = groupB,
+                  C = groupA,
+                  a0 = .5,
+                  b0 = .5)
 
-# Notice that BF10 from the above analysis is 1/BF10 from the original order
+# Note that BF10 from the above analysis is 1/BF10 from the original order
 # of the variates.
 
 # The next analysis constructs 99\% interval estimates with the Jeffreys
@@ -166,7 +187,14 @@ dfba_mann_whitney(E = groupA,
 
 # The following forces a discrete approach with a flat prior for a case with
 # large n:
-dfba_mann_whitney(E=groupA,C=groupB,method="small")
+
+
+\dontrun{
+dfba_mann_whitney(E = groupA,
+                  C = groupB,
+                  method = "small",
+                  hide_progress = FALSE)
+}
 
 #Examples with small n per group
 
@@ -175,20 +203,43 @@ groupC <- c(96.49, 96.78, 97.26, 98.85, 99.75, 100.14, 101.15, 101.39,
 groupD <- c(101.16, 102.09, 103.14, 104.70, 105.27, 108.22, 108.32, 108.51,
             109.88, 110.32, 110.55, 113.42)
 
-S1ex<-dfba_mann_whitney(E = groupC, C = groupD)
-S2ex<-dfba_mann_whitney(E = groupC, C = groupD, samples = 50000)
-S3ex<-dfba_mann_whitney(E = groupC, C = groupD)
+\dontrun{
+CDex1<-dfba_mann_whitney(E = groupC,
+                         C = groupD,
+                         hide_progress = FALSE)
 
-# Note that S1ex and S3ex are replication analyses for the discrete approach.
-# The variabilty is due to the different outcomes from the Monte Carlo
+CDex1
+
+CDex2<-dfba_mann_whitney(E = groupC,
+                         C = groupD,
+                         samples = 50000,
+                         hide_progress = FALSE)
+CDex2
+
+
+CDex3<-dfba_mann_whitney(E = groupC,
+                         C = groupD,
+                         hide_progress = FALSE)
+
+CDex3
+
+}
+# Note that CDex1 and CDex2 are replication analyses for the discrete approach.
+# The variability is due to the different outcomes from the Monte Carlo
 # sampling.
 
 # Plot output
-plot(S1ex)
-plot(S2ex,
+# with prior and posterior curves
+
+\dontrun{
+
+plot(CDex1)
+
+# with only posterior curve
+plot(CDex2,
      plot.prior = FALSE)
 
-
+}
 }
 \references{
 Chechile, R.A. (2020). Bayesian Statistics for Experimental
@@ -197,5 +248,5 @@ Cambridge: MIT Press.
 
 Chechile, R.A. (2020). A Bayesian analysis for the Mann-Whitney
 statistic. Communications in Statistics -- Theory and Methods 49(3): 670-696.
-DOI: 10.1080/03610926.2018.1549247.
+https://doi.org/10.1080/03610926.2018.1549247.
 }

@@ -17,3 +17,4 @@
 \description{
 Formats for Beta Contrasts
 }
+\keyword{internal}

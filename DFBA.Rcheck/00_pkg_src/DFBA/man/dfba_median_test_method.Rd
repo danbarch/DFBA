@@ -12,3 +12,4 @@
 \description{
 Formats for Bayesian Median Test Output
 }
+\keyword{internal}

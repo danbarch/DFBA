@@ -1,6 +1,6 @@
 Package: DFBA
 Type: Package
-Title: Distribution-free Bayesian Analysis
+Title: Distribution-Free Bayesian Analysis
 Version: 0.1.0
 Author: Daniel H. Barch and Richard A. Chechile
 Maintainer: Dan Barch <daniel.barch@tufts.edu>
@@ -16,7 +16,10 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
+    bookdown,
     testthat (>= 3.0.0),
     vdiffr
 Config/testthat/edition: 3
 VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)

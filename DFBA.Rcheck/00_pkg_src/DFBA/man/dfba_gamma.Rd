@@ -24,23 +24,23 @@ A list containing the following components:
 
 \item{b0}{Second shape parameter for prior beta}
 
-\item{sample.p}{Sample estimate for proportion concordance \code{nc/(nc+nd)}}
+\item{sample_p}{Sample estimate for proportion concordance \code{nc/(nc+nd)}}
 
 \item{nc}{Number of concordant comparisons between the paired measures}
 
 \item{nd}{Number of discordant comparisons between the paired measures}
 
-\item{a.post}{First shape parameter for the posterior beta distribution for the phi parameter}
+\item{a_post}{First shape parameter for the posterior beta distribution for the phi parameter}
 
-\item{b.post}{Second shape parameter for the posterior beta distribution for the phi parameter}
+\item{b_post}{Second shape parameter for the posterior beta distribution for the phi parameter}
 
-\item{post.median}{Median of the posterior distribution for the phi concordance parameter}
+\item{post_median}{Median of the posterior distribution for the phi concordance parameter}
 
 \item{prob_interval}{The probability of the interval estimate for the phi parameter}
 
-\item{post.eti.lower}{Lower limit of the posterior equal-tail interval for the phi parameter where the width of the interval is specified by the \code{prob_interval} input}
+\item{eti_lower}{Lower limit of the posterior equal-tail interval for the phi parameter where the width of the interval is specified by the \code{prob_interval} input}
 
-\item{post.eti.upper}{Upper limit of the posterior equal-tail interval for the phi parameter where the width of the interval is specified by the \code{prob_interval} input}
+\item{eti_upper}{Upper limit of the posterior equal-tail interval for the phi parameter where the width of the interval is specified by the \code{prob_interval} input}
 }
 \description{
 Given bivariate data in the form of either a rank-ordered table or a matrix,
@@ -100,8 +100,8 @@ rownames(N) <- c('R1', 'R2', 'R3')
 dfba_gamma(N)
 
 # Sample problem with table input
-T <- as.table(N)
-dfba_gamma(T)
+NTable <- as.table(N)
+dfba_gamma(NTable)
 }
 \references{
 Chechile, R.A. (2020). Bayesian Statistics for Experimental Scientists: A

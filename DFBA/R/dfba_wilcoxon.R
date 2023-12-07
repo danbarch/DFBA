@@ -212,7 +212,7 @@ dfba_wilcoxon<-function(Y1,
     stop("The probability for the interval estimate of phi_w must be a proper proportion.")
     }
   if (samples<10000){
-    stop("stipulating Monte Carlo samples < 10000 is too few")
+    message("For reliable results, the recommended minimum number of Monte Carlo samples is 10000")
   }
   #Following code checks for NA values and cleans the difference scores
   Etemp <- Y1

@@ -34,9 +34,9 @@ A list containing the following components:
 
 \item{n_neg}{Sample number of negative differences}
 
-\item{a.post}{First shape parameter for the posterior beta distribution for the population  positivity rate}
+\item{a_post}{First shape parameter for the posterior beta distribution for the population  positivity rate}
 
-\item{b.post}{Second shape parameter for the posterior beta distribution for the population positivity rate for differences}
+\item{b_post}{Second shape parameter for the posterior beta distribution for the population positivity rate for differences}
 
 \item{phimean}{Mean of the posterior distribution for the positivity rate parameter}
 
@@ -86,13 +86,13 @@ standard both in the frequentist sign test and in the frequentist Wilcoxon
 signed-rank procedure to remove the \eqn{d} values that are zero. Consequently,
 the signs for the nonzero \eqn{d} values are binary, so the posterior is a
 beta distribution with shape parameters \eqn{a} - denoted in the output as
-\code{a.post} and \eqn{b} - denoted in the output as \code{b.post} - where
-\code{a.post = a0 + n_pos} and \code{b.post = b0 + n_neg} and \code{a0} and \code{b0}
+\code{a_post} and \eqn{b} - denoted in the output as \code{b_post} - where
+\code{a_post = a0 + n_pos} and \code{b_post = b0 + n_neg} and \code{a0} and \code{b0}
 are the respective first and second beta shape parameters for the prior
 distribution. The default prior is a uniform distribution \code{a0 = b0 = 1}.
 
 The function estimates the population rate for positive signs by calling
-\code{dfba_beta_descriptive()} using the computed \code{a.post} and \code{b.post}
+\code{dfba_beta_descriptive()} using the computed \code{a_post} and \code{b_post}
 as arguments. Since interest in the sign test is focused on the null
 hypothesis that the positivity rate is less than or equal to .5,
 \code{dfba_sign_test()} calls \code{dfba_beta_bayes_factor()} to calculate the

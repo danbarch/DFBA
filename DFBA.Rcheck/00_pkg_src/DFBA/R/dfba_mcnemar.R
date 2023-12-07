@@ -22,12 +22,12 @@
 #' @return \item{prob_interval}{Desired posterior probability within the equal-tail interval limits for \code{phi_rb}}
 #' @return \item{a0}{The first shape parameter for the prior beta distribution for the \code{phi_rb} parameter}
 #' @return \item{b0}{The second shape parameter for the prior beta distribution for the \code{phi_rb} parameter}
-#' @return \item{a.post}{First shape parameter for the posterior beta distribution for the \code{phi_rb} parameter}
-#' @return \item{b.post}{Second shape parameter for the posterior beta distribution for the \code{phi_rb} parameter}
-#' @return \item{post.mean}{Posterior mean for \code{phi_rb}}
-#' @return \item{post.median}{Posterior median for \code{phi_rb}}
-#' @return \item{post_eti_lower}{Lower limit for the posterior equal-tail interval estimate for \code{phi_rb} that contains the probability defined in \code{prob_interval}}
-#' @return \item{post_eti_upper}{Upper limit for the posterior equal-tail interval estimate for phi_rb that contains the probability defined in \code{prob_interval}}
+#' @return \item{a_post}{First shape parameter for the posterior beta distribution for the \code{phi_rb} parameter}
+#' @return \item{b_post}{Second shape parameter for the posterior beta distribution for the \code{phi_rb} parameter}
+#' @return \item{post_mean}{Posterior mean for \code{phi_rb}}
+#' @return \item{post_median}{Posterior median for \code{phi_rb}}
+#' @return \item{eti_lower}{Lower limit for the posterior equal-tail interval estimate for \code{phi_rb} that contains the probability defined in \code{prob_interval}}
+#' @return \item{eti_upper}{Upper limit for the posterior equal-tail interval estimate for phi_rb that contains the probability defined in \code{prob_interval}}
 #' @return \item{BF10point}{The Bayes factor against the point null hypothesis that \code{phi_rb = .5}}
 #' @return \item{BF10interval}{The Bayes factor against the interval null hypothesis that \code{phi_rb} is less than or equal to \code{.5}}
 #' @return \item{postH1}{The posterior probability that \code{phi_rb > .5}}
@@ -134,89 +134,49 @@ dfba_mcnemar <- function(n_01,
     stop("Neither n_01 nor n_10 can be negative")
     }
 
-#  n10t = round(n_10)
-#  n01t = round(n_01)
-
     if (n_01 != round(n_01)|
         n_10 != round(n_10)){
     stop("n_01 and n_10 must be integers")
       }
 
-#  cat("Frequencies of a change in 0/1 response between the two tests","\n")
-#  cat("0 to 1 shift"," ","1 to 0 shift","\n")
-#  cat(n_01,"            ",n_10,"\n")
-#  cat(" ","  ","\n")
+  a_post <- a0 + n_01
+  b_post <- b0 + n_10
 
-  a.post = a0 + n_01
-  b.post = b0 + n_10
+  mean_phi_rb <- a_post/(a_post + b_post)
+  median_phi_rb <- qbeta(.5,
+                        a_post,
+                        b_post)
 
-  mean_phi_rb = a.post/(a.post + b.post)
-  median_phi_rb = qbeta(.5,
-                        a.post,
-                        b.post)
 
-#  cat("Posterior Beta Shape Parameters for Phi_rb"," ","\n")
-#  cat("a.post ","b.post","\n")
-#  cat(a.post,"    ",b.post,"\n")
-#  cat(" ","  ","\n")
+  eti_lower <- qbeta((1-prob_interval)/2,
+                     a_post,
+                     b_post)
+  eti_upper <- qbeta(1-((1-prob_interval)/2),
+                     a_post,
+                     b_post)
 
-#  cat("Posterior Point Estimates for Phi_rb"," ","\n")
-#  cat("phi_rb mean","  phi_rb median","\n")
-#  cat(mean_phi_rb,"   ",median_phi_rb,"\n")
-#  cat(" ","  ","\n")
-
-  eti_lower = qbeta((1-prob_interval)/2,
-                    a.post,
-                    b.post)
-  eti_upper = qbeta(1-((1-prob_interval)/2),
-                    a.post,
-                    b.post)
-
-#  prob_percent = prob_interval*100
-
-#  m2 = as.character(prob_percent)
-
-#  cat(m2,"percent equal-tail limits are:","\n")
-#  cat(eti_lower," ",eti_upper,"\n")
-#  cat(" ","  ","\n")
-#  cat("Point Bayes factor against null of phi_rb =.5 is:"," ","\n")
-
-    outBFpoint <- dfba_beta_bayes_factor(a = a.post,
-                                         b = b.post,
+    outBFpoint <- dfba_beta_bayes_factor(a_post = a_post,
+                                         b_post = b_post,
                                          method = "point",
                                          H0 = .5,
                                          a0 = a0,
                                          b0 = b0)
 
-#    BF10point = outBFpoint$BF10
-
-  #  cat(BF10point," ","\n")
-
-    outBFinterval <- dfba_beta_bayes_factor(a = a.post,
-                                            b = b.post,
+    outBFinterval <- dfba_beta_bayes_factor(a_post = a_post,
+                                            b_post = b_post,
                                             method = "interval",
                                             H0 = c(0, .5),
                                             a0 = a0,
                                             b0 = b0)
-#  BF10interval = outBFinterval$BF10
 
-#  cat("Interval Bayes factor against the null that phi_rb less than or equal to .5"," ","\n")
-#  cat(BF10interval," ","\n")
-#  cat(" "," ","\n")
-
-#  cat("Posterior Probability that Phi_rb>.5 is"," ","\n")
-
-#   postH1 = outBFinterval$postH1
-
-   #  cat(postH1," ","\n")
 
    mcnemar_out<-list(n_10 = n_10,
                      n_01 = n_01,
                      prob_interval = prob_interval,
                      a0 = a0,
                      b0 = b0,
-                     a.post = a.post,
-                     b.post = b.post,
+                     a_post = a_post,
+                     b_post = b_post,
                      post_mean = mean_phi_rb,
                      post_median = median_phi_rb,
                      eti_lower = eti_lower,

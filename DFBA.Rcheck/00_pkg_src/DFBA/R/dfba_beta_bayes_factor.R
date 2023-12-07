@@ -6,8 +6,8 @@
 #'
 #' @importFrom stats pbeta
 #'
-#' @param a The first shape parameter for the posterior beta distribution. Must be positive and finite.
-#' @param b The second shape parameter for the posterior beta distribution. Must be positive and finite.
+#' @param a_post The first shape parameter for the posterior beta distribution. Must be positive and finite.
+#' @param b_post The second shape parameter for the posterior beta distribution. Must be positive and finite.
 #' @param method One of \code{"interval"} if the null hypothesis is a range on the \code{[0,1]} interval or \code{"point"} if the null hypothesis is a single number in the \code{[0,1]} interval
 #' @param H0 If method="interval", then the H0 input is vector of two values, which are lower and upper limits for the null hypothesis; if method="point", then the H0 input is single number, which is the null hypothesis value
 #' @param a0 The first shape parameter for the prior beta distribution (default is 1). Must be positive and finite.
@@ -15,8 +15,8 @@
 #'
 #' @return A list containing the following components:
 #' @return \item{method}{The string of either \code{"interval"} or \code{"point"} corresponding to the type of null hypothesis tested}
-#' @return \item{a}{The input value for the posterior beta first shape parameter}
-#' @return \item{b}{The input value for the posterior beta second shape parameter}
+#' @return \item{a_post}{The value for the posterior beta first shape parameter}
+#' @return \item{b_post}{The value for the posterior beta second shape parameter}
 #' @return \item{a0}{The first shape parameter for the prior beta distribution}
 #' @return \item{b0}{The second shape parameter for the prior beta distribution}
 #' @return \item{BF10}{The Bayes factor for the alternative over the null hypothesis}
@@ -35,8 +35,8 @@
 #'
 #' For a binomial variate with \code{n1} successes and \code{n2} failures, the
 #' Bayesian analysis for the population success rate parameter \eqn{\phi} is
-#' distributed as a beta density function with shape parameters \code{a}
-#' and \code{b} for \code{a = n1 + a0} and \code{b = n2 + b0} where \code{a0}
+#' distributed as a beta density function with shape parameters \code{a_post}
+#' and \code{b_post} for \code{a_post = n1 + a0} and \code{b_post = n2 + b0} where \code{a0}
 #' and \code{b0} are the shape parameters for the prior beta distribution. It is
 #' common for users to be interested in testing hypotheses about the population
 #' \eqn{\phi} parameter. The Bayes factor is useful to assess if either the null
@@ -104,7 +104,7 @@
 #' \deqn{BF10 = [p(H_1|D)/p(H_1)][p(H_0)/p(H_0|D)]} where \eqn{D} denotes the data.
 #' The first term in this equation is \eqn{1/1 = 1}. But the second term is of
 #' the form \eqn{0/0}, which appears to undefined. However, by using L'Hospital's
-#' rule, it can be proved the term \eqn{p(H_0)/p(H_0|D)} is the ratio of prior
+#' rule, it can be proved that the term \eqn{p(H_0)/p(H_0|D)} is the ratio of prior
 #' probability density at the null point divided by the posterior probability
 #' density. This method for finding the Bayes factor for a point is called the
 #' Savage-Dickey method because of the separate contributions from both of those
@@ -127,19 +127,19 @@
 #'
 #' @examples
 #' ## Examples with the default uniform prior
-#' dfba_beta_bayes_factor(a = 17,
-#'                        b = 5,
+#' dfba_beta_bayes_factor(a_post = 17,
+#'                        b_post = 5,
 #'                        method = "interval",
 #'                        H0 = c(0, .5)
 #'                        )
-#' dfba_beta_bayes_factor(a = 377,
-#'                        b = 123,
+#' dfba_beta_bayes_factor(a_post = 377,
+#'                        b_post = 123,
 #'                        method = "point",
 #'                        H0 = .75)
 #'
 #' # An example with the Jeffreys prior
-#' dfba_beta_bayes_factor(a = 377,
-#'                        b = 123,
+#' dfba_beta_bayes_factor(a_post = 377.5,
+#'                        b_post = 123.5,
 #'                        method = "point",
 #'                        H0 = .75,
 #'                        a0 = .5,
@@ -148,16 +148,16 @@
 #'
 #'
 ## An example where the null is a narrow interval (.5 plus or minus .0025)
-#' dfba_beta_bayes_factor(a = 273,
-#'                        b = 278,
+#' dfba_beta_bayes_factor(a_post = 273,
+#'                        b_post = 278,
 #'                        method = "interval",
 #'                        H0 = c(.4975,
 #'                               .5025)
 #'                        )
 #'
 #' @export
-dfba_beta_bayes_factor<-function(a,
-                                 b,
+dfba_beta_bayes_factor<-function(a_post,
+                                 b_post,
                                  method,
                                  H0,
                                  a0 = 1,
@@ -176,30 +176,31 @@ dfba_beta_bayes_factor<-function(a,
     stop("Both a0 and b0 must be positive and finite.")
   }
 
-  if (a < a0 | b < b0 | is.na(a) | is.na(b)) {
-    stop("Both a and b cannot be less than the respective a0 and b0 values")
+  if (a_post < a0 | b_post < b0 | is.na(a_post) | is.na(b_post)) {
+    stop("Both a_post and b_post cannot be less than the respective a0 and b0 values")
   }
 
 
-  if(method == "point"){ #point method
-
-    # Checking input validity
-    # H0 between 0 and 1 (inclusive)
-    if((H0 > 1)|(H0 < 0)){
-    stop("H0 must be greater than or equal to 0 and less than or equal to 1")
-  }
-
+  if(method == "point"){
+    #point method
     # H0 is a point (for point method)
     if(length(H0) != 1){
       stop("'H0' must be a single numeric value when method = 'point'")
     }
 
-    dpriorH0 = dbeta(H0,
+    # Checking input validity
+    # H0 between 0 and 1 (inclusive)
+    if(H0 > 1|H0 < 0){
+      stop("H0 must be greater than or equal to 0 and less than or equal to 1")
+    }
+
+
+    dpriorH0 <- dbeta(H0,
                      a0,
                      b0)
-    dpostH0 = dbeta(H0,
-                    a,
-                    b)
+    dpostH0 <- dbeta(H0,
+                    a_post,
+                    b_post)
     BF10 <- ifelse(dpostH0 == 0,
                    Inf,
                    dpriorH0/dpostH0
@@ -210,8 +211,8 @@ dfba_beta_bayes_factor<-function(a,
                    )
 
   dfba_point_BF_list<-list(method = method,
-                           a = a,
-                           b = b,
+                           a_post = a_post,
+                           b_post = b_post,
                            a0 = a0,
                            b0 = b0,
                            BF10 = BF10,
@@ -221,8 +222,8 @@ dfba_beta_bayes_factor<-function(a,
                            dpostH0 = dpostH0
                            )
 
-  } else{ #interval method
-
+  } else{
+    #interval method
     # Checking input validity
     # Interval must be defined by 2 numbers
     if(length(H0) != 2){
@@ -230,38 +231,38 @@ dfba_beta_bayes_factor<-function(a,
     }
 
     # Both parts of interval have to be between 0 and 1 (inclusive)
-    if((H0[1] > 1)|(H0[1] < 0)|(H0[2] > 1)|(H0[2] < 0)){
+    if(any(H0 > 1)|any(H0 < 0)){
       stop("H0 interval limits must be greater than or equal to 0 and less than or equal to 1")
     }
 
     # Upper limit has to be greater than lower limit
-    if(H0[1] >= H0[2]){
+    if(method == "interval" & H0[1] >= H0[2]){
       stop("When method = 'interval', H0 upper limit must be greater than H0 lower limit")
     }
 
     lowerH0value <- H0[1]
     upperH0value <- H0[2]
 
-    pH0up = pbeta(upperH0value,
+    pH0up <- pbeta(upperH0value,
                   a0,
                   b0)
 
-    pH0lo = pbeta(lowerH0value,
+    pH0lo <- pbeta(lowerH0value,
                   a0,
                   b0)
 
-    pH0 = pH0up-pH0lo
-    pH1 = 1-pH0
+    pH0 <- pH0up-pH0lo
+    pH1 <- 1-pH0
 
-    postH0up = pbeta(upperH0value,
-                     a,
-                     b)
-    postH0lo = pbeta(lowerH0value,
-                     a,
-                     b)
+    postH0up <- pbeta(upperH0value,
+                      a_post,
+                      b_post)
+    postH0lo <- pbeta(lowerH0value,
+                      a_post,
+                      b_post)
 
-    postH0 = postH0up-postH0lo
-    postH1 = 1-postH0
+    postH0 <- postH0up - postH0lo
+    postH1 <- 1 - postH0
 
     BF10 <- ifelse(postH0 == 0,
                    Inf,
@@ -271,9 +272,9 @@ dfba_beta_bayes_factor<-function(a,
                    Inf,
                    ((1/pH0)-1)/((1/postH0)-1))
 
-    dfba_interval_BF_list<-list(method = method,
-                               a = a,
-                               b = b,
+    dfba_interval_BF_list <- list(method = method,
+                               a_post = a_post,
+                               b_post = b_post,
                                a0 = a0,
                                b0 = b0,
                                BF10 = BF10,

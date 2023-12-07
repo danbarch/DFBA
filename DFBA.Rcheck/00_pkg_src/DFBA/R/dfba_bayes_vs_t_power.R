@@ -9,13 +9,14 @@
 #' @param delta Offset amount between the two variates
 #' @param model Theoretical probability model for the data. One of \code{"normal"}, \code{"weibull"}, \code{"cauchy"}, \code{"lognormal"}, \code{"chisquare"}, \code{"logistic"}, \code{"exponential"}, \code{"gumbel"}, or \code{"pareto"}.
 #' @param design Indicates the data structure. One of \code{"independent"} or \code{"paired"}.
-#' @param effect_crit Stipulated  value for a significant differences for a \emph{t}-test (1 - \emph{p}), and the critical probability for the Bayesian alternative hypothesis for a Bayesian distribution-free analysis
+#' @param effect_crit Stipulated value for a significant differences for a \emph{t}-test (1 - \emph{p}), and the critical probability for the Bayesian alternative hypothesis for a Bayesian distribution-free analysis
 #' @param shape1 The shape parameter for the condition 1 variate for the distribution indicated by the \code{model} input (default is 1)
 #' @param shape2 The shape parameter for the condition 2 variate for the distribution indicated by the \code{model} input (default is 1)
 #' @param samples Desired number of Monte Carlo data sets drawn to estimate the power (default is 1000)
 #' @param a0 The first shape parameter for the prior beta distribution (default is 1). Must be positive and finite.
 #' @param b0 The second shape parameter for the prior beta distribution (default is 1). Must be positive and finite.
-#' @param block.max The maximum size for a block effect (default is 0)
+#' @param block_max The maximum size for a block effect (default is 0)
+#' @param hide_progress (Optional) If \code{TRUE}, hide percent progress while Monte Carlo sampling is running. (default is \code{FALSE}).
 #'
 #' @return A list containing the following components:
 #' @return \item{nsims}{The number of Monte Carlo data sets; equal to the value of the \code{samples} argument}
@@ -25,7 +26,7 @@
 #' @return \item{deltav}{The offset between the variates; equal to the \code{delta} argument}
 #' @return \item{a0}{The first shape parameter for the beta prior distribution}
 #' @return \item{b0}{The second shape parameter for the beta prior distribution}
-#' @return \item{block.max}{The maximum size of a block effect; equal to \code{block.max} argument}
+#' @return \item{block_max}{The maximum size of a block effect; equal to \code{block_max} argument}
 #' @return \item{outputdf}{A dataframe of possible sample sizes and the corresponding Bayesian and frequentist power values}
 #'
 #' @details
@@ -44,11 +45,12 @@
 #'
 #' For each data set, statistical tests are performed. If \code{design = "paired"},
 #' the frequentist \emph{t}-test is a one-tailed test on the within-block
-#' difference scores to assess the null hypothesis that \code{delta <= 0}; if
+#' difference scores to assess the null hypothesis that the population mean for
+#' \code{E} is greater than the population mean for \code{C}; if
 #' \code{design = "independent"}, the frequentist \emph{t}-test is the one-tailed
 #' test to assess if there is a significant difference between the two
 #' independent conditions (\emph{i.e.} if the mean for condition 2 is
-#' signficantly greater than the condition 1 mean). If \code{design = "paired"},
+#' significantly greater than the condition 1 mean). If \code{design = "paired"},
 #' the Bayesian analysis assesses if the posterior probability for \code{phi_w > .5}
 #' from the Bayesian Wilcoxon test is greater than \code{effect_crit}; if
 #' \code{design = "independent"}, the Bayesian analysis assesses if the posterior
@@ -77,7 +79,7 @@
 #'      \item \code{delta}
 #'      \item \code{shape1}
 #'      \item \code{shape2}
-#'      \item \code{block.max}.
+#'      \item \code{block_max}.
 #'      }
 #'
 #' The \code{a0} and \code{b0} values are the respective first and second beta
@@ -133,10 +135,10 @@
 #' 80-20 law where 20\% of the population receives 80\% of the income
 #' (Hardy, 2010).
 #'
-#' The \code{block.max} argument provides for incorporating block effects in the
+#' The \code{block_max} argument provides for incorporating block effects in the
 #' random sampling. The block effect for each score is a separate effect for the
 #' block. The block effect B for a score is a random number drawn from a uniform
-#' distribution on the interval \code{[0, block.max]}. When \code{design = "paired"},
+#' distribution on the interval \code{[0, block_max]}. When \code{design = "paired"},
 #' the same random block effect is added to the score in the first condition,
 #' which is the random \code{C} value, and it is also added to the corresponding
 #' paired value for the \code{E} variate. Thus, the pairing research design
@@ -146,7 +148,7 @@
 #' discrimination of condition differences because it increases the variability
 #' of the difference in the two variates. The user can study the effect of the
 #' relative discriminability of detecting an effect of delta by adjusting the
-#' value of the \code{block.max} argument. The default for \code{block.max} is 0,
+#' value of the \code{block_max} argument. The default for \code{block_max} is 0,
 #' but it can be altered to any non-negative real number.
 #'
 #'
@@ -164,30 +166,38 @@
 #'
 #' @examples
 #'
+#' # Note: these examples have long runtimes due to Monte Carlo sampling;
+#' # please feel free to run them in the console.
+#'
 #' # Examples for two data sets sampled from standard normal distributions with
 #' # no blocking effect
 #'
+#' \dontrun{
 #' dfba_bayes_vs_t_power(n_min = 40,
 #'                       delta = .45,
 #'                       model = "normal",
-#'                       design = "paired")
+#'                       design = "paired",
+#'                       hide_progress = FALSE)
 #'
 #' dfba_bayes_vs_t_power(n_min = 40,
 #'                       delta = .45,
 #'                       model = "normal",
-#'                       design = "independent")
+#'                       design = "independent",
+#'                       hide_progress = FALSE)
 #'
 #' # Examples with Weibull-distributed variates with no blocking effect
 #'
 #' dfba_bayes_vs_t_power(n_min = 50,
 #'                       delta = .45,
 #'                       model = "weibull",
-#'                       design ="paired")
+#'                       design ="paired",
+#'                       hide_progress = FALSE)
 #'
 #' dfba_bayes_vs_t_power(n_min = 50,
 #'                       delta = .45,
 #'                       model = "weibull",
-#'                       design = "independent")
+#'                       design = "independent",
+#'                       hide_progress = FALSE)
 #'
 #' # Examples with Weibull-distributed variates with a blocking effect
 #'
@@ -197,7 +207,8 @@
 #'                       design = "independent",
 #'                       shape1 = .8,
 #'                       shape2 = .8,
-#'                       block.max = 2.3)
+#'                       block_max = 2.3,
+#'                       hide_progress = FALSE)
 #'
 #' dfba_bayes_vs_t_power(n_min = 50,
 #'                       delta = .45,
@@ -205,7 +216,9 @@
 #'                       design = "paired",
 #'                       shape1 = .8,
 #'                       shape2 = .8,
-#'                       block.max = 2.3)
+#'                       block_max = 2.3,
+#'                       hide_progress = FALSE)
+#' }
 #'
 #' @references
 #'
@@ -216,9 +229,9 @@
 #' statistic. Communications in Statistics - Theory and Methods,
 #' https://doi.org/10.1080/03610926.2017.1388402
 #'
-#' Chechile, R. A. (2020). A Bayesian analysis for the Mann- Whitney statistic.
+#' Chechile, R. A. (2020). A Bayesian analysis for the Mann-Whitney statistic.
 #' Communications in Statistics - Theory and Methods,
-#' https://10.1080/03610926.2018.1549247
+#' https://doi.org/10.1080/03610926.2018.1549247
 #'
 #' Fishman, G. S. (1996) Monte Carlo: Concepts, Algorithms and Applications.
 #' New York: Springer.
@@ -240,24 +253,23 @@ dfba_bayes_vs_t_power<-function(n_min=20,
                                 model,
                                 design,
                                 effect_crit=.95,
-                                #shape_vec=c(1,1),
                                 shape1 = 1,
                                 shape2 = 1,
                                 samples=1000,
                                 a0 = 1,
                                 b0 = 1,
-                                block.max = 0){
+                                block_max = 0,
+                                hide_progress = FALSE){
 
-    deltav=delta
+    deltav <- delta
     if (delta<0){
       stop("The function requires a nonnegative value for delta.")
     }
-    #else {}
-#    n=round(n_min)
+
     if (n_min < 20 | n_min%%1 != 0){
-      stop("The function requires n_min to be an integer that is 20 or larger")
+      stop("n_min must be an integer that is 20 or larger")
     }
-    #else {}
+
 
     if (a0 <= 0|
         a0 == Inf|
@@ -279,46 +291,47 @@ dfba_bayes_vs_t_power<-function(n_min=20,
              "pareto")
 
     if (!model %in% mlist){
-      cat("The set of distributions for model are:"," ","\n")
-      print(mlist)
-      stop("The stipulated model is not on the list")
+      modelstop <- paste0("The set of distributions for model are:"," ","\n",
+                        "\t\t", paste0(mlist, collapse = "\n\t\t"), "\n",
+                     "The stipulated model is not on the list")
+      stop(modelstop)
       }
 
     designlist<-c("paired",
                   "independent")
+
     if (!design %in% designlist){
-      cat("The options for experimental design are:"," ","\n")
-      print(designlist)
-      stop("The stipulated design is not on the list")
+      designstop <- paste0("The set of distributions for design are:"," ","\n",
+                          "\t\t", paste0(designlist, collapse = "\n\t\t"), "\n",
+                          "The stipulated design is not on the list")
+      stop(designstop)
+
       }
 
     if ((effect_crit<0)|(effect_crit>1)){
       stop("The effect_crit value must be a number nonzero number less than 1.")
       }
-#    else {}
 
-#    shape_values<-c(shape_vec[1],shape_vec[2])
     shape_values<-c(shape1,
                     shape2)
 
-    nsims = round(samples)
+    nsims <- round(samples)
 
-    mup = n_min + 50
-    m = seq(n_min, mup, 5)
-#    detect_bayes=seq(1, 11, 1)*0.0
+    mup <- n_min + 50
+    m <- seq(n_min, mup, 5)
+
     detect_bayes<-rep(NA, 11)
-#    detect_t=seq(1,11,1)*0.0
+
     detect_t<-rep(NA, 11)
-#    outputsim=seq(1,2,1)*0.0
+
     outputsim<-rep(NA, 2)
 
-#    tpvalue=seq(1,nsims,1)*0.0
     tpvalue<-rep(NA, nsims)
-#    bayesprH1=seq(1,nsims,1)*0.0
+
     bayesprH1<-rep(NA, nsims)
 
     for (i in 1:11){
-      n=m[i]
+      n <- m[i]
       for (j in 1:nsims){
         outputsim<-dfba_sim_data(n = n,
                                  model = model,
@@ -328,24 +341,21 @@ dfba_bayes_vs_t_power<-function(n_min=20,
                                  shape2 = shape2,
                                  a0 = a0,
                                  b0 = b0,
-                                 block.max = block.max)
-        bayesprH1[j]=outputsim$prH1
-        tpvalue[j]=outputsim$pvalue
-        cat(round((j/nsims+(i-1))/11, 2)*100, '% complete', sep="", '\r')
+                                 block_max = block_max)
+        bayesprH1[j] <- outputsim$prH1
+        tpvalue[j] <- outputsim$pvalue
+        if (hide_progress == FALSE) {
+          cat(round((j/nsims+(i-1))/11, 2)*100, '% complete', sep="", '\r')
         }
-      detect_bayes[i]=(sum(bayesprH1>effect_crit))/nsims
-      detect_t[i]=(sum(tpvalue<1-effect_crit))/nsims
+        }
+      detect_bayes[i] <- (sum(bayesprH1>effect_crit))/nsims
+      detect_t[i] <- (sum(tpvalue<1-effect_crit))/nsims
     }
-#    cat("Power results for the proportion of samples detecting effects"," ","\n")
-#    cat("where the variates are distributed as a",model,"random variable","\n")
-#    cat("and where the design is",design,"\n")
-#    cat("The number of Monte Carlo samples are:"," ","\n")
-#    cat(nsims," ","\n")
-#    cat("Criterion for detecting an effect is"," ","\n")
-#    cat(effect_crit," ","\n")
-#    cat("The delta offset parameter is:"," ","\n")
-#    cat(deltav," ","\n")
-#    cat(" ","  ","\n")
+
+    if (hide_progress == FALSE) {
+      cat("\n")
+    }
+
     dfba_t_power_list<-list(nsims = nsims,
                             model = model,
                             design = design,
@@ -353,7 +363,7 @@ dfba_bayes_vs_t_power<-function(n_min=20,
                             deltav = deltav,
                             a0 = a0,
                             b0 = b0,
-                            block.max = block.max,
+                            block_max = block_max,
                             outputdf=data.frame(sample_size = m,
                                               Bayes_power = detect_bayes,
                                               t_power = detect_t)

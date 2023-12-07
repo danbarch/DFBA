@@ -7,6 +7,7 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(dfba.R)
+library(DFBA)
+library(vdiffr)
 
-test_check("dfba.R")
+test_check("DFBA")

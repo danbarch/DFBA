@@ -1,0 +1,885 @@
+Hmm ... looks like a package
+Converting parsed Rd's to LaTeX ...
+Creating pdf output from LaTeX ...
+
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+LaTeX2e <2016/03/31>
+Babel <3.9r> and hyphenation patterns for 83 language(s) loaded.
+(./Rd2.tex
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/book.cls
+Document Class: book 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/bk10.clo))
+(/Library/Frameworks/R.framework/Resources/share/texmf/tex/latex/Rd.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ifthen.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/tools/longtable.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/tools/bm.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/alltt.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/tools/verbatim.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/url/url.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/textcomp.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1enc.def))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/amsfonts.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/amssymb.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/jknapltx/mathrsfs.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/generic/iftex/iftex.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/fontenc.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1enc.def))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/times.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/inconsolata/zi4.sty
+`inconsolata-zi4' v1.10, 2016/02/22 Text macros for Inconsolata (msharpe)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/keyval.sty))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/color.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/pdftex-def/pdftex.def
+(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/infwarerr.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/ltxcmds.sty)))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty))
+(/usr/local/texlive/2016/texmf-dist/tex/generic/ifxetex/ifxetex.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/auxhook.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/kvoptions.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/latexconfig/hyperref.cfg))
+
+Package hyperref Message: Driver (autodetected): hpdftex.
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/hpdftex.def
+(/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty)))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/makeidx.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/inputenc.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1enc.dfu)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ot1enc.dfu)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/omsenc.dfu)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1enc.dfu)))
+Writing index file Rd2.idx
+No file Rd2.aux.
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1cmr.fd)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/t1ptm.fd)
+(/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/gettitlestring.sty))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/inconsolata/t1zi4.fd)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/t1phv.fd)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/jknapltx/ursfs.fd)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [1{/usr/local/texl
+ive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+Overfull \hbox (17.24904pt too wide) in paragraph at lines 77--78
+[]\T1/ptm/m/n/10 Theoretical prob-a-bil-ity model for the data. One of []\T1/zi
+4/m/n/10 "normal"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "weibull"[]\T1/ptm/m/n/10 
+, []\T1/zi4/m/n/10 "cauchy"[]\T1/ptm/m/n/10 ,
+
+Overfull \hbox (22.38095pt too wide) in paragraph at lines 77--78
+[]\T1/zi4/m/n/10 "lognormal"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "chisquare"[]\T
+1/ptm/m/n/10 , []\T1/zi4/m/n/10 "logistic"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "
+exponential"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "gumbel"[]\T1/ptm/m/n/10 , or [
+]\T1/zi4/m/n/10 "pareto"[]\T1/ptm/m/n/10 . 
+[2] (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/ts1ptm.fd) [3]
+[4] [5] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [6]
+[7]
+Overfull \hbox (12.3186pt too wide) in paragraph at lines 493--494
+[]\T1/ptm/m/n/10 The pos-te-rior prob-a-bil-ity for the al-ter-na-tive hy-poth-
+e-sis when []\T1/zi4/m/n/10 method = "interval" 
+[8] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [9] [10]
+[11] [12] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [13]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [14] [15] [16]
+[17] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [18] [19]
+Overfull \hbox (56.04865pt too wide) in paragraph at lines 1247--1248
+[]\T1/ptm/m/n/10 The num-ber of dis-cor-dant com-par-i-son when there is an in-
+te-ger value for []\T1/zi4/m/n/10 fitting.parameters 
+[20]
+Overfull \hbox (109.4355pt too wide) in paragraph at lines 1267--1270
+\T1/ptm/m/n/10 sess-ing sim-i-lar sci-en-tific pre-dic-tion equa-tions. Jour-na
+l of Math-e-mat-i-cal Psy-chol-ogy. https://doi.org/10.1016/j.jmp.2021.102638 
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [21] [22]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/inconsolata/ts1zi4.fd)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [23] [24] [25]
+[26]
+Underfull \vbox (badness 10000) has occurred while \output is active [27]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [28] [29]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [30] [31] [32]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+Overfull \hbox (24.84831pt too wide) in paragraph at lines 2071--2072
+[]\T1/ptm/m/n/10 The in-cre-ment be-tween suc-ces-sive delta val-ues, which ran
+ge from 0 to []\T1/zi4/m/n/10 20*delta_step
+[33]
+Overfull \hbox (17.24904pt too wide) in paragraph at lines 2073--2074
+[]\T1/ptm/m/n/10 Theoretical prob-a-bil-ity model for the data. One of []\T1/zi
+4/m/n/10 "normal"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "weibull"[]\T1/ptm/m/n/10 
+, []\T1/zi4/m/n/10 "cauchy"[]\T1/ptm/m/n/10 ,
+
+Overfull \hbox (22.38095pt too wide) in paragraph at lines 2073--2074
+[]\T1/zi4/m/n/10 "lognormal"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "chisquare"[]\T
+1/ptm/m/n/10 , []\T1/zi4/m/n/10 "logistic"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "
+exponential"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "gumbel"[]\T1/ptm/m/n/10 , or [
+]\T1/zi4/m/n/10 "pareto"[]\T1/ptm/m/n/10 . 
+
+Overfull \hbox (36.04732pt too wide) in paragraph at lines 2128--2132
+\T1/ptm/m/n/10 tion. Be-sides the sam-ple size []\T1/zi4/m/n/10 n[]\T1/ptm/m/n/
+10 , there are eight other ar-gu-ments that are re-quired by the []\T1/zi4/m/n/
+10 dfba_power_curve()
+[34] [35] [36] [37] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def
+)
+Overfull \hbox (38.0285pt too wide) in paragraph at lines 2383--2397
+[]\T1/ptm/m/n/10 The []\T1/zi4/m/n/10 dfba_sign_test() []\T1/ptm/m/n/10 func-ti
+on pro-vides a Bayesian ver-sion of the sign test (the func-tion []\T1/zi4/m/n/
+10 dfba_wilcoxon()
+[38] [39]
+Overfull \hbox (6.49744pt too wide) in paragraph at lines 2471--2473
+[][][]\T1/zi4/m/n/10 dfba_wilcoxon[][][] []\T1/ptm/m/n/10 for an al-ter-na-tive
+, more pow-er-ful Bayesian non-para-met-ric test for eva-lut-ing repeated-
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [40]
+Overfull \hbox (17.24904pt too wide) in paragraph at lines 2532--2533
+[]\T1/ptm/m/n/10 Theoretical prob-a-bil-ity model for the data. One of []\T1/zi
+4/m/n/10 "normal"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "weibull"[]\T1/ptm/m/n/10 
+, []\T1/zi4/m/n/10 "cauchy"[]\T1/ptm/m/n/10 ,
+
+Overfull \hbox (19.88095pt too wide) in paragraph at lines 2532--2533
+[]\T1/zi4/m/n/10 "lognormal"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "chisquare"[]\T
+1/ptm/m/n/10 , []\T1/zi4/m/n/10 "logistic"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "
+exponential"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "gumbel"[]\T1/ptm/m/n/10 , or [
+]\T1/zi4/m/n/10 "pareto" 
+[41] [42]
+Overfull \hbox (25.9879pt too wide) in paragraph at lines 2668--2671
+[]\T1/ptm/m/n/10 Random sam-pling for both the Gum-bel and the Pareto dis-tri-b
+u-tions are gen-er-ated by the []\T1/zi4/m/n/10 dfba_sim_data()
+[43] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [44] [45]
+Overfull \hbox (2.9185pt too wide) in paragraph at lines 2907--2908
+[]\T1/ptm/m/n/10 The sec-ond shape pa-ram-e-ter for a beta dis-tri-bu-tion mode
+l for phi_w when []\T1/zi4/m/n/10 method
+[46]
+Underfull \vbox (badness 10000) has occurred while \output is active [47]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [48]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [49]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [50]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [51]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [52]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [53]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [54]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [55]
+No file Rd2.ind.
+[56]
+(/private/var/folders/qp/31623wzx1qn4_93sg51_tbb40000gn/T/RtmpOELFmr/Rd2pdf155d
+751d4d21f/Rd2.aux)
+
+Package rerunfilecheck Warning: File `Rd2.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+ )
+(see the transcript file for additional information)pdfTeX warning (dest): name
+{Rfn.Distributions} has been referenced but does not exist, replaced by a fixed
+ one
+
+{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/inconsolata/i4-ts1.enc}{/us
+r/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/texlive
+/2016/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}</usr/local/texlive/20
+16/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/local/t
+exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
+xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
+live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texli
+ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive
+/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2
+016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2016
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2016/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/texmf
+-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2016/texmf-dist/f
+onts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
+/urw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times
+/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/utmri8a.p
+fb>
+Output written on Rd2.pdf (56 pages, 302838 bytes).
+Transcript written on Rd2.log.
+This is makeindex, version 2.15 [TeX Live 2016] (kpathsea + Thai support).
+Scanning input file Rd2.idx....done (138 entries accepted, 0 rejected).
+Sorting entries....done (1052 comparisons).
+Generating output file Rd2.ind....done (200 lines written, 0 warnings).
+Output written in Rd2.ind.
+Transcript written in Rd2.ilg.
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+LaTeX2e <2016/03/31>
+Babel <3.9r> and hyphenation patterns for 83 language(s) loaded.
+(./Rd2.tex
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/book.cls
+Document Class: book 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/bk10.clo))
+(/Library/Frameworks/R.framework/Resources/share/texmf/tex/latex/Rd.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ifthen.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/tools/longtable.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/tools/bm.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/alltt.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/tools/verbatim.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/url/url.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/textcomp.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1enc.def))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/amsfonts.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/amssymb.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/jknapltx/mathrsfs.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/generic/iftex/iftex.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/fontenc.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1enc.def))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/times.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/inconsolata/zi4.sty
+`inconsolata-zi4' v1.10, 2016/02/22 Text macros for Inconsolata (msharpe)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/keyval.sty))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/color.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/pdftex-def/pdftex.def
+(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/infwarerr.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/ltxcmds.sty)))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty))
+(/usr/local/texlive/2016/texmf-dist/tex/generic/ifxetex/ifxetex.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/auxhook.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/kvoptions.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/latexconfig/hyperref.cfg))
+
+Package hyperref Message: Driver (autodetected): hpdftex.
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/hpdftex.def
+(/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty)))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/makeidx.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/inputenc.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1enc.dfu)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ot1enc.dfu)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/omsenc.dfu)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1enc.dfu)))
+Writing index file Rd2.idx
+
+(/private/var/folders/qp/31623wzx1qn4_93sg51_tbb40000gn/T/RtmpOELFmr/Rd2pdf155d
+751d4d21f/Rd2.aux) (/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1cmr.fd
+) (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/t1ptm.fd)
+(/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/gettitlestring.sty))
+(/private/var/folders/qp/31623wzx1qn4_93sg51_tbb40000gn/T/RtmpOELFmr/Rd2pdf155d
+751d4d21f/Rd2.out)
+(/private/var/folders/qp/31623wzx1qn4_93sg51_tbb40000gn/T/RtmpOELFmr/Rd2pdf155d
+751d4d21f/Rd2.out) (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/inconsolata/t1zi4.fd)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/t1phv.fd)
+(/private/var/folders/qp/31623wzx1qn4_93sg51_tbb40000gn/T/RtmpOELFmr/Rd2pdf155d
+751d4d21f/Rd2.toc
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/jknapltx/ursfs.fd) [1{/usr/local/
+texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}])
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [2]
+Overfull \hbox (17.24904pt too wide) in paragraph at lines 77--78
+[]\T1/ptm/m/n/10 Theoretical prob-a-bil-ity model for the data. One of []\T1/zi
+4/m/n/10 "normal"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "weibull"[]\T1/ptm/m/n/10 
+, []\T1/zi4/m/n/10 "cauchy"[]\T1/ptm/m/n/10 ,
+
+Overfull \hbox (22.38095pt too wide) in paragraph at lines 77--78
+[]\T1/zi4/m/n/10 "lognormal"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "chisquare"[]\T
+1/ptm/m/n/10 , []\T1/zi4/m/n/10 "logistic"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "
+exponential"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "gumbel"[]\T1/ptm/m/n/10 , or [
+]\T1/zi4/m/n/10 "pareto"[]\T1/ptm/m/n/10 . 
+[3] (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/ts1ptm.fd) [4]
+[5] [6] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [7]
+[8]
+Overfull \hbox (12.3186pt too wide) in paragraph at lines 493--494
+[]\T1/ptm/m/n/10 The pos-te-rior prob-a-bil-ity for the al-ter-na-tive hy-poth-
+e-sis when []\T1/zi4/m/n/10 method = "interval" 
+[9] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [10] [11]
+[12] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [13] [14]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [15]
+Underfull \vbox (badness 10000) has occurred while \output is active [16]
+[17] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [18] [19]
+[20]
+Overfull \hbox (56.04865pt too wide) in paragraph at lines 1247--1248
+[]\T1/ptm/m/n/10 The num-ber of dis-cor-dant com-par-i-son when there is an in-
+te-ger value for []\T1/zi4/m/n/10 fitting.parameters 
+
+Overfull \hbox (109.4355pt too wide) in paragraph at lines 1267--1270
+\T1/ptm/m/n/10 sess-ing sim-i-lar sci-en-tific pre-dic-tion equa-tions. Jour-na
+l of Math-e-mat-i-cal Psy-chol-ogy. https://doi.org/10.1016/j.jmp.2021.102638 
+[21] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [22] [23]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/inconsolata/ts1zi4.fd)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [24] [25] [26]
+[27]
+Underfull \vbox (badness 10000) has occurred while \output is active [28]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [29] [30]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [31] [32]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [33]
+Overfull \hbox (24.84831pt too wide) in paragraph at lines 2071--2072
+[]\T1/ptm/m/n/10 The in-cre-ment be-tween suc-ces-sive delta val-ues, which ran
+ge from 0 to []\T1/zi4/m/n/10 20*delta_step
+
+Overfull \hbox (17.24904pt too wide) in paragraph at lines 2073--2074
+[]\T1/ptm/m/n/10 Theoretical prob-a-bil-ity model for the data. One of []\T1/zi
+4/m/n/10 "normal"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "weibull"[]\T1/ptm/m/n/10 
+, []\T1/zi4/m/n/10 "cauchy"[]\T1/ptm/m/n/10 ,
+
+Overfull \hbox (22.38095pt too wide) in paragraph at lines 2073--2074
+[]\T1/zi4/m/n/10 "lognormal"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "chisquare"[]\T
+1/ptm/m/n/10 , []\T1/zi4/m/n/10 "logistic"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "
+exponential"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "gumbel"[]\T1/ptm/m/n/10 , or [
+]\T1/zi4/m/n/10 "pareto"[]\T1/ptm/m/n/10 . 
+[34]
+Overfull \hbox (36.04732pt too wide) in paragraph at lines 2128--2132
+\T1/ptm/m/n/10 tion. Be-sides the sam-ple size []\T1/zi4/m/n/10 n[]\T1/ptm/m/n/
+10 , there are eight other ar-gu-ments that are re-quired by the []\T1/zi4/m/n/
+10 dfba_power_curve()
+[35] [36] [37] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+[38]
+Overfull \hbox (38.0285pt too wide) in paragraph at lines 2383--2397
+[]\T1/ptm/m/n/10 The []\T1/zi4/m/n/10 dfba_sign_test() []\T1/ptm/m/n/10 func-ti
+on pro-vides a Bayesian ver-sion of the sign test (the func-tion []\T1/zi4/m/n/
+10 dfba_wilcoxon()
+[39]
+Overfull \hbox (6.49744pt too wide) in paragraph at lines 2471--2473
+[][][]\T1/zi4/m/n/10 dfba_wilcoxon[][][] []\T1/ptm/m/n/10 for an al-ter-na-tive
+, more pow-er-ful Bayesian non-para-met-ric test for eva-lut-ing repeated-
+[40] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+Overfull \hbox (17.24904pt too wide) in paragraph at lines 2532--2533
+[]\T1/ptm/m/n/10 Theoretical prob-a-bil-ity model for the data. One of []\T1/zi
+4/m/n/10 "normal"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "weibull"[]\T1/ptm/m/n/10 
+, []\T1/zi4/m/n/10 "cauchy"[]\T1/ptm/m/n/10 ,
+
+Overfull \hbox (19.88095pt too wide) in paragraph at lines 2532--2533
+[]\T1/zi4/m/n/10 "lognormal"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "chisquare"[]\T
+1/ptm/m/n/10 , []\T1/zi4/m/n/10 "logistic"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "
+exponential"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "gumbel"[]\T1/ptm/m/n/10 , or [
+]\T1/zi4/m/n/10 "pareto" 
+[41] [42]
+Overfull \hbox (25.9879pt too wide) in paragraph at lines 2668--2671
+[]\T1/ptm/m/n/10 Random sam-pling for both the Gum-bel and the Pareto dis-tri-b
+u-tions are gen-er-ated by the []\T1/zi4/m/n/10 dfba_sim_data()
+[43] [44] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [45]
+[46]
+Overfull \hbox (2.9185pt too wide) in paragraph at lines 2907--2908
+[]\T1/ptm/m/n/10 The sec-ond shape pa-ram-e-ter for a beta dis-tri-bu-tion mode
+l for phi_w when []\T1/zi4/m/n/10 method
+[47]
+Underfull \vbox (badness 10000) has occurred while \output is active [48]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [49]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [50]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [51]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [52]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [53]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [54]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [55]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [56]
+(/private/var/folders/qp/31623wzx1qn4_93sg51_tbb40000gn/T/RtmpOELFmr/Rd2pdf155d
+751d4d21f/Rd2.ind [57]
+Overfull \hbox (3.3567pt too wide) in paragraph at lines 5--7
+[]| \T1/zi4/m/n/10 show,dfba_beta_contrast_out-method\T1/ptm/m/n/10 , 
+
+Overfull \hbox (18.3567pt too wide) in paragraph at lines 7--9
+[]| \T1/zi4/m/n/10 show,dfba_beta_descriptive_out-method\T1/ptm/m/n/10 , 
+
+Overfull \hbox (43.3567pt too wide) in paragraph at lines 10--12
+[]| \T1/zi4/m/n/10 show,dfba_bivariate_concordance_out-method\T1/ptm/m/n/10 , 
+
+Overfull \hbox (28.3567pt too wide) in paragraph at lines 15--17
+[]| \T1/zi4/m/n/10 show,dfba_mann_whitney_large_out-method\T1/ptm/m/n/10 , 
+
+Overfull \hbox (28.3567pt too wide) in paragraph at lines 17--19
+[]| \T1/zi4/m/n/10 show,dfba_mann_whitney_small_out-method\T1/ptm/m/n/10 , 
+
+Overfull \hbox (8.3567pt too wide) in paragraph at lines 31--33
+[]| \T1/zi4/m/n/10 show,dfba_wilcoxon_large_out-method\T1/ptm/m/n/10 , 
+
+Overfull \hbox (8.3567pt too wide) in paragraph at lines 33--35
+[]| \T1/zi4/m/n/10 show,dfba_wilcoxon_small_out-method\T1/ptm/m/n/10 , 
+
+LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
+(Font)              using `T1/zi4/m/n' instead on input line 38.
+
+
+Overfull \hbox (15.8567pt too wide) in paragraph at lines 69--71
+[]\T1/zi4/m/it/10 dfba_bivariate_concordance_star_out-class 
+[58]
+Overfull \hbox (30.01662pt too wide) in paragraph at lines 140--142
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_beta_contrast_out-method\T1/ptm/m/it
+/10 )\T1/ptm/m/n/10 , 
+
+Overfull \hbox (45.01662pt too wide) in paragraph at lines 142--144
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_beta_descriptive_out-method\T1/ptm/m
+/it/10 )\T1/ptm/m/n/10 , 
+
+Overfull \hbox (5.01662pt too wide) in paragraph at lines 144--146
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_binomial_out-method\T1/ptm/m/it/10 )
+\T1/ptm/m/n/10 , 
+
+Overfull \hbox (20.8567pt too wide) in paragraph at lines 146--148
+[]\T1/zi4/m/it/10 plot,dfba_bivariate_concordance_out-method 
+
+Overfull \hbox (70.01662pt too wide) in paragraph at lines 146--148
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_bivariate_concordance_out-method\T1/
+ptm/m/it/10 )\T1/ptm/m/n/10 , 
+
+Overfull \hbox (45.8567pt too wide) in paragraph at lines 148--150
+[]\T1/zi4/m/it/10 plot,dfba_bivariate_concordance_star_out-method 
+
+Overfull \hbox (70.01662pt too wide) in paragraph at lines 148--150
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_bivariate_concordance_out-method\T1/
+ptm/m/it/10 )\T1/ptm/m/n/10 , 
+
+Overfull \hbox (5.8567pt too wide) in paragraph at lines 152--154
+[]\T1/zi4/m/it/10 plot,dfba_mann_whitney_large_out-method 
+
+Overfull \hbox (55.01662pt too wide) in paragraph at lines 152--154
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_mann_whitney_large_out-method\T1/ptm
+/m/it/10 )\T1/ptm/m/n/10 , 
+
+Overfull \hbox (5.8567pt too wide) in paragraph at lines 154--156
+[]\T1/zi4/m/it/10 plot,dfba_mann_whitney_small_out-method 
+
+Overfull \hbox (55.01662pt too wide) in paragraph at lines 154--156
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_mann_whitney_small_out-method\T1/ptm
+/m/it/10 )\T1/ptm/m/n/10 , 
+
+Overfull \hbox (20.01662pt too wide) in paragraph at lines 158--160
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_power_curve_out-method\T1/ptm/m/it/1
+0 )\T1/ptm/m/n/10 , 
+
+Overfull \hbox (10.01662pt too wide) in paragraph at lines 160--162
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_sign_test_out-method\T1/ptm/m/it/10 
+)\T1/ptm/m/n/10 , 
+
+Overfull \hbox (5.01662pt too wide) in paragraph at lines 162--164
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_sim_data_out-method\T1/ptm/m/it/10 )
+\T1/ptm/m/n/10 , 
+
+Overfull \hbox (35.01662pt too wide) in paragraph at lines 166--168
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_wilcoxon_large_out-method\T1/ptm/m/i
+t/10 )\T1/ptm/m/n/10 , 
+
+Overfull \hbox (35.01662pt too wide) in paragraph at lines 168--170
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_wilcoxon_small_out-method\T1/ptm/m/i
+t/10 )\T1/ptm/m/n/10 , 
+
+Overfull \hbox (23.3567pt too wide) in paragraph at lines 178--180
+[]\T1/zi4/m/it/10 show,dfba_bivariate_concordance_out-method\T1/ptm/m/n/10 , 
+
+Overfull \hbox (45.8567pt too wide) in paragraph at lines 180--182
+[]\T1/zi4/m/it/10 show,dfba_bivariate_concordance_star_out-method 
+
+Overfull \hbox (70.01662pt too wide) in paragraph at lines 180--182
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_bivariate_concordance_out-method\T1/
+ptm/m/it/10 )\T1/ptm/m/n/10 , 
+
+Overfull \hbox (8.3567pt too wide) in paragraph at lines 184--186
+[]\T1/zi4/m/it/10 show,dfba_mann_whitney_large_out-method\T1/ptm/m/n/10 , 
+
+Overfull \hbox (8.3567pt too wide) in paragraph at lines 186--188
+[]\T1/zi4/m/it/10 show,dfba_mann_whitney_small_out-method\T1/ptm/m/n/10 , 
+[59])
+(/private/var/folders/qp/31623wzx1qn4_93sg51_tbb40000gn/T/RtmpOELFmr/Rd2pdf155d
+751d4d21f/Rd2.aux)
+
+Package rerunfilecheck Warning: File `Rd2.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+ )
+(see the transcript file for additional information)pdfTeX warning (dest): name
+{Rfn.Distributions} has been referenced but does not exist, replaced by a fixed
+ one
+
+{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/inconsolata/i4-ts1.enc}{/us
+r/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/texlive
+/2016/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}</usr/local/texlive/20
+16/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/local/t
+exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
+xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
+live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texli
+ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive
+/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2
+016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2016
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2016/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/texmf
+-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2016/texmf-dist/f
+onts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
+/urw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times
+/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/utmri8a.p
+fb>
+Output written on Rd2.pdf (59 pages, 314755 bytes).
+Transcript written on Rd2.log.
+This is makeindex, version 2.15 [TeX Live 2016] (kpathsea + Thai support).
+Scanning input file Rd2.idx....done (138 entries accepted, 0 rejected).
+Sorting entries....done (1063 comparisons).
+Generating output file Rd2.ind....done (200 lines written, 0 warnings).
+Output written in Rd2.ind.
+Transcript written in Rd2.ilg.
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+LaTeX2e <2016/03/31>
+Babel <3.9r> and hyphenation patterns for 83 language(s) loaded.
+(./Rd2.tex
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/book.cls
+Document Class: book 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/bk10.clo))
+(/Library/Frameworks/R.framework/Resources/share/texmf/tex/latex/Rd.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ifthen.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/tools/longtable.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/tools/bm.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/alltt.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/tools/verbatim.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/url/url.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/textcomp.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1enc.def))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/amsfonts.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/amssymb.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/jknapltx/mathrsfs.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/generic/iftex/iftex.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/fontenc.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1enc.def))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/times.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/inconsolata/zi4.sty
+`inconsolata-zi4' v1.10, 2016/02/22 Text macros for Inconsolata (msharpe)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/keyval.sty))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/color.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/pdftex-def/pdftex.def
+(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/infwarerr.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/ltxcmds.sty)))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty))
+(/usr/local/texlive/2016/texmf-dist/tex/generic/ifxetex/ifxetex.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/auxhook.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/kvoptions.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/latexconfig/hyperref.cfg))
+
+Package hyperref Message: Driver (autodetected): hpdftex.
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/hpdftex.def
+(/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty)))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/makeidx.sty)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/inputenc.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1enc.dfu)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ot1enc.dfu)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/omsenc.dfu)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1enc.dfu)))
+Writing index file Rd2.idx
+
+(/private/var/folders/qp/31623wzx1qn4_93sg51_tbb40000gn/T/RtmpOELFmr/Rd2pdf155d
+751d4d21f/Rd2.aux) (/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1cmr.fd
+) (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/t1ptm.fd)
+(/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/gettitlestring.sty))
+(/private/var/folders/qp/31623wzx1qn4_93sg51_tbb40000gn/T/RtmpOELFmr/Rd2pdf155d
+751d4d21f/Rd2.out)
+(/private/var/folders/qp/31623wzx1qn4_93sg51_tbb40000gn/T/RtmpOELFmr/Rd2pdf155d
+751d4d21f/Rd2.out) (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/inconsolata/t1zi4.fd)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/t1phv.fd)
+(/private/var/folders/qp/31623wzx1qn4_93sg51_tbb40000gn/T/RtmpOELFmr/Rd2pdf155d
+751d4d21f/Rd2.toc
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/jknapltx/ursfs.fd) [1{/usr/local/
+texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}])
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [2]
+Overfull \hbox (17.24904pt too wide) in paragraph at lines 77--78
+[]\T1/ptm/m/n/10 Theoretical prob-a-bil-ity model for the data. One of []\T1/zi
+4/m/n/10 "normal"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "weibull"[]\T1/ptm/m/n/10 
+, []\T1/zi4/m/n/10 "cauchy"[]\T1/ptm/m/n/10 ,
+
+Overfull \hbox (22.38095pt too wide) in paragraph at lines 77--78
+[]\T1/zi4/m/n/10 "lognormal"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "chisquare"[]\T
+1/ptm/m/n/10 , []\T1/zi4/m/n/10 "logistic"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "
+exponential"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "gumbel"[]\T1/ptm/m/n/10 , or [
+]\T1/zi4/m/n/10 "pareto"[]\T1/ptm/m/n/10 . 
+[3] (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/ts1ptm.fd) [4]
+[5] [6] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [7]
+[8]
+Overfull \hbox (12.3186pt too wide) in paragraph at lines 493--494
+[]\T1/ptm/m/n/10 The pos-te-rior prob-a-bil-ity for the al-ter-na-tive hy-poth-
+e-sis when []\T1/zi4/m/n/10 method = "interval" 
+[9] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [10] [11]
+[12] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [13] [14]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [15]
+Underfull \vbox (badness 10000) has occurred while \output is active [16]
+[17] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [18] [19]
+[20]
+Overfull \hbox (56.04865pt too wide) in paragraph at lines 1247--1248
+[]\T1/ptm/m/n/10 The num-ber of dis-cor-dant com-par-i-son when there is an in-
+te-ger value for []\T1/zi4/m/n/10 fitting.parameters 
+
+Overfull \hbox (109.4355pt too wide) in paragraph at lines 1267--1270
+\T1/ptm/m/n/10 sess-ing sim-i-lar sci-en-tific pre-dic-tion equa-tions. Jour-na
+l of Math-e-mat-i-cal Psy-chol-ogy. https://doi.org/10.1016/j.jmp.2021.102638 
+[21] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [22] [23]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/inconsolata/ts1zi4.fd)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [24] [25] [26]
+[27]
+Underfull \vbox (badness 10000) has occurred while \output is active [28]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [29] [30]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [31] [32]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [33]
+Overfull \hbox (24.84831pt too wide) in paragraph at lines 2071--2072
+[]\T1/ptm/m/n/10 The in-cre-ment be-tween suc-ces-sive delta val-ues, which ran
+ge from 0 to []\T1/zi4/m/n/10 20*delta_step
+
+Overfull \hbox (17.24904pt too wide) in paragraph at lines 2073--2074
+[]\T1/ptm/m/n/10 Theoretical prob-a-bil-ity model for the data. One of []\T1/zi
+4/m/n/10 "normal"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "weibull"[]\T1/ptm/m/n/10 
+, []\T1/zi4/m/n/10 "cauchy"[]\T1/ptm/m/n/10 ,
+
+Overfull \hbox (22.38095pt too wide) in paragraph at lines 2073--2074
+[]\T1/zi4/m/n/10 "lognormal"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "chisquare"[]\T
+1/ptm/m/n/10 , []\T1/zi4/m/n/10 "logistic"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "
+exponential"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "gumbel"[]\T1/ptm/m/n/10 , or [
+]\T1/zi4/m/n/10 "pareto"[]\T1/ptm/m/n/10 . 
+[34]
+Overfull \hbox (36.04732pt too wide) in paragraph at lines 2128--2132
+\T1/ptm/m/n/10 tion. Be-sides the sam-ple size []\T1/zi4/m/n/10 n[]\T1/ptm/m/n/
+10 , there are eight other ar-gu-ments that are re-quired by the []\T1/zi4/m/n/
+10 dfba_power_curve()
+[35] [36] [37] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+[38]
+Overfull \hbox (38.0285pt too wide) in paragraph at lines 2383--2397
+[]\T1/ptm/m/n/10 The []\T1/zi4/m/n/10 dfba_sign_test() []\T1/ptm/m/n/10 func-ti
+on pro-vides a Bayesian ver-sion of the sign test (the func-tion []\T1/zi4/m/n/
+10 dfba_wilcoxon()
+[39]
+Overfull \hbox (6.49744pt too wide) in paragraph at lines 2471--2473
+[][][]\T1/zi4/m/n/10 dfba_wilcoxon[][][] []\T1/ptm/m/n/10 for an al-ter-na-tive
+, more pow-er-ful Bayesian non-para-met-ric test for eva-lut-ing repeated-
+[40] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+Overfull \hbox (17.24904pt too wide) in paragraph at lines 2532--2533
+[]\T1/ptm/m/n/10 Theoretical prob-a-bil-ity model for the data. One of []\T1/zi
+4/m/n/10 "normal"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "weibull"[]\T1/ptm/m/n/10 
+, []\T1/zi4/m/n/10 "cauchy"[]\T1/ptm/m/n/10 ,
+
+Overfull \hbox (19.88095pt too wide) in paragraph at lines 2532--2533
+[]\T1/zi4/m/n/10 "lognormal"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "chisquare"[]\T
+1/ptm/m/n/10 , []\T1/zi4/m/n/10 "logistic"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "
+exponential"[]\T1/ptm/m/n/10 , []\T1/zi4/m/n/10 "gumbel"[]\T1/ptm/m/n/10 , or [
+]\T1/zi4/m/n/10 "pareto" 
+[41] [42]
+Overfull \hbox (25.9879pt too wide) in paragraph at lines 2668--2671
+[]\T1/ptm/m/n/10 Random sam-pling for both the Gum-bel and the Pareto dis-tri-b
+u-tions are gen-er-ated by the []\T1/zi4/m/n/10 dfba_sim_data()
+[43] [44] (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [45]
+[46]
+Overfull \hbox (2.9185pt too wide) in paragraph at lines 2907--2908
+[]\T1/ptm/m/n/10 The sec-ond shape pa-ram-e-ter for a beta dis-tri-bu-tion mode
+l for phi_w when []\T1/zi4/m/n/10 method
+[47]
+Underfull \vbox (badness 10000) has occurred while \output is active [48]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [49]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [50]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [51]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [52]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [53]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [54]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [55]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def) [56]
+(/private/var/folders/qp/31623wzx1qn4_93sg51_tbb40000gn/T/RtmpOELFmr/Rd2pdf155d
+751d4d21f/Rd2.ind [57]
+Overfull \hbox (3.3567pt too wide) in paragraph at lines 5--7
+[]| \T1/zi4/m/n/10 show,dfba_beta_contrast_out-method\T1/ptm/m/n/10 , 
+
+Overfull \hbox (18.3567pt too wide) in paragraph at lines 7--9
+[]| \T1/zi4/m/n/10 show,dfba_beta_descriptive_out-method\T1/ptm/m/n/10 , 
+
+Overfull \hbox (43.3567pt too wide) in paragraph at lines 10--12
+[]| \T1/zi4/m/n/10 show,dfba_bivariate_concordance_out-method\T1/ptm/m/n/10 , 
+
+Overfull \hbox (28.3567pt too wide) in paragraph at lines 15--17
+[]| \T1/zi4/m/n/10 show,dfba_mann_whitney_large_out-method\T1/ptm/m/n/10 , 
+
+Overfull \hbox (28.3567pt too wide) in paragraph at lines 17--19
+[]| \T1/zi4/m/n/10 show,dfba_mann_whitney_small_out-method\T1/ptm/m/n/10 , 
+
+Overfull \hbox (8.3567pt too wide) in paragraph at lines 31--33
+[]| \T1/zi4/m/n/10 show,dfba_wilcoxon_large_out-method\T1/ptm/m/n/10 , 
+
+Overfull \hbox (8.3567pt too wide) in paragraph at lines 33--35
+[]| \T1/zi4/m/n/10 show,dfba_wilcoxon_small_out-method\T1/ptm/m/n/10 , 
+
+LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
+(Font)              using `T1/zi4/m/n' instead on input line 38.
+
+
+Overfull \hbox (15.8567pt too wide) in paragraph at lines 69--71
+[]\T1/zi4/m/it/10 dfba_bivariate_concordance_star_out-class 
+[58]
+Overfull \hbox (30.01662pt too wide) in paragraph at lines 140--142
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_beta_contrast_out-method\T1/ptm/m/it
+/10 )\T1/ptm/m/n/10 , 
+
+Overfull \hbox (45.01662pt too wide) in paragraph at lines 142--144
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_beta_descriptive_out-method\T1/ptm/m
+/it/10 )\T1/ptm/m/n/10 , 
+
+Overfull \hbox (5.01662pt too wide) in paragraph at lines 144--146
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_binomial_out-method\T1/ptm/m/it/10 )
+\T1/ptm/m/n/10 , 
+
+Overfull \hbox (20.8567pt too wide) in paragraph at lines 146--148
+[]\T1/zi4/m/it/10 plot,dfba_bivariate_concordance_out-method 
+
+Overfull \hbox (70.01662pt too wide) in paragraph at lines 146--148
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_bivariate_concordance_out-method\T1/
+ptm/m/it/10 )\T1/ptm/m/n/10 , 
+
+Overfull \hbox (45.8567pt too wide) in paragraph at lines 148--150
+[]\T1/zi4/m/it/10 plot,dfba_bivariate_concordance_star_out-method 
+
+Overfull \hbox (70.01662pt too wide) in paragraph at lines 148--150
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_bivariate_concordance_out-method\T1/
+ptm/m/it/10 )\T1/ptm/m/n/10 , 
+
+Overfull \hbox (5.8567pt too wide) in paragraph at lines 152--154
+[]\T1/zi4/m/it/10 plot,dfba_mann_whitney_large_out-method 
+
+Overfull \hbox (55.01662pt too wide) in paragraph at lines 152--154
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_mann_whitney_large_out-method\T1/ptm
+/m/it/10 )\T1/ptm/m/n/10 , 
+
+Overfull \hbox (5.8567pt too wide) in paragraph at lines 154--156
+[]\T1/zi4/m/it/10 plot,dfba_mann_whitney_small_out-method 
+
+Overfull \hbox (55.01662pt too wide) in paragraph at lines 154--156
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_mann_whitney_small_out-method\T1/ptm
+/m/it/10 )\T1/ptm/m/n/10 , 
+
+Overfull \hbox (20.01662pt too wide) in paragraph at lines 158--160
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_power_curve_out-method\T1/ptm/m/it/1
+0 )\T1/ptm/m/n/10 , 
+
+Overfull \hbox (10.01662pt too wide) in paragraph at lines 160--162
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_sign_test_out-method\T1/ptm/m/it/10 
+)\T1/ptm/m/n/10 , 
+
+Overfull \hbox (5.01662pt too wide) in paragraph at lines 162--164
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_sim_data_out-method\T1/ptm/m/it/10 )
+\T1/ptm/m/n/10 , 
+
+Overfull \hbox (35.01662pt too wide) in paragraph at lines 166--168
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_wilcoxon_large_out-method\T1/ptm/m/i
+t/10 )\T1/ptm/m/n/10 , 
+
+Overfull \hbox (35.01662pt too wide) in paragraph at lines 168--170
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_wilcoxon_small_out-method\T1/ptm/m/i
+t/10 )\T1/ptm/m/n/10 , 
+
+Overfull \hbox (23.3567pt too wide) in paragraph at lines 178--180
+[]\T1/zi4/m/it/10 show,dfba_bivariate_concordance_out-method\T1/ptm/m/n/10 , 
+
+Overfull \hbox (45.8567pt too wide) in paragraph at lines 180--182
+[]\T1/zi4/m/it/10 show,dfba_bivariate_concordance_star_out-method 
+
+Overfull \hbox (70.01662pt too wide) in paragraph at lines 180--182
+\T1/ptm/m/it/10 (\T1/zi4/m/it/10 show,dfba_bivariate_concordance_out-method\T1/
+ptm/m/it/10 )\T1/ptm/m/n/10 , 
+
+Overfull \hbox (8.3567pt too wide) in paragraph at lines 184--186
+[]\T1/zi4/m/it/10 show,dfba_mann_whitney_large_out-method\T1/ptm/m/n/10 , 
+
+Overfull \hbox (8.3567pt too wide) in paragraph at lines 186--188
+[]\T1/zi4/m/it/10 show,dfba_mann_whitney_small_out-method\T1/ptm/m/n/10 , 
+[59])
+(/private/var/folders/qp/31623wzx1qn4_93sg51_tbb40000gn/T/RtmpOELFmr/Rd2pdf155d
+751d4d21f/Rd2.aux)
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+ )
+(see the transcript file for additional information)pdfTeX warning (dest): name
+{Rfn.Distributions} has been referenced but does not exist, replaced by a fixed
+ one
+
+{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/inconsolata/i4-ts1.enc}{/us
+r/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/texlive
+/2016/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}</usr/local/texlive/20
+16/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/local/t
+exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
+xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
+live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texli
+ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive
+/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2
+016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2016
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2016/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/texmf
+-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2016/texmf-dist/f
+onts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
+/urw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times
+/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/utmri8a.p
+fb>
+Output written on Rd2.pdf (59 pages, 315260 bytes).
+Transcript written on Rd2.log.
+Saving output to ‘DFBA-manual.pdf’ ...
+Done
+You may want to clean up by 'rm -Rf /var/folders/qp/31623wzx1qn4_93sg51_tbb40000gn/T//RtmpOELFmr/Rd2pdf155d751d4d21f'

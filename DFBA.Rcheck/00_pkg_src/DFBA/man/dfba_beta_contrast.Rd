@@ -34,9 +34,9 @@ A list containing the following components:
 
 \item{mean}{Exact posterior mean estimate for the contrast}
 
-\item{lower_limit}{The lower equal-tail limit for the contrast for the probability interval value specified by \code{prob_interval}}
+\item{eti_lower}{The lower equal-tail limit for the contrast for the probability interval value specified by \code{prob_interval}}
 
-\item{upper_limit}{The upper equal-tail limit for the contrast for the probability interval value specified by \code{prob_interval}}
+\item{eti_upper}{The upper equal-tail limit for the contrast for the probability interval value specified by \code{prob_interval}}
 
 \item{prob_positive_delta}{Posterior probability that the contrast is positive}
 
@@ -144,13 +144,13 @@ is equal to \eqn{N} and if \eqn{\phi_1, \ldots, \phi_K} are the parameters
 for the population success rates, then there are \eqn{N} random values drawn
 from each of \eqn{\phi_i} parameters for \eqn{i = 1, \ldots , K}. Given the
 contrast coefficients stipulated in the arguments, there are \eqn{N} delta random
-posterior values where \eqn{\Delta_j = \Psi_1\phi_{1j}+ \ldots +\Psi_K\phi_{Kj}} for
-\eqn{j = 1, \ldots, N}, where \eqn{\Psi_K} are the contrast coefficients specified
+posterior values where \eqn{\Delta_j = \Psi_1\phi_{1j}+ \ldots +\Psi_i\phi_{Kj}} for
+\eqn{j = 1, \ldots, N}, where \eqn{\Psi_i} are the contrast coefficients specified
 in the \code{contrast_vec} argument. The Monte Carlo sampling from each posterior
 beta with known shape parameters uses the \code{rbeta()} function. Thus, unlike
 Bayesian procedures that employ Markov chain Monte Carlo algorithms, the
 Monte Carlo sampling in the \code{dfba_beta_contrast()} function does not depend
-on a burn-in process or a starting estimate.. Thus, all the \eqn{N} sampled
+on a burn-in process or a starting estimate. Thus, all the \eqn{N} sampled
 values are valid random samples. Repeated use of the \code{dfba_beta_contrast()}
 function for the same input will naturally exhibit some random variation in
 the interval estimate and in the Bayes factor for a contrast greater than 0.

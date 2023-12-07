@@ -1,6 +1,7 @@
 #' Bayesian vs. t Power Methods
 #'
 # Show
+#' @keywords internal
 #' @export
 #' @rdname dfba_t_power_method
 #' @param object An object of class \code{\linkS4class{dfba_t_power_out}}
@@ -15,11 +16,13 @@ setMethod("show", "dfba_t_power_out", function(object) {
   cat(" ", "The delta offset parameter:"," ","\n")
   cat(" ", object$deltav," ","\n")
   cat("Output Results:", "\n")
-  print(object$outputdf)
+  print(object$outputdf,
+        row.names = FALSE)
 })
 
 # Plot
 
+#' @keywords internal
 #' @export
 #' @rdname dfba_t_power_method
 #' @param x An object of class \code{\linkS4class{dfba_t_power_out}}
@@ -29,12 +32,13 @@ setMethod("plot",
             plot(x$outputdf$sample_size,
                  x$outputdf$Bayes_power,
                  type="b",
+                 lty = 1,
                  ylim=c(0,1),
-                 main=expression("--"~"Frequentist"~ - "Bayesian"),
+                 main=expression(cdots~"Frequentist"~ - "Bayesian"),
                  xlab="Sample Size",
                  ylab="Power Estimate")
             lines(x$outputdf$sample_size,
                   x$outputdf$t_power,
                   type="b",
-                  lty=2)
+                  lty=3)
           })

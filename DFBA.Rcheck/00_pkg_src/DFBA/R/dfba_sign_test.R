@@ -18,8 +18,8 @@
 #' @return \item{prob_interval}{The probability within the interval limits for the interval estimate of population positivity rate}
 #' @return \item{n_pos}{Sample number of positive differences}
 #' @return \item{n_neg}{Sample number of negative differences}
-#' @return \item{a.post}{First shape parameter for the posterior beta distribution for the population  positivity rate}
-#' @return \item{b.post}{Second shape parameter for the posterior beta distribution for the population positivity rate for differences}
+#' @return \item{a_post}{First shape parameter for the posterior beta distribution for the population  positivity rate}
+#' @return \item{b_post}{Second shape parameter for the posterior beta distribution for the population positivity rate for differences}
 #' @return \item{phimean}{Mean of the posterior distribution for the positivity rate parameter}
 #' @return \item{phimedian}{Median of the posterior distribution for the positivity rate parameter}
 #' @return \item{phimode}{Mode of the posterior distribution for the positivity rate parameter}
@@ -54,13 +54,13 @@
 #' signed-rank procedure to remove the \eqn{d} values that are zero. Consequently,
 #' the signs for the nonzero \eqn{d} values are binary, so the posterior is a
 #' beta distribution with shape parameters \eqn{a} - denoted in the output as
-#' \code{a.post} and \eqn{b} - denoted in the output as \code{b.post} - where
-#' \code{a.post = a0 + n_pos} and \code{b.post = b0 + n_neg} and \code{a0} and \code{b0}
+#' \code{a_post} and \eqn{b} - denoted in the output as \code{b_post} - where
+#' \code{a_post = a0 + n_pos} and \code{b_post = b0 + n_neg} and \code{a0} and \code{b0}
 #' are the respective first and second beta shape parameters for the prior
 #' distribution. The default prior is a uniform distribution \code{a0 = b0 = 1}.
 #'
 #' The function estimates the population rate for positive signs by calling
-#' \code{dfba_beta_descriptive()} using the computed \code{a.post} and \code{b.post}
+#' \code{dfba_beta_descriptive()} using the computed \code{a_post} and \code{b_post}
 #' as arguments. Since interest in the sign test is focused on the null
 #' hypothesis that the positivity rate is less than or equal to .5,
 #' \code{dfba_sign_test()} calls \code{dfba_beta_bayes_factor()} to calculate the
@@ -115,8 +115,6 @@ dfba_sign_test<-function(Y1,
 
   # Check if vectors have the same length
 
-#  l1 = length(Y1)
-#  l2 = length(Y2)
   if (length(Y1) != length(Y2)) {
     stop("Y1 and Y2 must have the same length. This function is for paired within-block data.")
   }
@@ -138,122 +136,58 @@ dfba_sign_test<-function(Y1,
     stop("The probability for the interval estimation must be a proper proportion.")
   }
 
-# filter out pairs where Y1, Y2, or both is/are NA
-
   filtered_data <- data.frame(Y1 = Y1,
                               Y2 = Y2,
                               d = Y1 - Y2)[complete.cases(data.frame(Y1, Y2, Y1 - Y2)),]
-
-
-#  Etemp = Y1
-#  Ctemp = Y2
-#  d = Y1 - Y2
-#  dtemp = d
-#  jc = 0
-#  for (j in 1:length(Y1)) {
-#    if (is.na(dtemp[j])) {
-#    }
-#    else {
-#      jc = jc + 1
-#      Y1[jc] = Etemp[j]
-#      Y2[jc] = Ctemp[j]
-#      d[jc] = dtemp[j]
-#    }
-#  }
-#  Y1 = Y1[1:jc]
-#  Y2 = Y2[1:jc]
-#  d = d[1:jc]
 
   Y1 <- filtered_data$Y1
   Y2 <- filtered_data$Y2
   d <- filtered_data$d
   l1 <- nrow(filtered_data)
-#  l1 = jc
+
   if (l1 < 3) {
     stop("There are not enough values in the Y1 and Y2 vectors for meaningful results.")
   }
 
-  sdd = sd(d)
-#  IC = 0
-#  for (I in 1:l1) {
-#    if (abs(d[I]) <= sdd/30000) {
-#      IC = IC
-#    }
-#    else {
-#      IC = IC + 1
-#    }
-#  }
-
-#  n = IC
+  sdd <- sd(d)
 
   n <- sum(abs(d) > sdd/30000)
-  #Rich: please make sure that *n <- sum(abs(d) > sdd/30000)* properly replaces
-  #the commented-out lines above
+
 
   if (n == 0) {
     stop("Y1 and Y2 differences are all trivial")
   }
 
-#  dt = (seq(1, n, 1)) * 0
-#  IC = 0
-#  for (I in 1:l1) {
-#    if (abs(d[I]) <= sdd/30000) {
-#      IC = IC
-#    }
-#    else {
-#      IC = IC + 1
-#      dt[IC] = d[I]
-#    }
-#  }
-## Rich - I think this is just keeping all the d values that are greater than
-  # sdd/30000, right? If so, we can do it like this:
+  n_pos <- sum(d > sdd/30000)
+  n_neg <- n- n_pos
+  a_post <- n_pos + a0
+  b_post <- n_neg + b0
 
-  #n_pos=sum(dt>0)
-  n_pos = sum(d > sdd/30000)
-  n_neg = n- n_pos
-  a.post = n_pos + a0
-  b.post = n_neg + b0
-
-
-#  cat("Analysis of the Signs of the Differences Y1-Y2 Pairs"," ","\n")
-#  cat("Number Positive ","Number Negative","\n")
-#  cat(n_pos,"              ",n_neg,"\n")
-#  cat(" "," ","\n")
-#  cat("Following is an Analysis of the Positive Sign Rate:"," ","\n")
-
-
-  des_out<-dfba_beta_descriptive(a.post,
-                                 b.post,
+  des_out<-dfba_beta_descriptive(a_post,
+                                 b_post,
                                  prob_interval = prob_interval)
-  phimean = des_out$x_mean
-  phimedian = des_out$x_median
-  phimode = des_out$x_mode
-  eti_lower = des_out$eti_lower
-  eti_upper = des_out$eti_upper
-  hdi_lower = des_out$hdi_lower
-  hdi_upper = des_out$hdi_upper
-  prior_H1 = 1-pbeta(.5,
-                     a0,
-                     b0)
-  post_H1 = 1-pbeta(.5,
-                    a.post,
-                    b.post)
+  phimean <- des_out$x_mean
+  phimedian <- des_out$x_median
+  phimode <- des_out$x_mode
+  eti_lower <- des_out$eti_lower
+  eti_upper <- des_out$eti_upper
+  hdi_lower <- des_out$hdi_lower
+  hdi_upper <- des_out$hdi_upper
+  prior_H1 <- 1-pbeta(.5,
+                      a0,
+                      b0)
+  post_H1 <- 1-pbeta(.5,
+                     a_post,
+                     b_post)
 
-#  cat("Prior and Posterior Prob. for Positive Rate :"," ","\n")
-#  cat(prior_H1," ",post_H1,"\n")
-#  cat(" "," ","\n")
-
-#  cat("Bayes Factors (BF10) for Pos. Rate > .5 and BF01"," ","\n")
-  out_BF <- dfba_beta_bayes_factor(a=a.post,
-                                   b=b.post,
+  out_BF <- dfba_beta_bayes_factor(a_post,
+                                   b_post,
                                    method="interval",
                                    H0 = c(0,
                                           .5))
 
-    BF10 = out_BF$BF10
-    BF01 = out_BF$BF01
-
-#    cat(BF10," ",BF01,"\n")
+    BF10 <- out_BF$BF10
+    BF01 <- out_BF$BF01
 
       sign_list<-list(Y1 = Y1,
                       Y2 = Y2,
@@ -262,8 +196,8 @@ dfba_sign_test<-function(Y1,
                       prob_interval = prob_interval,
                       n_pos = n_pos,
                       n_neg = n_neg,
-                      a.post = a.post,
-                      b.post = b.post,
+                      a_post = a_post,
+                      b_post = b_post,
                       phimean = phimean,
                       phimedian = phimedian,
                       phimode = phimode,

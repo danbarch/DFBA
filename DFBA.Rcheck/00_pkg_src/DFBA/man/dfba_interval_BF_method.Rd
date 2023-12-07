@@ -12,3 +12,4 @@
 \description{
 Formats for Interval Bayes Factor
 }
+\keyword{internal}

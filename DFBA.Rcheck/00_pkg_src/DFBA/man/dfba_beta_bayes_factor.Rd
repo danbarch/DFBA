@@ -4,12 +4,12 @@
 \alias{dfba_beta_bayes_factor}
 \title{Bayes Factor for Posterior Beta Distribution}
 \usage{
-dfba_beta_bayes_factor(a, b, method, H0, a0 = 1, b0 = 1)
+dfba_beta_bayes_factor(a_post, b_post, method, H0, a0 = 1, b0 = 1)
 }
 \arguments{
-\item{a}{The first shape parameter for the posterior beta distribution. Must be positive and finite.}
+\item{a_post}{The first shape parameter for the posterior beta distribution. Must be positive and finite.}
 
-\item{b}{The second shape parameter for the posterior beta distribution. Must be positive and finite.}
+\item{b_post}{The second shape parameter for the posterior beta distribution. Must be positive and finite.}
 
 \item{method}{One of \code{"interval"} if the null hypothesis is a range on the \code{[0,1]} interval or \code{"point"} if the null hypothesis is a single number in the \code{[0,1]} interval}
 
@@ -24,9 +24,9 @@ A list containing the following components:
 
 \item{method}{The string of either \code{"interval"} or \code{"point"} corresponding to the type of null hypothesis tested}
 
-\item{a}{The input value for the posterior beta first shape parameter}
+\item{a_post}{The value for the posterior beta first shape parameter}
 
-\item{b}{The input value for the posterior beta second shape parameter}
+\item{b_post}{The value for the posterior beta second shape parameter}
 
 \item{a0}{The first shape parameter for the prior beta distribution}
 
@@ -62,8 +62,8 @@ or interval null hypotheses.
 \details{
 For a binomial variate with \code{n1} successes and \code{n2} failures, the
 Bayesian analysis for the population success rate parameter \eqn{\phi} is
-distributed as a beta density function with shape parameters \code{a}
-and \code{b} for \code{a = n1 + a0} and \code{b = n2 + b0} where \code{a0}
+distributed as a beta density function with shape parameters \code{a_post}
+and \code{b_post} for \code{a_post = n1 + a0} and \code{b_post = n2 + b0} where \code{a0}
 and \code{b0} are the shape parameters for the prior beta distribution. It is
 common for users to be interested in testing hypotheses about the population
 \eqn{\phi} parameter. The Bayes factor is useful to assess if either the null
@@ -131,7 +131,7 @@ hypothesis. As described in Chechile (2020),
 \deqn{BF10 = [p(H_1|D)/p(H_1)][p(H_0)/p(H_0|D)]} where \eqn{D} denotes the data.
 The first term in this equation is \eqn{1/1 = 1}. But the second term is of
 the form \eqn{0/0}, which appears to undefined. However, by using L'Hospital's
-rule, it can be proved the term \eqn{p(H_0)/p(H_0|D)} is the ratio of prior
+rule, it can be proved that the term \eqn{p(H_0)/p(H_0|D)} is the ratio of prior
 probability density at the null point divided by the posterior probability
 density. This method for finding the Bayes factor for a point is called the
 Savage-Dickey method because of the separate contributions from both of those
@@ -139,19 +139,19 @@ statisticians (Dickey & Lientz, 1970).
 }
 \examples{
 ## Examples with the default uniform prior
-dfba_beta_bayes_factor(a = 17,
-                       b = 5,
+dfba_beta_bayes_factor(a_post = 17,
+                       b_post = 5,
                        method = "interval",
                        H0 = c(0, .5)
                        )
-dfba_beta_bayes_factor(a = 377,
-                       b = 123,
+dfba_beta_bayes_factor(a_post = 377,
+                       b_post = 123,
                        method = "point",
                        H0 = .75)
 
 # An example with the Jeffreys prior
-dfba_beta_bayes_factor(a = 377,
-                       b = 123,
+dfba_beta_bayes_factor(a_post = 377.5,
+                       b_post = 123.5,
                        method = "point",
                        H0 = .75,
                        a0 = .5,
@@ -159,8 +159,8 @@ dfba_beta_bayes_factor(a = 377,
                        )
 
 
-dfba_beta_bayes_factor(a = 273,
-                       b = 278,
+dfba_beta_bayes_factor(a_post = 273,
+                       b_post = 278,
                        method = "interval",
                        H0 = c(.4975,
                               .5025)

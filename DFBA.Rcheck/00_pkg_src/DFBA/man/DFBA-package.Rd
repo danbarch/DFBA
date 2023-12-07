@@ -4,7 +4,7 @@
 \name{DFBA-package}
 \alias{DFBA}
 \alias{DFBA-package}
-\title{DFBA: Distribution-free Bayesian Analysis}
+\title{DFBA: Distribution-Free Bayesian Analysis}
 \description{
 Provides tools for Bayesian distribution-free tests.
 }

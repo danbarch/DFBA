@@ -31,48 +31,59 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 ### ** Examples
 
 
+# Note: these examples have long runtimes due to Monte Carlo sampling;
+# please feel free to run them in the console.
+
 # Examples for two data sets sampled from standard normal distributions with
 # no blocking effect
 
-dfba_bayes_vs_t_power(n_min = 40,
-                      delta = .45,
-                      model = "normal",
-                      design = "paired")
-
-dfba_bayes_vs_t_power(n_min = 40,
-                      delta = .45,
-                      model = "normal",
-                      design = "independent")
-
-# Examples with Weibull-distributed variates with no blocking effect
-
-dfba_bayes_vs_t_power(n_min = 50,
-                      delta = .45,
-                      model = "weibull",
-                      design ="paired")
-
-dfba_bayes_vs_t_power(n_min = 50,
-                      delta = .45,
-                      model = "weibull",
-                      design = "independent")
-
-# Examples with Weibull-distributed variates with a blocking effect
-
-dfba_bayes_vs_t_power(n_min = 50,
-                      delta = .45,
-                      model = "weibull",
-                      design = "independent",
-                      shape1 = .8,
-                      shape2 = .8,
-                      block.max = 2.3)
-
-dfba_bayes_vs_t_power(n_min = 50,
-                      delta = .45,
-                      model = "weibull",
-                      design = "paired",
-                      shape1 = .8,
-                      shape2 = .8,
-                      block.max = 2.3)
+## Not run: 
+##D dfba_bayes_vs_t_power(n_min = 40,
+##D                       delta = .45,
+##D                       model = "normal",
+##D                       design = "paired",
+##D                       hide_progress = FALSE)
+##D 
+##D dfba_bayes_vs_t_power(n_min = 40,
+##D                       delta = .45,
+##D                       model = "normal",
+##D                       design = "independent",
+##D                       hide_progress = FALSE)
+##D 
+##D # Examples with Weibull-distributed variates with no blocking effect
+##D 
+##D dfba_bayes_vs_t_power(n_min = 50,
+##D                       delta = .45,
+##D                       model = "weibull",
+##D                       design ="paired",
+##D                       hide_progress = FALSE)
+##D 
+##D dfba_bayes_vs_t_power(n_min = 50,
+##D                       delta = .45,
+##D                       model = "weibull",
+##D                       design = "independent",
+##D                       hide_progress = FALSE)
+##D 
+##D # Examples with Weibull-distributed variates with a blocking effect
+##D 
+##D dfba_bayes_vs_t_power(n_min = 50,
+##D                       delta = .45,
+##D                       model = "weibull",
+##D                       design = "independent",
+##D                       shape1 = .8,
+##D                       shape2 = .8,
+##D                       block_max = 2.3,
+##D                       hide_progress = FALSE)
+##D 
+##D dfba_bayes_vs_t_power(n_min = 50,
+##D                       delta = .45,
+##D                       model = "weibull",
+##D                       design = "paired",
+##D                       shape1 = .8,
+##D                       shape2 = .8,
+##D                       block_max = 2.3,
+##D                       hide_progress = FALSE)
+## End(Not run)
 
 
 
@@ -93,19 +104,19 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 ### ** Examples
 
 ## Examples with the default uniform prior
-dfba_beta_bayes_factor(a = 17,
-                       b = 5,
+dfba_beta_bayes_factor(a_post = 17,
+                       b_post = 5,
                        method = "interval",
                        H0 = c(0, .5)
                        )
-dfba_beta_bayes_factor(a = 377,
-                       b = 123,
+dfba_beta_bayes_factor(a_post = 377,
+                       b_post = 123,
                        method = "point",
                        H0 = .75)
 
 # An example with the Jeffreys prior
-dfba_beta_bayes_factor(a = 377,
-                       b = 123,
+dfba_beta_bayes_factor(a_post = 377.5,
+                       b_post = 123.5,
                        method = "point",
                        H0 = .75,
                        a0 = .5,
@@ -113,8 +124,8 @@ dfba_beta_bayes_factor(a = 377,
                        )
 
 
-dfba_beta_bayes_factor(a = 273,
-                       b = 278,
+dfba_beta_bayes_factor(a_post = 273,
+                       b_post = 278,
                        method = "interval",
                        H0 = c(.4975,
                               .5025)
@@ -239,17 +250,12 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-## Example from the 1961 study by Clark, Vandenberg, and Proctor of twins in
-## Human Biology 33, 163-180.
 
-maletwin1<-c(45, 40, 48, 42, 45, 44, 40, 37, 27, 45, 51, 44, 44, 29, 27, 48,
-             33, 39, 47, 54, 32)
 
-maletwin2<-c(37, 41, 50, 46, 31, 39, 37, 42, 27, 48, 49, 52, 27, 36, 29, 44,
-             44, 43, 34, 48, 33)
+x <- c(47, 39, 47, 42, 44, 46, 39, 37, 29, 42, 54, 33, 44, 31, 28, 49, 32, 37, 46, 55, 31)
+y <- c(36, 40, 49, 45, 30, 38, 39, 44, 27, 48, 49, 51, 27, 36, 30, 44, 42, 41, 35, 49, 33)
 
-dfba_bivariate_concordance(x = maletwin1,
-         y = maletwin2)
+dfba_bivariate_concordance(x, y)
 
 ## A goodness-of-fit example for a hypothetical case of fitting data in a
 ## yobs vector with prediction model
@@ -295,8 +301,8 @@ rownames(N) <- c('R1', 'R2', 'R3')
 dfba_gamma(N)
 
 # Sample problem with table input
-T <- as.table(N)
-dfba_gamma(T)
+NTable <- as.table(N)
+dfba_gamma(NTable)
 
 
 
@@ -315,6 +321,9 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
+
+# Note: examples with method = "small" have long runtimes due to Monte Carlo
+# sampling; please feel free to run them in the console.
 
 # Examples with large n per group
 # The data for each condition are presorted only for the user convenience if
@@ -336,9 +345,12 @@ dfba_mann_whitney(E = groupA,
 
 # The following also uses a Jeffreys prior but the analysis reverses the
 # variates:
-dfba_mann_whitney(E =groupB,C=groupA,a0=.5,b0=.5)
+dfba_mann_whitney(E = groupB,
+                  C = groupA,
+                  a0 = .5,
+                  b0 = .5)
 
-# Notice that BF10 from the above analysis is 1/BF10 from the original order
+# Note that BF10 from the above analysis is 1/BF10 from the original order
 # of the variates.
 
 # The next analysis constructs 99% interval estimates with the Jeffreys
@@ -352,7 +364,14 @@ dfba_mann_whitney(E = groupA,
 
 # The following forces a discrete approach with a flat prior for a case with
 # large n:
-dfba_mann_whitney(E=groupA,C=groupB,method="small")
+
+
+## Not run: 
+##D dfba_mann_whitney(E = groupA,
+##D                   C = groupB,
+##D                   method = "small",
+##D                   hide_progress = FALSE)
+## End(Not run)
 
 #Examples with small n per group
 
@@ -361,20 +380,43 @@ groupC <- c(96.49, 96.78, 97.26, 98.85, 99.75, 100.14, 101.15, 101.39,
 groupD <- c(101.16, 102.09, 103.14, 104.70, 105.27, 108.22, 108.32, 108.51,
             109.88, 110.32, 110.55, 113.42)
 
-S1ex<-dfba_mann_whitney(E = groupC, C = groupD)
-S2ex<-dfba_mann_whitney(E = groupC, C = groupD, samples = 50000)
-S3ex<-dfba_mann_whitney(E = groupC, C = groupD)
-
-# Note that S1ex and S3ex are replication analyses for the discrete approach.
-# The variabilty is due to the different outcomes from the Monte Carlo
+## Not run: 
+##D CDex1<-dfba_mann_whitney(E = groupC,
+##D                          C = groupD,
+##D                          hide_progress = FALSE)
+##D 
+##D CDex1
+##D 
+##D CDex2<-dfba_mann_whitney(E = groupC,
+##D                          C = groupD,
+##D                          samples = 50000,
+##D                          hide_progress = FALSE)
+##D CDex2
+##D 
+##D 
+##D CDex3<-dfba_mann_whitney(E = groupC,
+##D                          C = groupD,
+##D                          hide_progress = FALSE)
+##D 
+##D CDex3
+##D 
+## End(Not run)
+# Note that CDex1 and CDex2 are replication analyses for the discrete approach.
+# The variability is due to the different outcomes from the Monte Carlo
 # sampling.
 
 # Plot output
-plot(S1ex)
-plot(S2ex,
-     plot.prior = FALSE)
+# with prior and posterior curves
 
-
+## Not run: 
+##D 
+##D plot(CDex1)
+##D 
+##D # with only posterior curve
+##D plot(CDex2,
+##D      plot.prior = FALSE)
+##D 
+## End(Not run)
 
 
 
@@ -419,7 +461,7 @@ flush(stderr()); flush(stdout())
 
 base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 ### Name: dfba_median_test
-### Title: Bayesian Median Test Description
+### Title: Bayesian Median Test
 ### Aliases: dfba_median_test
 
 ### ** Examples
@@ -460,43 +502,54 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 ### ** Examples
 
 
-dfba_power_curve(n = 85,
-                 model = "normal",
-                 design = "independent")
+# Note: these examples have long runtimes due to Monte Carlo sampling;
+# please feel free to run them in the console.
 
-dfba_power_curve(n = 85,
-                 model = "normal",
-                 design = "paired")
-
-dfba_power_curve(n = 85,
-                 model = "normal",
-                 design = "paired",
-                 delta.step = .03)
-
-dfba_power_curve(n = 30,
-                 model = "lognormal",
-                 design = "independent",
-                 delta.step = .06,
-                 block.max = 3,
-                 samples = 2500)
-
-dfba_power_curve(n = 30,
-                 model = "lognormal",
-                 design = "paired",
-                 delta.step =.06,
-                 block.max = 3,
-                 samples = 2500)
-
-# Using the Jeffreys prior rather than default flat prior
-
-dfba_power_curve(n = 30,
-                 model = "lognormal",
-                 design = "independent",
-                 a0 = .5,
-                 b0 = .5,
-                 delta.step = .06,
-                 block.max = 3,
-                 samples = 2500)
+## Not run: 
+##D dfba_power_curve(n = 85,
+##D                  model = "normal",
+##D                  design = "independent",
+##D                  hide_progress = FALSE)
+##D 
+##D dfba_power_curve(n = 85,
+##D                  model = "normal",
+##D                  design = "paired",
+##D                  hide_progress = FALSE)
+##D 
+##D dfba_power_curve(n = 85,
+##D                  model = "normal",
+##D                  design = "paired",
+##D                  delta_step = .03,
+##D                  hide_progress = FALSE)
+##D 
+##D dfba_power_curve(n = 30,
+##D                  model = "lognormal",
+##D                  design = "independent",
+##D                  delta_step = .06,
+##D                  block_max = 3,
+##D                  samples = 2500,
+##D                  hide_progress = FALSE)
+##D 
+##D dfba_power_curve(n = 30,
+##D                  model = "lognormal",
+##D                  design = "paired",
+##D                  delta_step =.06,
+##D                  block_max = 3,
+##D                  samples = 2500,
+##D                  hide_progress = FALSE)
+##D 
+##D # Using the Jeffreys prior rather than default flat prior
+##D 
+##D dfba_power_curve(n = 30,
+##D                  model = "lognormal",
+##D                  design = "independent",
+##D                  a0 = .5,
+##D                  b0 = .5,
+##D                  delta_step = .06,
+##D                  block_max = 3,
+##D                  samples = 2500,
+##D                  hide_progress = FALSE)
+## End(Not run)
 
 
 
@@ -581,7 +634,7 @@ dfba_sim_data(n = 80,
              delta = .25,
              shape1 = .8,
              shape2 = .8,
-             block.max = 1.5)
+             block_max = 1.5)
 
 # Example of two paired Cauchy variates with a .4 offset
 
@@ -617,14 +670,24 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
+
+# Note: examples with method = "small" have long runtimes due to Monte Carlo
+# sampling; please feel free to run them in the console.
+
 ## Examples with a small number of pairs
+
+
+
 conditionA <- c(1.49, 0.64, 0.96, 2.34, 0.78, 1.29, 0.72, 1.52, 0.62, 1.67,
                 1.19, 0.86)
 conditionB <- c(0.53, 0.55, 0.58, 0.97, 0.60, 0.22, 0.05, 13.14, 0.63, 0.33,
                 0.91, 0.37)
 
-dfba_wilcoxon(Y1 = conditionA,
-             Y2 = conditionB)
+## Not run: 
+##D dfba_wilcoxon(Y1 = conditionA,
+##D               Y2 = conditionB,
+##D               hide_progress = FALSE)
+## End(Not run)
 
 # Note the results for this method="small" analysis differs from
 # the previously run. These differences are the differences from
@@ -632,18 +695,25 @@ dfba_wilcoxon(Y1 = conditionA,
 
 # Using the Jeffreys prior for the same two conditions.
 
-dfba_wilcoxon(conditionA,
-              conditionB,
-              a0 = .5,
-              b0 = .5)
+## Not run: 
+##D dfba_wilcoxon(conditionA,
+##D               conditionB,
+##D               a0 = .5,
+##D               b0 = .5,
+##D               hide_progress = FALSE)
+## End(Not run)
 
 # Using 99% interval estimates and with 50000 Monte Carlo samples per
 # candidate phi_w
 
-dfba_wilcoxon(conditionA,
-              conditionB,
-              prob_interval=.99,
-              samples=50000)
+## Not run: 
+##D 
+##D dfba_wilcoxon(conditionA,
+##D               conditionB,
+##D               prob_interval=.99,
+##D               samples=50000,
+##D               hide_progress = FALSE)
+## End(Not run)
 
 # Examples with large sample size
 
@@ -655,18 +725,24 @@ C <- c(2.89, 4.19, 3.22, 6.50, 3.10, 4.19, 5.13, 3.77, 2.71, 2.58, 7.59,
        2.68, 4.98, 2.35, 5.15, 8.46, 3.77, 8.83, 4.06, 2.50, 5.48, 2.80,
        8.89, 3.19, 9.36, 4.58, 2.94, 4.75)
 
-       BW<-dfba_wilcoxon(Y1=E,Y2=C)
-       BW
-       plot(BW)
+BW<-dfba_wilcoxon(Y1 = E,
+                  Y2 = C)
+BW
+plot(BW)
 
 # Forcing the method="small" despite a sufficiently large n value
 
-CW<-dfba_wilcoxon(Y1 = E,
-                 Y2 = C,
-                 method = "small")
-CW
-plot(CW)
-plot(CW, plot.prior = FALSE)
+
+## Not run: 
+##D CW<-dfba_wilcoxon(Y1 = E,
+##D                  Y2 = C,
+##D                  method = "small",
+##D                  hide_progress = FALSE)
+##D CW
+##D plot(CW)
+##D plot(CW, plot.prior = FALSE)
+## End(Not run)
+
 
 
 
