@@ -5,6 +5,7 @@
 #' @export
 #' @rdname dfba_wilcoxon_method_small
 #' @param object An object of class \code{\linkS4class{dfba_wilcoxon_small_out}}
+#' @return No return value, called for side effect. Objects of class \code{\linkS4class{dfba_wilcoxon_small_out}} are printed.
 setMethod("show", "dfba_wilcoxon_small_out", function(object) {
   cat("Descriptive Statistics \n")
   cat("========================\n")
@@ -51,6 +52,7 @@ setMethod("show", "dfba_wilcoxon_small_out", function(object) {
 #' @rdname dfba_wilcoxon_method_small
 #' @param x An object of class \code{\linkS4class{dfba_wilcoxon_small_out}}
 #' @param plot.prior Show prior distribution (default = TRUE)
+#' @return No return value, called for side effect. Method produces a plot of class \code{\linkS4class{dfba_wilcoxon_small_out}}
 setMethod("plot",
           signature("dfba_wilcoxon_small_out"),
           function(x,

@@ -295,7 +295,7 @@ dfba_mann_whitney<-function(E,
 
     for (j in 1:200){
       if(hide_progress == FALSE){
-        cat(round(j/200, 2)*100, '% complete', '\r')
+        message('\r', round(j/200, 2)*100, '% complete', appendLF = FALSE)
       }
       omega <- (1/400)+(j-1)*(1/200)
       komega <- (1-omega)/omega
@@ -343,7 +343,7 @@ dfba_mann_whitney<-function(E,
 
     }
     if (hide_progress == FALSE){
-      cat('\n')
+      message('\n', appendLF = FALSE)
     }
 
     tot <- sum(priorvector*fomega)

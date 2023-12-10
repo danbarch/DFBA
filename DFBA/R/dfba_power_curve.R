@@ -344,7 +344,7 @@ dfba_power_curve<-function(n = 20,
         bayesprH1[j] <- outputsim$prH1
         tpvalue[j] <- outputsim$pvalue
         if (hide_progress == FALSE) {
-          cat(round((j/nsims+(i-1))/21, 2)*100, '% complete', sep="", '\r')
+          message('\r', round((j/nsims+(i-1))/21, 2)*100, '% complete', appendLF = FALSE)
         }
         }
       detect_bayes[i] <- (sum(bayesprH1>effect_crit))/nsims
@@ -352,7 +352,7 @@ dfba_power_curve<-function(n = 20,
     }
 
     if (hide_progress == FALSE){
-      cat("\n")
+      message("\n")
     }
 
     dfba_power_curve_list<- list(n = n,

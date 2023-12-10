@@ -6,6 +6,7 @@
 #' @export
 #' @rdname dfba_binomial_method
 #' @param object An object of class \code{\linkS4class{dfba_binomial_out}}
+#' @return No return value, called for side effect. Objects of class \code{\linkS4class{dfba_binomial_out}} are printed.
 setMethod("show", "dfba_binomial_out", function(object) {
   cat("Prior and Posterior Beta Shape Parameters:","\n")
   cat("========================\n")
@@ -62,6 +63,7 @@ setMethod("show", "dfba_binomial_out", function(object) {
 #' @rdname dfba_binomial_method
 #' @param x An object of class \code{\linkS4class{dfba_binomial_out}}
 #' @param plot.prior Show prior distribution (default = TRUE)
+#' @return No return value, called for side effect. Method produces a plot of class \code{\linkS4class{dfba_binomial_out}}
 setMethod("plot",
           signature("dfba_binomial_out"),
           function(x,

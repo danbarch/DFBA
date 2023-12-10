@@ -14,6 +14,11 @@
 
 \item{x}{object An object of class \code{\linkS4class{dfba_beta_contrast_out}}}
 }
+\value{
+No return value, called for side effect. Objects of class \code{\linkS4class{dfba_beta_contrast_out}} are printed.
+
+No return value, called for side effect. Method produces a plot of class \code{\linkS4class{dfba_beta_contrast_out}}
+}
 \description{
 Formats for Beta Contrasts
 }

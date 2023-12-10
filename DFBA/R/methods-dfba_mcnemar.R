@@ -4,6 +4,7 @@
 #' @export
 #' @rdname dfba_mcnemar_method
 #' @param object An object of class \code{\linkS4class{dfba_mcnemar_out}}
+#' @return No return value, called for side effect. Objects of class \code{\linkS4class{dfba_mcnemar_out}} are printed.
 setMethod("show", "dfba_mcnemar_out", function(object) {
   cat("Descriptive Statistics \n")
   cat("========================\n")
@@ -35,6 +36,7 @@ setMethod("show", "dfba_mcnemar_out", function(object) {
 #' @rdname dfba_mcnemar_method
 #' @param x An object of class \code{\linkS4class{dfba_mcnemar_out}}
 #' @param plot.prior Show prior distribution (default = TRUE)
+#' @return No return value, called for side effect. Method produces a plot of class \code{\linkS4class{dfba_mcnemar_out}}
 setMethod("plot",
           signature("dfba_mcnemar_out"),
           function(x,

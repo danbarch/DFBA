@@ -5,6 +5,7 @@
 #' @export
 #' @rdname dfba_point_BF_show_method
 #' @param object An object of class \code{\linkS4class{dfba_point_BF_out}}
+#' @return No return value, called for side effect. Objects of class \code{\linkS4class{dfba_point_BF_out}} are printed.
 setMethod("show", "dfba_point_BF_out", function(object) {
   cat("Bayes Factor for Point Estimates \n")
   cat("========================\n")

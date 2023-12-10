@@ -345,7 +345,7 @@ dfba_bayes_vs_t_power<-function(n_min=20,
         bayesprH1[j] <- outputsim$prH1
         tpvalue[j] <- outputsim$pvalue
         if (hide_progress == FALSE) {
-          cat(round((j/nsims+(i-1))/11, 2)*100, '% complete', sep="", '\r')
+          message('\r', round((j/nsims+(i-1))/11, 2)*100, '% complete',  appendLF = FALSE)
         }
         }
       detect_bayes[i] <- (sum(bayesprH1>effect_crit))/nsims
@@ -353,7 +353,7 @@ dfba_bayes_vs_t_power<-function(n_min=20,
     }
 
     if (hide_progress == FALSE) {
-      cat("\n")
+      message("\n")
     }
 
     dfba_t_power_list<-list(nsims = nsims,

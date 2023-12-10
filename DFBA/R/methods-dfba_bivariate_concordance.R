@@ -4,6 +4,7 @@
 #' @export
 #' @rdname dfba_bivariate_concordance_methods
 #' @param object An object of class \code{\linkS4class{dfba_bivariate_concordance_out}}
+#' @return No return value, called for side effect. Objects of class \code{\linkS4class{dfba_bivariate_concordance_out}} are printed.
 setMethod("show", signature("dfba_bivariate_concordance_out"), function(object) {
   cat("Descriptive Statistics \n")
   cat("========================\n")
@@ -31,6 +32,7 @@ setMethod("show", signature("dfba_bivariate_concordance_out"), function(object) 
 #' @export
 #' @rdname dfba_bivariate_concordance_methods
 #' @param object An object of class \code{\linkS4class{dfba_bivariate_concordance_star_out}}
+#' @return No return value, called for side effect. Objects of class \code{\linkS4class{dfba_bivariate_concordance_star_out}} are printed.
 setMethod("show", "dfba_bivariate_concordance_star_out", function(object) {
   cat("Descriptive Statistics \n")
   cat("========================\n")
@@ -71,6 +73,7 @@ setMethod("show", "dfba_bivariate_concordance_star_out", function(object) {
 #' @rdname dfba_bivariate_concordance_methods
 #' @param x An object of class \code{\linkS4class{dfba_bivariate_concordance_out}}
 #' @param plot.prior Show prior distribution (default = TRUE)
+#' @return No return value, called for side effect. Method produces a plot of class \code{\linkS4class{dfba_bivariate_concordance_out}}
 setMethod("plot",
           signature("dfba_bivariate_concordance_out"),
           function(x, plot.prior=TRUE){
@@ -107,6 +110,7 @@ setMethod("plot",
 #' @rdname dfba_bivariate_concordance_methods
 #' @param x An object of class \code{\linkS4class{dfba_bivariate_concordance_star_out}}
 #' @param plot.prior Show prior distribution (default = TRUE)
+#' @return No return value, called for side effect. Method produces a plot of class \code{\linkS4class{dfba_bivariate_concordance_star_out}}
 setMethod("plot",
           signature("dfba_bivariate_concordance_star_out"),
           function(x, plot.prior=TRUE){

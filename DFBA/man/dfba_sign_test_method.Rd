@@ -16,6 +16,11 @@
 
 \item{plot.prior}{Show prior distribution (default = TRUE)}
 }
+\value{
+No return value, called for side effect. Objects of class \code{\linkS4class{dfba_sign_test_out}} are printed.
+
+No return value, called for side effect. Method produces a plot of class \code{\linkS4class{dfba_sign_test_out}}
+}
 \description{
 Formats for Bayesian Sign Test
 }

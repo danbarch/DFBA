@@ -5,6 +5,7 @@
 #' @export
 #' @rdname dfba_beta_descriptive_method
 #' @param object An object of class \code{\linkS4class{dfba_beta_descriptive_out}}
+#' @return No return value, called for side effect. Objects of class \code{\linkS4class{dfba_beta_descriptive_out}} are printed.
 setMethod("show", "dfba_beta_descriptive_out", function(object) {
   cat("Centrality Estimates", "\n")
   cat("========================\n")
@@ -80,9 +81,12 @@ setMethod("show", "dfba_beta_descriptive_out", function(object) {
 #' @export
 #' @rdname dfba_beta_descriptive_method
 #' @param x An object of class \code{\linkS4class{dfba_beta_descriptive_out}}
+#' @return No return value, called for side effect. Method produces a plot of class \code{\linkS4class{dfba_beta_descriptive_out}}
 setMethod("plot",
           signature("dfba_beta_descriptive_out"),
           function(x){
+            oldpar <- par(no.readonly = TRUE)
+            on.exit(par(oldpar))
             par(mfrow = c(1, 2))
             plot(x = x$outputdf$x,
                  y = x$outputdf$density,

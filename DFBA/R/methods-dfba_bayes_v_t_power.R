@@ -5,6 +5,8 @@
 #' @export
 #' @rdname dfba_t_power_method
 #' @param object An object of class \code{\linkS4class{dfba_t_power_out}}
+#' @return No return value, called for side effect. Objects of class \code{\linkS4class{dfba_t_power_out}} are printed.
+#'
 setMethod("show", "dfba_t_power_out", function(object) {
   cat("Power results for the proportion of samples detecting effects"," ","\n")
   cat(" ", "where the variates are distributed as a",object$model,"random variable","\n")
@@ -26,6 +28,7 @@ setMethod("show", "dfba_t_power_out", function(object) {
 #' @export
 #' @rdname dfba_t_power_method
 #' @param x An object of class \code{\linkS4class{dfba_t_power_out}}
+#' @return No return value, called for side effect. Method produces a plot of class \code{\linkS4class{dfba_t_power_out}}
 setMethod("plot",
           signature("dfba_t_power_out"),
           function(x){

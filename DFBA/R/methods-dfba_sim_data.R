@@ -4,6 +4,7 @@
 #' @export
 #' @rdname dfba_sim_data_method
 #' @param object An object of class \code{\linkS4class{dfba_sim_data_out}}
+#' @return No return value, called for side effect. Objects of class \code{\linkS4class{dfba_sim_data_out}} are printed.
 setMethod("show", "dfba_sim_data_out", function(object) {
   cat("Frequentist p-value \n")
   cat("", object$pvalue, "\n")
@@ -16,6 +17,7 @@ setMethod("show", "dfba_sim_data_out", function(object) {
 #' @export
 #' @rdname dfba_sim_data_method
 #' @param x  An object of class \code{\linkS4class{dfba_sim_data_out}}
+#' @return No return value, called for side effect. Method produces a plot of class \code{\linkS4class{dfba_sim_data_out}}
 setMethod("plot",
           signature("dfba_sim_data_out"),
           function(x){

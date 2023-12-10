@@ -14,6 +14,11 @@
 
 \item{x}{An object of class \code{\linkS4class{dfba_beta_descriptive_out}}}
 }
+\value{
+No return value, called for side effect. Objects of class \code{\linkS4class{dfba_beta_descriptive_out}} are printed.
+
+No return value, called for side effect. Method produces a plot of class \code{\linkS4class{dfba_beta_descriptive_out}}
+}
 \description{
 Formats for Beta Descriptive
 }

@@ -6,6 +6,15 @@
 \alias{DFBA-package}
 \title{DFBA: Distribution-Free Bayesian Analysis}
 \description{
-Provides tools for Bayesian distribution-free tests.
+A set of functions to perform distribution-free Bayesian analyses. Included are Bayesian analogues to the frequentist Mann-Whitney U test, the Wilcoxon Signed-Ranks test, Kendall's Tau Rank Correlation Coefficient, Goodman and Kruskal's Gamma, McNemar's Test, the binomial test, the sign test, the median test, as well as distribution-free methods for testing contrasts among condition and for computing Bayes factors for hypotheses. The package also includes procedures to estimate the power of distribution-free Bayesian tests based on data simulations using various probability models for the data. The set of functions provide data analysts with a set of Bayesian procedures that avoids requiring parametric assumptions about measurement error and is robust to problem of extreme outlier scores.
+}
+\author{
+\strong{Maintainer}: Daniel H. Barch \email{daniel.barch@tufts.edu}
+
+Authors:
+\itemize{
+  \item Richard A. Chechile \email{richard.chechile@tufts.edu}
+}
+
 }
 \keyword{internal}

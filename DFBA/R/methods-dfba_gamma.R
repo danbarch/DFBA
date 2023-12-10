@@ -4,6 +4,7 @@
 #' @export
 #' @rdname dfba_gamma_method
 #' @param object An object of class \code{\linkS4class{dfba_gamma_out}}
+#' @return No return value, called for side effect. Objects of class \code{\linkS4class{dfba_gamma_out}} are printed.
 setMethod("show", "dfba_gamma_out", function(object) {
   cat("Descriptive Statistics \n")
   cat("========================\n")
@@ -31,6 +32,7 @@ setMethod("show", "dfba_gamma_out", function(object) {
 #' @export
 #' @param x An object of class \code{\linkS4class{dfba_gamma_out}}
 #' @param plot.prior Show prior distribution (default = TRUE)
+#' @return No return value, called for side effect. Method produces a plot of class \code{\linkS4class{dfba_gamma_out}}
 setMethod("plot",
           signature("dfba_gamma_out"),
           function(x, plot.prior=TRUE){

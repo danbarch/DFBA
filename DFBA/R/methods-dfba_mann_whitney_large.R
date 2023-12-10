@@ -5,6 +5,7 @@
 #' @export
 #' @rdname dfba_mann_whitney_large_method
 #' @param object An object of class \code{\linkS4class{dfba_mann_whitney_large_out}}
+#' @return No return value, called for side effect. Objects of class \code{\linkS4class{dfba_mann_whitney_large_out}} are printed.
 setMethod("show", "dfba_mann_whitney_large_out", function(object) {
   cat("Descriptive Statistics \n")
   cat("========================\n")
@@ -74,6 +75,7 @@ setMethod("show", "dfba_mann_whitney_large_out", function(object) {
 #' @rdname dfba_mann_whitney_large_method
 #' @param x An object of class \code{\linkS4class{dfba_mann_whitney_small_out}}
 #' @param plot.prior Show prior distribution (default = TRUE)
+#' @return No return value, called for side effect. Method produces a plot of class \code{\linkS4class{dfba_mann_whitney_small_out}}
 setMethod("plot",
           signature("dfba_mann_whitney_large_out"),
           function(x,
@@ -90,8 +92,6 @@ setMethod("plot",
                    xlab=xlab,
                    ylab=ylab)
             } else {
-              #    opar<-par(no.readonly=TRUE)
-              #    par(mar=c(4.1, 4.1, 4.1, 4.1), xpd=TRUE)
               plot(x.data,
                    y.postdata,
                    type="l",
@@ -101,14 +101,6 @@ setMethod("plot",
               lines(x.data,
                     y.predata,
                     lty=2)
-              #    legend("top",
-              #           inset = c(0, -0.1),
-              #           legend=c("Posterior",
-              #                    "Prior"),
-              #           lty=c(1, 2),
-              #           xpd=TRUE,
-              #           horiz=TRUE)
-              #    on.exit(par(opar))
             }
           }
 )

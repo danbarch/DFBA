@@ -9,6 +9,9 @@
 \arguments{
 \item{object}{An object of class \code{\linkS4class{dfba_point_BF_out}}}
 }
+\value{
+No return value, called for side effect. Objects of class \code{\linkS4class{dfba_point_BF_out}} are printed.
+}
 \description{
 Formats for Point Bayes Factor
 }

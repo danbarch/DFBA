@@ -14,6 +14,11 @@
 
 \item{x}{An object of class \code{\linkS4class{dfba_sim_data_out}}}
 }
+\value{
+No return value, called for side effect. Objects of class \code{\linkS4class{dfba_sim_data_out}} are printed.
+
+No return value, called for side effect. Method produces a plot of class \code{\linkS4class{dfba_sim_data_out}}
+}
 \description{
 Format for Simulated Data Function
 }

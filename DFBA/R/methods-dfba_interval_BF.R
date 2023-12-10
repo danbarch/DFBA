@@ -5,6 +5,7 @@
 #' @export
 #' @rdname dfba_interval_BF_method
 #' @param object An object of class \code{\linkS4class{dfba_interval_BF_out}}
+#' @return No return value, called for side effect. Objects of class \code{\linkS4class{dfba_interval_BF_out}} are printed.
 setMethod("show", "dfba_interval_BF_out", function(object){
   cat("Bayes Factor for Interval Estimates \n")
   cat("========================\n")

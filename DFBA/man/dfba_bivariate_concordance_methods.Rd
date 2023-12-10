@@ -22,6 +22,15 @@
 
 \item{plot.prior}{Show prior distribution (default = TRUE)}
 }
+\value{
+No return value, called for side effect. Objects of class \code{\linkS4class{dfba_bivariate_concordance_out}} are printed.
+
+No return value, called for side effect. Objects of class \code{\linkS4class{dfba_bivariate_concordance_star_out}} are printed.
+
+No return value, called for side effect. Method produces a plot of class \code{\linkS4class{dfba_bivariate_concordance_out}}
+
+No return value, called for side effect. Method produces a plot of class \code{\linkS4class{dfba_bivariate_concordance_star_out}}
+}
 \description{
 Formatted output for dfba_bivariate_concordance
 }

@@ -6,6 +6,7 @@
 #' @export
 #' @rdname dfba_median_test_method
 #' @param object An object of class \code{\linkS4class{dfba_median_test_out}}
+#' @return No return value, called for side effect. Objects of class \code{\linkS4class{dfba_median_test_out}} are printed.
 setMethod("show", "dfba_median_test_out", function(object) {
   cat("Descriptive Statistics \n")
   cat("========================\n")

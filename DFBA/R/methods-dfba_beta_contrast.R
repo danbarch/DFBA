@@ -4,6 +4,7 @@
 #' @keywords internal
 #' @rdname dfba_beta_contrast_method
 #' @param object An object of class \code{\linkS4class{dfba_beta_contrast_out}}
+#' @return No return value, called for side effect. Objects of class \code{\linkS4class{dfba_beta_contrast_out}} are printed.
 # #' @importFrom graphics plot
 setMethod("show", "dfba_beta_contrast_out", function(object) {
   cat("Bayesian Contrasts \n")
@@ -34,6 +35,7 @@ setMethod("show", "dfba_beta_contrast_out", function(object) {
 #' @export
 #' @rdname dfba_beta_contrast_method
 #' @param x object An object of class \code{\linkS4class{dfba_beta_contrast_out}}
+#' @return No return value, called for side effect. Method produces a plot of class \code{\linkS4class{dfba_beta_contrast_out}}
 setMethod("plot",
           signature("dfba_beta_contrast_out"),
           function(x){

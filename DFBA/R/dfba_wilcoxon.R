@@ -302,7 +302,7 @@ dfba_wilcoxon<-function(Y1,
     fphi<-rep(0.0,200)
     for (j in 1:200){
       if (hide_progress == FALSE) {
-        cat(round(j/200, 2)*100, '% complete', '\r')
+        message('\r', round(j/200, 2)*100, '% complete', appendLF = FALSE)
       }
       phi <- 1/(400)+(j-1)*(1/200)
       for (k in 1:samples){
@@ -316,7 +316,7 @@ dfba_wilcoxon<-function(Y1,
       }
     }
     if (hide_progress == FALSE) {
-      cat("\n")
+      message("\n")
     }
 
 # The tot value below is the denominator of the discrete analysis,
